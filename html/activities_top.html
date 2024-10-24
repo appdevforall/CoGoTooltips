@@ -58,20 +58,17 @@
   and  provides some lightweight guidance about how to work with them.
  </p>
  <h2>
-  The concept of activities
+ About activities
  </h2>
  <p>
-  Using a mobile app is different from using a desktop application. On a mobile app, the user's interaction with the app doesn't always begin in the same place. For instance, if you open an email app from your home screen, you might see a list of emails. By contrast, if you are using a social media app that then
-launches your email app, you might go directly to the email app's screen for
-composing an email.
+  Using a mobile app is different from using a desktop application. On a mobile app, the user's interaction with the app doesn't always begin in the same place. For instance, if you open an email app on a laptop, you might see a list of emails. But, if you are using a social media app that launches your email app, you might go directly to the screen to compose a new email.
  </p>
  <p>
   The
   <code>
    Activity
   </code>
-  class makes it possible to control an app's activity based on a user's prior actions.  When one app invokes another, the calling app invokes the right activity in the other
-app. The activity acts as the entry point for an app's interaction with the user.  Activities are implemented as a subclass of the
+  class makes it possible to control an app's activity based on a user's prior actions.  When one app invokes (calls upon) another, the calling app invokes the right activity in the other app. The activity is the entry point for an app's interaction with the user.  Activities are implemented as a subclass of the
   <code>
    Activity
   </code>
@@ -96,8 +93,7 @@ a
 activities. Typically, the first screen that appears when the user launches the app is specified as the
   <em>
    main activity
-  </em>
-  . Then, the main activity can start another activity in order to perform different actions. For example, the main activity in a simple email app may provide the screen that shows an email inbox. From there, the main
+  </em>. Then, the main activity can start another activity in order to perform different actions. For example, the main activity in a simple email app may provide the screen that shows an email inbox. From there, the main
 activity might launch other activities that provide screens for tasks like
 writing emails and opening individual emails.
  </p>
@@ -138,8 +134,7 @@ writing emails and opening individual emails.
     <li>
      Open your manifest file.
      <li>
-      Add an "activity" element as a child of the "application"
-element. Here is an example:
+      Add an <b>activity</b> element as a child of the <b>application</b> element. Here is an example:
      </li>
     </li>
    </ol>
@@ -153,10 +148,7 @@ element. Here is an example:
 </pre>
    <p>
     The only required attribute for this element is
-    <code>
-     android:name
-    </code>
-    , which specifies the class name of the activity. You can also add attributes
+    <b>android:name</b>, which specifies the class name of the activity. You can also add attributes
 that define activity characteristics such as label, icon, or UI theme.
 For more information about these and other attributes...
    </p>
@@ -164,8 +156,8 @@ For more information about these and other attributes...
     <strong>
      IMPORTANT:
     </strong>
-    After you publish an app, you should not change activity
-names. If you do, you might break some functionality, such as app shortcuts.
+    After you publish an app, <b>do not change activity
+names</b>. Changing an activity names can break some functions (such as app shortcuts).
    </p>
    <h3>
     Declare intent filters
@@ -185,40 +177,40 @@ names. If you do, you might break some functionality, such as app shortcuts.
     request.
     <ul>
      <li>
-      An explicit request tells the system exactly what to do. For example, an explicit request might tell the system to "Start the Send Email activity in the Gmail app."
+      An explicit request tells the system exactly what to do. For example, an explicit request might tell the system to "Start the Send Email activity in the Gmail app."  </li>
       <li>
-       An implicit request tells the system what it wants to accomplish and lets the system make the bst choice. For example, an implicit request tells the system to "Start a Send Email screen in any
+       An implicit request tells the system what it wants to accomplish and lets the system make the best choice. For example, an implicit request tells the system to "Start a Send Email screen in any
 activity that can do the job."
-      </li>
+      
      </li>
     </ul>
    </p>
    <p>
     You can take advantage of this feature by declaring an
-    <code>
-     "intent-filter"
-    </code>
+    <b>
+     intent-filter
+    </b>
     attribute in the
-    <code>
-     "activity"
-    </code>
+    <b>
+     activity
+    </b>
     element. The definition of this element includes an
-    <code>
-     "action"
-    </code>
+    <b>
+     action
+    </b>
     element and,
 optionally, a
-    <code>
-     "category"
-    </code>
+    <b>
+     category
+    </b>
     element and/or a
-    <code>
-     "data"
-    </code>
+    <b>
+     data
+    </b>
     element. These elements
-combine to specify the type of intent to which your activity can respond. For
+combine to specify the type of intent thatyour activity can respond to. For
 example, the following code example shows how to configure an activity that
-sends text data, and receives requests from other activities to do so:
+sends text data and receives requests from other activities to do so:
    </p>
    <div>
    </div>
@@ -234,30 +226,30 @@ sends text data, and receives requests from other activities to do so:
    <p>
     In this
 example, the
-    <code>
-     "action"
-    </code>
+    <b>
+     "action
+    </b>
     element specifies that this activity sends data.
 Declaring the
-    <code>
-     "category"
-    </code>
+    <b>
+     category
+    </b>
     element as
-    <code dir="ltr" translate="no">
+    <b dir="ltr" translate="no">
      DEFAULT
-    </code>
+    </b>
     enables the activity
 to receive launch requests. The
-    <code>
-     "data"
-    </code>
+    <b>
+     data
+    </b>
     element specifies the type of data that
 this activity can send. The following code example shows how to call the
 activity described above:
-    <code>
+  <p>  <code>
      Example here
-    </code>
-    , Link to more info about Intents and Filters here
+    </code>   </p>
+  <p>Link to more info about Intents and Filters here
    </p>
    <h3>
     Declare permissions
@@ -294,7 +286,7 @@ that an app calling it must have:
    <p>
     Then, to be allowed to call SocialApp, your app must match the permission set in
 SocialApp's manifest:
-&lt;--!Fix this stuff--&gt;
+!!--!Fix this stuff--!!
    </p>
    <div>
    </div>
