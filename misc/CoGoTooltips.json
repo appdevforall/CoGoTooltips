@@ -3,10 +3,10 @@
         "tag": "1",
         "summary": "<p>Code on the Go is an integrated development environment (IDE) to build Android apps that runs on Android phones and doesn't need a connection to the Internet.</p>",
         "detail": "<p>If you already know how to code using Java or Kotlin, Code on the Go lets  you develop and compile Android apps without requiring you to go online.  Our goal is to make computer science education and programming resources globally available.</p>",
-        "buttonList": [
+        "buttons": [
             [
                 "Learn more about Code on the Go",
-                "file:///android_asset/CoGoTooltips/html/getstarted_top.html"
+                "file:///android_assets/CoGoTooltips/html/getstarted_top.html"
             ]
         ]
     },
@@ -14,14 +14,14 @@
         "tag": "100",
         "summary": "<p>Create a new empty project or use a template.</p>",
         "detail": "<p>When you start a new project, Code on the Go creates the right structure for your files. To get started quickly, you can begin a new project using a template that contains starter code and features for a specific kind of app.</p>",
-        "buttonList": [
-            [
-                "Learn more about projects",
-                "file:///android_asset/CoGoTooltips/html/projects_top.html"
-            ],
+        "buttons": [
             [
                 "Learn more about templates",
-                "file:///android_asset/CoGoTooltips/html/templates_top.html"
+                "file:///android_assets/CoGoTooltips/html/templates_top.html"
+            ],
+            [
+                "Learn more about projects",
+                "file:///android_assets/CoGoTooltips/html/projects_top.html"
             ]
         ]
     },
@@ -29,10 +29,10 @@
         "tag": "110",
         "summary": "<p>Open a saved project.</p>",
         "detail": "<p>To open an existing project, follow these steps:</p><ol><li>Tap <b>Open an existing project</b>. A list of folders and projects on your device will be displayed. <li>Navigate to the location of the project you want to open. <li>Tap the project name. Code on the Go will open the project. This may take a few minutes. <li>When <b>Project initialized</b> is displayed at the bottom of the screen, you can begin work on the saved project.</ol>",
-        "buttonList": [
+        "buttons": [
             [
                 "Learn more about projects",
-                "file:///android_asset/CoGoTooltips/html/projects_top.html"
+                "file:///android_assets/CoGoTooltips/html/projects_top.html"
             ]
         ]
     },
@@ -40,10 +40,10 @@
         "tag": "140",
         "summary": "<p>Set preferences.</p>",
         "detail": "<p>Customize the way that Code on the Go looks and behaves.</p>",
-        "buttonList": [
+        "buttons": [
             [
                 "Learn more about preferences",
-                "file:///android_asset/CoGoTooltips/html/preferences_top.html"
+                "file:///android_assets/CoGoTooltips/html/preferences_top.html"
             ]
         ]
     },
@@ -51,10 +51,10 @@
         "tag": "160",
         "summary": "<p>Code on the Go delivers multiple levels of help. To see more information about a topic, tap the button below. </p>",
         "detail": "<p>To display a help for an item, long-press the item. To view more information, click the button below the tooltip. To learn more about the topic, click one of the buttons below. </p>",
-        "buttonList": [
+        "buttons": [
             [
                 "Explore Code on the Go documentation",
-                "file:///android_asset/CoGoTooltips/html/help_top.html"
+                "file:///android_assets/CoGoTooltips/html/help_top.html"
             ]
         ]
     },
@@ -62,21 +62,21 @@
         "tag": "import",
         "summary": "<p><code>import</code> declares a Java class to use in the code below the import statement.</p>",
         "detail": "<p>After a Java class is declared, the class name can be used in the code without specifying the package that the class belongs to.</p>",
-        "buttonList": [
+        "buttons": [
             [
-                "Learn more about import and other Java keywords",
-                "file:///android_asset/CoGoTooltips/html/java_keywords.html#import"
+                "Learn more about <code>import</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#import"
             ]
         ]
     },
     {
         "tag": "class",
-        "summary": "<p>A <code>class</code> definition contains its objects\u2019 data and behavior. A defined class acts as a template to create individual objects or instances of the class.</p>",
-        "detail": "<p>A class definition contains variables that store the object\u2019s information and methods that process the information.</p>",
-        "buttonList": [
+        "summary": "<p>A <code>class</code> definition contains its objects\u0092 data and behavior. A defined class acts as a template to create individual objects or instances of the class.</p>",
+        "detail": "<p>A class definition contains variables that store the object\u0092s information and methods that process the information.</p>",
+        "buttons": [
             [
-                "Learn more about class and other Java keywords",
-                "file:///android_asset/CoGoTooltips/html/java_keywords.html#class"
+                "Learn more about <code>class</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#class"
             ]
         ]
     },
@@ -84,10 +84,10 @@
         "tag": "extend",
         "summary": "<p>Used in a class declaration to specify the superclass or in an interface declaration to specify one or more superinterfaces.</p>",
         "detail": "<p>Class X extends class Y to add functionality by adding fields or methods to class Y, or by overriding methods of class Y.</p></p>When used in an interface declaration, an interface Z extends one or more interfaces by adding methods. Z is said to be a subinterface of the interfaces it extends.</p><p>Also used to specify an upper bound on a type parameter in Generics.</p>",
-        "buttonList": [
+        "buttons": [
             [
-                "Learn more about extend and other Java keywords",
-                "file:///android_asset/CoGoTooltips/html/java_keywords.html#extend"
+                "Learn more about <code>extend</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#extend"
             ]
         ]
     },
@@ -95,18 +95,128 @@
         "tag": "200",
         "summary": "<p>Create a new empty project or use a template.</p>",
         "detail": "<p>When you start a new project, Code on the Go creates the right structure for your files. To get started quickly, you can begin a new project using a template that contains starter code and features for a specific kind of app.",
-        "buttonList": [
+        "buttons": [
             [
-                "Learn about the Android lifecycle",
-                "file:///android_asset/CoGoTooltips/html/lifecycle_top.html"
+                "Learn more about templates",
+                "file:///android_assets/CoGoTooltips/html/templates_top.html"
             ],
             [
                 "Learn more about projects",
-                "file:///android_asset/CoGoTooltips/html/projects_top.html"
+                "file:///android_assets/CoGoTooltips/html/projects_top.html"
             ],
             [
-                "Learn more about templates",
-                "file:///android_asset/CoGoTooltips/html/templates_top.html"
+                "Learn about the Android lifecycle",
+                "file:///android_assets/CoGoTooltips/html/lifecycle_top.html"
+            ]
+        ]
+    },
+    {
+        "tag": "abstract",
+        "summary": "<p>A method with no definition must be declared as <code>abstract</code> and the class containing it must be declared as <code>abstract</code>.</p>",
+        "detail": "<p>Abstract classes cannot be instantiated. <br>Abstract methods must be implemented in the subclasses.<br>Abstract cannot be used with variables or constructors.</p><p> Note: An abstract class is not required to have an abstract method.</p>",
+        "buttons": [
+            [
+                "Learn more about <code>abstract</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#abstract"
+            ]
+        ]
+    },
+    {
+        "tag": "boolean",
+        "summary": "<p>Defines a boolean variable for the values \"true\" or \"false\" only.</p>",
+        "detail": "<p>By default, the value of the boolean primitive type is false. This keyword is also used to declare that a method returns a value of the primitive type boolean.</p>",
+        "buttons": [
+            [
+                "Learn more about <code>boolean</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#boolean"
+            ]
+        ]
+    },
+    {
+        "tag": "break",
+        "summary": "<p>Ends the execution in the current loop body or breaks out of a switch block</p>",
+        "detail": "<p>For loop example: This code loops through an array and prints each element. When it encounters the value 5, the loop terminates and does not print this value.<br><br><code>// Prints:<br>\n// 1<br>\n// 2<br>\nint[] arr = {1, 2, 5, 10}<br>\nfor (k = 0; k < arr.length; k++)<br>\n    if (arr[k] == 5)<br>\n        break;<br>\n    System.out.println(arr[k]);</code></p>",
+        "buttons": [
+            [
+                "Learn more about <code>break</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#break"
+            ]
+        ]
+    },
+    {
+        "tag": "byte",
+        "summary": "<p>Declares a field that can hold an 8-bit signed two's complement integer.\u00a0</p>",
+        "detail": "<p>The <code>byte</code> keyword is used to declare a field that can hold an 8-bit signed two's complement integer. This keyword is also used to declare that a method returns a value of the primitive type byte.</p><p>Can take on integer values from <b>-128</b> to <b>127</b>.</p>",
+        "buttons": [
+            [
+                "Learn more about <code>byte</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#byte"
+            ]
+        ]
+    },
+    {
+        "tag": "case",
+        "summary": "<p>In a switch block, the <code>switch</code> statement evaluates its expression, then executes all statements that follow the matching <code>case</code> label.</p>",
+        "detail": "A statement in the switch block can be labeled with one or more case or default labels. The switch statement evaluates its expression, then executes all statements that follow the matching case label.",
+        "buttons": [
+            [
+                "Learn more about <code>case</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#case"
+            ]
+        ]
+    },
+    {
+        "tag": "catch",
+        "summary": "<p>Used in conjunction with a try block.\u00a0 Statements in the catch block specify what to do when the try block throws a specific type of exception.</p>",
+        "detail": "<p>Used in conjunction with a try block and an optional finally block. The statements in the catch block specify what to do if the try block throws a specific type of exception.</P>",
+        "buttons": [
+            [
+                "Learn more about <code>catch</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#catch"
+            ]
+        ]
+    },
+    {
+        "tag": "char",
+        "summary": "<p>Defines a 16-bit Unicode character variable that can hold any character of the Java source file's character set. </p>",
+        "detail": "<p>Placeholder for a better detail statement</p>",
+        "buttons": [
+            [
+                "Learn more about <code>char</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#char"
+            ]
+        ]
+    },
+    {
+        "tag": "const",
+        "summary": "<p>The <code>const</code> keyword is reserved for potential use in the future.</p>",
+        "detail": "",
+        "buttons": [
+            [
+                "Learn about more Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html"
+            ]
+        ]
+    },
+    {
+        "tag": "continue",
+        "summary": "<p>Resumes program execution at the end of the current loop body</p>",
+        "detail": "<p>If followed by a label, continue resumes execution at the end of the enclosing labeled loop body.</p>",
+        "buttons": [
+            [
+                "Learn more about <code>continue</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#continue"
+            ]
+        ]
+    },
+    {
+        "tag": "default",
+        "summary": "<p>The <code>default</code> keyword can optionally be used in a switch statement to label a block of statements to be executed if no case matches the specified value.</p>",
+        "detail": "<p>See switch. Alternatively, the default keyword can also be used to declare default values in a Java annotation. From Java 8 onwards, the default keyword can be used to allow an interface to provide an implementation of a method.</p>",
+        "buttons": [
+            [
+                "Learn more about <code>default</code> and other Java keywords",
+                "file:///android_assets/CoGoTooltips/html/java_keywords.html#default"
             ]
         ]
     }
