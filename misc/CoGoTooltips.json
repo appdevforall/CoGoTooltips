@@ -12,16 +12,16 @@
     },
     {
         "tag": "100",
-        "summary": "<p>Create a new empty project or use a template (11/1/2024).</p>",
+        "summary": "<p>Create a new empty project or use a template (11/1/2024, 1:04 pm demo).</p>",
         "detail": "<p>When you start a new project, Code on the Go creates the right structure for your files. To get started quickly, you can begin a new project using a template that contains starter code and features for a specific kind of app.</p>",
         "buttons": [
             [
-                "Learn more about templates",
-                "file:///android_asset/CoGoTooltips/html/templates_top.html"
-            ],
-            [
                 "Learn more about projects",
                 "file:///android_asset/CoGoTooltips/html/projects_top.html"
+            ],
+            [
+                "Learn more about templates",
+                "file:///android_asset/CoGoTooltips/html/templates_top.html"
             ]
         ]
     },
@@ -97,16 +97,16 @@
         "detail": "<p>When you start a new project, Code on the Go creates the right structure for your files. To get started quickly, you can begin a new project using a template that contains starter code and features for a specific kind of app.",
         "buttons": [
             [
-                "Learn about the Android lifecycle",
-                "file:///android_asset/CoGoTooltips/html/lifecycle_top.html"
+                "Learn more about projects",
+                "file:///android_asset/CoGoTooltips/html/projects_top.html"
             ],
             [
                 "Learn more about templates",
                 "file:///android_asset/CoGoTooltips/html/templates_top.html"
             ],
             [
-                "Learn more about projects",
-                "file:///android_asset/CoGoTooltips/html/projects_top.html"
+                "Learn about the Android lifecycle",
+                "file:///android_asset/CoGoTooltips/html/lifecycle_top.html"
             ]
         ]
     },
