@@ -6,7 +6,7 @@
         "buttons": [
             [
                 "Learn more about Code on the Go",
-                "file:///android_assets/CoGoTooltips/html/getstarted_top.html"
+                "file:///android_asset/CoGoTooltips/html/getstarted_top.html"
             ]
         ]
     },
@@ -16,12 +16,12 @@
         "detail": "<p>When you start a new project, Code on the Go creates the right structure for your files. To get started quickly, you can begin a new project using a template that contains starter code and features for a specific kind of app.</p>",
         "buttons": [
             [
-                "Learn more about templates",
-                "file:///android_assets/CoGoTooltips/html/templates_top.html"
+                "Learn more about projects",
+                "file:///android_asset/CoGoTooltips/html/projects_top.html"
             ],
             [
-                "Learn more about projects",
-                "file:///android_assets/CoGoTooltips/html/projects_top.html"
+                "Learn more about templates",
+                "file:///android_asset/CoGoTooltips/html/templates_top.html"
             ]
         ]
     },
@@ -32,7 +32,7 @@
         "buttons": [
             [
                 "Learn more about projects",
-                "file:///android_assets/CoGoTooltips/html/projects_top.html"
+                "file:///android_asset/CoGoTooltips/html/projects_top.html"
             ]
         ]
     },
@@ -43,7 +43,7 @@
         "buttons": [
             [
                 "Learn more about preferences",
-                "file:///android_assets/CoGoTooltips/html/preferences_top.html"
+                "file:///android_asset/CoGoTooltips/html/preferences_top.html"
             ]
         ]
     },
@@ -54,7 +54,7 @@
         "buttons": [
             [
                 "Explore Code on the Go documentation",
-                "file:///android_assets/CoGoTooltips/html/help_top.html"
+                "file:///android_asset/CoGoTooltips/html/help_top.html"
             ]
         ]
     },
@@ -65,18 +65,18 @@
         "buttons": [
             [
                 "Learn more about <code>import</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#import"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#import"
             ]
         ]
     },
     {
         "tag": "class",
-        "summary": "<p>A <code>class</code> definition contains its objects\u0092 data and behavior. A defined class acts as a template to create individual objects or instances of the class.</p>",
-        "detail": "<p>A class definition contains variables that store the object\u0092s information and methods that process the information.</p>",
+        "summary": "<p>A <code>class</code> definition contains its objects' data and behavior. A defined class acts as a template to create individual objects or instances of the class.</p>",
+        "detail": "<p>A class definition contains variables that store the object's information and methods that process the information.</p>",
         "buttons": [
             [
                 "Learn more about <code>class</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#class"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#class"
             ]
         ]
     },
@@ -87,7 +87,7 @@
         "buttons": [
             [
                 "Learn more about <code>extend</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#extend"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#extend"
             ]
         ]
     },
@@ -97,16 +97,16 @@
         "detail": "<p>When you start a new project, Code on the Go creates the right structure for your files. To get started quickly, you can begin a new project using a template that contains starter code and features for a specific kind of app.",
         "buttons": [
             [
-                "Learn more about templates",
-                "file:///android_assets/CoGoTooltips/html/templates_top.html"
+                "Learn more about projects",
+                "file:///android_asset/CoGoTooltips/html/projects_top.html"
             ],
             [
-                "Learn more about projects",
-                "file:///android_assets/CoGoTooltips/html/projects_top.html"
+                "Learn more about templates",
+                "file:///android_asset/CoGoTooltips/html/templates_top.html"
             ],
             [
                 "Learn about the Android lifecycle",
-                "file:///android_assets/CoGoTooltips/html/lifecycle_top.html"
+                "file:///android_asset/CoGoTooltips/html/lifecycle_top.html"
             ]
         ]
     },
@@ -117,7 +117,7 @@
         "buttons": [
             [
                 "Learn more about <code>abstract</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#abstract"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#abstract"
             ]
         ]
     },
@@ -128,18 +128,18 @@
         "buttons": [
             [
                 "Learn more about <code>boolean</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#boolean"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#boolean"
             ]
         ]
     },
     {
         "tag": "break",
         "summary": "<p>Ends the execution in the current loop body or breaks out of a switch block</p>",
-        "detail": "<p>For loop example: This code loops through an array and prints each element. When it encounters the value 5, the loop terminates and does not print this value.<br><br><code>// Prints:<br>\n// 1<br>\n// 2<br>\nint[] arr = {1, 2, 5, 10}<br>\nfor (k = 0; k < arr.length; k++)<br>\n    if (arr[k] == 5)<br>\n        break;<br>\n    System.out.println(arr[k]);</code></p>",
+        "detail": "<p>For loop example: This code loops through an array and prints each element. When it encounters the value 5, the loop terminates and does not print this value.<br><br><code>// Prints:<br>// 1<br>// 2<br>int[] arr = {1, 2, 5, 10}<br>for (k = 0; k < arr.length; k++)<br>    if (arr[k] == 5)<br>        break;<br>    System.out.println(arr[k]);</code></p>",
         "buttons": [
             [
                 "Learn more about <code>break</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#break"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#break"
             ]
         ]
     },
@@ -150,7 +150,7 @@
         "buttons": [
             [
                 "Learn more about <code>byte</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#byte"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#byte"
             ]
         ]
     },
@@ -161,7 +161,7 @@
         "buttons": [
             [
                 "Learn more about <code>case</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#case"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#case"
             ]
         ]
     },
@@ -172,7 +172,7 @@
         "buttons": [
             [
                 "Learn more about <code>catch</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#catch"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#catch"
             ]
         ]
     },
@@ -183,7 +183,7 @@
         "buttons": [
             [
                 "Learn more about <code>char</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#char"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#char"
             ]
         ]
     },
@@ -194,7 +194,7 @@
         "buttons": [
             [
                 "Learn about more Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html"
             ]
         ]
     },
@@ -205,7 +205,7 @@
         "buttons": [
             [
                 "Learn more about <code>continue</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#continue"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#continue"
             ]
         ]
     },
@@ -216,7 +216,7 @@
         "buttons": [
             [
                 "Learn more about <code>default</code> and other Java keywords",
-                "file:///android_assets/CoGoTooltips/html/java_keywords.html#default"
+                "file:///android_asset/CoGoTooltips/html/java_keywords.html#default"
             ]
         ]
     }
