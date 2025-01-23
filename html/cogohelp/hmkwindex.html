@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html><head>
+   <title>Code on the Go</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="robots" content="noindex,follow" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ 
+   <!-- This line includes the general project style sheet (not required) -->
+   <link type="text/css" href="default.css" rel="stylesheet" />
+
+   <style type="text/css">
+       body { background:#FFF; }
+       #idx          { margin: 0; padding: 0 }     /* div tag that wraps the keyword index */
+       #idx a        { color: #000; text-decoration: none }  /* all links in index appear as text */
+
+       #idx p             { margin: 2px }        /* keywords and secondary keywords */
+	   #idx p.hilite { background-color: #adadad; padding-left: 5px; padding-bottom: 1px;}
+	   #idx p.hilite span {color: white; font-weight: bold;}
+       #idx p.idxkeyword2 { margin-left: 20px }  /* indentation for secondary keywords */
+
+       table.idxtable { background: #F4F4F4;
+                        border: thin solid #000000;
+                        border-collapse: collapse;
+                        -moz-box-shadow: 2px 2px 2px #B0B0B0;
+                        -webkit-box-shadow: 2px 2px 2px #B0B0B0;
+                        box-shadow: 2px 2px 2px #B0B0B0;
+                        filter: progid:DXImageTransform.Microsoft.Shadow(color=B0B0B0, Direction=135, Strength=4); }
+       td.idxtable    { background: #F4F4F4 }
+
+       /* font definitions for keyword section, keywords and popup links */
+       .idxsection  { font-weight: bold; font-size: 1.5em; color: #555; text-decoration: none; margin-top: 1em; margin-bottom: 1em; }
+       .idxkeyword  { font-weight: normal; font-size: 1.1em; color: #000000; text-decoration: none; }
+       .idxkeyword2 { font-weight: normal; font-size: 1.1em; color: #000000; text-decoration: none; }
+       .idxlink     { font-weight: normal; font-size: 1.1em; color: #000000; text-decoration: none; }
+
+   </style>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="helpman_settings.js"></script>  
+<script type="text/javascript">
+ $(document).ready(function(){
+ var parentScope = (parent.hmNavigationFrame);
+ if (parentScope) parent.currentNav("index");
+	$("a[target='hmcontent']").on("click",function(event){
+		$("p.hilite").removeClass("hilite");
+		$(this).parent("p").addClass("hilite");
+		if (parentScope)
+			window.parent.showNav("toggle");
+		});
+});
+</script>
+   <script type="text/javascript" src="hmcontextids.js"></script>
+</head>
+<body>
+  <!-- Place holder for the keyword index - this variable is REQUIRED! -->
+  <script type="text/javascript">
+
+  function hmInitHideLinks(cssCode) {
+  	var styleElement = document.createElement("style");
+  	styleElement.type = "text/css";
+  	if (styleElement.styleSheet) {
+    	styleElement.styleSheet.cssText = cssCode;
+  	}
+  	else {
+    	styleElement.appendChild(document.createTextNode(cssCode));
+  	}
+  	document.getElementsByTagName("head")[0].appendChild(styleElement);
+  }
+
+  hmInitHideLinks("#idx div { display: none }");
+
+  var currentdiv = null;
+  var canhidelinks = true;
+
+  function hmshowLinks(divID) {
+    var thisdiv = document.getElementById(divID);
+    canhidelinks = true;
+    hmhideLinks();
+    if (thisdiv) {
+      currentdiv = thisdiv;
+      $(currentdiv).show();
+      $(currentdiv).mouseover(hmdivMouseOver).mouseout(hmdivMouseOut);
+      $(document).mouseup(hmhideLinks);
+    }
+  }
+  function hmdivMouseOver() { canhidelinks = false; };
+  function hmdivMouseOut() { canhidelinks = true; };
+  function hmhideLinks() {
+    if (canhidelinks) {
+      if (currentdiv) {
+        $(currentdiv).hide();
+        $(currentdiv).unbind("onmouseover", "onmouseout");
+      }
+      currentdiv = null;
+      $(document).unbind("onmouseup");
+    }
+  }
+</script>
+<div id="idx" style="margin:0;padding:0;border:none">
+<a name="A" id="A"></a><p class="idxsection">- A -</p>
+<p class="idxkeyword"><span class="idxkeyword">Activities</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">intro</span></a></p>
+<p class="idxkeyword"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword">Android App Bundle</span></a></p>
+<p class="idxkeyword"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword">APK</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">App components</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">activities</span></a></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">broadcast receivers</span></a></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">content providers</span></a></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">services</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">App resources</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">intro</span></a></p>
+<a name="B" id="B"></a><p class="idxsection">- B -</p>
+<p class="idxkeyword"><span class="idxkeyword">Bound services</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">intro</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">Broadcast receivers</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">intro</span></a></p>
+<a name="C" id="C"></a><p class="idxsection">- C -</p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Comment line</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Constructor</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">Content providers</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">intro</span></a></p>
+<p class="idxkeyword"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword">ContentResolver</span></a></p>
+<a name="E" id="E"></a><p class="idxsection">- E -</p>
+<p class="idxkeyword"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword">Empty project</span></a></p>
+<a name="F" id="F"></a><p class="idxsection">- F -</p>
+<p class="idxkeyword"><span class="idxkeyword">File</span></p>
+<p class="idxkeyword2"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword2">save</span></a></p>
+<p class="idxkeyword"><a href="cogo_search_top.html" target="hmcontent"><span class="idxkeyword">Find in file</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Find references</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Fix imports</span></a></p>
+<a name="G" id="G"></a><p class="idxsection">- G -</p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Generate constructor</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Generate setters/getters</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Generate toString()</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Getters</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Go to definition</span></a></p>
+<a name="I" id="I"></a><p class="idxsection">- I -</p>
+<p class="idxkeyword"><span class="idxkeyword">Imports</span></p>
+<p class="idxkeyword2"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword2">organize</span></a></p>
+<p class="idxkeyword2"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword2">remove unused</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">Intents</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">intro</span></a></p>
+<a name="J" id="J"></a><p class="idxsection">- J -</p>
+<p class="idxkeyword"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword">Jetpack Compose project</span></a></p>
+<a name="M" id="M"></a><p class="idxsection">- M -</p>
+<p class="idxkeyword"><span class="idxkeyword">Manifest</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">intro</span></a></p>
+<p class="idxkeyword"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword">Manifest file</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">Material design</span></p>
+<p class="idxkeyword2"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword2">and Jetpack Compose</span></a></p>
+<a name="N" id="N"></a><p class="idxsection">- N -</p>
+<p class="idxkeyword"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword">Navigation drawer project</span></a></p>
+<p class="idxkeyword"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword">No activity project</span></a></p>
+<p class="idxkeyword"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword">No AndroidX project</span></a></p>
+<a name="O" id="O"></a><p class="idxsection">- O -</p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Organize imports</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Override superclass methods</span></a></p>
+<a name="P" id="P"></a><p class="idxsection">- P -</p>
+<p class="idxkeyword"><a href="cogo_preferences_top.html" target="hmcontent"><span class="idxkeyword">Preferences</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">Project templates</span></p>
+<p class="idxkeyword2"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword2">Basic project</span></a></p>
+<p class="idxkeyword2"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword2">Empty project</span></a></p>
+<p class="idxkeyword2"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword2">Jetpack Compose project</span></a></p>
+<p class="idxkeyword2"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword2">Navigation drawer project</span></a></p>
+<p class="idxkeyword2"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword2">No activity project</span></a></p>
+<p class="idxkeyword2"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword2">No AndroidX project</span></a></p>
+<p class="idxkeyword2"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword2">Tabbled actvity project</span></a></p>
+<a name="R" id="R"></a><p class="idxsection">- R -</p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Remove unused imports</span></a></p>
+<p class="idxkeyword"><a href="android_appresources.html" target="hmcontent"><span class="idxkeyword">Resources</span></a></p>
+<a name="S" id="S"></a><p class="idxsection">- S -</p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Save</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">Search</span></p>
+<p class="idxkeyword2"><a href="cogo_search_top.html" target="hmcontent"><span class="idxkeyword2">in file</span></a></p>
+<p class="idxkeyword2"><a href="cogo_search_top.html" target="hmcontent"><span class="idxkeyword2">in folders</span></a></p>
+<p class="idxkeyword2"><a href="cogo_search_top.html" target="hmcontent"><span class="idxkeyword2">regex in</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">Services</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">intro</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Setters</span></a></p>
+<p class="idxkeyword"><span class="idxkeyword">Started services</span></p>
+<p class="idxkeyword2"><a href="app_fundamentals.html" target="hmcontent"><span class="idxkeyword2">intro</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Sync project</span></a></p>
+<a name="T" id="T"></a><p class="idxsection">- T -</p>
+<p class="idxkeyword"><a href="cogo_projects_top.html" target="hmcontent"><span class="idxkeyword">Tabbled actvity project</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Text editor</span></a></p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">toString()</span></a></p>
+<a name="U" id="U"></a><p class="idxsection">- U -</p>
+<p class="idxkeyword"><a href="cogo_texteditor_top.html" target="hmcontent"><span class="idxkeyword">Uncomment line</span></a></p>
+</div>
+
+</body>
+</html>

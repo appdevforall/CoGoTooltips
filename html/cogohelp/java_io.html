@@ -1,0 +1,548 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>java.io</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta name="description" content="java.io Provides for system input and output through data streams, serialization and the file system. java.lang Provides classes that are fundamental to the design of the Java p" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height: 60px; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        background: #F0F0F0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { min-height: 59px;}             
+      #idheader h1 span { color: #000000 }     
+      #idnav {
+        text-align: right;
+        width: 126px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_white.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_grey.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_blue.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; }
+	  p.help-url a:link { font-size: 50%; text-decoration: none; color: black; }
+	  p.help-url a:visited { color: black; }
+	  p.help-url a:hover { font-size: 95%; text-decoration: underline; }
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #000000; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #000000; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #000000; }
+      .sync-toc a:hover { text-decoration: underline; }
+	  a#printbuttonlink { cursor: pointer; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em; }  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "java_io.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">java.io</span></h1>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:middle">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?java_io.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      &raquo;No topics above this level&laquo;
+      </p>
+   
+      <h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">java.io</span></h1>
+
+    </td>
+    <td class="topichead" id="idnav">
+      
+      <a href="app_arch_recommmends.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="java-se-and-api.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <span class="hmbtnnext"></span>
+      
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 5px 0 5px 1px;"><table style="border:none; border-spacing:0; border-collapse:collapse;">
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/io/package-summary.html" class="weblink">java.io</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides for system input and output through data streams, serialization and the file system.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/package-summary.html" class="weblink">java.lang</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes that are fundamental to the design of the Java programming language.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/annotation/package-summary.html" class="weblink">java.lang.annotation</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides library support for the Java programming language annotation facility.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html" class="weblink">java.lang.classfile</a></span><span class="f_Hyperlink" style="font-weight: bold; vertical-align: super;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html#preview-java.lang.classfile" class="weblink">PREVIEW</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span style="font-weight: bold;">Preview</span><br />
+Provides classfile parsing, generation, and transformation library.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/attribute/package-summary.html" class="weblink">java.lang.classfile.attribute</a></span><span class="f_Hyperlink" style="font-weight: bold; vertical-align: super;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/attribute/package-summary.html#preview-java.lang.classfile.attribute" class="weblink">PREVIEW</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span style="font-weight: bold;">Preview</span><br />
+Provides interfaces describing classfile attributes for the <span class="f_Hyperlink"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html" class="weblink">java.lang.classfile</a></span><span class="f_Hyperlink" style="vertical-align: super;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html#preview-java.lang.classfile" class="weblink">PREVIEW</a></span> library.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/components/package-summary.html" class="weblink">java.lang.classfile.components</a></span><span class="f_Hyperlink" style="font-weight: bold; vertical-align: super;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/components/package-summary.html#preview-java.lang.classfile.components" class="weblink">PREVIEW</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span style="font-weight: bold;">Preview</span><br />
+Provides specific components, transformations, and tools built on top of the <span class="f_Hyperlink"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html" class="weblink">java.lang.classfile</a></span><span class="f_Hyperlink" style="vertical-align: super;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html#preview-java.lang.classfile" class="weblink">PREVIEW</a></span> library.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/constantpool/package-summary.html" class="weblink">java.lang.classfile.constantpool</a></span><span class="f_Hyperlink" style="font-weight: bold; vertical-align: super;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/constantpool/package-summary.html#preview-java.lang.classfile.constantpool" class="weblink">PREVIEW</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span style="font-weight: bold;">Preview</span><br />
+Provides interfaces describing classfile constant pool entries for the <span class="f_Hyperlink"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html" class="weblink">java.lang.classfile</a></span><span class="f_Hyperlink" style="vertical-align: super;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html#preview-java.lang.classfile" class="weblink">PREVIEW</a></span> library.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/instruction/package-summary.html" class="weblink">java.lang.classfile.instruction</a></span><span class="f_Hyperlink" style="font-weight: bold; vertical-align: super;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/instruction/package-summary.html#preview-java.lang.classfile.instruction" class="weblink">PREVIEW</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span style="font-weight: bold;">Preview</span><br />
+Provides interfaces describing code instructions for the <span class="f_Hyperlink"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html" class="weblink">java.lang.classfile</a></span><span class="f_Hyperlink" style="vertical-align: super;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/classfile/package-summary.html#preview-java.lang.classfile" class="weblink">PREVIEW</a></span> library.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/constant/package-summary.html" class="weblink">java.lang.constant</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Classes and interfaces to represent <span style="font-style: italic;">nominal descriptors</span> for run-time entities such as classes or method handles, and classfile entities such as constant pool entries or invokedynamic call sites.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/foreign/package-summary.html" class="weblink">java.lang.foreign</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides low-level access to memory and functions outside the Java runtime.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/invoke/package-summary.html" class="weblink">java.lang.invoke</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">The java.lang.invoke package provides low-level primitives for interacting with the Java Virtual Machine.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/module/package-summary.html" class="weblink">java.lang.module</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Classes to support module descriptors and creating configurations of modules by means of resolution and service binding.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/ref/package-summary.html" class="weblink">java.lang.ref</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides reference-object classes, which support a limited degree of interaction with the garbage collector.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/reflect/package-summary.html" class="weblink">java.lang.reflect</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes and interfaces for obtaining reflective information about classes and objects.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/lang/runtime/package-summary.html" class="weblink">java.lang.runtime</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">The java.lang.runtime package provides low-level runtime support for the Java language.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/math/package-summary.html" class="weblink">java.math</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes for performing arbitrary-precision integer arithmetic (BigInteger) and arbitrary-precision decimal arithmetic (BigDecimal).</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/net/package-summary.html" class="weblink">java.net</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides the classes for implementing networking applications.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/net/spi/package-summary.html" class="weblink">java.net.spi</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Service-provider classes for the <span class="f_Hyperlink"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/net/package-summary.html" class="weblink">java.net</a></span> package.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/package-summary.html" class="weblink">java.nio</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Defines buffers, which are containers for data, and provides an overview of the other NIO packages.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/channels/package-summary.html" class="weblink">java.nio.channels</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Defines channels, which represent connections to entities that are capable of performing I/O operations, such as files and sockets; defines selectors, for multiplexed, non-blocking I/O operations.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/channels/spi/package-summary.html" class="weblink">java.nio.channels.spi</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Service-provider classes for the <span class="f_Hyperlink"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/channels/package-summary.html" class="weblink">java.nio.channels</a></span> package.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/charset/package-summary.html" class="weblink">java.nio.charset</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Defines charsets, decoders, and encoders, for translating between bytes and Unicode characters.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/charset/spi/package-summary.html" class="weblink">java.nio.charset.spi</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Service-provider classes for the <span class="f_Hyperlink"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/charset/package-summary.html" class="weblink">java.nio.charset</a></span> package.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/file/package-summary.html" class="weblink">java.nio.file</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Defines interfaces and classes for the Java virtual machine to access files, file attributes, and file systems.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/file/attribute/package-summary.html" class="weblink">java.nio.file.attribute</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Interfaces and classes providing access to file and file system attributes.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/file/spi/package-summary.html" class="weblink">java.nio.file.spi</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Service-provider classes for the <span class="f_Hyperlink"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/nio/file/package-summary.html" class="weblink">java.nio.file</a></span> package.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/security/package-summary.html" class="weblink">java.security</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides the classes and interfaces for the security framework.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/security/cert/package-summary.html" class="weblink">java.security.cert</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes and interfaces for parsing and managing certificates, certificate revocation lists (CRLs), and certification paths.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/security/interfaces/package-summary.html" class="weblink">java.security.interfaces</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides interfaces for generating RSA (Rivest, Shamir and Adleman AsymmetricCipher algorithm) keys as defined in the RSA Laboratory Technical Note PKCS#1, and DSA (Digital Signature Algorithm) keys as defined in NIST's FIPS-186.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/security/spec/package-summary.html" class="weblink">java.security.spec</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes and interfaces for key specifications and algorithm parameter specifications.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/text/package-summary.html" class="weblink">java.text</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes and interfaces for handling text, dates, numbers, and messages in a manner independent of natural languages.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/text/spi/package-summary.html" class="weblink">java.text.spi</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Service provider classes for the classes in the java.text package.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/time/package-summary.html" class="weblink">java.time</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">The main API for dates, times, instants, and durations.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/time/chrono/package-summary.html" class="weblink">java.time.chrono</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Generic API for calendar systems other than the default ISO.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/time/format/package-summary.html" class="weblink">java.time.format</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes to print and parse dates and times.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/time/temporal/package-summary.html" class="weblink">java.time.temporal</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Access to date and time using fields and units, and date time adjusters.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/time/zone/package-summary.html" class="weblink">java.time.zone</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Support for time-zones and their rules.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/package-summary.html" class="weblink">java.util</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Contains the collections framework, some internationalization support classes, a service loader, properties, random number generation, string parsing and scanning classes, base64 encoding and decoding, a bit array, and several miscellaneous utility classes.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/concurrent/package-summary.html" class="weblink">java.util.concurrent</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Utility classes commonly useful in concurrent programming.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/concurrent/atomic/package-summary.html" class="weblink">java.util.concurrent.atomic</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">A small toolkit of classes that support lock-free thread-safe programming on single variables.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/concurrent/locks/package-summary.html" class="weblink">java.util.concurrent.locks</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Interfaces and classes providing a framework for locking and waiting for conditions that is distinct from built-in synchronization and monitors.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/function/package-summary.html" class="weblink">java.util.function</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span style="font-style: italic;">Functional interfaces</span> provide target types for lambda expressions and method references.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/jar/package-summary.html" class="weblink">java.util.jar</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes for reading and writing the JAR (Java ARchive) file format, which is based on the standard ZIP file format with an optional manifest file.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/random/package-summary.html" class="weblink">java.util.random</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">This package contains classes and interfaces that support a generic API for random number generation.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/regex/package-summary.html" class="weblink">java.util.regex</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Classes for matching character sequences against patterns specified by regular expressions.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/spi/package-summary.html" class="weblink">java.util.spi</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Service provider classes for the classes in the java.util package.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/stream/package-summary.html" class="weblink">java.util.stream</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Classes to support functional-style operations on streams of elements, such as map-reduce transformations on collections.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/java/util/zip/package-summary.html" class="weblink">java.util.zip</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes for reading and writing the standard ZIP and GZIP file formats.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/crypto/package-summary.html" class="weblink">javax.crypto</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides the classes and interfaces for cryptographic operations.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/crypto/interfaces/package-summary.html" class="weblink">javax.crypto.interfaces</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides interfaces for Diffie-Hellman keys as defined in RSA Laboratories' PKCS #3.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/crypto/spec/package-summary.html" class="weblink">javax.crypto.spec</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes and interfaces for key specifications and algorithm parameter specifications.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/net/package-summary.html" class="weblink">javax.net</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes for networking applications.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/net/ssl/package-summary.html" class="weblink">javax.net.ssl</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes for the secure socket package.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/security/auth/package-summary.html" class="weblink">javax.security.auth</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">This package provides a framework for authentication and authorization.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/security/auth/callback/package-summary.html" class="weblink">javax.security.auth.callback</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">This package provides the classes necessary for services to interact with applications in order to retrieve information (authentication data including usernames or passwords, for example) or to display information (error and warning messages, for example).</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/security/auth/login/package-summary.html" class="weblink">javax.security.auth.login</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">This package provides a pluggable authentication framework.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/security/auth/spi/package-summary.html" class="weblink">javax.security.auth.spi</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">This package provides the interface to be used for implementing pluggable authentication modules.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/security/auth/x500/package-summary.html" class="weblink">javax.security.auth.x500</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">This package contains the classes that should be used to store X500 Principal and X500 Private Credentials in a <span style="font-style: italic;">Subject</span>.</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;"><span class="f_Hyperlink" style="font-weight: bold;"><a href="AppDevForAll/!Java docs/docs/api/java.base/javax/security/cert/package-summary.html" class="weblink">javax.security.cert</a></span></p>
+</td>
+<td style="vertical-align:top; width:297px; padding:4px; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 0 0;">Provides classes for public key certificates.</p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal">&nbsp;</p>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+
+
+function normHeaders() {
+ var topicHeadHeight =  $("#idheaderbg > table").first().height() + 1,
+	 $topicHeaderBox = $("#idheader"),
+	 $topicContentBox = $("#idcontent"),
+	 $navHeader = $("#navbar", parent.document),			 
+	$navBox = $("div#hmnavframe", parent.document),
+	 navHeaderHeight = $navHeader.height();
+ if (topicHeadHeight != navHeaderHeight) {
+	 $navHeader.css("height",topicHeadHeight + "px");
+	 $navBox.css("top", topicHeadHeight + "px");
+	 $topicHeaderBox.css("height", topicHeadHeight + "px");
+		if ($topicHeaderBox.css("position") == "fixed"){
+			$topicContentBox.css("margin-top", topicHeadHeight + "px");
+			}
+		}
+    }
+			 
+  $(document).ready(function(){
+    $(window).on('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+		$('.hmanchor').css('padding-top', y+20);
+		$("div#hmsplitter", parent.document).css('width', '3px');
+      }
+	normHeaders();
+    });
+    
+	 $(window).resize(); //trigger event for initially small displays
+  });
+ 
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+
+</script>
+</body>
+</html>

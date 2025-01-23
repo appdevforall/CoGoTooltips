@@ -1,0 +1,640 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Code on the Go &gt; Use the text editor</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />   
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="Comment line,Constructor,File,File save,Find references,Fix imports,Generate constructor,Generate setters/getters,Generate toString(),Getters,Go to definition,Imports,Imports organize,Imports remove unused,Organize imports,Override superclass methods,Remove unused imports,Save,Setters,Sync project,Text editor,toString(),Uncomment line" />
+   <meta name="description" content="So here's the Sora screen with a lot of stuff on it, and cool callouts. Maybe even hotspot links!&nbsp;" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <link type="text/css" href="custom.css" rel="stylesheet" />
+
+   <style TYPE="text/css" media="screen"> 
+      html, body { margin:0; 
+        padding:0; 
+        background: #ffffff; 
+      } 
+      div#printheader { display: none; }
+      #idheader { 
+        width:100%; 
+        height: 60px; 
+        padding: 0; 
+        margin: 0;
+        position: fixed;
+        top: 0;
+        background: #F0F0F0;
+        z-index: 2;
+      } 
+      /* The "min-height" for "#idheader table" ensures that the (blue) header of the topic
+         has at least the same height as the header of the navigation panel left of it */
+      #idheader table { min-height: 59px;}             
+      #idheader h1 span { color: #000000 }     
+      #idnav {
+        text-align: right;
+        width: 158px;
+        vertical-align: middle;        
+      } 
+      #idnav a { text-decoration: none }
+      #idnav span {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px;
+        background:url('hm_webhelp_buttons_white.png') top left no-repeat;
+      } 
+      #idnav a span {
+        background-image:url('hm_webhelp_buttons_grey.png');
+      } 
+      #idnav a span:hover {
+        background-image:url('hm_webhelp_buttons_blue.png');
+      } 
+      #idnav span.hmbtnprev { background-position: 0 -32px }
+      #idnav span.hmbtnnext { background-position: -24px -32px }
+      #idnav span.hmbtntop  { background-position: -48px -32px }
+      #idnav span.hmbtntoggle  { width: 20px; background-position: -70px -32px }
+      #idnav span.hmbtnprint  { background-position: -88px -32px }
+
+      #callout-table, #overview-table {display:block; position:relative; top:0; left:0;}
+      #callout-icon {display:block; position:absolute; top:-11px; left:-11px;}
+      #callout-icon-flag {display:block; position:absolute; top:-11px; left:-8px;}
+      #callout-table a {text-decoration: none; color: blue;}
+      #callout-table a:visited {text-decoration: none; color: blue;}
+      #overview-table a {text-decoration: none; color: black;}
+      #overview-table a:visited {text-decoration: none; color: black;}
+      #callout-table a:hover, #overview-table a:hover {text-decoration: underline;}       
+      p.help-url { margin: 20px 0 5px 0; text-align: center; }
+	  p.help-url a:link { font-size: 50%; text-decoration: none; color: black; }
+	  p.help-url a:visited { color: black; }
+	  p.help-url a:hover { font-size: 95%; text-decoration: underline; }
+      #switchtoggles { text-align: right; padding: 0 2px 0 0; font-size: 90%; } 
+      .sync-toc { color: #000000; font-size: 8pt; font-weight: bold; display: none; }
+      .sync-toc a { color: #000000; text-decoration: none; font-weight: bold;}
+      .sync-toc a:visited { color: #000000; }
+      .sync-toc a:hover { text-decoration: underline; }
+	  a#printbuttonlink { cursor: pointer; }
+      a.hmanchor { display: inline-block; margin-top: -4em; padding-top: 4em; }  
+   </style>
+   <style TYPE="text/css" media="print">
+      div#idheader, img.dropdown-toggle-icon, p.help-url { display:none } 
+   </style>
+   
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "cogo_texteditor_top.html");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<div id="printheader"><h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Write code in the text editor</span></h1>
+</div>
+<div id="idheader">
+<div id="idheaderbg">
+<table style="width:100%;border:none;margin:0px;" cellspacing="0" cellpadding="0"> 
+  <tr>
+    <td class="topichead" style="text-align:left; vertical-align:middle">
+      <p class="sync-toc">&lt;&lt; <a rel="nofollow" href="index.html?cogo_texteditor_top.html" target="_top">Click to Display Table of Contents</a> &gt;&gt;</p>
+      <p class="crumbs"><b>Navigation:</b>&nbsp;
+      
+      <a href="cogo_top.html">Code on the Go</a>&nbsp;&gt;</p>
+   
+      <h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Write code in the text editor</span></h1>
+
+    </td>
+    <td class="topichead" id="idnav">
+      <a href="javascript:HMToggleExpandAll(!HMAnyToggleOpen())" title="Click to open/close expanding sections"><span class="hmbtntoggle"></span></a>
+      <a href="cogo_output_top.html" title="Previous Topic"><span class="hmbtnprev"></span></a>
+      <a href="cogo_top.html" title="Parent Chapter"><span class="hmbtntop"></span></a>
+      <a href="cogo_layouteditor_top.html" title="Next Topic"><span class="hmbtnnext"></span></a>
+      <a id="printbuttonlink" onclick="hmAnimate=false; HMToggleExpandAll(true); hmAnimate=true;;$('div#idcontent').css('margin-top', '1em');printTopic();$('#idcontent').css('margin-top', $('#idheader').height());" title="Print"><span class="hmbtnprint"></span></a>
+    </td>
+  </tr>  
+</table>
+</div>
+</div>  
+
+<div id="idcontent"><div id="innerdiv">
+<!-- Ask Internet Explorer 6.users to update their obsolete and dangerous browser --> 
+<!--[if lt IE 7]><div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'><a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+
+<!--ZOOMRESTART-->
+<p class="p_Normal">So here's the Sora screen with a lot of stuff on it, and cool callouts. Maybe even hotspot links! </p>
+<p class="p_Normal">&nbsp;</p>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Understand the editor screen</span></h1>
+<p class="p_Normal">Depending on the size of your screen.</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 5px 0 5px 0;"><table style="border:none; border-spacing:0;">
+<tr>
+<td style="vertical-align:top; width:416px; padding:0; border:none"><p class="p_Normal">Save command is visible</p>
+<p class="p_Normal"><img alt="editor_save1" width="407" height="66" style="margin:0;width:407px;height:66px;border:none" src="editor_save1.png"/></p>
+</td>
+<td style="vertical-align:top; width:608px; padding:0; border:none"><p class="p_Normal">Save command is in the menu</p>
+<p class="p_Normal"><img alt="editor_overflow" width="240" height="35" style="margin:0;width:240px;height:35px;border:none" src="editor_overflow.png"/></p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal">All the items are: NOTE - THESE ARE ALSO PART OF GENERAL PROJECT INTERFACE</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 5px 0 5px 0;"><table style="border:none; border-spacing:0; border-collapse:collapse;">
+<thead>
+<tr>
+<th style="vertical-align:top; width:225px; background-color:#99CCFF; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="font-weight: bold;">Item</span></p>
+</th>
+<th style="vertical-align:top; width:181px; background-color:#99CCFF; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="font-weight: bold;">Icon</span></p>
+</th>
+<th style="vertical-align:top; width:463px; background-color:#99CCFF; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="font-weight: bold;">What it does</span></p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align:top; width:225px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Display file tree</p>
+</td>
+<td style="vertical-align:top; width:181px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><img alt="filetree_icon" width="40" height="35" style="margin:0;width:40px;height:35px;border:none" src="filetree_icon.png"/></p>
+</td>
+<td style="vertical-align:top; width:463px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><a href="cogo_filetreenav.html" class="topiclink">Displays the file tree</a></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:225px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Undo </p>
+</td>
+<td style="vertical-align:top; width:181px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><img alt="undo_icon" width="48" height="35" style="margin:0;width:48px;height:35px;border:none" src="undo_icon.png"/></p>
+</td>
+<td style="vertical-align:top; width:463px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Undo the last action</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:225px; height:51px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Quick run</p>
+</td>
+<td style="vertical-align:top; width:181px; height:51px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><img alt="quickrun_icon" width="40" height="39" style="margin:0;width:40px;height:39px;border:none" src="quickrun_icon.png"/></p>
+<p class="p_Normal"><img alt="quickrun_working" width="43" height="50" style="margin:0;width:43px;height:50px;border:none" src="quickrun_working.png"/></p>
+</td>
+<td style="vertical-align:top; width:463px; height:51px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Builds the program with the default Gradle settings?</p>
+<p class="p_Normal" style="margin: 5px 0 5px 10px;">Red means it's in progress</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:225px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Run tasks</p>
+</td>
+<td style="vertical-align:top; width:181px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><img alt="runtasks_icon" width="51" height="48" style="margin:0;width:51px;height:48px;border:none" src="runtasks_icon.png"/></p>
+</td>
+<td style="vertical-align:top; width:463px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="background-color: #ffff00;">Runs the selected Gradle tasks?&nbsp;</span></p>
+<p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="background-color: #ffff00;">Also red means the task is in progress</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:225px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Save </p>
+</td>
+<td style="vertical-align:top; width:181px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><img alt="save_icon" width="46" height="42" style="margin:0;width:46px;height:42px;border:none" src="save_icon.png"/></p>
+</td>
+<td style="vertical-align:top; width:463px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Save changes to the current file</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:225px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Find</p>
+</td>
+<td style="vertical-align:top; width:181px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><img alt="find_icon" width="53" height="49" style="margin:0;width:53px;height:49px;border:none" src="find_icon.png"/></p>
+</td>
+<td style="vertical-align:top; width:463px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Search for text in the current file or in the entire project. Results willb e displayed in the Search Results tab in the Output panel. </p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:225px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Sync project</p>
+</td>
+<td style="vertical-align:top; width:181px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><a id="save_icon" class="hmanchor"></a><img alt="syncproject_icon" width="42" height="47" style="margin:0;width:42px;height:47px;border:none" src="syncproject_icon.png"/></p>
+</td>
+<td style="vertical-align:top; width:463px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="background-color: #ffff00;">??</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:225px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Preview Layout</p>
+</td>
+<td style="vertical-align:top; width:181px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">&nbsp;</p>
+</td>
+<td style="vertical-align:top; width:463px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="background-color: #ffff00;">Only available when....</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:225px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Reload color schemes</p>
+</td>
+<td style="vertical-align:top; width:181px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">&nbsp;</p>
+</td>
+<td style="vertical-align:top; width:463px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="background-color: #ffff00;">??</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:225px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Launch app</p>
+</td>
+<td style="vertical-align:top; width:181px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">&nbsp;</p>
+</td>
+<td style="vertical-align:top; width:463px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">If you've built and installed the app , the app will launch. </p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Work with multiple files</span></h1>
+<p class="p_Normal">You can have more than one file open at the same time. To open another file, follow these steps:</p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">1.</span><span class="f_List_Level1">Display the file tree. </span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">2.</span><span class="f_List_Level1">Locate and tap the file you want to open. The file will be opened in the editor.</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">3.</span><span class="f_List_Level1">Repeat steps 1-2 if you want to open more files.</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">4.</span><span class="f_List_Level1">To switch between files, tap the file name at the top of the editor window.</span></p>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Save a file</span></h1>
+<p class="p_Normal">Reminder: The Save icon looks like this:</p>
+<p class="p_Normal"><img alt="save_icon" width="32" height="29" style="margin:0;width:32px;height:29px;border:none" src="save_icon.png"/></p>
+<p class="p_Normal">To save the file that you're editing, choose one of the following: </p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">If the <a href="cogo_texteditor_top.html#save_icon" class="topiclink">Save icon</a> is visible, tap the icon. </span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">If the <a href="cogo_texteditor_top.html#save_icon" class="topiclink">Save icon</a> isn't visible, tap the options menu (three dots) and then tap </span><span class="f_List_Level1" style="font-weight: bold;">Save</span><span class="f_List_Level1">. </span></p>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Close one or more files</span></h1>
+<p class="p_Normal">To close files, follow these steps:</p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">1.</span><span class="f_List_Level1">Tap the file name at the top of the editor screen. A menu is displayed. </span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">2.</span><span class="f_List_Level1">Choose one of the following:</span></p>
+<p class="p_List_Level2" style="text-indent: 0; padding-left: 13px; margin-left: 40px;"><span class="f_List_Level2" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level2" style="font-weight: bold;">Close this</span><span class="f_List_Level2">: Closes the current file and keeps all others open. (If only one file is open, it will be closed.)</span></p>
+<p class="p_List_Level2" style="text-indent: 0; padding-left: 13px; margin-left: 40px;"><span class="f_List_Level2" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level2" style="font-weight: bold;">Close others</span><span class="f_List_Level2">: Close all other files and keep the current file open.</span></p>
+<p class="p_List_Level2" style="text-indent: 0; padding-left: 13px; margin-left: 40px;"><span class="f_List_Level2" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level2" style="font-weight: bold;">Close all</span><span class="f_List_Level2">: Close all open files and return to the top project page. </span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">3.</span><span class="f_List_Level1">If the file has unsaved changes, a prompt to save the file will be displayed. </span></p>
+<p class="p_List_Level2" style="text-indent: 0; padding-left: 13px; margin-left: 40px;"><span class="f_List_Level2" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level2">To save the changes, tap </span><span class="f_List_Level2" style="font-weight: bold;">Yes</span><span class="f_List_Level2">.</span></p>
+<p class="p_List_Level2" style="text-indent: 0; padding-left: 13px; margin-left: 40px;"><span class="f_List_Level2" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level2">To abandon the changes, tap </span><span class="f_List_Level2" style="font-weight: bold;">No</span><span class="f_List_Level2">. </span></p>
+<p class="p_List_Level1_Blocktext"><span class="f_List_Level1_Blocktext">The file or files will be closed. </span></p>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Coding shortcut keys</span></h1>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 5px 0 5px 0;"><table style="border:none; border-spacing:0; border-collapse:collapse;">
+<thead>
+<tr>
+<th style="vertical-align:top; width:414px; background-color:#CCFFFF; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="font-weight: bold;">To insert this...</span></p>
+</th>
+<th style="vertical-align:top; width:91px; background-color:#CCFFFF; padding:0; border:solid thin #000000;"><p class="p_Normal" style="text-align: center;"><span style="font-weight: bold;">Tap this</span></p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">One tab (see <a href="prefs_editor.html" class="topiclink">Editor preferences</a> to set tab size)</p>
+<p class="p_Normal" style="margin: 5px 0 5px 10px;">If placed before text, the text is indented.</p>
+<p class="p_Normal" style="margin: 5px 0 5px 10px;">When you press return, the next line begins at the same level of indentation</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="text-align: center;"><img alt="text_insert_tab" width="22" height="34" style="margin:0 auto 0 auto;width:22px;height:34px;border:none" src="text_insert_tab.png"/></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Paired curly brackets with the cursor between them &nbsp; <span class="f_CodeExample">{ }</span></p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_CodeExample" style="text-align: center;"><span class="f_CodeExample">{</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Closing curly bracket <span class="f_CodeExample">}</span></p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_CodeExample" style="text-align: center;"><span class="f_CodeExample">}</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Paired parentheses with the cursor between them  <span class="f_CodeExample">( )</span></p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_CodeExample" style="text-align: center;"><span class="f_CodeExample">(</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Closing parenthesis &nbsp; <span class="f_CodeExample">)</span></p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_CodeExample" style="text-align: center;"><span class="f_CodeExample">)</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Equal sign <span class="f_CodeExample">=</span></p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_CodeExample" style="text-align: center;"><span class="f_CodeExample">=</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Paired double quotes with the cursor between them &nbsp; <span class="f_CodeExample">&quot; &quot;</span></p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_CodeExample" style="text-align: center;"><span class="f_CodeExample">&quot;</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Paired single quotes with the cursor between them &nbsp; <span class="f_CodeExample">' '</span></p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_CodeExample" style="text-align: center;"><span class="f_CodeExample">'</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Pipe &nbsp; <span class="f_CodeExample">|</span></p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_CodeExample" style="text-align: center;"><span class="f_CodeExample">|</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Ampersand (<span class="f_CodeExample">and</span> sign) &nbsp; <span class="f_CodeExample">&amp;</span></p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><p class="p_CodeExample" style="text-align: center;"><span class="f_CodeExample">&amp;</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Autocomplete features</span></h1>
+<p class="p_Normal"><span style="background-color: #ffff00;">If you yada... and predictive synct</span></p>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">The floating toolbar</span></h1>
+<p class="p_Normal">To show, long-press anywhere in the editor window.</p>
+<p class="p_Normal"><img alt="Scrapple4" width="511" height="80" style="margin:0;width:511px;height:80px;border:none" src="scrapple4.png"/></p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 5px 0 5px 0;"><table style="border:none; border-spacing:0; border-collapse:collapse;">
+<thead>
+<tr>
+<th style="vertical-align:top; width:306px; background-color:#99CCFF; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;"><span style="font-weight: bold;">Item</span></p>
+</th>
+<th style="vertical-align:top; width:615px; background-color:#99CCFF; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;"><span style="font-weight: bold;">What it does</span></p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align:top; width:306px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Code actions</p>
+</td>
+<td style="vertical-align:top; width:615px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Displays menu for common code actions</p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Comment line: Comments the current line</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Uncomment line: Removes comments from the current line</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Go to definition: Display location where selected item is defined</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Find references - Display all references to the selected item in the Search results panel. Tap a result to go to that line of code. </span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Fix imports - identify and fix unresolved class names</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Generate setters/getters - Setters and getters allow an object to contain private variables that can be accessed and changed with restrictions. Learn more. </span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Override superclass methods - The subclass can override a method defined in its parent class. Learn more. </span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Generate constructor - Creates a constructor for you that usually accepts parameters corresponding to the fields of the class and initializes those fields with the provided values.</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Generate toString() - Return a string representation of an object. Learn more. </span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Remove unused imports</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 13px; margin-left: 20px;"><span class="f_List_Level1" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1">Organize imports - puts them in alphabetical order</span></p></td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:306px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Expand selection - OK WE NEED A SECTION JUST ABOUT SELECTING STUFF</p>
+</td>
+<td style="vertical-align:top; width:615px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Expand the selection to include the next largest logical block. </p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 5px 0 5px 7px;"><table style="border:none;border-spacing:0;padding:0;line-height: normal;"><tr style="vertical-align:baseline"><td style="border:none;padding:0;width:18px"><img id="toggle0186a1_ICON" class="dropdown-toggle-icon" alt="hmtoggle_plus1" width="9" height="9" style="margin:0;width:9px;height:9px;border:none" src="hmtoggle_plus1.gif"/></td><td style="border:none;padding:0"><a class="dropdown-toggle" href="javascript:HMToggle('toggle','toggle0186a1','toggle0186a1_ICON')">Show/hide example</a></td></tr></table></div>
+<div id="toggle0186a1" class="dropdown-toggle-body" style="text-align: left; padding: 0 0 0 0; margin: 5px 0 5px 25px;"><table style="border:none; border-spacing:0;">
+<tr>
+<td style="vertical-align:top; padding:0; border:none"><p class="p_Normal">One keyword selected</p>
+<p class="p_Normal"><img alt="editor_expandselection1" width="234" height="208" style="margin:0;width:234px;height:208px;border:none" src="editor_expandselection1.png"/></p>
+<p class="p_Normal">Tap Expand selection once</p>
+<p class="p_Normal"><img alt="editor_expandselection2" width="232" height="210" style="margin:0;width:232px;height:210px;border:none" src="editor_expandselection2.png"/></p>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:306px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Select all</p>
+</td>
+<td style="vertical-align:top; width:615px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Selects all text in the file</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:306px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Begin long select</p>
+</td>
+<td style="vertical-align:top; width:615px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Sets a starting point for the selection, drag one of the selection ends to the desired locations</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:306px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Copy</p>
+</td>
+<td style="vertical-align:top; width:615px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Copies the selected text</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:306px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Paste</p>
+</td>
+<td style="vertical-align:top; width:615px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Pastes the selected text at the desired location</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:306px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">Help</p>
+</td>
+<td style="vertical-align:top; width:615px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 7px;">View available help for the selected item</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Code actions (Java only)</span></h1>
+<p class="p_Normal">To display Code actions menu, follow these steps:</p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">1.</span><span class="f_List_Level1">Long-press an item in the editor. The floating toolbar is displayed. </span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">2.</span><span class="f_List_Level1">Tap the </span><span class="f_List_Level1" style="font-weight: bold;">Code actions </span><span class="f_List_Level1">button (</span><span class="f_List_Level1" style="font-weight: bold;">&lt; &gt;</span><span class="f_List_Level1">). A scrollable menu with available code actions is displayed. </span></p>
+<p class="p_Normal">Here's a table:</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 5px 0 5px 0;"><table style="border:none; border-spacing:0;">
+<tr>
+<td style="vertical-align:top; width:247px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;"><span style="font-weight: bold;">Action</span></p>
+</td>
+<td style="vertical-align:top; width:567px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;"><span style="font-weight: bold;">How to use it</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:247px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">Comment line</p>
+</td>
+<td style="vertical-align:top; width:567px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">Comments are human-readable text inside a source code file. Comments are frequently used to explain code to other people who may review, revise, or troubleshoot an app. </p>
+<p class="p_Normal" style="margin: 5px 0 5px 8px;">In Java and Kotlin, an inline comment is preceded by the characters <span style="font-weight: bold;">//</span>. </p>
+<p class="p_Normal" style="margin: 5px 0 5px 8px;">To automatically mark the selected lines as comments:</p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin: 2px 0 0 8px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">1.</span><span class="f_List_Level1">Select and long-press the line or lines to comment, then tap the </span><span class="f_List_Level1" style="font-weight: bold;">Code actions</span><span class="f_List_Level1"> button.</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin: 2px 0 0 8px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">2.</span><span class="f_List_Level1">Tap </span><span class="f_List_Level1" style="font-weight: bold;">Comment</span><span class="f_List_Level1"> </span><span class="f_List_Level1" style="font-weight: bold;">line</span><span class="f_List_Level1">. The selected line or lines will be commented. </span></p>
+<p class="p_Normal" style="margin: 5px 0 5px 8px;">You can manually add comments by typing <span style="font-weight: bold;">//</span> before text. </p>
+<p class="p_Normal" style="margin: 5px 0 5px 8px;">Learn about types of comments</p>
+<p class="p_Normal" style="margin: 5px 0 5px 8px;"> To Comments the currently selected line (adds // before text). </p>
+<p class="p_Normal" style="margin: 5px 0 5px 8px;">Commenting a line removes in </p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:247px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">Uncomment line</p>
+</td>
+<td style="vertical-align:top; width:567px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">Removes inline comments from the current line (removes <span style="font-weight: bold;">//</span>)</p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:247px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">Go to definition</p>
+</td>
+<td style="vertical-align:top; width:567px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">Moves the cursor to the location in the file where the selected <span style="background-color: #ffff00;">class(?)</span> is defined. </p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">1.</span><span class="f_List_Level1">Select and long-press the </span><span class="f_List_Level1" style="background-color: #ffff00;">class</span><span class="f_List_Level1">, then tap the Code actions button.</span></p>
+<p class="p_List_Level1" style="text-indent: 0; padding-left: 20px; margin-left: 20px;"><span class="f_List_Level1" style="display:inline-block;width:20px;margin-left:-20px">2.</span><span class="f_List_Level1">Tap </span><span class="f_List_Level1" style="font-weight: bold;">Go to definition</span><span class="f_List_Level1">. </span></p>
+<p class="p_List_Level2" style="text-indent: 0; padding-left: 13px; margin-left: 40px;"><span class="f_List_Level2" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level1_Blocktext">If </span><span class="f_List_Level2">the class is defined in the file, the location where it's defined is displayed.</span></p>
+<p class="p_List_Level2" style="text-indent: 0; padding-left: 13px; margin-left: 40px;"><span class="f_List_Level2" style="font-family: Arial,'Lucida Sans Unicode','Lucida Grande','Lucida Sans';display:inline-block;width:13px;margin-left:-13px">&#8226;</span><span class="f_List_Level2">If the</span><span class="f_List_Level1_Blocktext"> class is not defined in the file, an error message will be displayed. </span></p></td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:247px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">Find references</p>
+</td>
+<td style="vertical-align:top; width:567px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;"><span style="background-color: #ffff00;">Does something on the whole file?&nbsp;</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:247px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">Fix imports</p>
+</td>
+<td style="vertical-align:top; width:567px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;"><span style="background-color: #ffff00;">Ensures that all import statement refer to classes and packages that exist?</span></p>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:247px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">Generate setters/getters</p>
+</td>
+<td style="vertical-align:top; width:567px; padding:0; border:none"><p class="p_Normal" style="margin: 5px 0 5px 8px;">&nbsp;</p>
+</td>
+</tr>
+</table>
+</div>
+<p class="p_Normal"><a href="JavaNotesForProfessionals.pdf#page=34" class="filelink">Generate setters/getters</a></p>
+<p class="p_Normal"><a href="JavaNotesForProfessionals.pdf#page=249" class="filelink">Learn about constructors</a></p>
+<p class="p_Normal"><a href="JavaNotesForProfessionals.pdf#page=255" class="filelink">Learn about toString()</a></p>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">All about comments goes somewhere </span></h1>
+<p class="p_Normal">Block comments</p>
+<p class="p_Normal">Inline comments</p>
+<p class="p_Normal"><img alt="Scrapple" width="258" height="286" style="margin:0;width:258px;height:286px;border:none" src="scrapple.png"/><img alt="Scrapple2" width="273" height="323" style="margin:0;width:273px;height:323px;border:none" src="scrapple2.png"/><img alt="Scrapple3" width="264" height="107" style="margin:0;width:264px;height:107px;border:none" src="scrapple3.png"/></p>
+<p class="p_Normal">&nbsp;</p>
+<h1 class="p_Heading1" style="page-break-after: avoid;"><span class="f_Heading1">Get help</span></h1>
+<p class="p_Normal">If you're using Java, you can:</p>
+<div style="text-align: left; text-indent: 0; padding: 0 0 0 0; margin: 5px 0 5px 0;"><table style="border:none; border-spacing:0; border-collapse:collapse;">
+<thead>
+<tr>
+<th style="vertical-align:top; width:414px; background-color:#CCFFFF; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;"><span style="font-weight: bold;">Long-press this...</span></p>
+</th>
+<th style="vertical-align:top; width:91px; background-color:#CCFFFF; padding:0; border:solid thin #000000;"><p class="p_Normal" style="text-align: center;"><span style="font-weight: bold;">Tap this</span></p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Class name</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Package name</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Module name</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">Keyword</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">&nbsp;</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">&nbsp;</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">&nbsp;</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">&nbsp;</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">&nbsp;</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top; width:414px; padding:0; border:solid thin #000000;"><p class="p_Normal" style="margin: 5px 0 5px 10px;">&nbsp;</p>
+</td>
+<td style="vertical-align:top; width:91px; padding:0; border:solid thin #000000;"><br />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!--ZOOMSTOP-->
+</div></div>
+<script type="text/javascript">
+
+  function printTopic() {
+    if (document.queryCommandSupported('print')) { document.execCommand('print', false, null); }
+    else { window.print(); }
+  }
+
+
+
+function normHeaders() {
+ var topicHeadHeight =  $("#idheaderbg > table").first().height() + 1,
+	 $topicHeaderBox = $("#idheader"),
+	 $topicContentBox = $("#idcontent"),
+	 $navHeader = $("#navbar", parent.document),			 
+	$navBox = $("div#hmnavframe", parent.document),
+	 navHeaderHeight = $navHeader.height();
+ if (topicHeadHeight != navHeaderHeight) {
+	 $navHeader.css("height",topicHeadHeight + "px");
+	 $navBox.css("top", topicHeadHeight + "px");
+	 $topicHeaderBox.css("height", topicHeadHeight + "px");
+		if ($topicHeaderBox.css("position") == "fixed"){
+			$topicContentBox.css("margin-top", topicHeadHeight + "px");
+			}
+		}
+    }
+			 
+  $(document).ready(function(){
+    $(window).on('resize', function() {
+      var y = $('#idheader').height(); 
+      $('#idcontent').css('margin-top', y);
+      var par = window.parent;
+      if ($( par ).width() <= $( window ).width()+20) {
+        $('#idheader').css('position', 'relative');
+        $('#idcontent').css('margin-top', 0);
+        $('#idbacktotop').css('display', 'block');
+        $('.hmanchor').css('margin-top', -20);
+	$('.hmanchor').css('padding-top', 20);
+      }
+      else {
+        $('#idheader').css('position', 'fixed');
+        $('#idcontent').css('margin-top', $('#idheader').height());
+        $('#idbacktotop').css('display', 'none');
+        $('.hmanchor').css('margin-top', -y-20);
+		$('.hmanchor').css('padding-top', y+20);
+		$("div#hmsplitter", parent.document).css('width', '3px');
+      }
+	normHeaders();
+    });
+    
+    //Hide Print button on touch devices
+    if (hmBrowser.nonDeskTouch) {
+      $("a#printbuttonlink").hide();
+      $("#idnav").css({"width": "125px", "padding-left": "0", "padding-right": "2px"});
+    }
+	 $(window).resize(); //trigger event for initially small displays
+  });
+ 
+
+if ((!parent.hmNavigationFrame) && (parent.location) && (parent.location.href)) { $('.sync-toc').show();$('p.crumbs').hide();}
+var baseurl = document.URL.substring(0,document.URL.lastIndexOf("/")+1); 
+$('#idcontent').append('<p class="help-url"><b>URL of this topic:<br /></b><a href="'+baseurl+'index.html' +
+'?cogo_texteditor_top.html" target="_top">'+baseurl+'index.html?cogo_texteditor_top.html</a></p>');
+
+</script>
+<script type="text/javascript">
+HMInitToggle('toggle0186a1_ICON','hm.type','dropdown','hm.state','0','hm.src0','hmtoggle_plus0.gif','hm.src1','hmtoggle_plus1.gif','onclick','HMToggle(\'toggle\',\'toggle0186a1\',\'toggle0186a1_ICON\')');
+HMInitToggle('toggle0186a1','hm.type','dropdown','hm.state','0');
+</script>
+</body>
+</html>
