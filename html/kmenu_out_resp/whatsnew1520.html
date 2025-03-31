@@ -1,0 +1,670 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="whatsnew1520" id="whatsnew1520.md">
+    What's new in Kotlin 1.5.20
+   </h1>
+   <p id="xzf9se_2">
+    <span class="emphasis" id="xzf9se_11">
+     <a data-tooltip="The following table lists details of the latest Kotlin releases:" href="releases.html#release-details" id="xzf9se_12">
+      Released: 24 June 2021
+     </a>
+    </span>
+   </p>
+   <p id="xzf9se_3">
+    Kotlin 1.5.20 has fixes for issues discovered in the new features of 1.5.0, and it also includes various tooling improvements.
+   </p>
+   <p id="xzf9se_4">
+    You can find an overview of the changes in the
+    <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/06/kotlin-1-5-20-released/" id="xzf9se_13" rel="noopener noreferrer">
+     release blog post
+    </a>
+    and this video:
+   </p>
+   <div class="video-player" id="xzf9se_5">
+    <object class="article__bordered-element" data="https://www.youtube.com/v/SV8CgSXQe44?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+    </object>
+   </div>
+   <section class="chapter">
+    <h2 data-toc="kotlin-jvm" id="kotlin-jvm">
+     Kotlin/JVM
+    </h2>
+    <p id="xzf9se_14">
+     Kotlin 1.5.20 is receiving the following updates on the JVM platform:
+    </p>
+    <ul class="list _bullet" id="xzf9se_15">
+     <li class="list__item" id="xzf9se_19">
+      <p>
+       <a data-tooltip="Kotlin 1.5.20 compiles string concatenations into dynamic invocations (invokedynamic) on JVM 9+ targets, thereby keeping up with modern Java versions. More precisely, it uses StringConcatFactory.makeConcatWithConstants() for string concatenation." href="#string-concatenation-via-invokedynamic" id="xzf9se_22">
+        String concatenation via invokedynamic
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xzf9se_20">
+      <p>
+       <a data-tooltip="The Kotlin compiler can read various types of nullability annotations to pass nullability information from Java to Kotlin. Version 1.5.20 introduces support for the JSpecify project, which includes the standard unified set of Java nullness annotations." href="#support-for-jspecify-nullness-annotations" id="xzf9se_23">
+        Support for JSpecify nullness annotations
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xzf9se_21">
+      <p>
+       <a data-tooltip="The Lombok compiler plugin is Experimental. It may be dropped or changed at any time. Use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="#support-for-calling-java-s-lombok-generated-methods-within-modules-that-have-kotlin-and-java-code" id="xzf9se_24">
+        Support for calling Java's Lombok-generated methods within modules that have Kotlin and Java code
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="string-concatenation-via-invokedynamic" id="string-concatenation-via-invokedynamic">
+      String concatenation via invokedynamic
+     </h3>
+     <p id="xzf9se_25">
+      Kotlin 1.5.20 compiles string concatenations into
+      <a data-external="true" href="https://docs.oracle.com/javase/7/docs/technotes/guides/vm/multiple-language-support.html#invokedynamic" id="xzf9se_28" rel="noopener noreferrer">
+       dynamic invocations
+      </a>
+      (
+      <code class="code" id="xzf9se_29">
+       invokedynamic
+      </code>
+      ) on JVM 9+ targets, thereby keeping up with modern Java versions. More precisely, it uses
+      <a data-external="true" href="https://docs.oracle.com/javase/9/docs/api/java/lang/invoke/StringConcatFactory.html#makeConcatWithConstants-java.lang.invoke.MethodHandles.Lookup-java.lang.String-java.lang.invoke.MethodType-java.lang.String-java.lang.Object...-" id="xzf9se_30" rel="noopener noreferrer">
+       <code class="code" id="xzf9se_31">
+        StringConcatFactory.makeConcatWithConstants()
+       </code>
+      </a>
+      for string concatenation.
+     </p>
+     <p id="xzf9se_26">
+      To switch back to concatenation via
+      <a data-external="true" href="https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html#append-java.lang.String-" id="xzf9se_32" rel="noopener noreferrer">
+       <code class="code" id="xzf9se_34">
+        StringBuilder.append()
+       </code>
+      </a>
+      used in previous versions, add the compiler option
+      <code class="code" id="xzf9se_33">
+       -Xstring-concat=inline
+      </code>
+      .
+     </p>
+     <p id="xzf9se_27">
+      Learn how to add compiler options in
+      <a data-tooltip="Each release of Kotlin includes compilers for the supported targets: JVM, JavaScript, and native binaries for supported platforms." href="gradle-compiler-options.html" id="xzf9se_35">
+       Gradle
+      </a>
+      ,
+      <a data-tooltip="Additional options and arguments for the compiler can be specified as tags under the &lt;configuration&gt; element of the Maven plugin node:" href="maven.html#specify-compiler-options" id="xzf9se_36">
+       Maven
+      </a>
+      , and the
+      <a data-tooltip="Kotlin compilers have a number of options for tailoring the compiling process. Compiler options for different targets are listed on this page together with a description of each one." href="compiler-reference.html#compiler-options" id="xzf9se_37">
+       command-line compiler
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="support-for-jspecify-nullness-annotations" id="support-for-jspecify-nullness-annotations">
+      Support for JSpecify nullness annotations
+     </h3>
+     <p id="xzf9se_38">
+      The Kotlin compiler can read various types of
+      <a data-tooltip="Java types that have nullability annotations are represented not as platform types, but as actual nullable or non-nullable Kotlin types. The compiler supports several flavors of nullability annotations, including:" href="java-interop.html#nullability-annotations" id="xzf9se_45">
+       nullability annotations
+      </a>
+      to pass nullability information from Java to Kotlin. Version 1.5.20 introduces support for the
+      <a data-external="true" href="https://jspecify.dev/" id="xzf9se_46" rel="noopener noreferrer">
+       JSpecify project
+      </a>
+      , which includes the standard unified set of Java nullness annotations.
+     </p>
+     <p id="xzf9se_39">
+      With JSpecify, you can provide more detailed nullability information to help Kotlin keep null-safety interoperating with Java. You can set default nullability for the declaration, package, or module scope, specify parametric nullability, and more. You can find more details about this in the
+      <a data-external="true" href="https://jspecify.dev/docs/user-guide" id="xzf9se_47" rel="noopener noreferrer">
+       JSpecify user guide
+      </a>
+      .
+     </p>
+     <p id="xzf9se_40">
+      Here is the example of how Kotlin can handle JSpecify annotations:
+     </p>
+     <div class="code-block" data-lang="java">
+      // JavaClass.java
+import org.jspecify.nullness.*;
+
+@NullMarked
+public class JavaClass {
+  public String notNullableString() { return ""; }
+  public @Nullable String nullableString() { return ""; }
+}
+     </div>
+     <div class="code-block" data-lang="kotlin">
+      // Test.kt
+fun kotlinFun() = with(JavaClass()) {
+  notNullableString().length // OK
+  nullableString().length    // Warning: receiver nullability mismatch
+}
+     </div>
+     <p id="xzf9se_43">
+      In 1.5.20, all nullability mismatches according to the JSpecify-provided nullability information are reported as warnings. Use the
+      <code class="code" id="xzf9se_48">
+       -Xjspecify-annotations=strict
+      </code>
+      and
+      <code class="code" id="xzf9se_49">
+       -Xtype-enhancement-improvements-strict-mode
+      </code>
+      compiler options to enable strict mode (with error reporting) when working with JSpecify. Please note that the JSpecify project is under active development. Its API and implementation can change significantly at any time.
+     </p>
+     <p id="xzf9se_44">
+      <a data-tooltip="Any reference in Java may be null, which makes Kotlin's requirements of strict null-safety impractical for objects coming from Java. Types of Java declarations are treated in Kotlin in a specific manner and called platform types. Null-checks are relaxed for such types, so that…" href="java-interop.html#null-safety-and-platform-types" id="xzf9se_50">
+       Learn more about null-safety and platform types
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="support-for-calling-java-s-lombok-generated-methods-within-modules-that-have-kotlin-and-java-code" id="support-for-calling-java-s-lombok-generated-methods-within-modules-that-have-kotlin-and-java-code">
+      Support for calling Java's Lombok-generated methods within modules that have Kotlin and Java code
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xzf9se_51">
+      <p id="xzf9se_58">
+       The Lombok compiler plugin is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xzf9se_59">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Use it only for evaluation purposes. We would appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-7112" id="xzf9se_60" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xzf9se_52">
+      Kotlin 1.5.20 introduces an experimental
+      <a data-tooltip="The Lombok compiler plugin is Experimental. It may be dropped or changed at any time. Use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="lombok.html" id="xzf9se_61">
+       Lombok compiler plugin
+      </a>
+      . This plugin makes it possible to generate and use Java's
+      <a data-external="true" href="https://projectlombok.org/" id="xzf9se_62" rel="noopener noreferrer">
+       Lombok
+      </a>
+      declarations within modules that have Kotlin and Java code. Lombok annotations work only in Java sources and are ignored if you use them in Kotlin code.
+     </p>
+     <p id="xzf9se_53">
+      The plugin supports the following annotations:
+     </p>
+     <ul class="list _bullet" id="xzf9se_54">
+      <li class="list__item" id="xzf9se_63">
+       <p>
+        <code class="code" id="xzf9se_68">
+         @Getter
+        </code>
+        ,
+        <code class="code" id="xzf9se_69">
+         @Setter
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="xzf9se_64">
+       <p>
+        <code class="code" id="xzf9se_70">
+         @NoArgsConstructor
+        </code>
+        ,
+        <code class="code" id="xzf9se_71">
+         @RequiredArgsConstructor
+        </code>
+        , and
+        <code class="code" id="xzf9se_72">
+         @AllArgsConstructor
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="xzf9se_65">
+       <p>
+        <code class="code" id="xzf9se_73">
+         @Data
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="xzf9se_66">
+       <p>
+        <code class="code" id="xzf9se_74">
+         @With
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="xzf9se_67">
+       <p>
+        <code class="code" id="xzf9se_75">
+         @Value
+        </code>
+       </p>
+      </li>
+     </ul>
+     <p id="xzf9se_55">
+      We're continuing to work on this plugin. To find out the detailed current state, visit the
+      <a data-external="true" href="https://github.com/JetBrains/kotlin/tree/master/plugins/lombok" id="xzf9se_76" rel="noopener noreferrer">
+       Lombok compiler plugin's README
+      </a>
+      .
+     </p>
+     <p id="xzf9se_56">
+      Currently, we don't have plans to support the
+      <code class="code" id="xzf9se_77">
+       @Builder
+      </code>
+      annotation. However, we can consider this if you vote for
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-46959" id="xzf9se_78" rel="noopener noreferrer">
+       <code class="code" id="xzf9se_79">
+        @Builder
+       </code>
+       in YouTrack
+      </a>
+      .
+     </p>
+     <p id="xzf9se_57">
+      <a data-tooltip="Apply the kotlin-plugin-lombok Gradle plugin in the build.gradle(.kts) file:" href="lombok.html#gradle" id="xzf9se_80">
+       Learn how to configure the Lombok compiler plugin
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-native" id="kotlin-native">
+     Kotlin/Native
+    </h2>
+    <p id="xzf9se_81">
+     Kotlin/Native 1.5.20 offers a preview of the new feature and the tooling improvements:
+    </p>
+    <ul class="list _bullet" id="xzf9se_82">
+     <li class="list__item" id="xzf9se_86">
+      <p>
+       <a data-tooltip="The ability to export KDoc comments to generated Objective-C headers is Experimental. It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="#opt-in-export-of-kdoc-comments-to-generated-objective-c-headers" id="xzf9se_89">
+        Opt-in export of KDoc comments to generated Objective-C headers
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xzf9se_87">
+      <p>
+       <a data-tooltip="The Kotlin/Native compiler has received multiple bug fixes in 1.5.20. You can find the complete list in the changelog." href="#compiler-bug-fixes" id="xzf9se_90">
+        Compiler bug fixes
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xzf9se_88">
+      <p>
+       <a data-tooltip="We've improved the way Array.copyInto() works when its source and destination are the same array. Now such operations finish up to 20 times faster (depending on the number of objects being copied) due to memory management optimizations for this use case." href="#improved-performance-of-array-copyinto-inside-one-array" id="xzf9se_91">
+        Improved performance of Array.copyInto() inside one array
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="opt-in-export-of-kdoc-comments-to-generated-objective-c-headers" id="opt-in-export-of-kdoc-comments-to-generated-objective-c-headers">
+      Opt-in export of KDoc comments to generated Objective-C headers
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xzf9se_92">
+      <p id="xzf9se_102">
+       The ability to export KDoc comments to generated Objective-C headers is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xzf9se_103">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-38600" id="xzf9se_104" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xzf9se_93">
+      You can now set the Kotlin/Native compiler to export the
+      <a data-tooltip="The language used to document Kotlin code (the equivalent of Java's Javadoc) is called KDoc. In essence, KDoc combines Javadoc's syntax for block tags (extended to support Kotlin's specific constructs) and Markdown for inline markup." href="kotlin-doc.html" id="xzf9se_105">
+       documentation comments (KDoc)
+      </a>
+      from Kotlin code to the Objective-C frameworks generated from it, making them visible to the frameworks' consumers.
+     </p>
+     <p id="xzf9se_94">
+      For example, the following Kotlin code with KDoc:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      /**
+ * Prints the sum of the arguments.
+ * Properly handles the case when the sum doesn't fit in 32-bit integer.
+ */
+fun printSum(a: Int, b: Int) = println(a.toLong() + b)
+     </div>
+     <p id="xzf9se_96">
+      produces the following Objective-C headers:
+     </p>
+     <div class="code-block" data-lang="objectivec">
+      /**
+ * Prints the sum of the arguments.
+ * Properly handles the case when the sum doesn't fit in 32-bit integer.
+ */
++ (void)printSumA:(int32_t)a b:(int32_t)b __attribute__((swift_name("printSum(a:b:)")));
+     </div>
+     <p id="xzf9se_98">
+      This also works well with Swift.
+     </p>
+     <p id="xzf9se_99">
+      To try out this ability to export KDoc comments to Objective-C headers, use the
+      <code class="code" id="xzf9se_106">
+       -Xexport-kdoc
+      </code>
+      compiler option. Add the following lines to
+      <code class="code" id="xzf9se_107">
+       build.gradle(.kts)
+      </code>
+      of the Gradle projects you want to export comments from:
+     </p>
+     <div class="tabs" data-anchors="[xzf9se_108,xzf9se_109]" data-group="build-script" id="xzf9se_100">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="xzf9se_108">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {
+    targets.withType&lt;org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget&gt; {
+        compilations.get("main").kotlinOptions.freeCompilerArgs += "-Xexport-kdoc"
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="xzf9se_109">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {
+    targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget) {
+        compilations.get("main").kotlinOptions.freeCompilerArgs += "-Xexport-kdoc"
+    }
+}
+       </div>
+      </div>
+     </div>
+     <p id="xzf9se_101">
+      We would be very grateful if you would share your feedback with us using this
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-38600" id="xzf9se_112" rel="noopener noreferrer">
+       YouTrack ticket
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="compiler-bug-fixes" id="compiler-bug-fixes">
+      Compiler bug fixes
+     </h3>
+     <p id="xzf9se_113">
+      The Kotlin/Native compiler has received multiple bug fixes in 1.5.20. You can find the complete list in the
+      <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.5.20" id="xzf9se_115" rel="noopener noreferrer">
+       changelog
+      </a>
+      .
+     </p>
+     <p id="xzf9se_114">
+      There is an important bug fix that affects compatibility: in previous versions, string constants that contained incorrect UTF
+      <a data-external="true" href="https://en.wikipedia.org/wiki/Universal_Character_Set_characters#Surrogates" id="xzf9se_116" rel="noopener noreferrer">
+       surrogate pairs
+      </a>
+      were losing their values during compilation. Now such values are preserved. Application developers can safely update to 1.5.20 – nothing will break. However, libraries compiled with 1.5.20 are incompatible with earlier compiler versions. See
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-33175" id="xzf9se_117" rel="noopener noreferrer">
+       this YouTrack issue
+      </a>
+      for details.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="improved-performance-of-array-copyinto-inside-one-array" id="improved-performance-of-array-copyinto-inside-one-array">
+      Improved performance of Array.copyInto() inside one array
+     </h3>
+     <p id="xzf9se_118">
+      We've improved the way
+      <code class="code" id="xzf9se_119">
+       Array.copyInto()
+      </code>
+      works when its source and destination are the same array. Now such operations finish up to 20 times faster (depending on the number of objects being copied) due to memory management optimizations for this use case.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-js" id="kotlin-js">
+     Kotlin/JS
+    </h2>
+    <p id="xzf9se_120">
+     With 1.5.20, we're publishing a guide that will help you migrate your projects to the new
+     <a data-tooltip="The Kotlin/JS IR compiler backend is the main focus of innovation around Kotlin/JS, and paves the way forward for the technology." href="js-ir-compiler.html" id="xzf9se_122">
+      IR-based backend
+     </a>
+     for Kotlin/JS.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="migration-guide-for-the-js-ir-backend" id="migration-guide-for-the-js-ir-backend">
+      Migration guide for the JS IR backend
+     </h3>
+     <p id="xzf9se_123">
+      The new
+      <a data-tooltip="We replaced the old Kotlin/JS compiler with the IR-based compiler in order to unify Kotlin's behavior on all platforms and to make it possible to implement new JS-specific optimizations, among other reasons. You can learn more about the internal differences between the two compilers…" href="js-ir-migration.html" id="xzf9se_124">
+       migration guide for the JS IR backend
+      </a>
+      identifies issues you may encounter during migration and provides solutions for them. If you find any issues that aren't covered in the guide, please report them to our
+      <a data-external="true" href="http://kotl.in/issue" id="xzf9se_125" rel="noopener noreferrer">
+       issue tracker
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="gradle" id="gradle">
+     Gradle
+    </h2>
+    <p id="xzf9se_126">
+     Kotlin 1.5.20 introduces the following features that can improve the Gradle experience:
+    </p>
+    <ul class="list _bullet" id="xzf9se_127">
+     <li class="list__item" id="xzf9se_130">
+      <p>
+       <a data-tooltip="Caching for annotation processors' classloaders in kapt is Experimental. It may be dropped or changed at any time. Use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="#caching-for-annotation-processors-classloaders-in-kapt" id="xzf9se_132">
+        Caching for annotation processors classloaders in kapt
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xzf9se_131">
+      <p>
+       <a data-tooltip="With this release, Kotlin parallel compilation is controlled by the Gradle parallel execution flag --parallel. Using this flag, Gradle executes tasks concurrently, increasing the speed of compiling tasks and utilizing the resources more efficiently." href="#deprecation-of-the-kotlin-parallel-tasks-in-project-build-property" id="xzf9se_133">
+        Deprecation of the
+        <code class="code" id="xzf9se_134">
+         kotlin.parallel.tasks.in.project
+        </code>
+        build property
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="caching-for-annotation-processors-classloaders-in-kapt" id="caching-for-annotation-processors-classloaders-in-kapt">
+      Caching for annotation processors' classloaders in kapt
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xzf9se_135">
+      <p id="xzf9se_140">
+       Caching for annotation processors' classloaders in kapt is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xzf9se_141">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Use it only for evaluation purposes. We would appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-28901" id="xzf9se_142" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xzf9se_136">
+      There is now a new experimental feature that makes it possible to cache the classloaders of annotation processors in
+      <a data-tooltip="kapt is in maintenance mode. We are keeping it up-to-date with recent Kotlin and Java releases but have no plans to implement new features. Please use the Kotlin Symbol Processing API (KSP) for annotation processing. See the list of libraries supported by KSP." href="kapt.html" id="xzf9se_143">
+       kapt
+      </a>
+      . This feature can increase the speed of kapt for consecutive Gradle runs.
+     </p>
+     <p id="xzf9se_137">
+      To enable this feature, use the following properties in your
+      <code class="code" id="xzf9se_144">
+       gradle.properties
+      </code>
+      file:
+     </p>
+     <div class="code-block" data-lang="none">
+      # positive value will enable caching
+# use the same value as the number of modules that use kapt
+kapt.classloaders.cache.size=5
+
+# disable for caching to work
+kapt.include.compile.classpath=false
+     </div>
+     <p id="xzf9se_139">
+      Learn more about
+      <a data-tooltip="kapt is in maintenance mode. We are keeping it up-to-date with recent Kotlin and Java releases but have no plans to implement new features. Please use the Kotlin Symbol Processing API (KSP) for annotation processing. See the list of libraries supported by KSP." href="kapt.html" id="xzf9se_145">
+       kapt
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecation-of-the-kotlin-parallel-tasks-in-project-build-property" id="deprecation-of-the-kotlin-parallel-tasks-in-project-build-property">
+      Deprecation of the kotlin.parallel.tasks.in.project build property
+     </h3>
+     <p id="xzf9se_146">
+      With this release, Kotlin parallel compilation is controlled by the
+      <a data-external="true" href="https://docs.gradle.org/current/userguide/performance.html#parallel_execution" id="xzf9se_148" rel="noopener noreferrer">
+       Gradle parallel execution flag
+       <code class="code" id="xzf9se_149">
+        --parallel
+       </code>
+      </a>
+      . Using this flag, Gradle executes tasks concurrently, increasing the speed of compiling tasks and utilizing the resources more efficiently.
+     </p>
+     <p id="xzf9se_147">
+      You no longer need to use the
+      <code class="code" id="xzf9se_150">
+       kotlin.parallel.tasks.in.project
+      </code>
+      property. This property has been deprecated and will be removed in the next major release.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="standard-library" id="standard-library">
+     Standard library
+    </h2>
+    <p id="xzf9se_151">
+     Kotlin 1.5.20 changes the platform-specific implementations of several functions for working with characters and as a result brings unification across platforms:
+    </p>
+    <ul class="list _bullet" id="xzf9se_152">
+     <li class="list__item" id="xzf9se_155">
+      <p>
+       <a data-tooltip="Char.digitToInt() returns the numeric value of the decimal digit that the character represents. Before 1.5.20, the function supported all Unicode digit characters only for Kotlin/JVM: implementations on the Native and JS platforms supported only ASCII digits." href="#support-for-all-unicode-digits-in-char-digittoint-in-kotlin-native-and-kotlin-js" id="xzf9se_157">
+        Support for all Unicode digits in Char.digitToInt() for Kotlin/Native and Kotlin/JS
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="xzf9se_156">
+      <p>
+       <a data-tooltip="The functions Char.isUpperCase() and Char.isLowerCase() return a boolean value depending on the case of the character. For Kotlin/JVM, the implementation checks both the General_Category and the Other_Uppercase/Other_Lowercase Unicode properties." href="#unification-of-char-islowercase-isuppercase-implementations-across-platforms" id="xzf9se_158">
+        Unification of Char.isLowerCase()/isUpperCase() implementations across platforms
+       </a>
+       .
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="support-for-all-unicode-digits-in-char-digittoint-in-kotlin-native-and-kotlin-js" id="support-for-all-unicode-digits-in-char-digittoint-in-kotlin-native-and-kotlin-js">
+      Support for all Unicode digits in Char.digitToInt() in Kotlin/Native and Kotlin/JS
+     </h3>
+     <p id="xzf9se_159">
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/digit-to-int.html" id="xzf9se_162" rel="noopener noreferrer">
+       <code class="code" id="xzf9se_163">
+        Char.digitToInt()
+       </code>
+      </a>
+      returns the numeric value of the decimal digit that the character represents. Before 1.5.20, the function supported all Unicode digit characters only for Kotlin/JVM: implementations on the Native and JS platforms supported only ASCII digits.
+     </p>
+     <p id="xzf9se_160">
+      From now, both with Kotlin/Native and Kotlin/JS, you can call
+      <code class="code" id="xzf9se_164">
+       Char.digitToInt()
+      </code>
+      on any Unicode digit character and get its numeric representation.
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.5" data-runnable="true">
+      fun main() {
+//sampleStart
+    val ten = '\u0661'.digitToInt() + '\u0039'.digitToInt() // ARABIC-INDIC DIGIT ONE + DIGIT NINE
+    println(ten)
+//sampleEnd
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="unification-of-char-islowercase-isuppercase-implementations-across-platforms" id="unification-of-char-islowercase-isuppercase-implementations-across-platforms">
+      Unification of Char.isLowerCase()/isUpperCase() implementations across platforms
+     </h3>
+     <p id="xzf9se_165">
+      The functions
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/is-upper-case.html" id="xzf9se_168" rel="noopener noreferrer">
+       <code class="code" id="xzf9se_174">
+        Char.isUpperCase()
+       </code>
+      </a>
+      and
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/is-lower-case.html" id="xzf9se_169" rel="noopener noreferrer">
+       <code class="code" id="xzf9se_175">
+        Char.isLowerCase()
+       </code>
+      </a>
+      return a boolean value depending on the case of the character. For Kotlin/JVM, the implementation checks both the
+      <code class="code" id="xzf9se_170">
+       General_Category
+      </code>
+      and the
+      <code class="code" id="xzf9se_171">
+       Other_Uppercase
+      </code>
+      /
+      <code class="code" id="xzf9se_172">
+       Other_Lowercase
+      </code>
+      <a data-external="true" href="https://en.wikipedia.org/wiki/Unicode_character_property" id="xzf9se_173" rel="noopener noreferrer">
+       Unicode properties
+      </a>
+      .
+     </p>
+     <p id="xzf9se_166">
+      Prior to 1.5.20, implementations for other platforms worked differently and considered only the general category. In 1.5.20, implementations are unified across platforms and use both properties to determine the character case:
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.5" data-runnable="true">
+      fun main() {
+//sampleStart
+    val latinCapitalA = 'A' // has "Lu" general category
+    val circledLatinCapitalA = 'Ⓐ' // has "Other_Uppercase" property
+    println(latinCapitalA.isUpperCase() &amp;&amp; circledLatinCapitalA.isUpperCase())
+//sampleEnd
+}
+     </div>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

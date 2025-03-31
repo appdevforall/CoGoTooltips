@@ -1,0 +1,316 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="server-overview" id="server-overview.md">
+    Kotlin for server side
+   </h1>
+   <p id="q9y98m_2">
+    Kotlin is a great fit for developing server-side applications. It allows you to write concise and expressive code while maintaining full compatibility with existing Java-based technology stacks, all with a smooth learning curve:
+   </p>
+   <ul class="list _bullet" id="q9y98m_3">
+    <li class="list__item" id="q9y98m_8">
+     <p>
+      <span class="control" id="q9y98m_14">
+       Expressiveness
+      </span>
+      : Kotlin's innovative language features, such as its support for
+      <a data-tooltip="By using well-named functions as builders in combination with function literals with receiver it is possible to create type-safe, statically-typed builders in Kotlin." href="type-safe-builders.html" id="q9y98m_15">
+       type-safe builders
+      </a>
+      and
+      <a data-tooltip="With some common kinds of properties, even though you can implement them manually every time you need them, it is more helpful to implement them once, add them to a library, and reuse them later. For example:" href="delegated-properties.html" id="q9y98m_16">
+       delegated properties
+      </a>
+      , help build powerful and easy-to-use abstractions.
+     </p>
+    </li>
+    <li class="list__item" id="q9y98m_9">
+     <p>
+      <span class="control" id="q9y98m_17">
+       Scalability
+      </span>
+      : Kotlin's support for
+      <a data-tooltip="Asynchronous or non-blocking programming is an important part of the development landscape. When creating server-side, desktop, or mobile applications, it's important to provide an experience that is not only fluid from the user's perspective, but also scalable when needed." href="coroutines-overview.html" id="q9y98m_18">
+       coroutines
+      </a>
+      helps build server-side applications that scale to massive numbers of clients with modest hardware requirements.
+     </p>
+    </li>
+    <li class="list__item" id="q9y98m_10">
+     <p>
+      <span class="control" id="q9y98m_19">
+       Interoperability
+      </span>
+      : Kotlin is fully compatible with all Java-based frameworks, so you can use your familiar technology stack while reaping the benefits of a more modern language.
+     </p>
+    </li>
+    <li class="list__item" id="q9y98m_11">
+     <p>
+      <span class="control" id="q9y98m_20">
+       Migration
+      </span>
+      : Kotlin supports gradual migration of large codebases from Java to Kotlin. You can start writing new code in Kotlin while keeping older parts of your system in Java.
+     </p>
+    </li>
+    <li class="list__item" id="q9y98m_12">
+     <p>
+      <span class="control" id="q9y98m_21">
+       Tooling
+      </span>
+      : In addition to great IDE support in general, Kotlin offers framework-specific tooling (for example, for Spring) in the plugin for IntelliJ IDEA Ultimate.
+     </p>
+    </li>
+    <li class="list__item" id="q9y98m_13">
+     <p>
+      <span class="control" id="q9y98m_22">
+       Learning Curve
+      </span>
+      : For a Java developer, getting started with Kotlin is very easy. The automated Java-to-Kotlin converter included in the Kotlin plugin helps with the first steps.
+      <a data-tooltip="Kotlin Koans are a series of exercises designed primarily for Java developers, to help you become familiar with the Kotlin syntax. Each exercise is created as a failing unit test, and your job is to make it pass. You can complete the Kotlin Koans tasks in one of the following ways:" href="koans.html" id="q9y98m_23">
+       Kotlin Koans
+      </a>
+      can guide you through the key features of the language with a series of interactive exercises.
+     </p>
+    </li>
+   </ul>
+   <section class="chapter">
+    <h2 data-toc="frameworks-for-server-side-development-with-kotlin" id="frameworks-for-server-side-development-with-kotlin">
+     Frameworks for server-side development with Kotlin
+    </h2>
+    <p id="q9y98m_24">
+     Here are some examples of the server-side frameworks for Kotlin:
+    </p>
+    <ul class="list _bullet" id="q9y98m_25">
+     <li class="list__item" id="q9y98m_27">
+      <p id="q9y98m_36">
+       <a data-external="true" href="https://spring.io" id="q9y98m_37" rel="noopener noreferrer">
+        Spring
+       </a>
+       makes use of Kotlin's language features to offer
+       <a data-external="true" href="https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0" id="q9y98m_38" rel="noopener noreferrer">
+        more concise APIs
+       </a>
+       , starting with version 5.0. The
+       <a data-external="true" href="https://start.spring.io/#!language=kotlin" id="q9y98m_39" rel="noopener noreferrer">
+        online project generator
+       </a>
+       allows you to quickly generate a new project in Kotlin.
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_28">
+      <p id="q9y98m_40">
+       <a data-external="true" href="https://github.com/kotlin/ktor" id="q9y98m_41" rel="noopener noreferrer">
+        Ktor
+       </a>
+       is a framework built by JetBrains for creating Web applications in Kotlin, making use of coroutines for high scalability and offering an easy-to-use and idiomatic API.
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_29">
+      <p id="q9y98m_42">
+       <a data-external="true" href="https://quarkus.io/guides/kotlin" id="q9y98m_43" rel="noopener noreferrer">
+        Quarkus
+       </a>
+       provides first class support for using Kotlin. The framework is open source and maintained by Red Hat. Quarkus was built from the ground up for Kubernetes and provides a cohesive full-stack framework by leveraging a growing list of hundreds of best-of-breed libraries.
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_30">
+      <p id="q9y98m_44">
+       <a data-external="true" href="https://vertx.io" id="q9y98m_45" rel="noopener noreferrer">
+        Vert.x
+       </a>
+       , a framework for building reactive Web applications on the JVM, offers
+       <a data-external="true" href="https://github.com/vert-x3/vertx-lang-kotlin" id="q9y98m_46" rel="noopener noreferrer">
+        dedicated support
+       </a>
+       for Kotlin, including
+       <a data-external="true" href="https://vertx.io/docs/vertx-core/kotlin/" id="q9y98m_47" rel="noopener noreferrer">
+        full documentation
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_31">
+      <p id="q9y98m_48">
+       <a data-external="true" href="https://github.com/kotlin/kotlinx.html" id="q9y98m_49" rel="noopener noreferrer">
+        kotlinx.html
+       </a>
+       is a DSL that can be used to build HTML in Web applications. It serves as an alternative to traditional templating systems such as JSP and FreeMarker.
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_32">
+      <p id="q9y98m_50">
+       <a data-external="true" href="https://micronaut.io/" id="q9y98m_51" rel="noopener noreferrer">
+        Micronaut
+       </a>
+       is a modern JVM-based full-stack framework for building modular, easily testable microservices and serverless applications. It comes with a lot of useful built-in features.
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_33">
+      <p id="q9y98m_52">
+       <a data-external="true" href="https://http4k.org/" id="q9y98m_53" rel="noopener noreferrer">
+        http4k
+       </a>
+       is the functional toolkit with a tiny footprint for Kotlin HTTP applications, written in pure Kotlin. The library is based on the "Your Server as a Function" paper from Twitter and represents modeling both HTTP servers and clients as simple Kotlin functions that can be composed together.
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_34">
+      <p id="q9y98m_54">
+       <a data-external="true" href="https://javalin.io" id="q9y98m_55" rel="noopener noreferrer">
+        Javalin
+       </a>
+       is a very lightweight web framework for Kotlin and Java which supports WebSockets, HTTP2, and async requests.
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_35">
+      <p id="q9y98m_56">
+       The available options for persistence include direct JDBC access, JPA, and using NoSQL databases through their Java drivers. For JPA, the
+       <a data-tooltip="As with the kotlin-spring plugin wrapped on top of all-open, kotlin-jpa is wrapped on top of no-arg. The plugin specifies @Entity, @Embeddable, and @MappedSuperclass no-arg annotations automatically." href="no-arg-plugin.html#jpa-support" id="q9y98m_57">
+        kotlin-jpa compiler plugin
+       </a>
+       adapts Kotlin-compiled classes to the requirements of the framework.
+      </p>
+     </li>
+    </ul>
+    <aside class="prompt" data-title="" data-type="note" id="q9y98m_26">
+     <p id="q9y98m_58">
+      You can find more frameworks at
+      <a data-external="true" href="https://kotlin.link/resources" id="q9y98m_59" rel="noopener noreferrer">
+       https://kotlin.link/
+      </a>
+      .
+     </p>
+    </aside>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deploying-kotlin-server-side-applications" id="deploying-kotlin-server-side-applications">
+     Deploying Kotlin server-side applications
+    </h2>
+    <p id="q9y98m_60">
+     Kotlin applications can be deployed into any host that supports Java Web applications, including Amazon Web Services, Google Cloud Platform, and more.
+    </p>
+    <p id="q9y98m_61">
+     To deploy Kotlin applications on
+     <a data-external="true" href="https://www.heroku.com" id="q9y98m_64" rel="noopener noreferrer">
+      Heroku
+     </a>
+     , you can follow the
+     <a data-external="true" href="https://devcenter.heroku.com/articles/getting-started-with-kotlin" id="q9y98m_65" rel="noopener noreferrer">
+      official Heroku tutorial
+     </a>
+     .
+    </p>
+    <p id="q9y98m_62">
+     AWS Labs provides a
+     <a data-external="true" href="https://github.com/awslabs/serverless-photo-recognition" id="q9y98m_66" rel="noopener noreferrer">
+      sample project
+     </a>
+     showing the use of Kotlin for writing
+     <a data-external="true" href="https://aws.amazon.com/lambda/" id="q9y98m_67" rel="noopener noreferrer">
+      AWS Lambda
+     </a>
+     functions.
+    </p>
+    <p id="q9y98m_63">
+     Google Cloud Platform offers a series of tutorials for deploying Kotlin applications to GCP, both for
+     <a data-external="true" href="https://cloud.google.com/community/tutorials/kotlin-ktor-app-engine-java8" id="q9y98m_68" rel="noopener noreferrer">
+      Ktor and App Engine
+     </a>
+     and
+     <a data-external="true" href="https://cloud.google.com/community/tutorials/kotlin-springboot-app-engine-java8" id="q9y98m_69" rel="noopener noreferrer">
+      Spring and App engine
+     </a>
+     . In addition, there is an
+     <a data-external="true" href="https://codelabs.developers.google.com/codelabs/cloud-spring-cloud-gcp-kotlin" id="q9y98m_70" rel="noopener noreferrer">
+      interactive code lab
+     </a>
+     for deploying a Kotlin Spring application.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="products-that-use-kotlin-on-the-server-side" id="products-that-use-kotlin-on-the-server-side">
+     Products that use Kotlin on the server side
+    </h2>
+    <p id="q9y98m_71">
+     <a data-external="true" href="https://www.corda.net/" id="q9y98m_73" rel="noopener noreferrer">
+      Corda
+     </a>
+     is an open-source distributed ledger platform that is supported by major banks and built entirely in Kotlin.
+    </p>
+    <p id="q9y98m_72">
+     <a data-external="true" href="https://account.jetbrains.com/" id="q9y98m_74" rel="noopener noreferrer">
+      JetBrains Account
+     </a>
+     , the system responsible for the entire license sales and validation process at JetBrains, is written in 100% Kotlin and has been running in production since 2015 with no major issues.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="next-steps" id="next-steps">
+     Next steps
+    </h2>
+    <ul class="list _bullet" id="q9y98m_75">
+     <li class="list__item" id="q9y98m_76">
+      <p>
+       For a more in-depth introduction to the language, check out the Kotlin documentation on this site and
+       <a data-tooltip="Kotlin Koans are a series of exercises designed primarily for Java developers, to help you become familiar with the Kotlin syntax. Each exercise is created as a failing unit test, and your job is to make it pass. You can complete the Kotlin Koans tasks in one of the following ways:" href="koans.html" id="q9y98m_80">
+        Kotlin Koans
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_77">
+      <p>
+       Watch a webinar
+       <a data-external="true" href="https://micronaut.io/2020/12/03/webinar-micronaut-for-microservices-with-kotlin/" id="q9y98m_81" rel="noopener noreferrer">
+        "Micronaut for microservices with Kotlin"
+       </a>
+       and explore a detailed
+       <a data-external="true" href="https://guides.micronaut.io/latest/micronaut-kotlin-extension-fns.html" id="q9y98m_82" rel="noopener noreferrer">
+        guide
+       </a>
+       showing how you can use
+       <a data-tooltip="To declare an extension function, prefix its name with a receiver type, which refers to the type being extended. The following adds a swap function to MutableList&lt;Int&gt;:" href="extensions.html#extension-functions" id="q9y98m_83">
+        Kotlin extension functions
+       </a>
+       in the Micronaut framework.
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_78">
+      <p>
+       http4k provides the
+       <a data-external="true" href="https://toolbox.http4k.org" id="q9y98m_84" rel="noopener noreferrer">
+        CLI
+       </a>
+       to generate fully formed projects, and a
+       <a data-external="true" href="https://start.http4k.org" id="q9y98m_85" rel="noopener noreferrer">
+        starter
+       </a>
+       repo to generate an entire CD pipeline using GitHub, Travis, and Heroku with a single bash command.
+      </p>
+     </li>
+     <li class="list__item" id="q9y98m_79">
+      <p>
+       Want to migrate from Java to Kotlin? Learn how to perform
+       <a data-tooltip="This guide contains examples of how to perform typical tasks with strings in Java and Kotlin. It will help you migrate from Java to Kotlin and write your code in the authentically Kotlin way." href="java-to-kotlin-idioms-strings.html" id="q9y98m_86">
+        typical tasks with strings in Java and Kotlin
+       </a>
+       .
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

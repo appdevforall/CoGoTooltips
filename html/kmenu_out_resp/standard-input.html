@@ -1,0 +1,251 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="standard-input" id="standard-input.md">
+    Standard input
+   </h1>
+   <aside class="prompt" data-title="" data-type="note" id="yowpif_2">
+    <p id="yowpif_6">
+     Java Scanner is a slow tool. Use it only when you need the specific functionalities it offers. Otherwise, it's generally preferable to use Kotlin's
+     <code class="code" id="yowpif_7">
+      readln()
+     </code>
+     function to
+     <a data-tooltip="The readln() function reads from the standard input. This function reads the entire line the user enters as a string." href="basic-syntax.html#read-from-the-standard-input" id="yowpif_8">
+      read standard input
+     </a>
+     .
+    </p>
+   </aside>
+   <p id="yowpif_3">
+    To read from the standard input, Java provides the
+    <code class="code" id="yowpif_9">
+     Scanner
+    </code>
+    class. Kotlin offers two main ways to read from the standard input: the
+    <code class="code" id="yowpif_10">
+     Scanner
+    </code>
+    class, similar to Java, and the
+    <code class="code" id="yowpif_11">
+     readln()
+    </code>
+    function.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="read-from-the-standard-input-with-java-scanner" id="read-from-the-standard-input-with-java-scanner">
+     Read from the standard input with Java Scanner
+    </h2>
+    <p id="yowpif_12">
+     In Java, the standard input is typically accessed through the
+     <code class="code" id="yowpif_15">
+      System.in
+     </code>
+     object. You need to import the
+     <code class="code" id="yowpif_16">
+      Scanner
+     </code>
+     class, create an object, and use methods like
+     <code class="code" id="yowpif_17">
+      .nextLine()
+     </code>
+     and
+     <code class="code" id="yowpif_18">
+      .nextInt()
+     </code>
+     to read different data types:
+    </p>
+    <div class="code-block" data-lang="java">
+     //Java implementation
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Reads a single line of input. For example: Hi there!
+        System.out.print("Enter a line: ");
+        String line = scanner.nextLine();
+        System.out.println("You entered: " + line);
+        // You entered: Hi there!
+
+        // Reads an integer. For example: 08081990
+        System.out.print("Enter an integer: ");
+        int number = scanner.nextInt();
+        System.out.println("You entered: " + number);
+        // You entered: 08081990
+
+        scanner.close();
+    }
+}
+    </div>
+    <section class="chapter">
+     <h3 data-toc="use-java-scanner-in-kotlin" id="use-java-scanner-in-kotlin">
+      Use Java Scanner in Kotlin
+     </h3>
+     <p id="yowpif_19">
+      Due to Kotlin's interoperability with Java libraries, you can access Java Scanner from Kotlin code out of the box.
+     </p>
+     <p id="yowpif_20">
+      To use Java Scanner in Kotlin, you need to import the
+      <code class="code" id="yowpif_25">
+       Scanner
+      </code>
+      class and initialize it by passing a
+      <code class="code" id="yowpif_26">
+       System.in
+      </code>
+      object that represents the standard input stream and dictates how to read the data. You can use the
+      <a data-external="true" href="https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html" id="yowpif_27" rel="noopener noreferrer">
+       available reading methods
+      </a>
+      for reading values different from strings, such as
+      <code class="code" id="yowpif_28">
+       .nextLine()
+      </code>
+      ,
+      <code class="code" id="yowpif_29">
+       .next()
+      </code>
+      , and
+      <code class="code" id="yowpif_30">
+       .nextInt()
+      </code>
+      :
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      // Imports Java Scanner
+import java.util.Scanner
+
+fun main() {
+    // Initializes the Scanner
+    val scanner = Scanner(System.`in`)
+
+    // Reads a whole string line. For example: "Hello, Kotlin"
+    val line = scanner.nextLine()
+    print(line)
+    // Hello, Kotlin
+
+    // Reads a string. For example: "Hello"
+    val string = scanner.next()
+    print(string)
+    // Hello
+
+    // Reads a number. For example: 123
+    val num = scanner.nextInt()
+    print(num)
+    // 123
+}
+     </div>
+     <p id="yowpif_22">
+      Other useful methods for reading input with Java Scanner are
+      <code class="code" id="yowpif_31">
+       .hasNext()
+      </code>
+      ,
+      <code class="code" id="yowpif_32">
+       .useDelimiter()
+      </code>
+      , and
+      <code class="code" id="yowpif_33">
+       .close()
+      </code>
+      :
+     </p>
+     <ul class="list _bullet" id="yowpif_23">
+      <li class="list__item" id="yowpif_34">
+       <p id="yowpif_37">
+        The
+        <code class="code" id="yowpif_38">
+         .hasNext()
+        </code>
+        method checks if there's more data available in the input. It returns the boolean value
+        <code class="code" id="yowpif_39">
+         true
+        </code>
+        if there are remaining elements to iterate and
+        <code class="code" id="yowpif_40">
+         false
+        </code>
+        if no more elements are left in the input.
+       </p>
+      </li>
+      <li class="list__item" id="yowpif_35">
+       <p id="yowpif_41">
+        The
+        <code class="code" id="yowpif_42">
+         .useDelimiter()
+        </code>
+        method sets the delimiter for reading input elements. The delimiter is whitespaces by default, but you can specify other characters. For example,
+        <code class="code" id="yowpif_43">
+         .useDelimiter(",")
+        </code>
+        reads the input elements separated by commas.
+       </p>
+      </li>
+      <li class="list__item" id="yowpif_36">
+       <p id="yowpif_44">
+        The
+        <code class="code" id="yowpif_45">
+         .close()
+        </code>
+        method closes the input stream associated with the Scanner, preventing further use of the Scanner for reading input.
+       </p>
+      </li>
+     </ul>
+     <aside class="prompt" data-title="" data-type="note" id="yowpif_24">
+      <p id="yowpif_46">
+       Always use the
+       <code class="code" id="yowpif_47">
+        .close()
+       </code>
+       method when you're finished using Java Scanner. Closing the Java Scanner releases the resources it consumes and ensures proper program behavior.
+      </p>
+     </aside>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="read-from-the-standard-input-with-readln" id="read-from-the-standard-input-with-readln">
+     Read from the standard input with readln()
+    </h2>
+    <p id="yowpif_48">
+     In Kotlin, apart from the Java Scanner, you have the
+     <code class="code" id="yowpif_51">
+      readln()
+     </code>
+     function. It is the most straightforward way to read input. This function reads a line of text from the standard input and returns it as a string:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     // Reads a string. For example: Charlotte
+val name = readln()
+
+// Reads a string and converts it into an integer. For example: 43
+val age = readln().toInt()
+
+println("Hello, $name! You are $age years old.")
+// Hello, Charlotte! You are 43 years old.
+    </div>
+    <p id="yowpif_50">
+     For more information, see
+     <a data-tooltip="Use the readln() function to read data from the standard input. It reads the whole line as a string:" href="read-standard-input.html" id="yowpif_52">
+      Read standard input
+     </a>
+     .
+    </p>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

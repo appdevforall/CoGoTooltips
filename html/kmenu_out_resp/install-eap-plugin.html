@@ -1,0 +1,161 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="install-eap-plugin" id="install-eap-plugin.md">
+    Install the EAP Plugin for IntelliJ IDEA or Android Studio
+   </h1>
+   <div class="micro-format" data-content='{"microFormat":["\u003cp id\u003d\"-6t8dzx_8\"\u003eNo preview versions are currently available\u003c/p\u003e"]}'>
+   </div>
+   <aside class="prompt" data-title="" data-type="note" id="-6t8dzx_3">
+    <p id="-6t8dzx_9">
+     Starting from IntelliJ IDEA 2023.3 and Android Studio Iguana (2023.2.1) Canary 15, the Kotlin plugin doesn't need to be configured separately. All you need to do is
+     <a data-tooltip="If you create new projects using the EAP version of Kotlin, you don't need to perform any additional steps. The Kotlin Plugin will do everything for you!" href="configure-build-for-eap.html" id="-6t8dzx_10">
+      change the Kotlin version
+     </a>
+     in your build scripts.
+    </p>
+   </aside>
+   <p id="-6t8dzx_4">
+    You can follow these instructions to install the preview version of the Kotlin Plugin for IntelliJ IDEA or Android Studio.
+   </p>
+   <ol class="list _decimal" id="-6t8dzx_5" type="1">
+    <li class="list__item" id="-6t8dzx_11">
+     <p id="-6t8dzx_15">
+      Select
+      <span class="control" id="-6t8dzx_17">
+       Tools
+      </span>
+      |
+      <span class="control" id="-6t8dzx_18">
+       Kotlin
+      </span>
+      |
+      <span class="control" id="-6t8dzx_19">
+       Configure Kotlin Plugin Updates
+      </span>
+      .
+     </p>
+     <figure id="-6t8dzx_16">
+      <img alt="Select Kotlin Plugin Updates" height="468" src="images/idea-kotlin-plugin-updates.png" title="Select Kotlin Plugin Updates" width="600"/>
+     </figure>
+    </li>
+    <li class="list__item" id="-6t8dzx_12">
+     <p id="-6t8dzx_20">
+      In the
+      <span class="control" id="-6t8dzx_22">
+       Update channel
+      </span>
+      list, select the
+      <span class="control" id="-6t8dzx_23">
+       Early Access Preview
+      </span>
+      channel.
+     </p>
+     <figure id="-6t8dzx_21">
+      <img alt="Select the EAP update channel" height="161" src="images/idea-kotlin-update-channel.png" title="Select the EAP update channel" width="500"/>
+     </figure>
+    </li>
+    <li class="list__item" id="-6t8dzx_13">
+     <p id="-6t8dzx_24">
+      Click
+      <span class="control" id="-6t8dzx_27">
+       Check again
+      </span>
+      . The latest EAP build version appears.
+     </p>
+     <figure id="-6t8dzx_25">
+      <img alt="Install the EAP build" height="196" src="images/idea-latest-kotlin-eap.png" title="Install the EAP build" width="500"/>
+     </figure>
+     <aside class="prompt" data-title="" data-type="note" id="-6t8dzx_26">
+      <p id="-6t8dzx_28">
+       If the Kotlin EAP plugin can't find the latest EAP build, check that you are using the latest version of
+       <a data-external="true" href="https://www.jetbrains.com/help/idea/update.html" id="-6t8dzx_29" rel="noopener noreferrer">
+        IntelliJ IDEA
+       </a>
+       or
+       <a data-external="true" href="https://developer.android.com/studio/intro/update" id="-6t8dzx_30" rel="noopener noreferrer">
+        Android Studio
+       </a>
+       .
+      </p>
+     </aside>
+    </li>
+    <li class="list__item" id="-6t8dzx_14">
+     <p id="-6t8dzx_31">
+      Click
+      <span class="control" id="-6t8dzx_32">
+       Install
+      </span>
+      .
+     </p>
+    </li>
+   </ol>
+   <p id="-6t8dzx_6">
+    If you want to work on existing projects that were created before installing the EAP version, you need to
+    <a data-tooltip="If you create new projects using the EAP version of Kotlin, you don't need to perform any additional steps. The Kotlin Plugin will do everything for you!" href="configure-build-for-eap.html" id="-6t8dzx_33">
+     configure your build for EAP
+    </a>
+    .
+   </p>
+   <section class="chapter">
+    <h2 data-toc="if-you-run-into-any-problems" id="if-you-run-into-any-problems">
+     If you run into any problems
+    </h2>
+    <ul class="list _bullet" id="-6t8dzx_34">
+     <li class="list__item" id="-6t8dzx_35">
+      <p>
+       Report an issue to
+       <a data-external="true" href="https://kotl.in/issue" id="-6t8dzx_38" rel="noopener noreferrer">
+        our issue tracker, YouTrack
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-6t8dzx_36">
+      <p>
+       Find help in the
+       <a data-external="true" href="https://app.slack.com/client/T09229ZC6/C0KLZSCHF" id="-6t8dzx_39" rel="noopener noreferrer">
+        #eap channel in Kotlin Slack
+       </a>
+       (
+       <a data-external="true" href="https://surveys.jetbrains.com/s3/kotlin-slack-sign-up" id="-6t8dzx_40" rel="noopener noreferrer">
+        get an invite
+       </a>
+       ).
+      </p>
+     </li>
+     <li class="list__item" id="-6t8dzx_37">
+      <p>
+       Roll back to the latest stable version: in
+       <span class="control" id="-6t8dzx_41">
+        Tools | Kotlin | Configure Kotlin Plugin Updates
+       </span>
+       , select the
+       <span class="control" id="-6t8dzx_42">
+        Stable
+       </span>
+       update channel and click
+       <span class="control" id="-6t8dzx_43">
+        Install
+       </span>
+       .
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

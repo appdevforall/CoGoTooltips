@@ -1,0 +1,394 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="wasm-wasi" id="wasm-wasi.md">
+    Get started with Kotlin/Wasm and WASI
+   </h1>
+   <aside class="prompt" data-title="" data-type="note" id="poaty8_2">
+    <p id="poaty8_11">
+     Kotlin/Wasm is in
+     <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="poaty8_13">
+      Alpha
+     </a>
+     . It may be changed at any time.
+    </p>
+    <p id="poaty8_12">
+     <a data-external="true" href="https://slack-chats.kotlinlang.org/c/webassembly" id="poaty8_14" rel="noopener noreferrer">
+      Join the Kotlin/Wasm community.
+     </a>
+    </p>
+   </aside>
+   <p id="poaty8_3">
+    This tutorial demonstrates how to run a simple
+    <a data-tooltip="Kotlin/Wasm is in Alpha. It may be changed at any time. You can use it in scenarios before production. We would appreciate your feedback in YouTrack." href="wasm-overview.html" id="poaty8_15">
+     Kotlin/Wasm
+    </a>
+    application using the
+    <a data-external="true" href="https://wasi.dev/" id="poaty8_16" rel="noopener noreferrer">
+     WebAssembly System Interface (WASI)
+    </a>
+    in various WebAssembly virtual machines.
+   </p>
+   <p id="poaty8_4">
+    You can find examples of an application running on
+    <a data-external="true" href="https://nodejs.org/en" id="poaty8_17" rel="noopener noreferrer">
+     Node.js
+    </a>
+    ,
+    <a data-external="true" href="https://deno.com/" id="poaty8_18" rel="noopener noreferrer">
+     Deno
+    </a>
+    , and
+    <a data-external="true" href="https://wasmedge.org/" id="poaty8_19" rel="noopener noreferrer">
+     WasmEdge
+    </a>
+    virtual machines. The output is a simple application that uses the standard WASI API.
+   </p>
+   <p id="poaty8_5">
+    Currently, Kotlin/Wasm supports WASI 0.1, also known as Preview 1.
+    <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-64568" id="poaty8_20" rel="noopener noreferrer">
+     Support for WASI 0.2 is planned for future releases
+    </a>
+    .
+   </p>
+   <aside class="prompt" data-title="" data-type="tip" id="poaty8_6">
+    <p id="poaty8_21">
+     The Kotlin/Wasm toolchain provides Node.js tasks (
+     <code class="code" id="poaty8_22">
+      wasmWasiNode*
+     </code>
+     ) out of the box. Other task variants in the project, such as those utilizing Deno or WasmEdge, are included as custom tasks.
+    </p>
+   </aside>
+   <section class="chapter">
+    <h2 data-toc="before-you-start" id="before-you-start">
+     Before you start
+    </h2>
+    <ol class="list _decimal" id="poaty8_23" type="1">
+     <li class="list__item" id="poaty8_24">
+      <p id="poaty8_26">
+       Download and install the latest version of
+       <a data-external="true" href="https://www.jetbrains.com/idea/" id="poaty8_27" rel="noopener noreferrer">
+        IntelliJ IDEA
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="poaty8_25">
+      <p id="poaty8_28">
+       Clone the
+       <a data-external="true" href="https://github.com/Kotlin/kotlin-wasm-wasi-template" id="poaty8_31" rel="noopener noreferrer">
+        Kotlin/Wasm WASI template repository
+       </a>
+       by selecting
+       <span class="control" id="poaty8_32">
+        File | New | Project from Version Control
+       </span>
+       in IntelliJ IDEA.
+      </p>
+      <p id="poaty8_29">
+       You can also clone it from the command line:
+      </p>
+      <div class="code-block" data-lang="bash">
+       git clone git@github.com:Kotlin/kotlin-wasm-wasi-template.git
+      </div>
+     </li>
+    </ol>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="run-the-application" id="run-the-application">
+     Run the application
+    </h2>
+    <ol class="list _decimal" id="poaty8_33" type="1">
+     <li class="list__item" id="poaty8_38">
+      <p id="poaty8_40">
+       Open the
+       <span class="control" id="poaty8_43">
+        Gradle
+       </span>
+       tool window by selecting
+       <span class="control" id="poaty8_44">
+        View
+       </span>
+       |
+       <span class="control" id="poaty8_45">
+        Tool Windows
+       </span>
+       |
+       <span class="control" id="poaty8_46">
+        Gradle
+       </span>
+       .
+      </p>
+      <p id="poaty8_41">
+       In the
+       <span class="control" id="poaty8_47">
+        Gradle
+       </span>
+       tool window, you can find the Gradle tasks under
+       <span class="control" id="poaty8_48">
+        kotlin-wasm-wasi-example
+       </span>
+       once the project loads.
+      </p>
+      <aside class="prompt" data-title="" data-type="note" id="poaty8_42">
+       <p id="poaty8_49">
+        You need at least Java 11 as your Gradle JVM for the tasks to load successfully.
+       </p>
+      </aside>
+     </li>
+     <li class="list__item" id="poaty8_39">
+      <p id="poaty8_50">
+       From
+       <span class="control" id="poaty8_53">
+        kotlin-wasm-wasi-example
+       </span>
+       |
+       <span class="control" id="poaty8_54">
+        Tasks
+       </span>
+       |
+       <span class="control" id="poaty8_55">
+        kotlin node
+       </span>
+       , select and run one of the following Gradle tasks:
+      </p>
+      <ul class="list _bullet" id="poaty8_51">
+       <li class="list__item" id="poaty8_56">
+        <p id="poaty8_59">
+         <span class="control" id="poaty8_60">
+          wasmWasiNodeRun
+         </span>
+         to run the application in Node.js.
+        </p>
+       </li>
+       <li class="list__item" id="poaty8_57">
+        <p id="poaty8_61">
+         <span class="control" id="poaty8_62">
+          wasmWasiDenoRun
+         </span>
+         to run the application in Deno.
+        </p>
+       </li>
+       <li class="list__item" id="poaty8_58">
+        <p id="poaty8_63">
+         <span class="control" id="poaty8_65">
+          wasmWasiWasmEdgeRun
+         </span>
+         to run the application in WasmEdge.
+        </p>
+        <aside class="prompt" data-title="" data-type="tip" id="poaty8_64">
+         <p id="poaty8_66">
+          When using Deno on a Windows platform, ensure
+          <code class="code" id="poaty8_67">
+           deno.exe
+          </code>
+          is installed. For more information, see
+          <a data-external="true" href="https://docs.deno.com/runtime/manual/getting_started/installation" id="poaty8_68" rel="noopener noreferrer">
+           Deno's installation documentation
+          </a>
+          .
+         </p>
+        </aside>
+       </li>
+      </ul>
+      <figure id="poaty8_52">
+       <img alt="Kotlin/Wasm and WASI tasks" height="690" src="images/wasm-wasi-gradle-task.png" title="Kotlin/Wasm and WASI tasks" width="600"/>
+      </figure>
+     </li>
+    </ol>
+    <p id="poaty8_34">
+     Alternatively, run one of the following commands in the terminal from the
+     <code class="code" id="poaty8_69">
+      kotlin-wasm-wasi-template
+     </code>
+     root directory:
+    </p>
+    <ul class="list _bullet" id="poaty8_35">
+     <li class="list__item" id="poaty8_70">
+      <p id="poaty8_73">
+       To run the application in Node.js:
+      </p>
+      <div class="code-block" data-lang="bash">
+       ./gradlew wasmWasiNodeRun
+      </div>
+     </li>
+     <li class="list__item" id="poaty8_71">
+      <p id="poaty8_75">
+       To run the application in Deno:
+      </p>
+      <div class="code-block" data-lang="bash">
+       ./gradlew wasmWasiDenoRun
+      </div>
+     </li>
+     <li class="list__item" id="poaty8_72">
+      <p id="poaty8_77">
+       To run the application in WasmEdge:
+      </p>
+      <div class="code-block" data-lang="bash">
+       ./gradlew wasmWasiWasmEdgeRun
+      </div>
+     </li>
+    </ul>
+    <p id="poaty8_36">
+     The terminal displays a message when your application is built successfully:
+    </p>
+    <figure id="poaty8_37">
+     <img alt="Kotlin/Wasm and WASI app" height="174" src="images/wasm-wasi-app-terminal.png" title="Kotlin/Wasm and WASI app" width="600"/>
+    </figure>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="test-the-application" id="test-the-application">
+     Test the application
+    </h2>
+    <p id="poaty8_79">
+     You can also test that the Kotlin/Wasm application works correctly across various virtual machines.
+    </p>
+    <p id="poaty8_80">
+     In the Gradle tool window, run one of the following Gradle tasks from
+     <span class="control" id="poaty8_87">
+      kotlin-wasm-wasi-example
+     </span>
+     |
+     <span class="control" id="poaty8_88">
+      Tasks
+     </span>
+     |
+     <span class="control" id="poaty8_89">
+      verification
+     </span>
+     :
+    </p>
+    <ul class="list _bullet" id="poaty8_81">
+     <li class="list__item" id="poaty8_90">
+      <p>
+       <span class="control" id="poaty8_93">
+        wasmWasiNodeTest
+       </span>
+       to test the application in Node.js.
+      </p>
+     </li>
+     <li class="list__item" id="poaty8_91">
+      <p>
+       <span class="control" id="poaty8_94">
+        wasmWasiDenoTest
+       </span>
+       to test the application in Deno.
+      </p>
+     </li>
+     <li class="list__item" id="poaty8_92">
+      <p>
+       <span class="control" id="poaty8_95">
+        wasmWasiWasmEdgeTest
+       </span>
+       to test the application in WasmEdge.
+      </p>
+     </li>
+    </ul>
+    <figure id="poaty8_82">
+     <img alt="Kotlin/Wasm and WASI test tasks" height="792" src="images/wasm-wasi-testing-task.png" title="Kotlin/Wasm and WASI test tasks" width="600"/>
+    </figure>
+    <p id="poaty8_83">
+     Alternatively, run one of the following commands in the terminal from the
+     <code class="code" id="poaty8_96">
+      kotlin-wasm-wasi-template
+     </code>
+     root directory:
+    </p>
+    <ul class="list _bullet" id="poaty8_84">
+     <li class="list__item" id="poaty8_97">
+      <p id="poaty8_100">
+       To test the application in Node.js:
+      </p>
+      <div class="code-block" data-lang="bash">
+       ./gradlew wasmWasiNodeTest
+      </div>
+     </li>
+     <li class="list__item" id="poaty8_98">
+      <p id="poaty8_102">
+       To test the application in Deno:
+      </p>
+      <div class="code-block" data-lang="bash">
+       ./gradlew wasmWasiDenoTest
+      </div>
+     </li>
+     <li class="list__item" id="poaty8_99">
+      <p id="poaty8_104">
+       To test the application in WasmEdge:
+      </p>
+      <div class="code-block" data-lang="bash">
+       ./gradlew wasmWasiWasmEdgeTest
+      </div>
+     </li>
+    </ul>
+    <p id="poaty8_85">
+     The terminal displays the test results:
+    </p>
+    <figure id="poaty8_86">
+     <img alt="Kotlin/Wasm and WASI test" height="240" src="images/wasm-wasi-tests-results.png" title="Kotlin/Wasm and WASI test" width="600"/>
+    </figure>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next?
+    </h2>
+    <p id="poaty8_106">
+     Join the Kotlin/Wasm community in Kotlin Slack:
+    </p>
+    <p id="poaty8_107">
+     <a data-external="true" href="https://slack-chats.kotlinlang.org/c/webassembly" id="poaty8_110" rel="noopener noreferrer">
+      <figure id="poaty8_111">
+       <img alt="Join the Kotlin/Wasm community" height="45" src="images/join-slack-channel.svg" title="Join the Kotlin/Wasm community" width="500"/>
+      </figure>
+     </a>
+    </p>
+    <p id="poaty8_108">
+     Try more Kotlin/Wasm examples:
+    </p>
+    <ul class="list _bullet" id="poaty8_109">
+     <li class="list__item" id="poaty8_112">
+      <p>
+       <a data-external="true" href="https://github.com/JetBrains/compose-multiplatform/tree/master/examples/imageviewer" id="poaty8_116" rel="noopener noreferrer">
+        Compose image viewer
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="poaty8_113">
+      <p>
+       <a data-external="true" href="https://github.com/JetBrains/compose-multiplatform/tree/master/examples/jetsnack" id="poaty8_117" rel="noopener noreferrer">
+        Jetsnack application
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="poaty8_114">
+      <p>
+       <a data-external="true" href="https://github.com/Kotlin/kotlin-wasm-nodejs-template" id="poaty8_118" rel="noopener noreferrer">
+        Node.js example
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="poaty8_115">
+      <p>
+       <a data-external="true" href="https://github.com/Kotlin/kotlin-wasm-compose-template" id="poaty8_119" rel="noopener noreferrer">
+        Compose example
+       </a>
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

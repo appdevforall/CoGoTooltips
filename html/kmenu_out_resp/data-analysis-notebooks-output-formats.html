@@ -1,0 +1,547 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="data-analysis-notebooks-output-formats" id="data-analysis-notebooks-output-formats.md">
+    Output formats supported by Kotlin Notebook
+   </h1>
+   <p id="-u9g65u_2">
+    <a data-tooltip="Kotlin Notebook is a dynamic plugin for IntelliJ IDEA that provides an interactive environment to create and edit notebooks, leveraging the full potential of Kotlin's capabilities." href="kotlin-notebook-overview.html" id="-u9g65u_17">
+     Kotlin Notebook
+    </a>
+    supports a variety of output types, including text, HTML, and images. With the help of external libraries, you can expand your output options and visualize your data with charts, spreadsheets, and more.
+   </p>
+   <p id="-u9g65u_3">
+    Each output is a JSON object that maps the
+    <a data-external="true" href="https://jupyterlab.readthedocs.io/en/latest/user/file_formats.html" id="-u9g65u_18" rel="noopener noreferrer">
+     Jupiter MIME type
+    </a>
+    to some data. From this map, Kotlin Notebook selects the supported MIME type with the highest priority among other types and renders it like this:
+   </p>
+   <ul class="list _bullet" id="-u9g65u_4">
+    <li class="list__item" id="-u9g65u_19">
+     <p>
+      <a data-tooltip="The simplest output type is plain text. It's used in printed statements, variable values, or any text-based output from your code:" href="#texts" id="-u9g65u_23">
+       Text
+      </a>
+      uses the
+      <code class="code" id="-u9g65u_24">
+       text/plain
+      </code>
+      MIME type.
+     </p>
+    </li>
+    <li class="list__item" id="-u9g65u_20">
+     <p>
+      The
+      <a data-tooltip="By default, you can use BufferedImage class to display images:" href="#buffered-images" id="-u9g65u_25">
+       BufferedImage class
+      </a>
+      uses the
+      <code class="code" id="-u9g65u_26">
+       image/png
+      </code>
+      MIME type that is mapped to a Base64 string.
+     </p>
+    </li>
+    <li class="list__item" id="-u9g65u_21">
+     <p>
+      The
+      <a data-tooltip="With the help of the lib-ext library, you can extend the standard Jupyter functionality and display images loaded from the network:" href="#loaded-images" id="-u9g65u_27">
+       Image class
+      </a>
+      , as well as the
+      <a data-tooltip="You can render mathematical formulas and equations using the LaTeX format, a typesetting system widely used in academia:" href="#math-formulas-and-equations" id="-u9g65u_28">
+       LaTeX format
+      </a>
+      , use the
+      <code class="code" id="-u9g65u_29">
+       text/html
+      </code>
+      MIME type with the
+      <code class="code" id="-u9g65u_30">
+       img
+      </code>
+      tag inside.
+     </p>
+    </li>
+    <li class="list__item" id="-u9g65u_22">
+     <p>
+      <a data-tooltip="With Kotlin Notebook, you can visualize structured data with data frames:" href="#data-frames" id="-u9g65u_31">
+       Kotlin DataFrame tables
+      </a>
+      and
+      <a data-tooltip="You can create various charts directly in your Kotlin Notebook to visualize your data:" href="#charts" id="-u9g65u_32">
+       Kandy plots
+      </a>
+      use their own internal MIME types, which are backed by static HTML or images. This way, you can display them on GitHub.
+     </p>
+    </li>
+   </ul>
+   <p id="-u9g65u_5">
+    You can set up the mapping manually, for example, to use Markdown as a cell output:
+   </p>
+   <div class="code-block" data-lang="kotlin">
+    MimeTypedResult(
+    mapOf(
+        "text/plain" to "123",
+        "text/markdown" to "# HEADER",
+        //other mime:value pairs
+    )
+)
+   </div>
+   <p id="-u9g65u_7">
+    To display any kind of output, use the
+    <code class="code" id="-u9g65u_33">
+     DISPLAY()
+    </code>
+    function. It also enables the combination of several outputs:
+   </p>
+   <div class="code-block" data-lang="kotlin">
+    DISPLAY(HTML("&lt;h2&gt;Gaussian distribution&lt;/h2&gt;"))
+DISPLAY(LATEX("f(x) = \\frac{1}{\\sigma \\sqrt{2\\pi}} \\cdot e^{-\\frac{(x - \\mu)^2}{2\\sigma^2}}"))
+
+val experimentX = experimentData.map { it.key }
+val experimentY = experimentData.map { it.value }
+
+DISPLAY(plot {
+    bars {
+        x(experimentX)
+        y(experimentY)
+    }
+})
+   </div>
+   <figure id="-u9g65u_9">
+    <img alt="Different outputs for Gaussian distribution" height="619" src="images/gaussian-distribution-output.png" title="Different outputs for Gaussian distribution" width="700"/>
+   </figure>
+   <section class="chapter">
+    <h2 data-toc="texts" id="texts">
+     Texts
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="plain-text" id="plain-text">
+      Plain text
+     </h3>
+     <p id="-u9g65u_36">
+      The simplest output type is plain text. It's used in printed statements, variable values, or any text-based output from your code:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      val a1: Int = 1
+val a2: Int = 2
+var a3: Int? = a1 + a2
+
+"My answer is $a3"
+     </div>
+     <figure id="-u9g65u_38">
+      <img alt="Plain text code output" height="62" src="images/plain-text-output.png" title="Plain text code output" width="300"/>
+     </figure>
+     <ul class="list _bullet" id="-u9g65u_39">
+      <li class="list__item" id="-u9g65u_40">
+       <p>
+        If a cell's result cannot be
+        <a data-external="true" href="https://github.com/Kotlin/kotlin-jupyter?tab=readme-ov-file#rendering" id="-u9g65u_42" rel="noopener noreferrer">
+         rendered
+        </a>
+        and displayed as any of the output types, it will be printed as plain text using the
+        <code class="code" id="-u9g65u_43">
+         toString()
+        </code>
+        function.
+       </p>
+      </li>
+      <li class="list__item" id="-u9g65u_41">
+       <p>
+        If your code contains errors, Kotlin Notebook displays an error message and a traceback, providing insights for debugging.
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="rich-text" id="rich-text">
+      Rich text
+     </h3>
+     <p id="-u9g65u_44">
+      Choose cells of the Markdown type to use rich text. This way, you can format the content with Markdown and HTML markup, using lists, tables, font styles, code blocks, and more. HTML can contain CSS styles and JavaScript.
+     </p>
+     <div class="code-block" data-lang="none">
+      ## Line magics
+
+| Spell                              | Description                                                                                                      | Example                                                                               |
+|------------------------------------|------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| &lt;code&gt;%use&lt;/code&gt;                  | Injects code for supported libraries: artifact resolution, default imports, initialization code, type renderers. | &lt;code&gt;%use klaxon(5.5), lets-plot&lt;/code&gt;                                              |                                         
+| &lt;code&gt;%trackClasspath&lt;/code&gt;       | Logs any changes of current classpath. Useful for debugging artifact resolution failures.                        | &lt;code&gt;%trackClasspath [on |off]&lt;/code&gt;                                                |
+| &lt;code&gt;%trackExecution&lt;/code&gt;       | Logs pieces of code that are going to be executed. Useful for debugging of libraries support.                    | &lt;code&gt;%trackExecution [all|generated|off]&lt;/code&gt;                                      |          
+| &lt;code&gt;%useLatestDescriptors&lt;/code&gt; | Use latest versions of library descriptors available. By default, bundled descriptors are used.                  | &lt;code&gt;%useLatestDescriptors [on|off]&lt;/code&gt;                                           |
+| &lt;code&gt;%output&lt;/code&gt;               | Output capturing settings.                                                                                       | &lt;code&gt;%output --max-cell-size=1000 --no-stdout --max-time=100 --max-buffer=400&lt;/code&gt; |
+| &lt;code&gt;%logLevel&lt;/code&gt;             | Set logging level.                                                                                               | &lt;code&gt;%logLevel [off|error|warn|info|debug]&lt;/code&gt;                                    |
+
+&lt;ul&gt;&lt;li&gt;&lt;a href="https://github.com/Kotlin/kotlin-jupyter/blob/master/docs/magics.md"&gt;Learn more detailes about line magics&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/Kotlin/kotlin-jupyter/blob/master/docs/magics.md"&gt;See the full list of supported libraries&lt;/a&gt;.&lt;/li&gt;&lt;/ul&gt;
+     </div>
+     <figure id="-u9g65u_46">
+      <img alt="Rich text in Markdown cells" height="255" src="images/markdown-cells-output.png" title="Rich text in Markdown cells" width="700"/>
+     </figure>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="html" id="html">
+     HTML
+    </h2>
+    <p id="-u9g65u_47">
+     Kotlin Notebook can render HTML directly, executing scripts or even embedding websites:
+    </p>
+    <div class="code-block" data-lang="none">
+     HTML("""
+&lt;p&gt;Counter: &lt;span id="ctr"&gt;0&lt;/span&gt; &lt;button onclick="inc()"&gt;Increment&lt;/button&gt;&lt;/p&gt;
+&lt;script&gt;
+    function inc() {
+        let counter = document.getElementById("ctr")
+        counter.innerHTML = parseInt(counter.innerHTML) + 1;
+}
+&lt;/script&gt;
+""")
+    </div>
+    <figure id="-u9g65u_49">
+     <img alt="Using HTML script" height="56" src="images/direct-html-output.png" title="Using HTML script" width="300"/>
+    </figure>
+    <aside class="prompt" data-title="" data-type="note" id="-u9g65u_50">
+     <p id="-u9g65u_51">
+      Mark your notebook as
+      <span class="control" id="-u9g65u_52">
+       Trusted
+      </span>
+      at the top of the file to be able to execute scripts.
+     </p>
+    </aside>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="images" id="images">
+     Images
+    </h2>
+    <p id="-u9g65u_53">
+     With Kotlin Notebook, you can display images from files, generated graphs, or any other visual media. Static images can be displayed in formats such as
+     <code class="code" id="-u9g65u_57">
+      .png
+     </code>
+     ,
+     <code class="code" id="-u9g65u_58">
+      jpeg
+     </code>
+     , and
+     <code class="code" id="-u9g65u_59">
+      .svg
+     </code>
+     .
+    </p>
+    <section class="chapter">
+     <h3 data-toc="buffered-images" id="buffered-images">
+      Buffered images
+     </h3>
+     <p id="-u9g65u_60">
+      By default, you can use
+      <code class="code" id="-u9g65u_63">
+       BufferedImage
+      </code>
+      class to display images:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      import java.awt.Color
+import java.awt.image.BufferedImage
+
+val width = 300
+val height = width
+
+val image = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+
+val graphics = image.createGraphics()
+graphics.background = Color.BLACK
+graphics.clearRect(0, 0, width, height)
+graphics.setRenderingHint(
+    java.awt.RenderingHints.KEY_ANTIALIASING,
+    java.awt.RenderingHints.VALUE_ANTIALIAS_ON
+)
+graphics.color = Color.WHITE
+graphics.fillRect(width / 10, height * 8 / 10, width * 10 / 20, height / 10)
+graphics.dispose()
+     </div>
+     <figure id="-u9g65u_62">
+      <img alt="Using default BufferedImage to display images" height="286" src="images/bufferedimage-output.png" title="Using default BufferedImage to display images" width="400"/>
+     </figure>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="loaded-images" id="loaded-images">
+      Loaded images
+     </h3>
+     <p id="-u9g65u_64">
+      With the help of the
+      <code class="code" id="-u9g65u_68">
+       lib-ext
+      </code>
+      library, you can extend the standard Jupyter functionality and display images loaded from the network:
+     </p>
+     <div class="code-block" data-lang="none">
+      %use lib-ext(0.11.0-398)
+     </div>
+     <div class="code-block" data-lang="kotlin">
+      Image("https://kotlinlang.org/docs/images/kotlin-logo.png", embed = false).withWidth(300)
+     </div>
+     <figure id="-u9g65u_67">
+      <img alt="Using external image links" height="85" src="images/external-images-output.png" title="Using external image links" width="400"/>
+     </figure>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="embedded-images" id="embedded-images">
+      Embedded images
+     </h3>
+     <p id="-u9g65u_69">
+      A disadvantage of images loaded from the network is that the image disappears if the link breaks or if you lose the network connection. To work around that, use embedded images, for example:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      val kotlinMascot = Image("https://blog.jetbrains.com/wp-content/uploads/2023/04/DSGN-16174-Blog-post-banner-and-promo-materials-for-post-about-Kotlin-mascot_3.png", embed = true).withWidth(400)
+kotlinMascot
+     </div>
+     <figure id="-u9g65u_71">
+      <img alt="Using embedded images" height="175" src="images/embedded-images-output.png" title="Using embedded images" width="400"/>
+     </figure>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="math-formulas-and-equations" id="math-formulas-and-equations">
+     Math formulas and equations
+    </h2>
+    <p id="-u9g65u_72">
+     You can render mathematical formulas and equations using the LaTeX format, a typesetting system widely used in academia:
+    </p>
+    <ol class="list _decimal" id="-u9g65u_73" type="1">
+     <li class="list__item" id="-u9g65u_74">
+      <p id="-u9g65u_76">
+       Add the
+       <code class="code" id="-u9g65u_78">
+        lib-ext
+       </code>
+       library that extends the functionality of the Jupyter kernel to your notebook:
+      </p>
+      <div class="code-block" data-lang="none">
+       %use lib-ext(0.11.0-398)
+      </div>
+     </li>
+     <li class="list__item" id="-u9g65u_75">
+      <p id="-u9g65u_79">
+       In the new cell, run your formula:
+      </p>
+      <div class="code-block" data-lang="none">
+       LATEX("c^2 = a^2 + b^2 - 2 a b \\cos\\alpha")
+      </div>
+      <figure id="-u9g65u_81">
+       <img alt="Using LaTeX to render mathematical formulas" height="54" src="images/latex-output.png" title="Using LaTeX to render mathematical formulas" width="300"/>
+      </figure>
+     </li>
+    </ol>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="data-frames" id="data-frames">
+     Data frames
+    </h2>
+    <p id="-u9g65u_82">
+     With Kotlin Notebook, you can visualize structured data with data frames:
+    </p>
+    <ol class="list _decimal" id="-u9g65u_83" type="1">
+     <li class="list__item" id="-u9g65u_84">
+      <p id="-u9g65u_88">
+       Add the
+       <a data-external="true" href="https://kotlin.github.io/dataframe/gettingstarted.html" id="-u9g65u_90" rel="noopener noreferrer">
+        Kotlin DataFrame
+       </a>
+       library to your notebook:
+      </p>
+      <div class="code-block" data-lang="none">
+       %use dataframe
+      </div>
+     </li>
+     <li class="list__item" id="-u9g65u_85">
+      <p id="-u9g65u_91">
+       Create the data frame and run it in the new cell:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       val months = listOf(
+    "January", "February",
+    "March", "April", "May",
+    "June", "July", "August",
+    "September", "October", "November",
+    "December"
+)
+
+// Sales data for different products and regions:
+val salesLaptop = listOf(120, 130, 150, 180, 200, 220, 240, 230, 210, 190, 160, 140)
+val salesSmartphone = listOf(90, 100, 110, 130, 150, 170, 190, 180, 160, 140, 120, 100)
+val salesTablet = listOf(60, 70, 80, 90, 100, 110, 120, 110, 100, 90, 80, 70)
+
+// A data frame with columns for Month, Sales, and Product
+val dfSales = dataFrameOf(
+    "Month" to months + months + months,
+    "Sales" to salesLaptop + salesSmartphone + salesTablet,
+    "Product" to List(12) { "Laptop" } + List(12) { "Smartphone" } + List(12) { "Tablet" },
+)
+      </div>
+      <p id="-u9g65u_93">
+       The data frame uses the
+       <code class="code" id="-u9g65u_94">
+        dataFrameOf()
+       </code>
+       function and includes the number of products (laptops, smartphones, and tablets) sold in a 12-month period.
+      </p>
+     </li>
+     <li class="list__item" id="-u9g65u_86">
+      <p id="-u9g65u_95">
+       Explore the data in your frame, for example, by finding the product and month with the highest sales:
+      </p>
+      <div class="code-block" data-lang="none">
+       dfSales.maxBy("Sales")
+      </div>
+      <figure id="-u9g65u_97">
+       <img alt="Using DataFrame to visualize data" height="120" src="images/dataframe-output.png" title="Using DataFrame to visualize data" width="500"/>
+      </figure>
+     </li>
+     <li class="list__item" id="-u9g65u_87">
+      <p id="-u9g65u_98">
+       You can also export your data frame as a CSV file:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       // Export your data to CSV format
+dfSales.writeCSV("sales-stats.csv")
+      </div>
+     </li>
+    </ol>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="charts" id="charts">
+     Charts
+    </h2>
+    <p id="-u9g65u_100">
+     You can create various charts directly in your Kotlin Notebook to visualize your data:
+    </p>
+    <ol class="list _decimal" id="-u9g65u_101" type="1">
+     <li class="list__item" id="-u9g65u_102">
+      <p id="-u9g65u_105">
+       Add the
+       <a data-external="true" href="https://kotlin.github.io/kandy/welcome.html" id="-u9g65u_107" rel="noopener noreferrer">
+        Kandy
+       </a>
+       plotting library to your notebook:
+      </p>
+      <div class="code-block" data-lang="none">
+       %use kandy
+      </div>
+     </li>
+     <li class="list__item" id="-u9g65u_103">
+      <p id="-u9g65u_108">
+       Use the same data frame and run the
+       <code class="code" id="-u9g65u_111">
+        plot()
+       </code>
+       function in the new cell:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       val salesPlot = dfSales.groupBy { Product }.plot {
+    bars {
+        // Access the data frame's columns used for the X and Y axes
+        x(Month)
+        y(Sales)
+        // Access the data frame's column used for categories and sets colors for these categories
+        fillColor(Product) {
+            scale = categorical(
+                "Laptop" to Color.PURPLE,
+                "Smartphone" to Color.ORANGE,
+                "Tablet" to Color.GREEN
+            )
+            legend.name = "Product types"
+        }
+    }
+    // Customize the chart's appearance
+    layout.size = 1000 to 450
+    layout.title = "Yearly Gadget Sales Results"
+}
+
+salesPlot
+      </div>
+      <figure id="-u9g65u_110">
+       <img alt="Using Kandy to render visualize data" height="298" src="images/kandy-output.png" title="Using Kandy to render visualize data" width="700"/>
+      </figure>
+     </li>
+     <li class="list__item" id="-u9g65u_104">
+      <p id="-u9g65u_112">
+       You can also export your plot in the
+       <code class="code" id="-u9g65u_114">
+        .png
+       </code>
+       ,
+       <code class="code" id="-u9g65u_115">
+        jpeg
+       </code>
+       ,
+       <code class="code" id="-u9g65u_116">
+        .html
+       </code>
+       , or
+       <code class="code" id="-u9g65u_117">
+        .svg
+       </code>
+       format:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       // Specify the output format for the plot file:
+salesPlot.save("sales-chart.svg")
+      </div>
+     </li>
+    </ol>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next
+    </h2>
+    <ul class="list _bullet" id="-u9g65u_118">
+     <li class="list__item" id="-u9g65u_119">
+      <p>
+       <a data-tooltip="Kotlin offers an all-in-one-place solution for powerful and flexible data visualization, providing an intuitive way to present and explore data before diving into complex models." href="data-analysis-visualization.html" id="-u9g65u_123">
+        Visualize data using the DataFrame and Kandy libraries
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="-u9g65u_120">
+      <p>
+       <a data-external="true" href="https://www.jetbrains.com/help/idea/kotlin-notebook.html#render-rich-output" id="-u9g65u_124" rel="noopener noreferrer">
+        Learn more about rendering and displaying rich output in Kotlin Notebook
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="-u9g65u_121">
+      <p>
+       <a data-tooltip="Kotlin Notebook, coupled with the Kotlin DataFrame library, enables you to work with both non-structured and structured data. This combination offers the flexibility to transform non-structured data, such as data found in TXT files, into structured datasets." href="data-analysis-work-with-data-sources.html" id="-u9g65u_125">
+        Retrieve data from the CSV and JSON files
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="-u9g65u_122">
+      <p>
+       <a data-tooltip="From data collection to model building, Kotlin offers robust libraries facilitating different tasks in the data pipeline." href="data-analysis-libraries.html" id="-u9g65u_126">
+        Check out the list of recommended libraries
+       </a>
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,777 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="functions" id="functions.md">
+    Functions
+   </h1>
+   <p id="-4zwck2_2">
+    Kotlin functions are declared using the
+    <code class="code" id="-4zwck2_8">
+     fun
+    </code>
+    keyword:
+   </p>
+   <div class="code-block" data-lang="kotlin">
+    fun double(x: Int): Int {
+    return 2 * x
+}
+   </div>
+   <section class="chapter">
+    <h2 data-toc="function-usage" id="function-usage">
+     Function usage
+    </h2>
+    <p id="-4zwck2_9">
+     Functions are called using the standard approach:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     val result = double(2)
+    </div>
+    <p id="-4zwck2_11">
+     Calling member functions uses dot notation:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     Stream().read() // create instance of class Stream and call read()
+    </div>
+    <section class="chapter">
+     <h3 data-toc="parameters" id="parameters">
+      Parameters
+     </h3>
+     <p id="-4zwck2_21">
+      Function parameters are defined using Pascal notation -
+      <span class="emphasis" id="-4zwck2_25">
+       name
+      </span>
+      :
+      <span class="emphasis" id="-4zwck2_26">
+       type
+      </span>
+      . Parameters are separated using commas, and each parameter must be explicitly typed:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun powerOf(number: Int, exponent: Int): Int { /*...*/ }
+     </div>
+     <p id="-4zwck2_23">
+      You can use a
+      <a data-tooltip="A trailing comma is a comma symbol after the last item in a series of elements:" href="coding-conventions.html#trailing-commas" id="-4zwck2_27">
+       trailing comma
+      </a>
+      when you declare function parameters:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun powerOf(
+    number: Int,
+    exponent: Int, // trailing comma
+) { /*...*/ }
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="default-arguments" id="default-arguments">
+      Default arguments
+     </h3>
+     <p id="-4zwck2_28">
+      Function parameters can have default values, which are used when you skip the corresponding argument. This reduces the number of overloads:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun read(
+    b: ByteArray,
+    off: Int = 0,
+    len: Int = b.size,
+) { /*...*/ }
+     </div>
+     <p id="-4zwck2_30">
+      A default value is set by appending
+      <code class="code" id="-4zwck2_37">
+       =
+      </code>
+      to the type.
+     </p>
+     <p id="-4zwck2_31">
+      Overriding methods always use the base method's default parameter values. When overriding a method that has default parameter values, the default parameter values must be omitted from the signature:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      open class A {
+    open fun foo(i: Int = 10) { /*...*/ }
+}
+
+class B : A() {
+    override fun foo(i: Int) { /*...*/ }  // No default value is allowed.
+}
+     </div>
+     <p id="-4zwck2_33">
+      If a default parameter precedes a parameter with no default value, the default value can only be used by calling the function with
+      <a data-tooltip="You can name one or more of a function's arguments when calling it. This can be helpful when a function has many arguments and it's difficult to associate a value with an argument, especially if it's a boolean or null value." href="#named-arguments" id="-4zwck2_38">
+       named arguments
+      </a>
+      :
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun foo(
+    bar: Int = 0,
+    baz: Int,
+) { /*...*/ }
+
+foo(baz = 1) // The default value bar = 0 is used
+     </div>
+     <p id="-4zwck2_35">
+      If the last argument after default parameters is a
+      <a data-tooltip="The full syntactic form of lambda expressions is as follows:" href="lambdas.html#lambda-expression-syntax" id="-4zwck2_39">
+       lambda
+      </a>
+      , you can pass it either as a named argument or
+      <a data-tooltip="According to Kotlin convention, if the last parameter of a function is a function, then a lambda expression passed as the corresponding argument can be placed outside the parentheses:" href="lambdas.html#passing-trailing-lambdas" id="-4zwck2_40">
+       outside the parentheses
+      </a>
+      :
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun foo(
+    bar: Int = 0,
+    baz: Int = 1,
+    qux: () -&gt; Unit,
+) { /*...*/ }
+
+foo(1) { println("hello") }     // Uses the default value baz = 1
+foo(qux = { println("hello") }) // Uses both default values bar = 0 and baz = 1
+foo { println("hello") }        // Uses both default values bar = 0 and baz = 1
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="named-arguments" id="named-arguments">
+      Named arguments
+     </h3>
+     <p id="-4zwck2_41">
+      You can name one or more of a function's arguments when calling it. This can be helpful when a function has many arguments and it's difficult to associate a value with an argument, especially if it's a boolean or
+      <code class="code" id="-4zwck2_54">
+       null
+      </code>
+      value.
+     </p>
+     <p id="-4zwck2_42">
+      When you use named arguments in a function call, you can freely change the order that they are listed in. If you want to use their default values, you can just leave these arguments out altogether.
+     </p>
+     <p id="-4zwck2_43">
+      Consider the
+      <code class="code" id="-4zwck2_55">
+       reformat()
+      </code>
+      function, which has 4 arguments with default values.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun reformat(
+    str: String,
+    normalizeCase: Boolean = true,
+    upperCaseFirstLetter: Boolean = true,
+    divideByCamelHumps: Boolean = false,
+    wordSeparator: Char = ' ',
+) { /*...*/ }
+     </div>
+     <p id="-4zwck2_45">
+      When calling this function, you don't have to name all its arguments:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      reformat(
+    "String!",
+    false,
+    upperCaseFirstLetter = false,
+    divideByCamelHumps = true,
+    '_'
+)
+     </div>
+     <p id="-4zwck2_47">
+      You can skip all the ones with default values:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      reformat("This is a long String!")
+     </div>
+     <p id="-4zwck2_49">
+      You are also able to skip specific arguments with default values, rather than omitting them all. However, after the first skipped argument, you must name all subsequent arguments:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      reformat("This is a short String!", upperCaseFirstLetter = false, wordSeparator = '_')
+     </div>
+     <p id="-4zwck2_51">
+      You can pass a
+      <a data-tooltip="You can mark a parameter of a function (usually the last one) with the vararg modifier:" href="#variable-number-of-arguments-varargs" id="-4zwck2_56">
+       variable number of arguments (
+       <code class="code" id="-4zwck2_58">
+        vararg
+       </code>
+       )
+      </a>
+      with names using the
+      <code class="code" id="-4zwck2_57">
+       spread
+      </code>
+      operator:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun foo(vararg strings: String) { /*...*/ }
+
+foo(strings = *arrayOf("a", "b", "c"))
+     </div>
+     <aside class="prompt" data-title="" data-type="note" id="-4zwck2_53">
+      <p id="-4zwck2_59">
+       When calling Java functions on the JVM, you can't use the named argument syntax because Java bytecode does not always preserve the names of function parameters.
+      </p>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="unit-returning-functions" id="unit-returning-functions">
+      Unit-returning functions
+     </h3>
+     <p id="-4zwck2_60">
+      If a function does not return a useful value, its return type is
+      <code class="code" id="-4zwck2_64">
+       Unit
+      </code>
+      .
+      <code class="code" id="-4zwck2_65">
+       Unit
+      </code>
+      is a type with only one value -
+      <code class="code" id="-4zwck2_66">
+       Unit
+      </code>
+      . This value does not have to be returned explicitly:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun printHello(name: String?): Unit {
+    if (name != null)
+        println("Hello $name")
+    else
+        println("Hi there!")
+    // `return Unit` or `return` is optional
+}
+     </div>
+     <p id="-4zwck2_62">
+      The
+      <code class="code" id="-4zwck2_67">
+       Unit
+      </code>
+      return type declaration is also optional. The above code is equivalent to:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun printHello(name: String?) { ... }
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="single-expression-functions" id="single-expression-functions">
+      Single-expression functions
+     </h3>
+     <p id="-4zwck2_68">
+      When the function body consists of a single expression, the curly braces can be omitted and the body specified after an
+      <code class="code" id="-4zwck2_72">
+       =
+      </code>
+      symbol:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun double(x: Int): Int = x * 2
+     </div>
+     <p id="-4zwck2_70">
+      Explicitly declaring the return type is
+      <a data-tooltip="Functions with block body must always specify return types explicitly, unless it's intended for them to return Unit, in which case specifying the return type is optional." href="#explicit-return-types" id="-4zwck2_73">
+       optional
+      </a>
+      when this can be inferred by the compiler:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun double(x: Int) = x * 2
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="explicit-return-types" id="explicit-return-types">
+      Explicit return types
+     </h3>
+     <p id="-4zwck2_74">
+      Functions with block body must always specify return types explicitly, unless it's intended for them to return
+      <code class="code" id="-4zwck2_76">
+       Unit
+      </code>
+      ,
+      <a data-tooltip="If a function does not return a useful value, its return type is Unit. Unit is a type with only one value - Unit. This value does not have to be returned explicitly:" href="#unit-returning-functions" id="-4zwck2_77">
+       in which case specifying the return type is optional
+      </a>
+      .
+     </p>
+     <p id="-4zwck2_75">
+      Kotlin does not infer return types for functions with block bodies because such functions may have complex control flow in the body, and the return type will be non-obvious to the reader (and sometimes even for the compiler).
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="variable-number-of-arguments-varargs" id="variable-number-of-arguments-varargs">
+      Variable number of arguments (varargs)
+     </h3>
+     <p id="-4zwck2_78">
+      You can mark a parameter of a function (usually the last one) with the
+      <code class="code" id="-4zwck2_88">
+       vararg
+      </code>
+      modifier:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun &lt;T&gt; asList(vararg ts: T): List&lt;T&gt; {
+    val result = ArrayList&lt;T&gt;()
+    for (t in ts) // ts is an Array
+        result.add(t)
+    return result
+}
+     </div>
+     <p id="-4zwck2_80">
+      In this case, you can pass a variable number of arguments to the function:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      val list = asList(1, 2, 3)
+     </div>
+     <p id="-4zwck2_82">
+      Inside a function, a
+      <code class="code" id="-4zwck2_89">
+       vararg
+      </code>
+      -parameter of type
+      <code class="code" id="-4zwck2_90">
+       T
+      </code>
+      is visible as an array of
+      <code class="code" id="-4zwck2_91">
+       T
+      </code>
+      , as in the example above, where the
+      <code class="code" id="-4zwck2_92">
+       ts
+      </code>
+      variable has type
+      <code class="code" id="-4zwck2_93">
+       Array&lt;out T&gt;
+      </code>
+      .
+     </p>
+     <p id="-4zwck2_83">
+      Only one parameter can be marked as
+      <code class="code" id="-4zwck2_94">
+       vararg
+      </code>
+      . If a
+      <code class="code" id="-4zwck2_95">
+       vararg
+      </code>
+      parameter is not the last one in the list, values for the subsequent parameters can be passed using named argument syntax, or, if the parameter has a function type, by passing a lambda outside the parentheses.
+     </p>
+     <p id="-4zwck2_84">
+      When you call a
+      <code class="code" id="-4zwck2_96">
+       vararg
+      </code>
+      -function, you can pass arguments individually, for example
+      <code class="code" id="-4zwck2_97">
+       asList(1, 2, 3)
+      </code>
+      . If you already have an array and want to pass its contents to the function, use the
+      <span class="emphasis" id="-4zwck2_98">
+       spread
+      </span>
+      operator (prefix the array with
+      <code class="code" id="-4zwck2_99">
+       *
+      </code>
+      ):
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      val a = arrayOf(1, 2, 3)
+val list = asList(-1, 0, *a, 4)
+     </div>
+     <p id="-4zwck2_86">
+      If you want to pass a
+      <a data-tooltip="If you use the Array class with primitive values, these values are boxed into objects. As an alternative, you can use primitive-type arrays, which allow you to store primitives in an array without the side effect of boxing overhead:" href="arrays.html#primitive-type-arrays" id="-4zwck2_100">
+       primitive type array
+      </a>
+      into
+      <code class="code" id="-4zwck2_101">
+       vararg
+      </code>
+      , you need to convert it to a regular (typed) array using the
+      <code class="code" id="-4zwck2_102">
+       toTypedArray()
+      </code>
+      function:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      val a = intArrayOf(1, 2, 3) // IntArray is a primitive type array
+val list = asList(-1, 0, *a.toTypedArray(), 4)
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="infix-notation" id="infix-notation">
+      Infix notation
+     </h3>
+     <p id="-4zwck2_103">
+      Functions marked with the
+      <code class="code" id="-4zwck2_109">
+       infix
+      </code>
+      keyword can also be called using the infix notation (omitting the dot and the parentheses for the call). Infix functions must meet the following requirements:
+     </p>
+     <ul class="list _bullet" id="-4zwck2_104">
+      <li class="list__item" id="-4zwck2_110">
+       <p>
+        They must be member functions or
+        <a data-tooltip="Kotlin provides the ability to extend a class or an interface with new functionality without having to inherit from the class or use design patterns such as Decorator. This is done via special declarations called extensions." href="extensions.html" id="-4zwck2_113">
+         extension functions
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="-4zwck2_111">
+       <p>
+        They must have a single parameter.
+       </p>
+      </li>
+      <li class="list__item" id="-4zwck2_112">
+       <p>
+        The parameter must not
+        <a data-tooltip="You can mark a parameter of a function (usually the last one) with the vararg modifier:" href="#variable-number-of-arguments-varargs" id="-4zwck2_114">
+         accept variable number of arguments
+        </a>
+        and must have no
+        <a data-tooltip="Function parameters can have default values, which are used when you skip the corresponding argument. This reduces the number of overloads:" href="#default-arguments" id="-4zwck2_115">
+         default value
+        </a>
+        .
+       </p>
+      </li>
+     </ul>
+     <div class="code-block" data-lang="kotlin">
+      infix fun Int.shl(x: Int): Int { ... }
+
+// calling the function using the infix notation
+1 shl 2
+
+// is the same as
+1.shl(2)
+     </div>
+     <aside class="prompt" data-title="" data-type="note" id="-4zwck2_106">
+      <p id="-4zwck2_116">
+       Infix function calls have lower precedence than arithmetic operators, type casts, and the
+       <code class="code" id="-4zwck2_120">
+        rangeTo
+       </code>
+       operator. The following expressions are equivalent:
+      </p>
+      <ul class="list _bullet" id="-4zwck2_117">
+       <li class="list__item" id="-4zwck2_121">
+        <p>
+         <code class="code" id="-4zwck2_124">
+          1 shl 2 + 3
+         </code>
+         is equivalent to
+         <code class="code" id="-4zwck2_125">
+          1 shl (2 + 3)
+         </code>
+        </p>
+       </li>
+       <li class="list__item" id="-4zwck2_122">
+        <p>
+         <code class="code" id="-4zwck2_126">
+          0 until n * 2
+         </code>
+         is equivalent to
+         <code class="code" id="-4zwck2_127">
+          0 until (n * 2)
+         </code>
+        </p>
+       </li>
+       <li class="list__item" id="-4zwck2_123">
+        <p>
+         <code class="code" id="-4zwck2_128">
+          xs union ys as Set&lt;*&gt;
+         </code>
+         is equivalent to
+         <code class="code" id="-4zwck2_129">
+          xs union (ys as Set&lt;*&gt;)
+         </code>
+        </p>
+       </li>
+      </ul>
+      <p id="-4zwck2_118">
+       On the other hand, an infix function call's precedence is higher than that of the boolean operators
+       <code class="code" id="-4zwck2_130">
+        &amp;&amp;
+       </code>
+       and
+       <code class="code" id="-4zwck2_131">
+        ||
+       </code>
+       ,
+       <code class="code" id="-4zwck2_132">
+        is
+       </code>
+       - and
+       <code class="code" id="-4zwck2_133">
+        in
+       </code>
+       -checks, and some other operators. These expressions are equivalent as well:
+      </p>
+      <ul class="list _bullet" id="-4zwck2_119">
+       <li class="list__item" id="-4zwck2_134">
+        <p>
+         <code class="code" id="-4zwck2_136">
+          a &amp;&amp; b xor c
+         </code>
+         is equivalent to
+         <code class="code" id="-4zwck2_137">
+          a &amp;&amp; (b xor c)
+         </code>
+        </p>
+       </li>
+       <li class="list__item" id="-4zwck2_135">
+        <p>
+         <code class="code" id="-4zwck2_138">
+          a xor b in c
+         </code>
+         is equivalent to
+         <code class="code" id="-4zwck2_139">
+          (a xor b) in c
+         </code>
+        </p>
+       </li>
+      </ul>
+     </aside>
+     <p id="-4zwck2_107">
+      Note that infix functions always require both the receiver and the parameter to be specified. When you're calling a method on the current receiver using the infix notation, use
+      <code class="code" id="-4zwck2_140">
+       this
+      </code>
+      explicitly. This is required to ensure unambiguous parsing.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      class MyStringCollection {
+    infix fun add(s: String) { /*...*/ }
+    
+    fun build() {
+        this add "abc"   // Correct
+        add("abc")       // Correct
+        //add "abc"        // Incorrect: the receiver must be specified
+    }
+}
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="function-scope" id="function-scope">
+     Function scope
+    </h2>
+    <p id="-4zwck2_141">
+     Kotlin functions can be declared at the top level in a file, meaning you do not need to create a class to hold a function, which you are required to do in languages such as Java, C#, and Scala (
+     <a data-external="true" href="https://docs.scala-lang.org/scala3/book/taste-toplevel-definitions.html#inner-main" id="-4zwck2_144" rel="noopener noreferrer">
+      top level definition is available since Scala 3
+     </a>
+     ). In addition to top level functions, Kotlin functions can also be declared locally as member functions and extension functions.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="local-functions" id="local-functions">
+      Local functions
+     </h3>
+     <p id="-4zwck2_145">
+      Kotlin supports local functions, which are functions inside other functions:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun dfs(graph: Graph) {
+    fun dfs(current: Vertex, visited: MutableSet&lt;Vertex&gt;) {
+        if (!visited.add(current)) return
+        for (v in current.neighbors)
+            dfs(v, visited)
+    }
+
+    dfs(graph.vertices[0], HashSet())
+}
+     </div>
+     <p id="-4zwck2_147">
+      A local function can access local variables of outer functions (the closure). In the case above,
+      <code class="code" id="-4zwck2_149">
+       visited
+      </code>
+      can be a local variable:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun dfs(graph: Graph) {
+    val visited = HashSet&lt;Vertex&gt;()
+    fun dfs(current: Vertex) {
+        if (!visited.add(current)) return
+        for (v in current.neighbors)
+            dfs(v)
+    }
+
+    dfs(graph.vertices[0])
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="member-functions" id="member-functions">
+      Member functions
+     </h3>
+     <p id="-4zwck2_150">
+      A member function is a function that is defined inside a class or object:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      class Sample {
+    fun foo() { print("Foo") }
+}
+     </div>
+     <p id="-4zwck2_152">
+      Member functions are called with dot notation:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      Sample().foo() // creates instance of class Sample and calls foo
+     </div>
+     <p id="-4zwck2_154">
+      For more information on classes and overriding members see
+      <a data-tooltip="Classes in Kotlin are declared using the keyword class:" href="classes.html" id="-4zwck2_155">
+       Classes
+      </a>
+      and
+      <a data-tooltip="Classes can be derived from each other and form inheritance hierarchies. Learn more about inheritance in Kotlin." href="classes.html#inheritance" id="-4zwck2_156">
+       Inheritance
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="generic-functions" id="generic-functions">
+     Generic functions
+    </h2>
+    <p id="-4zwck2_157">
+     Functions can have generic parameters, which are specified using angle brackets before the function name:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     fun &lt;T&gt; singletonList(item: T): List&lt;T&gt; { /*...*/ }
+    </div>
+    <p id="-4zwck2_159">
+     For more information on generic functions, see
+     <a data-tooltip="Classes in Kotlin can have type parameters, just like in Java:" href="generics.html" id="-4zwck2_160">
+      Generics
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="tail-recursive-functions" id="tail-recursive-functions">
+     Tail recursive functions
+    </h2>
+    <p id="-4zwck2_161">
+     Kotlin supports a style of functional programming known as
+     <a data-external="true" href="https://en.wikipedia.org/wiki/Tail_call" id="-4zwck2_168" rel="noopener noreferrer">
+      tail recursion
+     </a>
+     . For some algorithms that would normally use loops, you can use a recursive function instead without the risk of stack overflow. When a function is marked with the
+     <code class="code" id="-4zwck2_169">
+      tailrec
+     </code>
+     modifier and meets the required formal conditions, the compiler optimizes out the recursion, leaving behind a fast and efficient loop based version instead:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     val eps = 1E-10 // "good enough", could be 10^-15
+
+tailrec fun findFixPoint(x: Double = 1.0): Double =
+    if (Math.abs(x - Math.cos(x)) &lt; eps) x else findFixPoint(Math.cos(x))
+    </div>
+    <p id="-4zwck2_163">
+     This code calculates the
+     <code class="code" id="-4zwck2_170">
+      fixpoint
+     </code>
+     of cosine, which is a mathematical constant. It simply calls
+     <code class="code" id="-4zwck2_171">
+      Math.cos
+     </code>
+     repeatedly starting at
+     <code class="code" id="-4zwck2_172">
+      1.0
+     </code>
+     until the result no longer changes, yielding a result of
+     <code class="code" id="-4zwck2_173">
+      0.7390851332151611
+     </code>
+     for the specified
+     <code class="code" id="-4zwck2_174">
+      eps
+     </code>
+     precision. The resulting code is equivalent to this more traditional style:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     val eps = 1E-10 // "good enough", could be 10^-15
+
+private fun findFixPoint(): Double {
+    var x = 1.0
+    while (true) {
+        val y = Math.cos(x)
+        if (Math.abs(x - y) &lt; eps) return x
+        x = Math.cos(x)
+    }
+}
+    </div>
+    <p id="-4zwck2_165">
+     To be eligible for the
+     <code class="code" id="-4zwck2_175">
+      tailrec
+     </code>
+     modifier, a function must call itself as the last operation it performs. You cannot use tail recursion when there is more code after the recursive call, within
+     <code class="code" id="-4zwck2_176">
+      try
+     </code>
+     /
+     <code class="code" id="-4zwck2_177">
+      catch
+     </code>
+     /
+     <code class="code" id="-4zwck2_178">
+      finally
+     </code>
+     blocks, or on open functions. Currently, tail recursion is supported by Kotlin for the JVM and Kotlin/Native.
+    </p>
+    <p id="-4zwck2_166">
+     <span class="control" id="-4zwck2_179">
+      See also
+     </span>
+     :
+    </p>
+    <ul class="list _bullet" id="-4zwck2_167">
+     <li class="list__item" id="-4zwck2_180">
+      <p>
+       <a data-tooltip="Using higher-order functions imposes certain runtime penalties: each function is an object, and it captures a closure. A closure is a scope of variables that can be accessed in the body of the function. Memory allocations (both for function objects and classes) and virtual calls…" href="inline-functions.html" id="-4zwck2_183">
+        Inline functions
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="-4zwck2_181">
+      <p>
+       <a data-tooltip="Kotlin provides the ability to extend a class or an interface with new functionality without having to inherit from the class or use design patterns such as Decorator. This is done via special declarations called extensions." href="extensions.html" id="-4zwck2_184">
+        Extension functions
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="-4zwck2_182">
+      <p>
+       <a data-tooltip="Kotlin functions are first-class, which means they can be stored in variables and data structures, and can be passed as arguments to and returned from other higher-order functions. You can perform any operations on functions that are possible for other non-function values." href="lambdas.html" id="-4zwck2_185">
+        Higher-order functions and lambdas
+       </a>
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

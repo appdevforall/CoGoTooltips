@@ -1,0 +1,114 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="native-platform-libs" id="native-platform-libs.md">
+    Platform libraries
+   </h1>
+   <p id="-l39jm9_2">
+    To provide access to user's native operating system services, Kotlin/Native distribution includes a set of prebuilt libraries specific to each target. We call them
+    <span class="control" id="-l39jm9_6">
+     Platform Libraries
+    </span>
+    .
+   </p>
+   <section class="chapter">
+    <h2 data-toc="posix-bindings" id="posix-bindings">
+     POSIX bindings
+    </h2>
+    <p id="-l39jm9_7">
+     For all Unix- or Windows-based targets (including Android and iOS targets) we provide the POSIX platform lib. It contains bindings to platform's implementation of the
+     <a data-external="true" href="https://en.wikipedia.org/wiki/POSIX" id="-l39jm9_12" rel="noopener noreferrer">
+      POSIX standard
+     </a>
+     .
+    </p>
+    <p id="-l39jm9_8">
+     To use the library, just import it:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import platform.posix.*
+    </div>
+    <p id="-l39jm9_10">
+     The only target for which it is not available is
+     <a data-external="true" href="https://en.wikipedia.org/wiki/WebAssembly" id="-l39jm9_13" rel="noopener noreferrer">
+      WebAssembly
+     </a>
+     .
+    </p>
+    <p id="-l39jm9_11">
+     Note that the content of
+     <code class="code" id="-l39jm9_14">
+      platform.posix
+     </code>
+     is NOT identical on different platforms, in the same way as different POSIX implementations are a little different.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="popular-native-libraries" id="popular-native-libraries">
+     Popular native libraries
+    </h2>
+    <p id="-l39jm9_15">
+     There are many more platform libraries available for host and cross-compilation targets. Kotlin/Native distribution provides access to OpenGL, zlib and other popular native libraries on applicable platforms.
+    </p>
+    <p id="-l39jm9_16">
+     On Apple platforms,
+     <code class="code" id="-l39jm9_18">
+      objc
+     </code>
+     library is provided for interoperability with
+     <a data-external="true" href="https://en.wikipedia.org/wiki/Objective-C" id="-l39jm9_19" rel="noopener noreferrer">
+      Objective-C
+     </a>
+     .
+    </p>
+    <p id="-l39jm9_17">
+     Inspect the contents of
+     <code class="code" id="-l39jm9_20">
+      dist/klib/platform/$target
+     </code>
+     of the distribution for the details.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="availability-by-default" id="availability-by-default">
+     Availability by default
+    </h2>
+    <p id="-l39jm9_21">
+     The packages from platform libraries are available by default. No special link flags need to be specified to use them. Kotlin/Native compiler automatically detects which of the platform libraries have been accessed and automatically links the needed libraries.
+    </p>
+    <p id="-l39jm9_22">
+     On the other hand, the platform libs in the distribution are merely just wrappers and bindings to the native libraries. That means the native libraries themselves (
+     <code class="code" id="-l39jm9_23">
+      .so
+     </code>
+     ,
+     <code class="code" id="-l39jm9_24">
+      .a
+     </code>
+     ,
+     <code class="code" id="-l39jm9_25">
+      .dylib
+     </code>
+     ,
+     <code class="code" id="-l39jm9_26">
+      .dll
+     </code>
+     etc) should be installed on the machine.
+    </p>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

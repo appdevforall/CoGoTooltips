@@ -1,0 +1,880 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="native-cocoapods-dsl-reference" id="native-cocoapods-dsl-reference.md">
+    CocoaPods Gradle plugin DSL reference
+   </h1>
+   <p id="anxdiq_2">
+    Kotlin CocoaPods Gradle plugin is a tool for creating Podspec files. These files are necessary to integrate your Kotlin project with the
+    <a data-external="true" href="https://cocoapods.org/" id="anxdiq_8" rel="noopener noreferrer">
+     CocoaPods dependency manager
+    </a>
+    .
+   </p>
+   <p id="anxdiq_3">
+    This reference contains the complete list of blocks, functions, and properties for the Kotlin CocoaPods Gradle plugin that you can use when working with the
+    <a data-tooltip="Choose the integration method that suits you best" href="native-cocoapods.html" id="anxdiq_9">
+     CocoaPods integration
+    </a>
+    .
+   </p>
+   <ul class="list _bullet" id="anxdiq_4">
+    <li class="list__item" id="anxdiq_10">
+     <p>
+      Learn how to
+      <a data-tooltip="Choose the integration method that suits you best" href="native-cocoapods.html" id="anxdiq_12">
+       set up the environment and configure the Kotlin CocoaPods Gradle plugin
+      </a>
+      .
+     </p>
+    </li>
+    <li class="list__item" id="anxdiq_11">
+     <p>
+      Depending on your project and purposes, you can add dependencies between
+      <a data-tooltip="To add dependencies between a Kotlin project and a Pod library, complete the initial configuration. You can then add dependencies on different types of Pod libraries." href="native-cocoapods-libraries.html" id="anxdiq_13">
+       a Kotlin project and a Pod library
+      </a>
+      as well as
+      <a data-tooltip="To use a Kotlin Multiplatform project with native targets as a CocoaPods dependency, complete the initial configuration. You can include such a dependency in the Podfile of the Xcode project by its name and path to the project directory containing the generated Podspec." href="native-cocoapods-xcode.html" id="anxdiq_14">
+       a Kotlin Gradle project and an Xcode project
+      </a>
+      .
+     </p>
+    </li>
+   </ul>
+   <section class="chapter">
+    <h2 data-toc="enable-the-plugin" id="enable-the-plugin">
+     Enable the plugin
+    </h2>
+    <p id="anxdiq_15">
+     To apply the CocoaPods plugin, add the following lines to the
+     <code class="code" id="anxdiq_18">
+      build.gradle(.kts)
+     </code>
+     file:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     plugins {
+   kotlin("multiplatform") version "2.1.0"
+   kotlin("native.cocoapods") version "2.1.0"
+}
+    </div>
+    <p id="anxdiq_17">
+     The plugin versions match the
+     <a data-tooltip="Since Kotlin 2.0.0, we ship the following types of releases:" href="releases.html" id="anxdiq_19">
+      Kotlin release versions
+     </a>
+     . The latest stable version is 2.1.0.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="cocoapods-block" id="cocoapods-block">
+     cocoapods block
+    </h2>
+    <p id="anxdiq_20">
+     The
+     <code class="code" id="anxdiq_25">
+      cocoapods
+     </code>
+     block is the top-level block for the CocoaPods configuration. It contains general information on the Pod, including required information like the Pod version, summary, and homepage, as well as optional features.
+    </p>
+    <p id="anxdiq_21">
+     You can use the following blocks, functions, and properties inside it:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="anxdiq_22">
+      <thead>
+       <tr class="ijRowHead" id="anxdiq_26">
+        <th id="anxdiq_43">
+         <p>
+          <span class="control" id="anxdiq_45">
+           Name
+          </span>
+         </p>
+        </th>
+        <th id="anxdiq_44">
+         <p>
+          <span class="control" id="anxdiq_46">
+           Description
+          </span>
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="anxdiq_27">
+        <td id="anxdiq_47">
+         <p>
+          <code class="code" id="anxdiq_49">
+           version
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_48">
+         <p>
+          The version of the Pod. If this is not specified, a Gradle project version is used. If none of these properties are configured, you'll get an error.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_28">
+        <td id="anxdiq_50">
+         <p>
+          <code class="code" id="anxdiq_52">
+           summary
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_51">
+         <p>
+          A required description of the Pod built from this project.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_29">
+        <td id="anxdiq_53">
+         <p>
+          <code class="code" id="anxdiq_55">
+           homepage
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_54">
+         <p>
+          A required link to the homepage of the Pod built from this project.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_30">
+        <td id="anxdiq_56">
+         <p>
+          <code class="code" id="anxdiq_58">
+           authors
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_57">
+         <p>
+          Specifies authors of the Pod built from this project.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_31">
+        <td id="anxdiq_59">
+         <p>
+          <code class="code" id="anxdiq_61">
+           podfile
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_60">
+         <p>
+          Configures the existing
+          <code class="code" id="anxdiq_62">
+           Podfile
+          </code>
+          file.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_32">
+        <td id="anxdiq_63">
+         <p>
+          <code class="code" id="anxdiq_65">
+           noPodspec()
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_64">
+         <p>
+          Sets up the plugin not to produce a Podspec file for the
+          <code class="code" id="anxdiq_66">
+           cocoapods
+          </code>
+          section.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_33">
+        <td id="anxdiq_67">
+         <p>
+          <code class="code" id="anxdiq_69">
+           name
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_68">
+         <p>
+          The name of the Pod built from this project. If not provided, the project name is used.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_34">
+        <td id="anxdiq_70">
+         <p>
+          <code class="code" id="anxdiq_72">
+           license
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_71">
+         <p>
+          The license of the Pod built from this project, its type, and the text.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_35">
+        <td id="anxdiq_73">
+         <p>
+          <code class="code" id="anxdiq_75">
+           framework
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_74">
+         <p>
+          The framework block configures the framework produced by the plugin.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_36">
+        <td id="anxdiq_76">
+         <p>
+          <code class="code" id="anxdiq_78">
+           source
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_77">
+         <p>
+          The location of the Pod built from this project.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_37">
+        <td id="anxdiq_79">
+         <p>
+          <code class="code" id="anxdiq_81">
+           extraSpecAttributes
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_80">
+         <p>
+          Configures other Podspec attributes like
+          <code class="code" id="anxdiq_82">
+           libraries
+          </code>
+          or
+          <code class="code" id="anxdiq_83">
+           vendored_frameworks
+          </code>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_38">
+        <td id="anxdiq_84">
+         <p>
+          <code class="code" id="anxdiq_86">
+           xcodeConfigurationToNativeBuildType
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_85">
+         <p>
+          Maps custom Xcode configuration to NativeBuildType: "Debug" to
+          <code class="code" id="anxdiq_87">
+           NativeBuildType.DEBUG
+          </code>
+          and "Release" to
+          <code class="code" id="anxdiq_88">
+           NativeBuildType.RELEASE
+          </code>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_39">
+        <td id="anxdiq_89">
+         <p>
+          <code class="code" id="anxdiq_91">
+           publishDir
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_90">
+         <p>
+          Configures the output directory for Pod publishing.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_40">
+        <td id="anxdiq_92">
+         <p>
+          <code class="code" id="anxdiq_94">
+           pods
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_93">
+         <p>
+          Returns a list of Pod dependencies.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_41">
+        <td id="anxdiq_95">
+         <p>
+          <code class="code" id="anxdiq_97">
+           pod()
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_96">
+         <p>
+          Adds a CocoaPods dependency to the Pod built from this project.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_42">
+        <td id="anxdiq_98">
+         <p>
+          <code class="code" id="anxdiq_100">
+           specRepos
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_99">
+         <p>
+          Adds a specification repository using
+          <code class="code" id="anxdiq_101">
+           url()
+          </code>
+          . This is necessary when a private Pod is used as a dependency. See the
+          <a data-external="true" href="https://guides.cocoapods.org/making/private-cocoapods.html" id="anxdiq_102" rel="noopener noreferrer">
+           CocoaPods documentation
+          </a>
+          for more information.
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <section class="chapter">
+     <h3 data-toc="targets" id="targets">
+      Targets
+     </h3>
+     <div class="table-wrapper">
+      <table class="wide" id="anxdiq_103">
+       <thead>
+        <tr class="ijRowHead" id="anxdiq_107">
+         <th id="anxdiq_113">
+          <p>
+           iOS
+          </p>
+         </th>
+         <th id="anxdiq_114">
+          <p>
+           macOS
+          </p>
+         </th>
+         <th id="anxdiq_115">
+          <p>
+           tvOS
+          </p>
+         </th>
+         <th id="anxdiq_116">
+          <p>
+           watchOS
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="anxdiq_108">
+         <td id="anxdiq_117">
+          <p>
+           <code class="code" id="anxdiq_121">
+            iosArm64
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_118">
+          <p>
+           <code class="code" id="anxdiq_122">
+            macosArm64
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_119">
+          <p>
+           <code class="code" id="anxdiq_123">
+            tvosArm64
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_120">
+          <p>
+           <code class="code" id="anxdiq_124">
+            watchosArm64
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="anxdiq_109">
+         <td id="anxdiq_125">
+          <p>
+           <code class="code" id="anxdiq_129">
+            iosX64
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_126">
+          <p>
+           <code class="code" id="anxdiq_130">
+            macosX64
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_127">
+          <p>
+           <code class="code" id="anxdiq_131">
+            tvosX64
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_128">
+          <p>
+           <code class="code" id="anxdiq_132">
+            watchosX64
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="anxdiq_110">
+         <td id="anxdiq_133">
+          <p>
+           <code class="code" id="anxdiq_137">
+            iosSimulatorArm64
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_134">
+         </td>
+         <td id="anxdiq_135">
+          <p>
+           <code class="code" id="anxdiq_138">
+            tvosSimulatorArm64
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_136">
+          <p>
+           <code class="code" id="anxdiq_139">
+            watchosSimulatorArm64
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="anxdiq_111">
+         <td id="anxdiq_140">
+         </td>
+         <td id="anxdiq_141">
+         </td>
+         <td id="anxdiq_142">
+         </td>
+         <td id="anxdiq_143">
+          <p>
+           <code class="code" id="anxdiq_144">
+            watchosArm32
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="anxdiq_112">
+         <td id="anxdiq_145">
+         </td>
+         <td id="anxdiq_146">
+         </td>
+         <td id="anxdiq_147">
+         </td>
+         <td id="anxdiq_148">
+          <p>
+           <code class="code" id="anxdiq_149">
+            watchosDeviceArm64
+           </code>
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p id="anxdiq_104">
+      For each target, use the
+      <code class="code" id="anxdiq_150">
+       deploymentTarget
+      </code>
+      property to specify the minimum target version for the Pod library.
+     </p>
+     <p id="anxdiq_105">
+      When applied, CocoaPods adds both
+      <code class="code" id="anxdiq_151">
+       debug
+      </code>
+      and
+      <code class="code" id="anxdiq_152">
+       release
+      </code>
+      frameworks as output binaries for all of the targets.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    iosArm64()
+   
+    cocoapods {
+        version = "2.0"
+        name = "MyCocoaPod"
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+        
+        extraSpecAttributes["vendored_frameworks"] = 'CustomFramework.xcframework'
+        license = "{ :type =&gt; 'MIT', :text =&gt; 'License text'}"
+        source = "{ :git =&gt; 'git@github.com:vkormushkin/kmmpodlibrary.git', :tag =&gt; '$version' }"
+        authors = "Kotlin Dev"
+        
+        specRepos {
+            url("https://github.com/Kotlin/kotlin-cocoapods-spec.git")
+        }
+        pod("example")
+        
+        xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
+   }
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="framework-block" id="framework-block">
+      framework block
+     </h3>
+     <p id="anxdiq_153">
+      The
+      <code class="code" id="anxdiq_157">
+       framework
+      </code>
+      block is nested inside
+      <code class="code" id="anxdiq_158">
+       cocoapods
+      </code>
+      and configures the framework properties of the Pod built from the project.
+     </p>
+     <aside class="prompt" data-title="" data-type="note" id="anxdiq_154">
+      <p id="anxdiq_159">
+       Note that
+       <code class="code" id="anxdiq_160">
+        baseName
+       </code>
+       is a required field.
+      </p>
+     </aside>
+     <div class="table-wrapper">
+      <table class="wide" id="anxdiq_155">
+       <thead>
+        <tr class="ijRowHead" id="anxdiq_161">
+         <th id="anxdiq_165">
+          <p>
+           <span class="control" id="anxdiq_167">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="anxdiq_166">
+          <p>
+           <span class="control" id="anxdiq_168">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="anxdiq_162">
+         <td id="anxdiq_169">
+          <p>
+           <code class="code" id="anxdiq_171">
+            baseName
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_170">
+          <p>
+           A required framework name. Use this property instead of the deprecated
+           <code class="code" id="anxdiq_172">
+            frameworkName
+           </code>
+           .
+          </p>
+         </td>
+        </tr>
+        <tr id="anxdiq_163">
+         <td id="anxdiq_173">
+          <p>
+           <code class="code" id="anxdiq_175">
+            isStatic
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_174">
+          <p>
+           Defines the framework linking type. It's dynamic by default.
+          </p>
+         </td>
+        </tr>
+        <tr id="anxdiq_164">
+         <td id="anxdiq_176">
+          <p>
+           <code class="code" id="anxdiq_178">
+            transitiveExport
+           </code>
+          </p>
+         </td>
+         <td id="anxdiq_177">
+          <p>
+           Enables dependency export.
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    cocoapods {
+        framework {
+            baseName = "MyFramework"
+            isStatic = false
+            export(project(":anotherKMMModule"))
+            transitiveExport = true
+        }
+    }
+}
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="pod-function" id="pod-function">
+     pod() function
+    </h2>
+    <p id="anxdiq_179">
+     The
+     <code class="code" id="anxdiq_183">
+      pod()
+     </code>
+     function call adds a CocoaPods dependency to the Pod built from this project. Each dependency requires a separate function call.
+    </p>
+    <p id="anxdiq_180">
+     You can specify the name of a Pod library in the function parameters and additional parameter values, like the
+     <code class="code" id="anxdiq_184">
+      version
+     </code>
+     and
+     <code class="code" id="anxdiq_185">
+      source
+     </code>
+     of the library, in its configuration block:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="anxdiq_181">
+      <thead>
+       <tr class="ijRowHead" id="anxdiq_186">
+        <th id="anxdiq_194">
+         <p>
+          <span class="control" id="anxdiq_196">
+           Name
+          </span>
+         </p>
+        </th>
+        <th id="anxdiq_195">
+         <p>
+          <span class="control" id="anxdiq_197">
+           Description
+          </span>
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="anxdiq_187">
+        <td id="anxdiq_198">
+         <p>
+          <code class="code" id="anxdiq_200">
+           version
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_199">
+         <p>
+          The library version. To use the latest version of the library, omit the parameter.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_188">
+        <td id="anxdiq_201">
+         <p>
+          <code class="code" id="anxdiq_203">
+           source
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_202">
+         <p>
+          Configures the Pod from:
+         </p>
+         <ul class="list _bullet" id="anxdiq_204">
+          <li class="list__item" id="anxdiq_205">
+           <p>
+            The Git repository using
+            <code class="code" id="anxdiq_207">
+             git()
+            </code>
+            . In the block after
+            <code class="code" id="anxdiq_208">
+             git()
+            </code>
+            , you can specify
+            <code class="code" id="anxdiq_209">
+             commit
+            </code>
+            to use a specific commit,
+            <code class="code" id="anxdiq_210">
+             tag
+            </code>
+            to use a specific tag, and
+            <code class="code" id="anxdiq_211">
+             branch
+            </code>
+            to use a specific branch from the repository
+           </p>
+          </li>
+          <li class="list__item" id="anxdiq_206">
+           <p>
+            The local repository using
+            <code class="code" id="anxdiq_212">
+             path()
+            </code>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="anxdiq_189">
+        <td id="anxdiq_213">
+         <p>
+          <code class="code" id="anxdiq_215">
+           packageName
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_214">
+         <p>
+          Specifies the package name.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_190">
+        <td id="anxdiq_216">
+         <p>
+          <code class="code" id="anxdiq_218">
+           extraOpts
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_217">
+         <p>
+          Specifies the list of options for a Pod library. For example, specific flags:
+         </p>
+         <div class="code-block" data-lang="kotlin">
+          extraOpts = listOf("-compiler-option")
+         </div>
+        </td>
+       </tr>
+       <tr id="anxdiq_191">
+        <td id="anxdiq_220">
+         <p>
+          <code class="code" id="anxdiq_222">
+           linkOnly
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_221">
+         <p>
+          Instructs the CocoaPods plugin to use Pod dependencies with dynamic frameworks without generating cinterop bindings. If used with static frameworks, the option will remove the Pod dependency entirely.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_192">
+        <td id="anxdiq_223">
+         <p>
+          <code class="code" id="anxdiq_225">
+           interopBindingDependencies
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_224">
+         <p>
+          Contains a list of dependencies to other Pods. This list is used when building a Kotlin binding for the new Pod.
+         </p>
+        </td>
+       </tr>
+       <tr id="anxdiq_193">
+        <td id="anxdiq_226">
+         <p>
+          <code class="code" id="anxdiq_228">
+           useInteropBindingFrom()
+          </code>
+         </p>
+        </td>
+        <td id="anxdiq_227">
+         <p>
+          Specifies the name of the existing Pod that is used as dependency. This Pod should be declared before the function execution. The function instructs the CocoaPods plugin to use a Kotlin binding of the existing Pod when building a binding for the new one.
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="code-block" data-lang="kotlin">
+     kotlin {
+    iosArm64()
+   
+    cocoapods {
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+
+        iosArm64.deploymentTarget = "13.5"
+      
+        pod("pod_dependency") {
+            version = "1.0"
+            linkOnly = true
+            source = path(project.file("../pod_dependency"))
+        }
+    }
+}
+    </div>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

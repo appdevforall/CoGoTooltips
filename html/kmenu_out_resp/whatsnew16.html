@@ -1,0 +1,1958 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="whatsnew16" id="whatsnew16.md">
+    What's new in Kotlin 1.6.0
+   </h1>
+   <p id="pdz2az_2">
+    <span class="emphasis" id="pdz2az_15">
+     <a data-tooltip="The following table lists details of the latest Kotlin releases:" href="releases.html#release-details" id="pdz2az_16">
+      Released: 16 November 2021
+     </a>
+    </span>
+   </p>
+   <p id="pdz2az_3">
+    Kotlin 1.6.0 introduces new language features, optimizations and improvements to existing features, and a lot of improvements to the Kotlin standard library.
+   </p>
+   <p id="pdz2az_4">
+    You can also find an overview of the changes in the
+    <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-6-0-is-released/" id="pdz2az_17" rel="noopener noreferrer">
+     release blog post
+    </a>
+    .
+   </p>
+   <section class="chapter">
+    <h2 data-toc="language" id="language">
+     Language
+    </h2>
+    <p id="pdz2az_18">
+     Kotlin 1.6.0 brings stabilization to several language features introduced for preview in the previous 1.5.30 release:
+    </p>
+    <ul class="list _bullet" id="pdz2az_19">
+     <li class="list__item" id="pdz2az_29">
+      <p>
+       <a data-tooltip="An exhaustive when statement contains branches for all possible types or values of its subject, or for some types plus an else branch. It covers all possible cases, making your code safer." href="#stable-exhaustive-when-statements-for-enum-sealed-and-boolean-subjects" id="pdz2az_33">
+        Stable exhaustive when statements for enum, sealed and Boolean subjects
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_30">
+      <p>
+       <a data-tooltip="Implementation of suspending functional types has become Stable in Kotlin 1.6.0. A preview was available in 1.5.30." href="#stable-suspending-functions-as-supertypes" id="pdz2az_34">
+        Stable suspending functions as supertypes
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_31">
+      <p>
+       <a data-tooltip="Kotlin 1.6.0 introduces Stable conversions from regular to suspending functional types. Starting from 1.4.0, the feature supported functional literals and callable references. With 1.6.0, it works with any form of expression. As a call argument, you can now pass any expression of a…" href="#stable-suspend-conversions" id="pdz2az_35">
+        Stable suspend conversions
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_32">
+      <p>
+       <a data-tooltip="Kotlin 1.5.30 introduced experimental support for instantiation of annotation classes on the JVM platform. With 1.6.0, the feature is available by default both for Kotlin/JVM and Kotlin/JS." href="#stable-instantiation-of-annotation-classes" id="pdz2az_36">
+        Stable instantiation of annotation classes
+       </a>
+      </p>
+     </li>
+    </ul>
+    <p id="pdz2az_20">
+     It also includes various type inference improvements and support for annotations on class type parameters:
+    </p>
+    <ul class="list _bullet" id="pdz2az_21">
+     <li class="list__item" id="pdz2az_37">
+      <p>
+       <a data-tooltip="Kotlin 1.5.30 introduced an improvement to type inference for recursive generic types, which allowed their type arguments to be inferred based only on the upper bounds of the corresponding type parameters. The improvement was available with the compiler option. In version 1.6.0 and…" href="#improved-type-inference-for-recursive-generic-types" id="pdz2az_40">
+        Improved type inference for recursive generic types
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_38">
+      <p>
+       <a data-tooltip="Builder inference is a type inference flavor which is useful when calling generic builder functions. It can infer the type arguments of a call with the help of type information from calls inside its lambda argument." href="#changes-to-builder-inference" id="pdz2az_41">
+        Changes to builder inference
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_39">
+      <p>
+       <a data-tooltip="Support for annotations on class type parameters looks like this:" href="#support-for-annotations-on-class-type-parameters" id="pdz2az_42">
+        Support for annotations on class type parameters
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="stable-exhaustive-when-statements-for-enum-sealed-and-boolean-subjects" id="stable-exhaustive-when-statements-for-enum-sealed-and-boolean-subjects">
+      Stable exhaustive when statements for enum, sealed, and Boolean subjects
+     </h3>
+     <p id="pdz2az_43">
+      An
+      <span class="emphasis" id="pdz2az_47">
+       exhaustive
+      </span>
+      <a data-tooltip="when is a conditional expression that runs code based on multiple possible values or conditions. It is similar to the switch statement in Java, C, and similar languages. For example:" href="control-flow.html#when-expressions-and-statements" id="pdz2az_48">
+       <code class="code" id="pdz2az_50">
+        when
+       </code>
+      </a>
+      statement contains branches for all possible types or values of its subject, or for some types plus an
+      <code class="code" id="pdz2az_49">
+       else
+      </code>
+      branch. It covers all possible cases, making your code safer.
+     </p>
+     <p id="pdz2az_44">
+      We will soon prohibit non-exhaustive
+      <code class="code" id="pdz2az_51">
+       when
+      </code>
+      statements to make the behavior consistent with
+      <code class="code" id="pdz2az_52">
+       when
+      </code>
+      expressions. To ensure smooth migration, Kotlin 1.6.0 reports warnings about non-exhaustive
+      <code class="code" id="pdz2az_53">
+       when
+      </code>
+      statements with an enum, sealed, or Boolean subject. These warnings will become errors in future releases.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      sealed class Contact {
+    data class PhoneCall(val number: String) : Contact()
+    data class TextMessage(val number: String) : Contact()
+}
+
+fun Contact.messageCost(): Int =
+    when(this) { // Error: 'when' expression must be exhaustive
+        is Contact.PhoneCall -&gt; 42
+    }
+
+fun sendMessage(contact: Contact, message: String) {
+    // Starting with 1.6.0
+
+    // Warning: Non exhaustive 'when' statements on Boolean will be
+    // prohibited in 1.7, add 'false' branch or 'else' branch instead 
+    when(message.isEmpty()) {
+        true -&gt; return
+    }
+    // Warning: Non exhaustive 'when' statements on sealed class/interface will be
+    // prohibited in 1.7, add 'is TextMessage' branch or 'else' branch instead
+    when(contact) {
+        is Contact.PhoneCall -&gt; TODO()
+    }
+}
+     </div>
+     <p id="pdz2az_46">
+      See
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-47709" id="pdz2az_54" rel="noopener noreferrer">
+       this YouTrack ticket
+      </a>
+      for a more detailed explanation of the change and its effects.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="stable-suspending-functions-as-supertypes" id="stable-suspending-functions-as-supertypes">
+      Stable suspending functions as supertypes
+     </h3>
+     <p id="pdz2az_55">
+      Implementation of suspending functional types has become
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdz2az_61">
+       Stable
+      </a>
+      in Kotlin 1.6.0. A preview was available
+      <a data-tooltip="Support for suspending functions as supertypes is Experimental. It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="whatsnew1530.html#suspending-functions-as-supertypes" id="pdz2az_62">
+       in 1.5.30
+      </a>
+      .
+     </p>
+     <p id="pdz2az_56">
+      The feature can be useful when designing APIs that use Kotlin coroutines and accept suspending functional types. You can now streamline your code by enclosing the desired behavior in a separate class that implements a suspending functional type.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      class MyClickAction : suspend () -&gt; Unit {
+    override suspend fun invoke() { TODO() }
+}
+
+fun launchOnClick(action: suspend () -&gt; Unit) {}
+     </div>
+     <p id="pdz2az_58">
+      You can use an instance of this class where only lambdas and suspending function references were allowed previously:
+      <code class="code" id="pdz2az_63">
+       launchOnClick(MyClickAction())
+      </code>
+      .
+     </p>
+     <p id="pdz2az_59">
+      There are currently two limitations coming from implementation details:
+     </p>
+     <ul class="list _bullet" id="pdz2az_60">
+      <li class="list__item" id="pdz2az_64">
+       <p>
+        You can't mix ordinary functional types and suspending ones in the list of supertypes.
+       </p>
+      </li>
+      <li class="list__item" id="pdz2az_65">
+       <p>
+        You can't use multiple suspending functional supertypes.
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="stable-suspend-conversions" id="stable-suspend-conversions">
+      Stable suspend conversions
+     </h3>
+     <p id="pdz2az_66">
+      Kotlin 1.6.0 introduces
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdz2az_68">
+       Stable
+      </a>
+      conversions from regular to suspending functional types. Starting from 1.4.0, the feature supported functional literals and callable references. With 1.6.0, it works with any form of expression. As a call argument, you can now pass any expression of a suitable regular functional type where suspending is expected. The compiler will perform an implicit conversion automatically.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun getSuspending(suspending: suspend () -&gt; Unit) {}
+
+fun suspending() {}
+
+fun test(regular: () -&gt; Unit) {
+    getSuspending { }           // OK
+    getSuspending(::suspending) // OK
+    getSuspending(regular)      // OK
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="stable-instantiation-of-annotation-classes" id="stable-instantiation-of-annotation-classes">
+      Stable instantiation of annotation classes
+     </h3>
+     <p id="pdz2az_69">
+      Kotlin 1.5.30
+      <a data-tooltip="Instantiation of annotation classes is Experimental. It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="whatsnew1530.html#instantiation-of-annotation-classes" id="pdz2az_71">
+       introduced
+      </a>
+      experimental support for instantiation of annotation classes on the JVM platform. With 1.6.0, the feature is available by default both for Kotlin/JVM and Kotlin/JS.
+     </p>
+     <p id="pdz2az_70">
+      Learn more about instantiation of annotation classes in
+      <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/annotation-instantiation.md" id="pdz2az_72" rel="noopener noreferrer">
+       this KEEP
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="improved-type-inference-for-recursive-generic-types" id="improved-type-inference-for-recursive-generic-types">
+      Improved type inference for recursive generic types
+     </h3>
+     <p id="pdz2az_73">
+      Kotlin 1.5.30 introduced an improvement to type inference for recursive generic types, which allowed their type arguments to be inferred based only on the upper bounds of the corresponding type parameters. The improvement was available with the compiler option. In version 1.6.0 and later, it is enabled by default.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      // Before 1.5.30
+val containerA = PostgreSQLContainer&lt;Nothing&gt;(DockerImageName.parse("postgres:13-alpine")).apply {
+  withDatabaseName("db")
+  withUsername("user")
+  withPassword("password")
+  withInitScript("sql/schema.sql")
+}
+
+// With compiler option in 1.5.30 or by default starting with 1.6.0
+val containerB = PostgreSQLContainer(DockerImageName.parse("postgres:13-alpine"))
+  .withDatabaseName("db")
+  .withUsername("user")
+  .withPassword("password")
+  .withInitScript("sql/schema.sql")
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="changes-to-builder-inference" id="changes-to-builder-inference">
+      Changes to builder inference
+     </h3>
+     <p id="pdz2az_75">
+      Builder inference is a type inference flavor which is useful when calling generic builder functions. It can infer the type arguments of a call with the help of type information from calls inside its lambda argument.
+     </p>
+     <p id="pdz2az_76">
+      We're making multiple changes that are bringing us closer to fully stable builder inference. Starting with 1.6.0:
+     </p>
+     <ul class="list _bullet" id="pdz2az_77">
+      <li class="list__item" id="pdz2az_79">
+       <p id="pdz2az_82">
+        You can make calls returning an instance of a not yet inferred type inside a builder lambda without specifying the
+        <code class="code" id="pdz2az_83">
+         -Xunrestricted-builder-inference
+        </code>
+        compiler option
+        <a data-tooltip="Builder inference is a special kind of type inference that allows you to infer the type arguments of a call based on type information from other calls inside its lambda argument. This can be useful when calling generic builder functions such as buildList() or sequence(): buildList {…" href="whatsnew1530.html#eliminating-builder-inference-restrictions" id="pdz2az_84">
+         introduced in 1.5.30
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="pdz2az_80">
+       <p id="pdz2az_85">
+        With
+        <code class="code" id="pdz2az_87">
+         -Xenable-builder-inference
+        </code>
+        , you can write your own builders without applying the
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-builder-inference/" id="pdz2az_88" rel="noopener noreferrer">
+         <code class="code" id="pdz2az_89">
+          @BuilderInference
+         </code>
+        </a>
+        annotation.
+       </p>
+       <aside class="prompt" data-title="" data-type="warning" id="pdz2az_86">
+        <p id="pdz2az_90">
+         Note that clients of these builders will need to specify the same
+         <code class="code" id="pdz2az_91">
+          -Xenable-builder-inference
+         </code>
+         compiler option.
+        </p>
+       </aside>
+      </li>
+      <li class="list__item" id="pdz2az_81">
+       <p id="pdz2az_92">
+        With the
+        <code class="code" id="pdz2az_93">
+         -Xenable-builder-inference
+        </code>
+        , builder inference automatically activates if a regular type inference cannot get enough information about a type.
+       </p>
+      </li>
+     </ul>
+     <p id="pdz2az_78">
+      <a data-tooltip="Kotlin supports builder type inference (or builder inference), which can come in useful when you are working with generic builders. It helps the compiler infer the type arguments of a builder call based on the type information about other calls inside its lambda argument." href="using-builders-with-builder-inference.html" id="pdz2az_94">
+       Learn how to write custom generic builders
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="support-for-annotations-on-class-type-parameters" id="support-for-annotations-on-class-type-parameters">
+      Support for annotations on class type parameters
+     </h3>
+     <p id="pdz2az_95">
+      Support for annotations on class type parameters looks like this:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      @Target(AnnotationTarget.TYPE_PARAMETER)
+annotation class BoxContent
+
+class Box&lt;@BoxContent T&gt; {}
+     </div>
+     <p id="pdz2az_97">
+      Annotations on all type parameters are emitted into JVM bytecode so annotation processors are able to use them.
+     </p>
+     <p id="pdz2az_98">
+      For the motivating use case, read this
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-43714" id="pdz2az_100" rel="noopener noreferrer">
+       YouTrack ticket
+      </a>
+      .
+     </p>
+     <p id="pdz2az_99">
+      Learn more about
+      <a data-tooltip="Annotations are means of attaching metadata to code. To declare an annotation, put the annotation modifier in front of a class:" href="annotations.html" id="pdz2az_101">
+       annotations
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="supporting-previous-api-versions-for-a-longer-period" id="supporting-previous-api-versions-for-a-longer-period">
+     Supporting previous API versions for a longer period
+    </h2>
+    <p id="pdz2az_102">
+     Starting with Kotlin 1.6.0, we will support development for three previous API versions instead of two, along with the current stable one. Currently, we support versions 1.3, 1.4, 1.5, and 1.6.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-jvm" id="kotlin-jvm">
+     Kotlin/JVM
+    </h2>
+    <p id="pdz2az_103">
+     For Kotlin/JVM, starting with 1.6.0, the compiler can generate classes with a bytecode version corresponding to JVM 17. The new language version also includes optimized delegated properties and repeatable annotations, which we had on the roadmap:
+    </p>
+    <ul class="list _bullet" id="pdz2az_104">
+     <li class="list__item" id="pdz2az_107">
+      <p>
+       <a data-tooltip="Java 8 introduced repeatable annotations, which can be applied multiple times to a single code element. The feature requires two declarations to be present in the Java code: the repeatable annotation itself marked with @java.lang.annotation.Repeatable and the containing annotation…" href="#repeatable-annotations-with-runtime-retention-for-1-8-jvm-target" id="pdz2az_109">
+        Repeatable annotations with runtime retention for 1.8 JVM target
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_108">
+      <p>
+       <a data-tooltip="We optimized the generated JVM bytecode by omitting the $delegate field and generating immediate access to the referenced property." href="#optimize-delegated-properties-which-call-get-set-on-the-given-kproperty-instance" id="pdz2az_110">
+        Optimize delegated properties which call get/set on the given KProperty instance
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="repeatable-annotations-with-runtime-retention-for-1-8-jvm-target" id="repeatable-annotations-with-runtime-retention-for-1-8-jvm-target">
+      Repeatable annotations with runtime retention for 1.8 JVM target
+     </h3>
+     <p id="pdz2az_111">
+      Java 8 introduced
+      <a data-external="true" href="https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html" id="pdz2az_117" rel="noopener noreferrer">
+       repeatable annotations
+      </a>
+      , which can be applied multiple times to a single code element. The feature requires two declarations to be present in the Java code: the repeatable annotation itself marked with
+      <a data-external="true" href="https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Repeatable.html" id="pdz2az_118" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_119">
+        @java.lang.annotation.Repeatable
+       </code>
+      </a>
+      and the containing annotation to hold its values.
+     </p>
+     <p id="pdz2az_112">
+      Kotlin also has repeatable annotations, but requires only
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/-repeatable/" id="pdz2az_120" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_123">
+        @kotlin.annotation.Repeatable
+       </code>
+      </a>
+      to be present on an annotation declaration to make it repeatable. Before 1.6.0, the feature supported only
+      <code class="code" id="pdz2az_121">
+       SOURCE
+      </code>
+      retention and was incompatible with Java's repeatable annotations. Kotlin 1.6.0 removes these limitations.
+      <code class="code" id="pdz2az_122">
+       @kotlin.annotation.Repeatable
+      </code>
+      now accepts any retention and makes the annotation repeatable both in Kotlin and Java. Java's repeatable annotations are now also supported from the Kotlin side.
+     </p>
+     <p id="pdz2az_113">
+      While you can declare a containing annotation, it's not necessary. For example:
+     </p>
+     <ul class="list _bullet" id="pdz2az_114">
+      <li class="list__item" id="pdz2az_124">
+       <p id="pdz2az_126">
+        If an annotation
+        <code class="code" id="pdz2az_128">
+         @Tag
+        </code>
+        is marked with
+        <code class="code" id="pdz2az_129">
+         @kotlin.annotation.Repeatable
+        </code>
+        , the Kotlin compiler automatically generates a containing annotation class under the name of
+        <code class="code" id="pdz2az_130">
+         @Tag.Container
+        </code>
+        :
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        @Repeatable 
+annotation class Tag(val name: String)
+
+// The compiler generates @Tag.Container containing annotation
+       </div>
+      </li>
+      <li class="list__item" id="pdz2az_125">
+       <p id="pdz2az_131">
+        To set a custom name for a containing annotation, apply the
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvmrepeatable/" id="pdz2az_133" rel="noopener noreferrer">
+         <code class="code" id="pdz2az_134">
+          @kotlin.jvm.JvmRepeatable
+         </code>
+        </a>
+        meta-annotation and pass the explicitly declared containing annotation class as an argument:
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        @JvmRepeatable(Tags::class)
+annotation class Tag(val name: String)
+
+annotation class Tags(val value: Array&lt;Tag&gt;)
+       </div>
+      </li>
+     </ul>
+     <p id="pdz2az_115">
+      Kotlin reflection now supports both Kotlin's and Java's repeatable annotations via a new function,
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/find-annotations.html" id="pdz2az_135" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_136">
+        KAnnotatedElement.findAnnotations()
+       </code>
+      </a>
+      .
+     </p>
+     <p id="pdz2az_116">
+      Learn more about Kotlin repeatable annotations in
+      <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/repeatable-annotations.md" id="pdz2az_137" rel="noopener noreferrer">
+       this KEEP
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="optimize-delegated-properties-which-call-get-set-on-the-given-kproperty-instance" id="optimize-delegated-properties-which-call-get-set-on-the-given-kproperty-instance">
+      Optimize delegated properties which call get/set on the given KProperty instance
+     </h3>
+     <p id="pdz2az_138">
+      We optimized the generated JVM bytecode by omitting the
+      <code class="code" id="pdz2az_144">
+       $delegate
+      </code>
+      field and generating immediate access to the referenced property.
+     </p>
+     <p id="pdz2az_139">
+      For example, in the following code
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      class Box&lt;T&gt; {
+    private var impl: T = ...
+
+    var content: T by ::impl
+}
+     </div>
+     <p id="pdz2az_141">
+      Kotlin no longer generates the field
+      <code class="code" id="pdz2az_145">
+       content$delegate
+      </code>
+      . Property accessors of the
+      <code class="code" id="pdz2az_146">
+       content
+      </code>
+      variable invoke the
+      <code class="code" id="pdz2az_147">
+       impl
+      </code>
+      variable directly, skipping the delegated property's
+      <code class="code" id="pdz2az_148">
+       getValue
+      </code>
+      /
+      <code class="code" id="pdz2az_149">
+       setValue
+      </code>
+      operators and thus avoiding the need for the property reference object of the
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html" id="pdz2az_150" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_151">
+        KProperty
+       </code>
+      </a>
+      type.
+     </p>
+     <p id="pdz2az_142">
+      Thanks to our Google colleagues for the implementation!
+     </p>
+     <p id="pdz2az_143">
+      Learn more about
+      <a data-tooltip="With some common kinds of properties, even though you can implement them manually every time you need them, it is more helpful to implement them once, add them to a library, and reuse them later. For example:" href="delegated-properties.html" id="pdz2az_152">
+       delegated properties
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-native" id="kotlin-native">
+     Kotlin/Native
+    </h2>
+    <p id="pdz2az_153">
+     Kotlin/Native is receiving multiple improvements and component updates, some of them in the preview state:
+    </p>
+    <ul class="list _bullet" id="pdz2az_154">
+     <li class="list__item" id="pdz2az_163">
+      <p>
+       <a data-tooltip="The new Kotlin/Native memory manager is Experimental. It may be dropped or changed at any time. Opt-in is required (see details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="#preview-of-the-new-memory-manager" id="pdz2az_171">
+        Preview of the new memory manager
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_164">
+      <p>
+       <a data-tooltip="Kotlin/Native 1.6.0 supports Xcode 13 – the latest version of Xcode. Feel free to update your Xcode and continue working on your Kotlin projects for Apple operating systems." href="#support-for-xcode-13" id="pdz2az_172">
+        Support for Xcode 13
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_165">
+      <p>
+       <a data-tooltip="Starting from 1.6.0, you don't need a Windows host to compile the Windows targets mingwX64 and mingwX86. They can be compiled on any host that supports Kotlin/Native." href="#compilation-of-windows-targets-on-any-host" id="pdz2az_173">
+        Compilation of Windows targets on any host
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_166">
+      <p>
+       <a data-tooltip="We've reworked the LLVM dependency that Kotlin/Native uses under the hood. This brings various benefits, including:" href="#llvm-and-linker-updates" id="pdz2az_174">
+        LLVM and linker updates
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_167">
+      <p>
+       <a data-tooltip="Kotlin/Native 1.6.0 delivers the following performance improvements:" href="#performance-improvements" id="pdz2az_175">
+        Performance improvements
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_168">
+      <p>
+       <a data-tooltip="The option to use the common IR compiler plugin ABI for Kotlin/Native is Experimental. It may be dropped or changed at any time. Opt-in is required (see details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="#unified-compiler-plugin-abi-with-jvm-and-js-ir-backends" id="pdz2az_176">
+        Unified compiler plugin ABI with JVM and JS IR backends
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_169">
+      <p>
+       <a data-tooltip="The Kotlin/Native compiler now provides detailed error messages for klib linkage errors. The messages now have clear error descriptions, and they also include information about possible causes and ways to fix them." href="#detailed-error-messages-for-klib-linkage-failures" id="pdz2az_177">
+        Detailed error messages for klib linkage failures
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_170">
+      <p>
+       <a data-tooltip="We've unified the processing of unhandled exceptions throughout the Kotlin/Native runtime and exposed the default processing as the function processUnhandledException(throwable: Throwable) for use by custom execution environments, like kotlinx.coroutines. This processing is also…" href="#reworked-unhandled-exception-handling-api" id="pdz2az_178">
+        Reworked unhandled exception handling API
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="preview-of-the-new-memory-manager" id="preview-of-the-new-memory-manager">
+      Preview of the new memory manager
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="pdz2az_179">
+      <p id="pdz2az_183">
+       The new Kotlin/Native memory manager is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdz2az_184">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Opt-in is required (see details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48525" id="pdz2az_185" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="pdz2az_180">
+      With Kotlin 1.6.0, you can try the development preview of the new Kotlin/Native memory manager. It moves us closer to eliminating the differences between the JVM and Native platforms to provide a consistent developer experience in multiplatform projects.
+     </p>
+     <p id="pdz2az_181">
+      One of the notable changes is the lazy initialization of top-level properties, like in Kotlin/JVM. A top-level property gets initialized when a top-level property or function from the same file is accessed for the first time. This mode also includes global interprocedural optimization (enabled only for release binaries), which removes redundant initialization checks.
+     </p>
+     <p id="pdz2az_182">
+      We've recently published a
+      <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/08/try-the-new-kotlin-native-memory-manager-development-preview/" id="pdz2az_186" rel="noopener noreferrer">
+       blog post
+      </a>
+      about the new memory manager. Read it to learn about the current state of the new memory manager and find some demo projects, or jump right to the
+      <a data-external="true" href="https://github.com/JetBrains/kotlin/blob/master/kotlin-native/NEW_MM.md" id="pdz2az_187" rel="noopener noreferrer">
+       migration instructions
+      </a>
+      to try it yourself. Please check how the new memory manager works on your projects and share feedback in our issue tracker,
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48525" id="pdz2az_188" rel="noopener noreferrer">
+       YouTrack
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="support-for-xcode-13" id="support-for-xcode-13">
+      Support for Xcode 13
+     </h3>
+     <p id="pdz2az_189">
+      Kotlin/Native 1.6.0 supports Xcode 13 – the latest version of Xcode. Feel free to update your Xcode and continue working on your Kotlin projects for Apple operating systems.
+     </p>
+     <aside class="prompt" data-title="" data-type="note" id="pdz2az_190">
+      <p id="pdz2az_191">
+       New libraries added in Xcode 13 aren't available for use in Kotlin 1.6.0, but we're going to add support for them in upcoming versions.
+      </p>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="compilation-of-windows-targets-on-any-host" id="compilation-of-windows-targets-on-any-host">
+      Compilation of Windows targets on any host
+     </h3>
+     <p id="pdz2az_192">
+      Starting from 1.6.0, you don't need a Windows host to compile the Windows targets
+      <code class="code" id="pdz2az_193">
+       mingwX64
+      </code>
+      and
+      <code class="code" id="pdz2az_194">
+       mingwX86
+      </code>
+      . They can be compiled on any host that supports Kotlin/Native.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="llvm-and-linker-updates" id="llvm-and-linker-updates">
+      LLVM and linker updates
+     </h3>
+     <p id="pdz2az_195">
+      We've reworked the LLVM dependency that Kotlin/Native uses under the hood. This brings various benefits, including:
+     </p>
+     <ul class="list _bullet" id="pdz2az_196">
+      <li class="list__item" id="pdz2az_198">
+       <p>
+        Updated LLVM version to 11.1.0.
+       </p>
+      </li>
+      <li class="list__item" id="pdz2az_199">
+       <p>
+        Decreased dependency size. For example, on macOS it's now about 300 MB instead of 1200 MB in the previous version.
+       </p>
+      </li>
+      <li class="list__item" id="pdz2az_200">
+       <p>
+        <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42693" id="pdz2az_201" rel="noopener noreferrer">
+         Excluded dependency on the
+         <code class="code" id="pdz2az_202">
+          ncurses5
+         </code>
+         library
+        </a>
+        that isn't available in modern Linux distributions.
+       </p>
+      </li>
+     </ul>
+     <p id="pdz2az_197">
+      In addition to the LLVM update, Kotlin/Native now uses the
+      <a data-external="true" href="https://lld.llvm.org/" id="pdz2az_203" rel="noopener noreferrer">
+       LLD
+      </a>
+      linker (a linker from the LLVM project) for MingGW targets. It provides various benefits over the previously used ld.bfd linker, and will allow us to improve runtime performance of produced binaries and support compiler caches for MinGW targets. Note that LLD
+      <a data-tooltip="LLD is a linker from the LLVM project, which we plan to start using in Kotlin/Native for MinGW targets because of its benefits over the default ld.bfd – primarily its better performance." href="whatsnew1530.html#deprecation-of-linkage-against-dlls-without-import-libraries-for-mingw-targets" id="pdz2az_204">
+       requires import libraries for DLL linkage
+      </a>
+      . Learn more in
+      <a data-external="true" href="https://stackoverflow.com/questions/3573475/how-does-the-import-library-work-details/3573527/#3573527" id="pdz2az_205" rel="noopener noreferrer">
+       this Stack Overflow thread
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="performance-improvements" id="performance-improvements">
+      Performance improvements
+     </h3>
+     <p id="pdz2az_206">
+      Kotlin/Native 1.6.0 delivers the following performance improvements:
+     </p>
+     <ul class="list _bullet" id="pdz2az_207">
+      <li class="list__item" id="pdz2az_208">
+       <p>
+        Compilation time: compiler caches are enabled by default for
+        <code class="code" id="pdz2az_210">
+         linuxX64
+        </code>
+        and
+        <code class="code" id="pdz2az_211">
+         iosArm64
+        </code>
+        targets. This speeds up most compilations in debug mode (except the first one). Measurements showed about a 200% speed increase on our test projects. The compiler caches have been available for these targets since Kotlin 1.5.0 with
+        <a data-tooltip="In 1.5.0, Kotlin/Native is receiving a set of performance improvements that speed up both compilation and execution." href="whatsnew15.html#performance-improvements" id="pdz2az_212">
+         additional Gradle properties
+        </a>
+        ; you can remove them now.
+       </p>
+      </li>
+      <li class="list__item" id="pdz2az_209">
+       <p>
+        Runtime: iterating over arrays with
+        <code class="code" id="pdz2az_213">
+         for
+        </code>
+        loops is now up to 12% faster thanks to optimizations in the produced LLVM code.
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="unified-compiler-plugin-abi-with-jvm-and-js-ir-backends" id="unified-compiler-plugin-abi-with-jvm-and-js-ir-backends">
+      Unified compiler plugin ABI with JVM and JS IR backends
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="pdz2az_214">
+      <p id="pdz2az_220">
+       The option to use the common IR compiler plugin ABI for Kotlin/Native is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdz2az_221">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Opt-in is required (see details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48595" id="pdz2az_222" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="pdz2az_215">
+      In previous versions, authors of compiler plugins had to provide separate artifacts for Kotlin/Native because of the differences in the ABI.
+     </p>
+     <p id="pdz2az_216">
+      Starting from 1.6.0, the Kotlin Multiplatform Gradle plugin is able to use the embeddable compiler jar – the one used for the JVM and JS IR backends – for Kotlin/Native. This is a step toward unification of the compiler plugin development experience, as you can now use the same compiler plugin artifacts for Native and other supported platforms.
+     </p>
+     <p id="pdz2az_217">
+      This is a preview version of such support, and it requires an opt-in. To start using generic compiler plugin artifacts for Kotlin/Native, add the following line to
+      <code class="code" id="pdz2az_223">
+       gradle.properties
+      </code>
+      :
+      <code class="code" id="pdz2az_224">
+       kotlin.native.useEmbeddableCompilerJar=true
+      </code>
+      .
+     </p>
+     <p id="pdz2az_218">
+      We're planning to use the embeddable compiler jar for Kotlin/Native by default in the future, so it's vital for us to hear how the preview works for you.
+     </p>
+     <p id="pdz2az_219">
+      If you are an author of a compiler plugin, please try this mode and check if it works for your plugin. Note that depending on your plugin's structure, migration steps may be required. See
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48595" id="pdz2az_225" rel="noopener noreferrer">
+       this YouTrack issue
+      </a>
+      for migration instructions and leave your feedback in the comments.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="detailed-error-messages-for-klib-linkage-failures" id="detailed-error-messages-for-klib-linkage-failures">
+      Detailed error messages for klib linkage failures
+     </h3>
+     <p id="pdz2az_226">
+      The Kotlin/Native compiler now provides detailed error messages for klib linkage errors. The messages now have clear error descriptions, and they also include information about possible causes and ways to fix them.
+     </p>
+     <p id="pdz2az_227">
+      For example:
+     </p>
+     <ul class="list _bullet" id="pdz2az_228">
+      <li class="list__item" id="pdz2az_229">
+       <p id="pdz2az_231">
+        1.5.30:
+       </p>
+       <div class="code-block" data-lang="none">
+        e: java.lang.IllegalStateException: IrTypeAliasSymbol expected: Unbound public symbol for public kotlinx.coroutines/CancellationException|null[0]
+&lt;stack trace&gt;
+       </div>
+      </li>
+      <li class="list__item" id="pdz2az_230">
+       <p id="pdz2az_233">
+        1.6.0:
+       </p>
+       <div class="code-block" data-lang="none">
+        e: The symbol of unexpected type encountered during IR deserialization: IrClassPublicSymbolImpl, kotlinx.coroutines/CancellationException|null[0].
+IrTypeAliasSymbol is expected.
+
+This could happen if there are two libraries, where one library was compiled against the different version of the other library than the one currently used in the project.
+Please check that the project configuration is correct and has consistent versions of dependencies.
+
+The list of libraries that depend on "org.jetbrains.kotlinx:kotlinx-coroutines-core (org.jetbrains.kotlinx:kotlinx-coroutines-core-macosx64)" and may lead to conflicts:
+&lt;list of libraries and potential version mismatches&gt;
+
+Project dependencies:
+&lt;dependencies tree&gt;
+       </div>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="reworked-unhandled-exception-handling-api" id="reworked-unhandled-exception-handling-api">
+      Reworked unhandled exception handling API
+     </h3>
+     <p id="pdz2az_235">
+      We've unified the processing of unhandled exceptions throughout the Kotlin/Native runtime and exposed the default processing as the function
+      <code class="code" id="pdz2az_237">
+       processUnhandledException(throwable: Throwable)
+      </code>
+      for use by custom execution environments, like
+      <code class="code" id="pdz2az_238">
+       kotlinx.coroutines
+      </code>
+      . This processing is also applied to exceptions that escape operation in
+      <code class="code" id="pdz2az_239">
+       Worker.executeAfter()
+      </code>
+      , but only for the new
+      <a data-tooltip="The new Kotlin/Native memory manager is Experimental. It may be dropped or changed at any time. Opt-in is required (see details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="#preview-of-the-new-memory-manager" id="pdz2az_240">
+       memory manager
+      </a>
+      .
+     </p>
+     <p id="pdz2az_236">
+      API improvements also affected the hooks that have been set by
+      <code class="code" id="pdz2az_241">
+       setUnhandledExceptionHook()
+      </code>
+      . Previously such hooks were reset after the Kotlin/Native runtime called the hook with an unhandled exception, and the program would always terminate right after. Now these hooks may be used more than once, and if you want the program to always terminate on an unhandled exception, either do not set an unhandled exception hook (
+      <code class="code" id="pdz2az_242">
+       setUnhandledExceptionHook()
+      </code>
+      ), or make sure to call
+      <code class="code" id="pdz2az_243">
+       terminateWithUnhandledException()
+      </code>
+      at the end of your hook. This will help you send exceptions to a third-party crash reporting service (like Firebase Crashlytics) and then terminate the program. Exceptions that escape
+      <code class="code" id="pdz2az_244">
+       main()
+      </code>
+      and exceptions that cross the interop boundary will always terminate the program, even if the hook did not call
+      <code class="code" id="pdz2az_245">
+       terminateWithUnhandledException()
+      </code>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-js" id="kotlin-js">
+     Kotlin/JS
+    </h2>
+    <p id="pdz2az_246">
+     We're continuing to work on stabilizing the IR backend for the Kotlin/JS compiler. Kotlin/JS now has an
+     <a data-tooltip="You can now disable downloading Node.js and Yarn when building Kotlin/JS projects and use the instances already installed on the host. This is useful for building on servers without internet connectivity, such as CI servers." href="#option-to-use-pre-installed-node-js-and-yarn" id="pdz2az_248">
+      option to disable downloading of Node.js and Yarn
+     </a>
+     .
+    </p>
+    <section class="chapter">
+     <h3 data-toc="option-to-use-pre-installed-node-js-and-yarn" id="option-to-use-pre-installed-node-js-and-yarn">
+      Option to use pre-installed Node.js and Yarn
+     </h3>
+     <p id="pdz2az_249">
+      You can now disable downloading Node.js and Yarn when building Kotlin/JS projects and use the instances already installed on the host. This is useful for building on servers without internet connectivity, such as CI servers.
+     </p>
+     <p id="pdz2az_250">
+      To disable downloading external components, add the following lines to your
+      <code class="code" id="pdz2az_252">
+       build.gradle(.kts)
+      </code>
+      :
+     </p>
+     <ul class="list _bullet" id="pdz2az_251">
+      <li class="list__item" id="pdz2az_253">
+       <p id="pdz2az_255">
+        Yarn:
+       </p>
+       <div class="tabs" data-anchors="[pdz2az_257,pdz2az_258]" data-group="build-script" id="pdz2az_256">
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="pdz2az_257">
+         <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+          rootProject.plugins.withType&lt;org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin&gt; {
+    rootProject.the&lt;org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension&gt;().download = false // or true for default behavior
+}
+         </div>
+        </div>
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="pdz2az_258">
+         <div class="code-block" data-lang="groovy" data-title="Groovy">
+          rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).download = false
+}
+         </div>
+        </div>
+       </div>
+      </li>
+      <li class="list__item" id="pdz2az_254">
+       <p id="pdz2az_261">
+        Node.js:
+       </p>
+       <div class="tabs" data-anchors="[pdz2az_263,pdz2az_264]" data-group="build-script" id="pdz2az_262">
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="pdz2az_263">
+         <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+          rootProject.plugins.withType&lt;org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin&gt; {
+    rootProject.the&lt;org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension&gt;().download = false // or true for default behavior
+}
+         </div>
+        </div>
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="pdz2az_264">
+         <div class="code-block" data-lang="groovy" data-title="Groovy">
+          rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin) {
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension).download = false
+}
+         </div>
+        </div>
+       </div>
+      </li>
+     </ul>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-gradle-plugin" id="kotlin-gradle-plugin">
+     Kotlin Gradle plugin
+    </h2>
+    <p id="pdz2az_267">
+     In Kotlin 1.6.0, we changed the deprecation level of the
+     <code class="code" id="pdz2az_270">
+      KotlinGradleSubplugin
+     </code>
+     class to 'ERROR'. This class was used for writing compiler plugins. In the following releases, we'll remove this class. Use the class
+     <code class="code" id="pdz2az_271">
+      KotlinCompilerPluginSupportPlugin
+     </code>
+     instead.
+    </p>
+    <p id="pdz2az_268">
+     We removed the
+     <code class="code" id="pdz2az_272">
+      kotlin.useFallbackCompilerSearch
+     </code>
+     build option and the
+     <code class="code" id="pdz2az_273">
+      noReflect
+     </code>
+     and
+     <code class="code" id="pdz2az_274">
+      includeRuntime
+     </code>
+     compiler options. The
+     <code class="code" id="pdz2az_275">
+      useIR
+     </code>
+     compiler option has been hidden and will be removed in upcoming releases.
+    </p>
+    <p id="pdz2az_269">
+     Learn more about the
+     <a data-tooltip="Each release of Kotlin includes compilers for the supported targets: JVM, JavaScript, and native binaries for supported platforms." href="gradle-compiler-options.html" id="pdz2az_276">
+      currently supported compiler options
+     </a>
+     in the Kotlin Gradle plugin.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="standard-library" id="standard-library">
+     Standard library
+    </h2>
+    <p id="pdz2az_277">
+     The new 1.6.0 version of the standard library stabilizes experimental features, introduces new ones, and unifies its behavior across the platforms:
+    </p>
+    <ul class="list _bullet" id="pdz2az_278">
+     <li class="list__item" id="pdz2az_288">
+      <p>
+       <a data-tooltip="Kotlin 1.6.0 offers new functions for handling standard input: readln() and readlnOrNull()." href="#new-readline-functions" id="pdz2az_297">
+        New readline functions
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_289">
+      <p>
+       <a data-tooltip="Version 1.6.0 brings a Stable typeOf() function, closing one of the major roadmap items." href="#stable-typeof" id="pdz2az_298">
+        Stable typeOf()
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_290">
+      <p>
+       <a data-tooltip="In Kotlin 1.6.0, collection builder functions have been promoted to Stable. Collections returned by collection builders are now serializable in their read-only state." href="#stable-collection-builders" id="pdz2az_299">
+        Stable collection builders
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_291">
+      <p>
+       <a data-tooltip="The Duration class for representing duration amounts in different time units has been promoted to Stable. In 1.6.0, the Duration API has received the following changes:" href="#stable-duration-api" id="pdz2az_300">
+        Stable Duration API
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_292">
+      <p>
+       <a data-tooltip="The Regex.splitToSequence(CharSequence) and CharSequence.splitToSequence(Regex) functions are promoted to Stable. They split the string around matches of the given regex, but return the result as a Sequence so that all operations on this result are executed lazily:" href="#splitting-regex-into-a-sequence" id="pdz2az_301">
+        Splitting Regex into a sequence
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_293">
+      <p>
+       <a data-tooltip="In Kotlin 1.6.0, the rotateLeft() and rotateRight() functions for bit manipulations became Stable. The functions rotate the binary representation of the number left or right by a specified number of bits:" href="#bit-rotation-operations-on-integers" id="pdz2az_302">
+        Bit rotation operations on integers
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_294">
+      <p>
+       <a data-tooltip="Before Kotlin 1.6.0, the replace() and replaceFirst() Regex functions behaved differently in Java and JS when the replacement string contained a group reference. To make the behavior consistent across all target platforms, we've changed their implementation in JS." href="#changes-for-replace-and-replacefirst-in-js" id="pdz2az_303">
+        Changes for replace() and replaceFirst() in JS
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_295">
+      <p>
+       <a data-tooltip="Version 1.6.0 added the infix extension function for Comparable.compareTo(). You can now use the infix form for comparing two objects for order:" href="#improvements-to-the-existing-api" id="pdz2az_304">
+        Improvements to the existing API
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_296">
+      <p>
+       <a data-tooltip="In Kotlin 1.6.0, we're starting the deprecation cycle with a warning for some JS-only stdlib API." href="#deprecations" id="pdz2az_305">
+        Deprecations
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="new-readline-functions" id="new-readline-functions">
+      New readline functions
+     </h3>
+     <p id="pdz2az_306">
+      Kotlin 1.6.0 offers new functions for handling standard input:
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln.html" id="pdz2az_314" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_316">
+        readln()
+       </code>
+      </a>
+      and
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln-or-null.html" id="pdz2az_315" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_317">
+        readlnOrNull()
+       </code>
+      </a>
+      .
+     </p>
+     <aside class="prompt" data-title="" data-type="note" id="pdz2az_307">
+      <p id="pdz2az_318">
+       For now, new functions are available for the JVM and Native target platforms only.
+      </p>
+     </aside>
+     <div class="table-wrapper">
+      <table class="wide" id="pdz2az_308">
+       <thead>
+        <tr class="ijRowHead" id="pdz2az_319">
+         <th id="pdz2az_322">
+          <p>
+           <span class="control" id="pdz2az_325">
+            Earlier versions
+           </span>
+          </p>
+         </th>
+         <th id="pdz2az_323">
+          <p>
+           <span class="control" id="pdz2az_326">
+            1.6.0 alternative
+           </span>
+          </p>
+         </th>
+         <th id="pdz2az_324">
+          <p>
+           <span class="control" id="pdz2az_327">
+            Usage
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="pdz2az_320">
+         <td id="pdz2az_328">
+          <p>
+           <code class="code" id="pdz2az_331">
+            readLine()!!
+           </code>
+          </p>
+         </td>
+         <td id="pdz2az_329">
+          <p>
+           <code class="code" id="pdz2az_332">
+            readln()
+           </code>
+          </p>
+         </td>
+         <td id="pdz2az_330">
+          <p>
+           Reads a line from stdin and returns it, or throws a
+           <code class="code" id="pdz2az_333">
+            RuntimeException
+           </code>
+           if EOF has been reached.
+          </p>
+         </td>
+        </tr>
+        <tr id="pdz2az_321">
+         <td id="pdz2az_334">
+          <p>
+           <code class="code" id="pdz2az_337">
+            readLine()
+           </code>
+          </p>
+         </td>
+         <td id="pdz2az_335">
+          <p>
+           <code class="code" id="pdz2az_338">
+            readlnOrNull()
+           </code>
+          </p>
+         </td>
+         <td id="pdz2az_336">
+          <p>
+           Reads a line from stdin and returns it, or returns
+           <code class="code" id="pdz2az_339">
+            null
+           </code>
+           if EOF has been reached.
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p id="pdz2az_309">
+      We believe that eliminating the need to use
+      <code class="code" id="pdz2az_340">
+       !!
+      </code>
+      when reading a line will improve the experience for newcomers and simplify teaching Kotlin. To make the read-line operation name consistent with its
+      <code class="code" id="pdz2az_341">
+       println()
+      </code>
+      counterpart, we've decided to shorten the names of new functions to 'ln'.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      println("What is your nickname?")
+val nickname = readln()
+println("Hello, $nickname!")
+     </div>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.6" data-runnable="true">
+      fun main() {
+//sampleStart
+    var sum = 0
+    while (true) {
+        val nextLine = readlnOrNull().takeUnless { 
+            it.isNullOrEmpty() 
+        } ?: break
+        sum += nextLine.toInt()
+    }
+    println(sum)
+//sampleEnd
+}
+     </div>
+     <p id="pdz2az_312">
+      The existing
+      <code class="code" id="pdz2az_342">
+       readLine()
+      </code>
+      function will get a lower priority than
+      <code class="code" id="pdz2az_343">
+       readln()
+      </code>
+      and
+      <code class="code" id="pdz2az_344">
+       readlnOrNull()
+      </code>
+      in your IDE code completion. IDE inspections will also recommend using new functions instead of the legacy
+      <code class="code" id="pdz2az_345">
+       readLine()
+      </code>
+      .
+     </p>
+     <p id="pdz2az_313">
+      We're planning to gradually deprecate the
+      <code class="code" id="pdz2az_346">
+       readLine()
+      </code>
+      function in future releases.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="stable-typeof" id="stable-typeof">
+      Stable typeOf()
+     </h3>
+     <p id="pdz2az_347">
+      Version 1.6.0 brings a
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdz2az_350">
+       Stable
+      </a>
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/type-of.html" id="pdz2az_351" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_353">
+        typeOf()
+       </code>
+      </a>
+      function, closing one of the
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-45396" id="pdz2az_352" rel="noopener noreferrer">
+       major roadmap items
+      </a>
+      .
+     </p>
+     <p id="pdz2az_348">
+      <a data-external="true" href="https://blog.jetbrains.com/kotlin/2019/06/kotlin-1-3-40-released/" id="pdz2az_354" rel="noopener noreferrer">
+       Since 1.3.40
+      </a>
+      ,
+      <code class="code" id="pdz2az_355">
+       typeOf()
+      </code>
+      was available on the JVM platform as an experimental API. Now you can use it in any Kotlin platform and get
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-type/#kotlin.reflect.KType" id="pdz2az_356" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_357">
+        KType
+       </code>
+      </a>
+      representation of any Kotlin type that the compiler can infer:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      inline fun &lt;reified T&gt; renderType(): String {
+    val type = typeOf&lt;T&gt;()
+    return type.toString()
+}
+
+fun main() {
+    val fromExplicitType = typeOf&lt;Int&gt;()
+    val fromReifiedType = renderType&lt;List&lt;Int&gt;&gt;()
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="stable-collection-builders" id="stable-collection-builders">
+      Stable collection builders
+     </h3>
+     <p id="pdz2az_358">
+      In Kotlin 1.6.0, collection builder functions have been promoted to
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdz2az_361">
+       Stable
+      </a>
+      . Collections returned by collection builders are now serializable in their read-only state.
+     </p>
+     <p id="pdz2az_359">
+      You can now use
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/build-map.html" id="pdz2az_362" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_365">
+        buildMap()
+       </code>
+      </a>
+      ,
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/build-list.html" id="pdz2az_363" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_366">
+        buildList()
+       </code>
+      </a>
+      , and
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/build-set.html" id="pdz2az_364" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_367">
+        buildSet()
+       </code>
+      </a>
+      without the opt-in annotation:
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.5" data-runnable="true">
+      fun main() {
+//sampleStart
+    val x = listOf('b', 'c')
+    val y = buildList {
+        add('a')
+        addAll(x)
+        add('d')
+    }
+    println(y)  // [a, b, c, d]
+//sampleEnd
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="stable-duration-api" id="stable-duration-api">
+      Stable Duration API
+     </h3>
+     <p id="pdz2az_368">
+      The
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/" id="pdz2az_370" rel="noopener noreferrer">
+       Duration
+      </a>
+      class for representing duration amounts in different time units has been promoted to
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdz2az_371">
+       Stable
+      </a>
+      . In 1.6.0, the Duration API has received the following changes:
+     </p>
+     <ul class="list _bullet" id="pdz2az_369">
+      <li class="list__item" id="pdz2az_372">
+       <p id="pdz2az_375">
+        The first component of the
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/to-components.html" id="pdz2az_376" rel="noopener noreferrer">
+         <code class="code" id="pdz2az_382">
+          toComponents()
+         </code>
+        </a>
+        function that decomposes the duration into days, hours, minutes, seconds, and nanoseconds now has the
+        <code class="code" id="pdz2az_377">
+         Long
+        </code>
+        type instead of
+        <code class="code" id="pdz2az_378">
+         Int
+        </code>
+        . Before, if the value didn't fit into the
+        <code class="code" id="pdz2az_379">
+         Int
+        </code>
+        range, it was coerced into that range. With the
+        <code class="code" id="pdz2az_380">
+         Long
+        </code>
+        type, you can decompose any value in the duration range without cutting off the values that don't fit into
+        <code class="code" id="pdz2az_381">
+         Int
+        </code>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="pdz2az_373">
+       <p id="pdz2az_383">
+        The
+        <code class="code" id="pdz2az_384">
+         DurationUnit
+        </code>
+        enum is now standalone and not a type alias of
+        <code class="code" id="pdz2az_385">
+         java.util.concurrent.TimeUnit
+        </code>
+        on the JVM. We haven't found any convincing cases in which having
+        <code class="code" id="pdz2az_386">
+         typealias DurationUnit = TimeUnit
+        </code>
+        could be useful. Also, exposing the
+        <code class="code" id="pdz2az_387">
+         TimeUnit
+        </code>
+        API through a type alias might confuse
+        <code class="code" id="pdz2az_388">
+         DurationUnit
+        </code>
+        users.
+       </p>
+      </li>
+      <li class="list__item" id="pdz2az_374">
+       <p id="pdz2az_389">
+        In response to community feedback, we're bringing back extension properties like
+        <code class="code" id="pdz2az_393">
+         Int.seconds
+        </code>
+        . But we'd like to limit their applicability, so we put them into the companion of the
+        <code class="code" id="pdz2az_394">
+         Duration
+        </code>
+        class. While the IDE can still propose extensions in completion and automatically insert an import from the companion, in the future we plan to limit this behavior to cases when the
+        <code class="code" id="pdz2az_395">
+         Duration
+        </code>
+        type is expected.
+       </p>
+       <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.5" data-runnable="true">
+        import kotlin.time.Duration.Companion.seconds
+
+fun main() {
+//sampleStart
+    val duration = 10000
+    println("There are ${duration.seconds.inWholeMinutes} minutes in $duration seconds")
+    // There are 166 minutes in 10000 seconds
+//sampleEnd
+}
+       </div>
+       <p id="pdz2az_391">
+        We suggest replacing previously introduced companion functions, such as
+        <code class="code" id="pdz2az_396">
+         Duration.seconds(Int)
+        </code>
+        , and deprecated top-level extensions like
+        <code class="code" id="pdz2az_397">
+         Int.seconds
+        </code>
+        with new extensions in
+        <code class="code" id="pdz2az_398">
+         Duration.Companion
+        </code>
+        .
+       </p>
+       <aside class="prompt" data-title="" data-type="note" id="pdz2az_392">
+        <p id="pdz2az_399">
+         Such a replacement may cause ambiguity between old top-level extensions and new companion extensions. Be sure to use the wildcard import of the kotlin.time package –
+         <code class="code" id="pdz2az_400">
+          import kotlin.time.*
+         </code>
+         – before doing automated migration.
+        </p>
+       </aside>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="splitting-regex-into-a-sequence" id="splitting-regex-into-a-sequence">
+      Splitting Regex into a sequence
+     </h3>
+     <p id="pdz2az_401">
+      The
+      <code class="code" id="pdz2az_403">
+       Regex.splitToSequence(CharSequence)
+      </code>
+      and
+      <code class="code" id="pdz2az_404">
+       CharSequence.splitToSequence(Regex)
+      </code>
+      functions are promoted to
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdz2az_405">
+       Stable
+      </a>
+      . They split the string around matches of the given regex, but return the result as a
+      <a data-tooltip="Along with collections, the Kotlin standard library contains another type – sequences (Sequence&lt;T&gt;). Unlike collections, sequences don't contain elements, they produce them while iterating. Sequences offer the same functions as Iterable but implement another approach to…" href="sequences.html" id="pdz2az_406">
+       Sequence
+      </a>
+      so that all operations on this result are executed lazily:
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.5" data-runnable="true">
+      fun main() {
+//sampleStart
+    val colorsText = "green, red, brown&amp;blue, orange, pink&amp;green"
+    val regex = "[,\\s]+".toRegex()
+    val mixedColor = regex.splitToSequence(colorsText)
+    // or
+    // val mixedColor = colorsText.splitToSequence(regex)
+        .onEach { println(it) }
+        .firstOrNull { it.contains('&amp;') }
+    println(mixedColor) // "brown&amp;blue"
+//sampleEnd
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="bit-rotation-operations-on-integers" id="bit-rotation-operations-on-integers">
+      Bit rotation operations on integers
+     </h3>
+     <p id="pdz2az_407">
+      In Kotlin 1.6.0, the
+      <code class="code" id="pdz2az_409">
+       rotateLeft()
+      </code>
+      and
+      <code class="code" id="pdz2az_410">
+       rotateRight()
+      </code>
+      functions for bit manipulations became
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdz2az_411">
+       Stable
+      </a>
+      . The functions rotate the binary representation of the number left or right by a specified number of bits:
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.6" data-runnable="true">
+      fun main() {
+//sampleStart
+    val number: Short = 0b10001
+    println(number
+        .rotateRight(2)
+        .toString(radix = 2)) // 100000000000100
+    println(number
+        .rotateLeft(2)
+        .toString(radix = 2))  // 1000100
+//sampleEnd
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="changes-for-replace-and-replacefirst-in-js" id="changes-for-replace-and-replacefirst-in-js">
+      Changes for replace() and replaceFirst() in JS
+     </h3>
+     <p id="pdz2az_412">
+      Before Kotlin 1.6.0, the
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/replace.html" id="pdz2az_415" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_417">
+        replace()
+       </code>
+      </a>
+      and
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/replace-first.html" id="pdz2az_416" rel="noopener noreferrer">
+       <code class="code" id="pdz2az_418">
+        replaceFirst()
+       </code>
+      </a>
+      Regex functions behaved differently in Java and JS when the replacement string contained a group reference. To make the behavior consistent across all target platforms, we've changed their implementation in JS.
+     </p>
+     <p id="pdz2az_413">
+      Occurrences of
+      <code class="code" id="pdz2az_419">
+       ${name}
+      </code>
+      or
+      <code class="code" id="pdz2az_420">
+       $index
+      </code>
+      in the replacement string are substituted with the subsequences corresponding to the captured groups with the specified index or a name:
+     </p>
+     <ul class="list _bullet" id="pdz2az_414">
+      <li class="list__item" id="pdz2az_421">
+       <p id="pdz2az_424">
+        <code class="code" id="pdz2az_425">
+         $index
+        </code>
+        – the first digit after '$' is always treated as a part of the group reference. Subsequent digits are incorporated into the
+        <code class="code" id="pdz2az_426">
+         index
+        </code>
+        only if they form a valid group reference.Only digits '0'–'9' are considered potential components of the group reference. Note that indexes of captured groups start from '1'. The group with index '0' stands for the whole match.
+       </p>
+      </li>
+      <li class="list__item" id="pdz2az_422">
+       <p id="pdz2az_427">
+        <code class="code" id="pdz2az_429">
+         ${name}
+        </code>
+        – the
+        <code class="code" id="pdz2az_430">
+         name
+        </code>
+        can consist of Latin letters 'a'–'z', 'A'–'Z', or digits '0'–'9'. The first character must be a letter.
+       </p>
+       <aside class="prompt" data-title="" data-type="note" id="pdz2az_428">
+        <p id="pdz2az_431">
+         Named groups in replacement patterns are currently supported only on the JVM.
+        </p>
+       </aside>
+      </li>
+      <li class="list__item" id="pdz2az_423">
+       <p id="pdz2az_432">
+        To include the succeeding character as a literal in the replacement string, use the backslash character
+        <code class="code" id="pdz2az_435">
+         \
+        </code>
+        :
+       </p>
+       <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.6" data-runnable="true">
+        fun main() {
+//sampleStart
+    println(Regex("(.+)").replace("Kotlin", """\$ $1""")) // $ Kotlin
+    println(Regex("(.+)").replaceFirst("1.6.0", """\\ $1""")) // \ 1.6.0
+//sampleEnd
+}
+       </div>
+       <p id="pdz2az_434">
+        You can use
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/escape-replacement.html" id="pdz2az_436" rel="noopener noreferrer">
+         <code class="code" id="pdz2az_437">
+          Regex.escapeReplacement()
+         </code>
+        </a>
+        if the replacement string has to be treated as a literal string.
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="improvements-to-the-existing-api" id="improvements-to-the-existing-api">
+      Improvements to the existing API
+     </h3>
+     <ul class="list _bullet" id="pdz2az_438">
+      <li class="list__item" id="pdz2az_439">
+       <p id="pdz2az_442">
+        Version 1.6.0 added the infix extension function for
+        <code class="code" id="pdz2az_444">
+         Comparable.compareTo()
+        </code>
+        . You can now use the infix form for comparing two objects for order:
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        class WrappedText(val text: String) : Comparable&lt;WrappedText&gt; {
+     override fun compareTo(other: WrappedText): Int =
+         this.text compareTo other.text
+}
+       </div>
+      </li>
+      <li class="list__item" id="pdz2az_440">
+       <p id="pdz2az_445">
+        <code class="code" id="pdz2az_446">
+         Regex.replace()
+        </code>
+        in JS is now also not inline to unify its implementation across all platforms.
+       </p>
+      </li>
+      <li class="list__item" id="pdz2az_441">
+       <p id="pdz2az_447">
+        The
+        <code class="code" id="pdz2az_448">
+         compareTo()
+        </code>
+        and
+        <code class="code" id="pdz2az_449">
+         equals()
+        </code>
+        String functions, as well as the
+        <code class="code" id="pdz2az_450">
+         isBlank()
+        </code>
+        CharSequence function now behave in JS exactly the same way they do on the JVM. Previously there were deviations when it came to non-ASCII characters.
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecations" id="deprecations">
+      Deprecations
+     </h3>
+     <p id="pdz2az_451">
+      In Kotlin 1.6.0, we're starting the deprecation cycle with a warning for some JS-only stdlib API.
+     </p>
+     <section class="chapter">
+      <h4 data-toc="concat-match-and-matches-string-functions" id="concat-match-and-matches-string-functions">
+       concat(), match(), and matches() string functions
+      </h4>
+      <ul class="list _bullet" id="pdz2az_454">
+       <li class="list__item" id="pdz2az_455">
+        <p>
+         To concatenate the string with the string representation of a given other object, use
+         <code class="code" id="pdz2az_458">
+          plus()
+         </code>
+         instead of
+         <code class="code" id="pdz2az_459">
+          concat()
+         </code>
+         .
+        </p>
+       </li>
+       <li class="list__item" id="pdz2az_456">
+        <p>
+         To find all occurrences of a regular expression within the input, use
+         <code class="code" id="pdz2az_460">
+          findAll()
+         </code>
+         of the Regex class instead of
+         <code class="code" id="pdz2az_461">
+          String.match(regex: String)
+         </code>
+         .
+        </p>
+       </li>
+       <li class="list__item" id="pdz2az_457">
+        <p>
+         To check if the regular expression matches the entire input, use
+         <code class="code" id="pdz2az_462">
+          matches()
+         </code>
+         of the Regex class instead of
+         <code class="code" id="pdz2az_463">
+          String.matches(regex: String)
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="sort-on-arrays-taking-comparison-functions" id="sort-on-arrays-taking-comparison-functions">
+       sort() on arrays taking comparison functions
+      </h4>
+      <p id="pdz2az_464">
+       We've deprecated the
+       <code class="code" id="pdz2az_466">
+        Array&lt;out T&gt;.sort()
+       </code>
+       function and the inline functions
+       <code class="code" id="pdz2az_467">
+        ByteArray.sort()
+       </code>
+       ,
+       <code class="code" id="pdz2az_468">
+        ShortArray.sort()
+       </code>
+       ,
+       <code class="code" id="pdz2az_469">
+        IntArray.sort()
+       </code>
+       ,
+       <code class="code" id="pdz2az_470">
+        LongArray.sort()
+       </code>
+       ,
+       <code class="code" id="pdz2az_471">
+        FloatArray.sort()
+       </code>
+       ,
+       <code class="code" id="pdz2az_472">
+        DoubleArray.sort()
+       </code>
+       , and
+       <code class="code" id="pdz2az_473">
+        CharArray.sort()
+       </code>
+       , which sorted arrays following the order passed by the comparison function. Use other standard library functions for array sorting.
+      </p>
+      <p id="pdz2az_465">
+       See the
+       <a data-tooltip="The order of elements is an important aspect of certain collection types. For example, two lists of the same elements are not equal if their elements are ordered differently." href="collection-ordering.html" id="pdz2az_474">
+        collection ordering
+       </a>
+       section for reference.
+      </p>
+     </section>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="tools" id="tools">
+     Tools
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="kover-a-code-coverage-tool-for-kotlin" id="kover-a-code-coverage-tool-for-kotlin">
+      Kover – a code coverage tool for Kotlin
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="pdz2az_476">
+      <p id="pdz2az_480">
+       The Kover Gradle plugin is Experimental. We would appreciate your feedback on it in
+       <a data-external="true" href="https://github.com/Kotlin/kotlinx-kover/issues" id="pdz2az_481" rel="noopener noreferrer">
+        GitHub
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="pdz2az_477">
+      With Kotlin 1.6.0, we're introducing Kover – a Gradle plugin for the
+      <a data-external="true" href="https://github.com/JetBrains/intellij-coverage" id="pdz2az_482" rel="noopener noreferrer">
+       IntelliJ
+      </a>
+      and
+      <a data-external="true" href="https://github.com/jacoco/jacoco" id="pdz2az_483" rel="noopener noreferrer">
+       JaCoCo
+      </a>
+      Kotlin code coverage agents. It works with all language constructs, including inline functions.
+     </p>
+     <p id="pdz2az_478">
+      Learn more about Kover on its
+      <a data-external="true" href="https://github.com/Kotlin/kotlinx-kover" id="pdz2az_484" rel="noopener noreferrer">
+       GitHub repository
+      </a>
+      or in this video:
+     </p>
+     <div class="video-player" id="pdz2az_479">
+      <object class="article__bordered-element" data="https://www.youtube.com/v/jNu5LY9HIbw?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+      </object>
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="coroutines-1-6-0-rc" id="coroutines-1-6-0-rc">
+     Coroutines 1.6.0-RC
+    </h2>
+    <p id="pdz2az_485">
+     <code class="code" id="pdz2az_488">
+      kotlinx.coroutines
+     </code>
+     <a data-external="true" href="https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0-RC" id="pdz2az_489" rel="noopener noreferrer">
+      1.6.0-RC
+     </a>
+     is out with multiple features and improvements:
+    </p>
+    <ul class="list _bullet" id="pdz2az_486">
+     <li class="list__item" id="pdz2az_490">
+      <p>
+       Support for the
+       <a data-tooltip="The new Kotlin/Native memory manager is Experimental. It may be dropped or changed at any time. Opt-in is required (see details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="#preview-of-the-new-memory-manager" id="pdz2az_495">
+        new Kotlin/Native memory manager
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_491">
+      <p>
+       Introduction of dispatcher
+       <span class="emphasis" id="pdz2az_496">
+        views
+       </span>
+       API, which allows limiting parallelism without creating additional threads
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_492">
+      <p>
+       Migrating from Java 6 to Java 8 target
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_493">
+      <p>
+       <code class="code" id="pdz2az_497">
+        kotlinx-coroutines-test
+       </code>
+       with the new reworked API and multiplatform support
+      </p>
+     </li>
+     <li class="list__item" id="pdz2az_494">
+      <p>
+       Introduction of
+       <a data-external="true" href="https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-copyable-thread-context-element/index.html" id="pdz2az_498" rel="noopener noreferrer">
+        <code class="code" id="pdz2az_500">
+         CopyableThreadContextElement
+        </code>
+       </a>
+       , which gives coroutines a thread-safe write access to
+       <a data-external="true" href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/ThreadLocal.html" id="pdz2az_499" rel="noopener noreferrer">
+        <code class="code" id="pdz2az_501">
+         ThreadLocal
+        </code>
+       </a>
+       variables
+      </p>
+     </li>
+    </ul>
+    <p id="pdz2az_487">
+     Learn more in the
+     <a data-external="true" href="https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0-RC" id="pdz2az_502" rel="noopener noreferrer">
+      changelog
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="migrating-to-kotlin-1-6-0" id="migrating-to-kotlin-1-6-0">
+     Migrating to Kotlin 1.6.0
+    </h2>
+    <p id="pdz2az_503">
+     IntelliJ IDEA and Android Studio will suggest updating the Kotlin plugin to 1.6.0 once it is available.
+    </p>
+    <p id="pdz2az_504">
+     To migrate existing projects to Kotlin 1.6.0, change the Kotlin version to
+     <code class="code" id="pdz2az_508">
+      1.6.0
+     </code>
+     and reimport your Gradle or Maven project.
+     <a data-tooltip="To upgrade your project to a new release, you need to update your build script file. For example, to update to Kotlin 2.1.0, change the version of the Kotlin Gradle plugin in your build.gradle(.kts) file:" href="releases.html#update-to-a-new-kotlin-version" id="pdz2az_509">
+      Learn how to update to Kotlin 1.6.0
+     </a>
+     .
+    </p>
+    <p id="pdz2az_505">
+     To start a new project with Kotlin 1.6.0, update the Kotlin plugin and run the Project Wizard from
+     <span class="control" id="pdz2az_510">
+      File
+     </span>
+     |
+     <span class="control" id="pdz2az_511">
+      New
+     </span>
+     |
+     <span class="control" id="pdz2az_512">
+      Project
+     </span>
+     .
+    </p>
+    <p id="pdz2az_506">
+     The new command-line compiler is available for download on the
+     <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.6.0" id="pdz2az_513" rel="noopener noreferrer">
+      GitHub release page
+     </a>
+     .
+    </p>
+    <p id="pdz2az_507">
+     Kotlin 1.6.0 is a
+     <a data-tooltip="Stable releases with versions, such as 2.0.0, are usually considered to be language releases bringing major changes in the language. Normally, we publish tooling releases, numbered x.x.20 in between language releases." href="kotlin-evolution-principles.html#language-and-tooling-releases" id="pdz2az_514">
+      feature release
+     </a>
+     and can, therefore, bring changes that are incompatible with your code written for earlier versions of the language. Find the detailed list of such changes in the
+     <a data-tooltip="Keeping the Language Modern and Comfortable Updates are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to…" href="compatibility-guide-16.html" id="pdz2az_515">
+      Compatibility Guide for Kotlin 1.6
+     </a>
+     .
+    </p>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

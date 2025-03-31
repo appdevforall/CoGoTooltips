@@ -1,0 +1,261 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="enum-classes" id="enum-classes.md">
+    Enum classes
+   </h1>
+   <p id="-a46b95_2">
+    The most basic use case for enum classes is the implementation of type-safe enums:
+   </p>
+   <div class="code-block" data-lang="kotlin">
+    enum class Direction {
+    NORTH, SOUTH, WEST, EAST
+}
+   </div>
+   <p id="-a46b95_4">
+    Each enum constant is an object. Enum constants are separated by commas.
+   </p>
+   <p id="-a46b95_5">
+    Since each enum is an instance of the enum class, it can be initialized as:
+   </p>
+   <div class="code-block" data-lang="kotlin">
+    enum class Color(val rgb: Int) {
+    RED(0xFF0000),
+    GREEN(0x00FF00),
+    BLUE(0x0000FF)
+}
+   </div>
+   <section class="chapter">
+    <h2 data-toc="anonymous-classes" id="anonymous-classes">
+     Anonymous classes
+    </h2>
+    <p id="-a46b95_10">
+     Enum constants can declare their own anonymous classes with their corresponding methods, as well as with overriding base methods.
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     enum class ProtocolState {
+    WAITING {
+        override fun signal() = TALKING
+    },
+
+    TALKING {
+        override fun signal() = WAITING
+    };
+
+    abstract fun signal(): ProtocolState
+}
+    </div>
+    <p id="-a46b95_12">
+     If the enum class defines any members, separate the constant definitions from the member definitions with a semicolon.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="implementing-interfaces-in-enum-classes" id="implementing-interfaces-in-enum-classes">
+     Implementing interfaces in enum classes
+    </h2>
+    <p id="-a46b95_13">
+     An enum class can implement an interface (but it cannot derive from a class), providing either a common implementation of interface members for all the entries, or separate implementations for each entry within its anonymous class. This is done by adding the interfaces you want to implement to the enum class declaration as follows:
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.9" data-runnable="true">
+     import java.util.function.BinaryOperator
+import java.util.function.IntBinaryOperator
+
+//sampleStart
+enum class IntArithmetics : BinaryOperator&lt;Int&gt;, IntBinaryOperator {
+    PLUS {
+        override fun apply(t: Int, u: Int): Int = t + u
+    },
+    TIMES {
+        override fun apply(t: Int, u: Int): Int = t * u
+    };
+    
+    override fun applyAsInt(t: Int, u: Int) = apply(t, u)
+}
+//sampleEnd
+
+fun main() {
+    val a = 13
+    val b = 31
+    for (f in IntArithmetics.entries) {
+        println("$f($a, $b) = ${f.apply(a, b)}")
+    }
+}
+    </div>
+    <p id="-a46b95_15">
+     All enum classes implement the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html" id="-a46b95_16" rel="noopener noreferrer">
+      Comparable
+     </a>
+     interface by default. Constants in the enum class are defined in the natural order. For more information, see
+     <a data-tooltip="The order of elements is an important aspect of certain collection types. For example, two lists of the same elements are not equal if their elements are ordered differently." href="collection-ordering.html" id="-a46b95_17">
+      Ordering
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="working-with-enum-constants" id="working-with-enum-constants">
+     Working with enum constants
+    </h2>
+    <p id="-a46b95_18">
+     Enum classes in Kotlin have synthetic properties and methods for listing the defined enum constants and getting an enum constant by its name. The signatures of these methods are as follows (assuming the name of the enum class is
+     <code class="code" id="-a46b95_31">
+      EnumClass
+     </code>
+     ):
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     EnumClass.valueOf(value: String): EnumClass
+EnumClass.entries: EnumEntries&lt;EnumClass&gt; // specialized List&lt;EnumClass&gt;
+    </div>
+    <p id="-a46b95_20">
+     Below is an example of them in action:
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.9" data-runnable="true" id="rgb-enums-kotlin">
+     enum class RGB { RED, GREEN, BLUE }
+
+fun main() {
+    for (color in RGB.entries) println(color.toString()) // prints RED, GREEN, BLUE
+    println("The first color is: ${RGB.valueOf("RED")}") // prints "The first color is: RED"
+}
+    </div>
+    <p id="-a46b95_22">
+     The
+     <code class="code" id="-a46b95_32">
+      valueOf()
+     </code>
+     method throws an
+     <code class="code" id="-a46b95_33">
+      IllegalArgumentException
+     </code>
+     if the specified name does not match any of the enum constants defined in the class.
+    </p>
+    <p id="-a46b95_23">
+     Prior to the introduction of
+     <code class="code" id="-a46b95_34">
+      entries
+     </code>
+     in Kotlin 1.9.0, the
+     <code class="code" id="-a46b95_35">
+      values()
+     </code>
+     function was used to retrieve an array of enum constants.
+    </p>
+    <p id="-a46b95_24">
+     Every enum constant also has properties:
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/name.html" id="-a46b95_36" rel="noopener noreferrer">
+      <code class="code" id="-a46b95_38">
+       name
+      </code>
+     </a>
+     and
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/ordinal.html" id="-a46b95_37" rel="noopener noreferrer">
+      <code class="code" id="-a46b95_39">
+       ordinal
+      </code>
+     </a>
+     , for obtaining its name and position (starting from 0) in the enum class declaration:
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="rgb-enums-properties-kotlin">
+     enum class RGB { RED, GREEN, BLUE }
+
+fun main() {
+    //sampleStart
+    println(RGB.RED.name)    // prints RED
+    println(RGB.RED.ordinal) // prints 0
+    //sampleEnd
+}
+    </div>
+    <p id="-a46b95_26">
+     You can access the constants in an enum class in a generic way using the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html" id="-a46b95_40" rel="noopener noreferrer">
+      <code class="code" id="-a46b95_46">
+       enumValues&lt;T&gt;()
+      </code>
+     </a>
+     and
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-value-of.html" id="-a46b95_41" rel="noopener noreferrer">
+      <code class="code" id="-a46b95_47">
+       enumValueOf&lt;T&gt;()
+      </code>
+     </a>
+     functions. In Kotlin 2.0.0, the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.enums/enum-entries.html" id="-a46b95_42" rel="noopener noreferrer">
+      <code class="code" id="-a46b95_48">
+       enumEntries&lt;T&gt;()
+      </code>
+     </a>
+     function is introduced as a replacement for the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html" id="-a46b95_43" rel="noopener noreferrer">
+      <code class="code" id="-a46b95_49">
+       enumValues&lt;T&gt;()
+      </code>
+     </a>
+     function. The
+     <code class="code" id="-a46b95_44">
+      enumEntries&lt;T&gt;()
+     </code>
+     function returns a list of all enum entries for the given enum type
+     <code class="code" id="-a46b95_45">
+      T
+     </code>
+     .
+    </p>
+    <p id="-a46b95_27">
+     The
+     <code class="code" id="-a46b95_50">
+      enumValues&lt;T&gt;()
+     </code>
+     function is still supported, but we recommend that you use the
+     <code class="code" id="-a46b95_51">
+      enumEntries&lt;T&gt;()
+     </code>
+     function instead because it has less performance impact. Every time you call
+     <code class="code" id="-a46b95_52">
+      enumValues&lt;T&gt;()
+     </code>
+     a new array is created, whereas whenever you call
+     <code class="code" id="-a46b95_53">
+      enumEntries&lt;T&gt;()
+     </code>
+     the same list is returned each time, which is far more efficient.
+    </p>
+    <p id="-a46b95_28">
+     For example:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     enum class RGB { RED, GREEN, BLUE }
+
+inline fun &lt;reified T : Enum&lt;T&gt;&gt; printAllValues() {
+    println(enumEntries&lt;T&gt;().joinToString { it.name })
+}
+
+printAllValues&lt;RGB&gt;() 
+// RED, GREEN, BLUE
+    </div>
+    <aside class="prompt" data-title="" data-type="tip" id="-a46b95_30">
+     <p id="-a46b95_54">
+      For more information about inline functions and reified type parameters, see
+      <a data-tooltip="Using higher-order functions imposes certain runtime penalties: each function is an object, and it captures a closure. A closure is a scope of variables that can be accessed in the body of the function. Memory allocations (both for function objects and classes) and virtual calls…" href="inline-functions.html" id="-a46b95_55">
+       Inline functions
+      </a>
+      .
+     </p>
+    </aside>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

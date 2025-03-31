@@ -1,0 +1,494 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="js-ir-migration" id="js-ir-migration.md">
+    Migrating Kotlin/JS projects to the IR compiler
+   </h1>
+   <p id="z2bhlob_2">
+    We replaced the old Kotlin/JS compiler with
+    <a data-tooltip="The Kotlin/JS IR compiler backend is the main focus of innovation around Kotlin/JS, and paves the way forward for the technology." href="js-ir-compiler.html" id="z2bhlob_13">
+     the IR-based compiler
+    </a>
+    in order to unify Kotlin's behavior on all platforms and to make it possible to implement new JS-specific optimizations, among other reasons. You can learn more about the internal differences between the two compilers in the blog post
+    <a data-external="true" href="https://dev.to/kotlin/migrating-our-kotlin-js-app-to-the-new-ir-compiler-3o6i" id="z2bhlob_14" rel="noopener noreferrer">
+     Migrating our Kotlin/JS app to the new IR compiler
+    </a>
+    by Sebastian Aigner.
+   </p>
+   <p id="z2bhlob_3">
+    Due to the significant differences between the compilers, switching your Kotlin/JS project from the old backend to the new one may require adjusting your code. On this page, we've compiled a list of known migration issues along with suggested solutions.
+   </p>
+   <aside class="prompt" data-title="" data-type="tip" id="z2bhlob_4">
+    <p id="z2bhlob_15">
+     Install the
+     <a data-external="true" href="https://plugins.jetbrains.com/plugin/17183-kotlin-js-inspection-pack/" id="z2bhlob_16" rel="noopener noreferrer">
+      Kotlin/JS Inspection pack
+     </a>
+     plugin to get valuable tips on how to fix some of the issues that occur during migration.
+    </p>
+   </aside>
+   <p id="z2bhlob_5">
+    Note that this guide may change over time as we fix issues and find new ones. Please help us keep it complete – report any issues you encounter when switching to the IR compiler by submitting them to our issue tracker
+    <a data-external="true" href="https://kotl.in/issue" id="z2bhlob_17" rel="noopener noreferrer">
+     YouTrack
+    </a>
+    or filling out
+    <a data-external="true" href="https://surveys.jetbrains.com/s3/ir-be-migration-issue" id="z2bhlob_18" rel="noopener noreferrer">
+     this form
+    </a>
+    .
+   </p>
+   <section class="chapter">
+    <h2 data-toc="convert-js-and-react-related-classes-and-interfaces-to-external-interfaces" id="convert-js-and-react-related-classes-and-interfaces-to-external-interfaces">
+     Convert JS- and React-related classes and interfaces to external interfaces
+    </h2>
+    <p id="z2bhlob_19">
+     <span class="control" id="z2bhlob_25">
+      Issue
+     </span>
+     : Using Kotlin interfaces and classes (including data classes) that derive from pure JS classes, such as React's
+     <code class="code" id="z2bhlob_26">
+      State
+     </code>
+     and
+     <code class="code" id="z2bhlob_27">
+      Props
+     </code>
+     , can cause a
+     <code class="code" id="z2bhlob_28">
+      ClassCastException
+     </code>
+     . Such exceptions appear because the compiler attempts to work with instances of these classes as if they were Kotlin objects, when they actually come from JS.
+    </p>
+    <p id="z2bhlob_20">
+     <span class="control" id="z2bhlob_29">
+      Solution
+     </span>
+     : convert all classes and interfaces that derive from pure JS classes to
+     <a data-tooltip="JavaScript does not have the concept of interfaces. When a function expects its parameter to support two methods foo and bar, you would just pass in an object that actually has these methods." href="js-interop.html#external-interfaces" id="z2bhlob_30">
+      external interfaces
+     </a>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     // Replace this
+interface AppState : State { }
+interface AppProps : Props { }
+data class CustomComponentState(var name: String) : State
+    </div>
+    <div class="code-block" data-lang="kotlin">
+     // With this
+external interface AppState : State { }
+external interface AppProps : Props { }
+external interface CustomComponentState : State {
+   var name: String
+}
+    </div>
+    <p id="z2bhlob_23">
+     In IntelliJ IDEA, you can use these
+     <a data-external="true" href="https://www.jetbrains.com/help/idea/structural-search-and-replace.html" id="z2bhlob_31" rel="noopener noreferrer">
+      structural search and replace
+     </a>
+     templates to automatically mark interfaces as
+     <code class="code" id="z2bhlob_32">
+      external
+     </code>
+     :
+    </p>
+    <ul class="list _bullet" id="z2bhlob_24">
+     <li class="list__item" id="z2bhlob_33">
+      <p>
+       <a data-external="true" href="https://gist.github.com/SebastianAigner/62119536f24597e630acfdbd14001b98" id="z2bhlob_35" rel="noopener noreferrer">
+        Template for
+        <code class="code" id="z2bhlob_36">
+         State
+        </code>
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="z2bhlob_34">
+      <p>
+       <a data-external="true" href="https://gist.github.com/SebastianAigner/a47a77f5e519fc74185c077ba12624f9" id="z2bhlob_37" rel="noopener noreferrer">
+        Template for
+        <code class="code" id="z2bhlob_38">
+         Props
+        </code>
+       </a>
+      </p>
+     </li>
+    </ul>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="convert-properties-of-external-interfaces-to-var" id="convert-properties-of-external-interfaces-to-var">
+     Convert properties of external interfaces to var
+    </h2>
+    <p id="z2bhlob_39">
+     <span class="control" id="z2bhlob_44">
+      Issue
+     </span>
+     : properties of external interfaces in Kotlin/JS code can't be read-only (
+     <code class="code" id="z2bhlob_45">
+      val
+     </code>
+     ) properties because their values can be assigned only after the object is created with
+     <code class="code" id="z2bhlob_46">
+      js()
+     </code>
+     or
+     <code class="code" id="z2bhlob_47">
+      jso()
+     </code>
+     (a helper function from
+     <a data-external="true" href="https://github.com/JetBrains/kotlin-wrappers" id="z2bhlob_48" rel="noopener noreferrer">
+      <code class="code" id="z2bhlob_49">
+       kotlin-wrappers
+      </code>
+     </a>
+     ):
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import kotlinx.js.jso
+
+val myState = jso&lt;CustomComponentState&gt;()
+myState.name = "name"
+    </div>
+    <p id="z2bhlob_41">
+     <span class="control" id="z2bhlob_50">
+      Solution
+     </span>
+     : convert all properties of external interfaces to
+     <code class="code" id="z2bhlob_51">
+      var
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     // Replace this
+external interface CustomComponentState : State {
+   val name: String
+}
+    </div>
+    <div class="code-block" data-lang="kotlin">
+     // With this
+external interface CustomComponentState : State {
+   var name: String
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="convert-functions-with-receivers-in-external-interfaces-to-regular-functions" id="convert-functions-with-receivers-in-external-interfaces-to-regular-functions">
+     Convert functions with receivers in external interfaces to regular functions
+    </h2>
+    <p id="z2bhlob_52">
+     <span class="control" id="z2bhlob_56">
+      Issue
+     </span>
+     : external declarations can't contain functions with receivers, such as extension functions or properties with corresponding functional types.
+    </p>
+    <p id="z2bhlob_53">
+     <span class="control" id="z2bhlob_57">
+      Solution
+     </span>
+     : convert such functions and properties to regular functions by adding the receiver object as an argument:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     // Replace this
+external interface ButtonProps : Props {
+   var inside: StyledDOMBuilder&lt;BUTTON&gt;.() -&gt; Unit
+}
+    </div>
+    <div class="code-block" data-lang="kotlin">
+     external interface ButtonProps : Props {
+   var inside: (StyledDOMBuilder&lt;BUTTON&gt;) -&gt; Unit
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="create-plain-js-objects-for-interoperability" id="create-plain-js-objects-for-interoperability">
+     Create plain JS objects for interoperability
+    </h2>
+    <p id="z2bhlob_58">
+     <span class="control" id="z2bhlob_68">
+      Issue
+     </span>
+     : properties of a Kotlin object that implements an external interface are not
+     <span class="emphasis" id="z2bhlob_69">
+      enumerable
+     </span>
+     . This means that they are not visible for operations that iterate over the object's properties, for example:
+    </p>
+    <ul class="list _bullet" id="z2bhlob_59">
+     <li class="list__item" id="z2bhlob_70">
+      <p>
+       <code class="code" id="z2bhlob_73">
+        for (var name in obj)
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="z2bhlob_71">
+      <p>
+       <code class="code" id="z2bhlob_74">
+        console.log(obj)
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="z2bhlob_72">
+      <p>
+       <code class="code" id="z2bhlob_75">
+        JSON.stringify(obj)
+       </code>
+      </p>
+     </li>
+    </ul>
+    <p id="z2bhlob_60">
+     Although they are still accessible by the name:
+     <code class="code" id="z2bhlob_76">
+      obj.myProperty
+     </code>
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     external interface AppProps { var name: String }
+data class AppPropsImpl(override var name: String) : AppProps
+fun main() {
+   val jsApp = js("{name: 'App1'}") as AppProps // plain JS object
+   println("Kotlin sees: ${jsApp.name}") // "App1"
+   println("JSON.stringify sees:" + JSON.stringify(jsApp)) // {"name":"App1"} - OK
+
+   val ktApp = AppPropsImpl("App2") // Kotlin object
+   println("Kotlin sees: ${ktApp.name}") // "App2"
+   // JSON sees only the backing field, not the property
+   println("JSON.stringify sees:" + JSON.stringify(ktApp)) // {"_name_3":"App2"}
+}
+    </div>
+    <p id="z2bhlob_62">
+     <span class="control" id="z2bhlob_77">
+      Solution 1
+     </span>
+     : create plain JavaScript objects with
+     <code class="code" id="z2bhlob_78">
+      js()
+     </code>
+     or
+     <code class="code" id="z2bhlob_79">
+      jso()
+     </code>
+     (a helper function from
+     <a data-external="true" href="https://github.com/JetBrains/kotlin-wrappers" id="z2bhlob_80" rel="noopener noreferrer">
+      <code class="code" id="z2bhlob_81">
+       kotlin-wrappers
+      </code>
+     </a>
+     ):
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     external interface AppProps { var name: String }
+data class AppPropsImpl(override var name: String) : AppProps
+    </div>
+    <div class="code-block" data-lang="kotlin">
+     // Replace this
+val ktApp = AppPropsImpl("App1") // Kotlin object
+    </div>
+    <div class="code-block" data-lang="kotlin">
+     // With this
+val jsApp = js("{name: 'App1'}") as AppProps // or jso {}
+    </div>
+    <p id="z2bhlob_66">
+     <span class="control" id="z2bhlob_82">
+      Solution 2
+     </span>
+     : create objects with
+     <code class="code" id="z2bhlob_83">
+      kotlin.js.json()
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     // or with this
+val jsonApp = kotlin.js.json(Pair("name", "App1")) as AppProps
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="replace-tostring-calls-on-function-references-with-name" id="replace-tostring-calls-on-function-references-with-name">
+     Replace toString() calls on function references with .name
+    </h2>
+    <p id="z2bhlob_84">
+     <span class="control" id="z2bhlob_86">
+      Issue
+     </span>
+     : in the IR backend, calling
+     <code class="code" id="z2bhlob_87">
+      toString()
+     </code>
+     on function references doesn't produce unique values.
+    </p>
+    <p id="z2bhlob_85">
+     <span class="control" id="z2bhlob_88">
+      Solution
+     </span>
+     : use the
+     <code class="code" id="z2bhlob_89">
+      name
+     </code>
+     property instead of
+     <code class="code" id="z2bhlob_90">
+      toString()
+     </code>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="explicitly-specify-binaries-executable-in-the-build-script" id="explicitly-specify-binaries-executable-in-the-build-script">
+     Explicitly specify binaries.executable() in the build script
+    </h2>
+    <p id="z2bhlob_91">
+     <span class="control" id="z2bhlob_95">
+      Issue
+     </span>
+     : the compiler doesn't produce executable
+     <code class="code" id="z2bhlob_96">
+      .js
+     </code>
+     files.
+    </p>
+    <p id="z2bhlob_92">
+     This may happen because the default compiler produces JavaScript executables by default while the IR compiler needs an explicit instruction to do this. Learn more in the
+     <a data-tooltip="Kotlin/JS projects can target two different execution environments:" href="js-project-setup.html#execution-environments" id="z2bhlob_97">
+      Kotlin/JS project setup instruction
+     </a>
+     .
+    </p>
+    <p id="z2bhlob_93">
+     <span class="control" id="z2bhlob_98">
+      Solution
+     </span>
+     : add the line
+     <code class="code" id="z2bhlob_99">
+      binaries.executable()
+     </code>
+     to the project's
+     <code class="code" id="z2bhlob_100">
+      build.gradle(.kts)
+     </code>
+     .
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     kotlin {
+    js(IR) {
+        browser {
+        }
+        binaries.executable()
+    }
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="additional-troubleshooting-tips-when-working-with-the-kotlin-js-ir-compiler" id="additional-troubleshooting-tips-when-working-with-the-kotlin-js-ir-compiler">
+     Additional troubleshooting tips when working with the Kotlin/JS IR compiler
+    </h2>
+    <p id="z2bhlob_101">
+     These hints may help you when troubleshooting problems in your projects using the Kotlin/JS IR compiler.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="make-boolean-properties-nullable-in-external-interfaces" id="make-boolean-properties-nullable-in-external-interfaces">
+      Make boolean properties nullable in external interfaces
+     </h3>
+     <p id="z2bhlob_103">
+      <span class="control" id="z2bhlob_108">
+       Issue
+      </span>
+      : when you call
+      <code class="code" id="z2bhlob_109">
+       toString
+      </code>
+      on a
+      <code class="code" id="z2bhlob_110">
+       Boolean
+      </code>
+      from an external interface, you're getting an error like
+      <code class="code" id="z2bhlob_111">
+       Uncaught TypeError: Cannot read properties of undefined (reading 'toString')
+      </code>
+      . JavaScript treats the
+      <code class="code" id="z2bhlob_112">
+       null
+      </code>
+      or
+      <code class="code" id="z2bhlob_113">
+       undefined
+      </code>
+      values of a boolean variable as
+      <code class="code" id="z2bhlob_114">
+       false
+      </code>
+      . If you rely on calling
+      <code class="code" id="z2bhlob_115">
+       toString
+      </code>
+      on a
+      <code class="code" id="z2bhlob_116">
+       Boolean
+      </code>
+      that may be
+      <code class="code" id="z2bhlob_117">
+       null
+      </code>
+      or
+      <code class="code" id="z2bhlob_118">
+       undefined
+      </code>
+      (for example when your code is called from JavaScript code you have no control over), be aware of this:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      external interface SomeExternal {
+    var visible: Boolean
+}
+
+fun main() {
+    val empty: SomeExternal = js("{}")
+    println(empty.visible.toString()) // Uncaught TypeError: Cannot read properties of undefined (reading 'toString')
+}
+     </div>
+     <p id="z2bhlob_105">
+      <span class="control" id="z2bhlob_119">
+       Solution
+      </span>
+      : you can make your
+      <code class="code" id="z2bhlob_120">
+       Boolean
+      </code>
+      properties of external interfaces nullable (
+      <code class="code" id="z2bhlob_121">
+       Boolean?
+      </code>
+      ):
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      // Replace this
+external interface SomeExternal {
+    var visible: Boolean
+}
+     </div>
+     <div class="code-block" data-lang="kotlin">
+      // With this
+external interface SomeExternal {
+    var visible: Boolean?
+}
+     </div>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

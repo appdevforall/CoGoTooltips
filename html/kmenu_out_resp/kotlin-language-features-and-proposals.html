@@ -1,0 +1,1805 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="kotlin-language-features-and-proposals" id="kotlin-language-features-and-proposals.md">
+    Kotlin language features and proposals
+   </h1>
+   <p id="-t5y34z_3">
+    JetBrains evolves the Kotlin language according to the
+    <a data-tooltip="Language design is cast in stone," href="kotlin-evolution-principles.html" id="-t5y34z_6">
+     Kotlin language evolution principles
+    </a>
+    , guided by pragmatic design.
+   </p>
+   <aside class="prompt" data-title="" data-type="note" id="-t5y34z_4">
+    <p id="-t5y34z_7">
+     Language feature proposals are listed from Kotlin 1.7.0.
+    </p>
+    <p id="-t5y34z_8">
+     See the explanation of language feature statuses in the
+     <a data-tooltip="According to the Feedback Loop principle described above, we iterate on our designs in the open and release versions of the language where some features have one of the pre-stable statuses and are supposed to change. Such features can be added, changed or removed at any point and…" href="kotlin-evolution-principles.html#pre-stable-features" id="-t5y34z_9">
+      Kotlin evolution principles documentation
+     </a>
+     .
+    </p>
+   </aside>
+   <div class="tabs" data-anchors="[all-proposals,exploration-and-design,in-preview,keep-preparation,revoked,stable]" id="-t5y34z_5">
+    <div class="tabs__content" data-gtm="tab" data-title="All" id="all-proposals">
+     <div class="table-wrapper">
+      <table class="left_header wide" id="-t5y34z_17">
+       <tbody>
+        <tr id="-t5y34z_18">
+         <th id="-t5y34z_41" width="200">
+          <p id="-t5y34z_43">
+           <span class="control" id="-t5y34z_44">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_42">
+          <p id="-t5y34z_45">
+           <span class="control" id="-t5y34z_47">
+            Kotlin statics and static extensions
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_46">
+           <li class="list__item" id="-t5y34z_48">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md" id="-t5y34z_50" rel="noopener noreferrer">
+              statics.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_49">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-11968" id="-t5y34z_51" rel="noopener noreferrer">
+              KT-11968
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_19">
+         <th id="-t5y34z_52">
+          <p id="-t5y34z_54">
+           <span class="control" id="-t5y34z_55">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_53">
+          <p id="-t5y34z_56">
+           <span class="control" id="-t5y34z_58">
+            Collection literals
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_57">
+           <li class="list__item" id="-t5y34z_59">
+            <p>
+             KEEP proposal: Not defined
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_60">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-43871" id="-t5y34z_61" rel="noopener noreferrer">
+              KT-43871
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_20">
+         <th id="-t5y34z_62">
+          <p id="-t5y34z_64">
+           <span class="control" id="-t5y34z_65">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_63">
+          <p id="-t5y34z_66">
+           <span class="control" id="-t5y34z_68">
+            Union types for errors and exceptions
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_67">
+           <li class="list__item" id="-t5y34z_69">
+            <p>
+             KEEP proposal: Not defined
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_70">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-68296" id="-t5y34z_71" rel="noopener noreferrer">
+              KT-68296
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_21">
+         <th id="-t5y34z_72">
+          <p id="-t5y34z_74">
+           <span class="control" id="-t5y34z_75">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_73">
+          <p id="-t5y34z_76">
+           <span class="control" id="-t5y34z_78">
+            Name-based destructuring
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_77">
+           <li class="list__item" id="-t5y34z_79">
+            <p>
+             KEEP proposal: Not defined
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_80">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-19627" id="-t5y34z_81" rel="noopener noreferrer">
+              KT-19627
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_22">
+         <th id="-t5y34z_82">
+          <p id="-t5y34z_84">
+           <span class="control" id="-t5y34z_85">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_83">
+          <p id="-t5y34z_86">
+           <span class="control" id="-t5y34z_88">
+            Support immutability
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_87">
+           <li class="list__item" id="-t5y34z_89">
+            <p>
+             KEEP notes:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/notes/value-classes.md#immutability-and-value-classes" id="-t5y34z_91" rel="noopener noreferrer">
+              immutability
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_90">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-1179" id="-t5y34z_92" rel="noopener noreferrer">
+              KT-1179
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_23">
+         <th id="-t5y34z_93" width="200">
+          <p id="-t5y34z_95">
+           <span class="control" id="-t5y34z_96">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_94">
+          <p id="-t5y34z_97">
+           <span class="control" id="-t5y34z_99">
+            KMP Kotlin-to-Java direct actualization
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_98">
+           <li class="list__item" id="-t5y34z_100">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/kotlin-to-java-direct-actualization/proposals/kmp-kotlin-to-java-direct-actualization.md" id="-t5y34z_102" rel="noopener noreferrer">
+              kmp-kotlin-to-java-direct-actualization.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_101">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-67202" id="-t5y34z_103" rel="noopener noreferrer">
+              KT-67202
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_24">
+         <th id="-t5y34z_104">
+          <p id="-t5y34z_106">
+           <span class="control" id="-t5y34z_107">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_105">
+          <p id="-t5y34z_108">
+           <span class="control" id="-t5y34z_110">
+            Streamline KDoc ambiguity links
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_109">
+           <li class="list__item" id="-t5y34z_111">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/kdoc/Streamline-KDoc-ambiguity-references/proposals/kdoc/streamline-KDoc-ambiguity-references.md" id="-t5y34z_113" rel="noopener noreferrer">
+              streamline-KDoc-ambiguity-references.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_112">
+            <p>
+             GitHub issues:
+             <a data-external="true" href="https://github.com/Kotlin/dokka/issues/3451" id="-t5y34z_114" rel="noopener noreferrer">
+              dokka/#3451
+             </a>
+             ,
+             <a data-external="true" href="https://github.com/Kotlin/dokka/issues/3179" id="-t5y34z_115" rel="noopener noreferrer">
+              dokka/#3179
+             </a>
+             ,
+             <a data-external="true" href="https://github.com/Kotlin/dokka/issues/3334" id="-t5y34z_116" rel="noopener noreferrer">
+              dokka/#3334
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_25">
+         <th id="-t5y34z_117">
+          <p id="-t5y34z_119">
+           <span class="control" id="-t5y34z_120">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_118">
+          <p id="-t5y34z_121">
+           <span class="control" id="-t5y34z_123">
+            Resolution of links to extensions in KDoc
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_122">
+           <li class="list__item" id="-t5y34z_124">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/kdoc/extension-links/proposals/kdoc/links-to-extensions.md" id="-t5y34z_126" rel="noopener noreferrer">
+              links-to-extensions.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_125">
+            <p>
+             GitHub issue:
+             <a data-external="true" href="https://github.com/Kotlin/dokka/issues/3555" id="-t5y34z_127" rel="noopener noreferrer">
+              dokka/#3555
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_26">
+         <th id="-t5y34z_128">
+          <p id="-t5y34z_130">
+           <span class="control" id="-t5y34z_131">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_129">
+          <p id="-t5y34z_132">
+           <span class="control" id="-t5y34z_134">
+            Uuid
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_133">
+           <li class="list__item" id="-t5y34z_135">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/uuid/proposals/stdlib/uuid.md" id="-t5y34z_137" rel="noopener noreferrer">
+              uuid.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_136">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-31880" id="-t5y34z_138" rel="noopener noreferrer">
+              KT-31880
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_27">
+         <th id="-t5y34z_139">
+          <p id="-t5y34z_141">
+           <span class="control" id="-t5y34z_142">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_140">
+          <p id="-t5y34z_143">
+           <span class="control" id="-t5y34z_145">
+            Improve resolution using expected type
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_144">
+           <li class="list__item" id="-t5y34z_146">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/improved-resolution-expected-type/proposals/improved-resolution-expected-type.md" id="-t5y34z_148" rel="noopener noreferrer">
+              improved-resolution-expected-type.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_147">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-16768" id="-t5y34z_149" rel="noopener noreferrer">
+              KT-16768
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_28">
+         <th id="-t5y34z_150">
+          <p id="-t5y34z_152">
+           <span class="control" id="-t5y34z_153">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_151">
+          <p id="-t5y34z_154">
+           <span class="control" id="-t5y34z_156">
+            Expose boxed inline value classes in JVM
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_155">
+           <li class="list__item" id="-t5y34z_157">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/jvm-expose-boxed/proposals/jvm-expose-boxed.md" id="-t5y34z_159" rel="noopener noreferrer">
+              jvm-expose-boxed.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_158">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-28135" id="-t5y34z_160" rel="noopener noreferrer">
+              KT-28135
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_29">
+         <th id="-t5y34z_161">
+          <p id="-t5y34z_163">
+           <span class="control" id="-t5y34z_164">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_162">
+          <p id="-t5y34z_165">
+           <span class="control" id="-t5y34z_167">
+            Explicit backing fields: both
+            <code class="code" id="-t5y34z_168">
+             public
+            </code>
+            and
+            <code class="code" id="-t5y34z_169">
+             private
+            </code>
+            type for the same property
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_166">
+           <li class="list__item" id="-t5y34z_170">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/explicit-backing-fields-re/proposals/explicit-backing-fields.md" id="-t5y34z_172" rel="noopener noreferrer">
+              explicit-backing-fields.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_171">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-14663" id="-t5y34z_173" rel="noopener noreferrer">
+              KT-14663
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_30">
+         <th id="-t5y34z_174">
+          <p id="-t5y34z_176">
+           <span class="control" id="-t5y34z_177">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_175">
+          <p id="-t5y34z_178">
+           <span class="control" id="-t5y34z_180">
+            Context parameters: support for context-dependent declarations
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_179">
+           <li class="list__item" id="-t5y34z_181">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md" id="-t5y34z_183" rel="noopener noreferrer">
+              context-parameters.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_182">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-10468" id="-t5y34z_184" rel="noopener noreferrer">
+              KT-14663
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_31">
+         <th id="-t5y34z_185">
+          <p id="-t5y34z_187">
+           <span class="control" id="-t5y34z_188">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_186">
+          <p id="-t5y34z_189">
+           <span class="control" id="-t5y34z_191">
+            Guard conditions in when-with-subject
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_190">
+           <li class="list__item" id="-t5y34z_192">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/guards/proposals/guards.md" id="-t5y34z_195" rel="noopener noreferrer">
+              guards.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_193">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-13626" id="-t5y34z_196" rel="noopener noreferrer">
+              KT-13626
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_194">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_32">
+         <th id="-t5y34z_197">
+          <p id="-t5y34z_199">
+           <span class="control" id="-t5y34z_200">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_198">
+          <p id="-t5y34z_201">
+           <span class="control" id="-t5y34z_203">
+            Stabilized
+            <code class="code" id="-t5y34z_204">
+             @SubclassOptInRequired
+            </code>
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_202">
+           <li class="list__item" id="-t5y34z_205">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/subclass-opt-in-required.md" id="-t5y34z_208" rel="noopener noreferrer">
+              subclass-opt-in-required.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_206">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-54617" id="-t5y34z_209" rel="noopener noreferrer">
+              KT-54617
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_207">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_33">
+         <th id="-t5y34z_210">
+          <p id="-t5y34z_212">
+           <span class="control" id="-t5y34z_213">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_211">
+          <p id="-t5y34z_214">
+           <span class="control" id="-t5y34z_216">
+            Multidollar interpolation: improved handling of
+            <code class="code" id="-t5y34z_217">
+             $
+            </code>
+            in string literals
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_215">
+           <li class="list__item" id="-t5y34z_218">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/dollar-escape.md" id="-t5y34z_221" rel="noopener noreferrer">
+              dollar-escape.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_219">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-2425" id="-t5y34z_222" rel="noopener noreferrer">
+              KT-2425
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_220">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_34">
+         <th id="-t5y34z_223">
+          <p id="-t5y34z_225">
+           <span class="control" id="-t5y34z_226">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_224">
+          <p id="-t5y34z_227">
+           <span class="control" id="-t5y34z_229">
+            Non-local
+            <code class="code" id="-t5y34z_230">
+             break
+            </code>
+            and
+            <code class="code" id="-t5y34z_231">
+             continue
+            </code>
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_228">
+           <li class="list__item" id="-t5y34z_232">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/break-continue-in-inline-lambdas.md" id="-t5y34z_235" rel="noopener noreferrer">
+              break-continue-in-inline-lambdas.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_233">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-1436" id="-t5y34z_236" rel="noopener noreferrer">
+              KT-1436
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_234">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_35">
+         <th id="-t5y34z_237">
+          <p id="-t5y34z_239">
+           <span class="control" id="-t5y34z_240">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_238">
+          <p id="-t5y34z_241">
+           <span class="control" id="-t5y34z_243">
+            Java synthetic property references
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_242">
+           <li class="list__item" id="-t5y34z_244">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/references-to-java-synthetic-properties.md" id="-t5y34z_247" rel="noopener noreferrer">
+              references-to-java-synthetic-properties.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_245">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-8575" id="-t5y34z_248" rel="noopener noreferrer">
+              KT-8575
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_246">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_36">
+         <th id="-t5y34z_249" width="200">
+          <p id="-t5y34z_251">
+           <span class="control" id="-t5y34z_252">
+            Stable
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_250">
+          <p id="-t5y34z_253">
+           <span class="control" id="-t5y34z_255">
+            <code class="code" id="-t5y34z_256">
+             Enum.entries
+            </code>
+            : performant replacement of the
+            <code class="code" id="-t5y34z_257">
+             Enum.values()
+            </code>
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_254">
+           <li class="list__item" id="-t5y34z_258">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/enum-entries.md" id="-t5y34z_261" rel="noopener noreferrer">
+              enum-entries.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_259">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48872" id="-t5y34z_262" rel="noopener noreferrer">
+              KT-48872
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_260">
+            <p>
+             Target version: 2.0.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_37">
+         <th id="-t5y34z_263">
+          <p id="-t5y34z_265">
+           <span class="control" id="-t5y34z_266">
+            Stable
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_264">
+          <p id="-t5y34z_267">
+           <span class="control" id="-t5y34z_269">
+            Data objects
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_268">
+           <li class="list__item" id="-t5y34z_270">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/data-objects.md" id="-t5y34z_273" rel="noopener noreferrer">
+              data-objects.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_271">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-4107" id="-t5y34z_274" rel="noopener noreferrer">
+              KT-4107
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_272">
+            <p>
+             Target version: 1.9.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_38">
+         <th id="-t5y34z_275">
+          <p id="-t5y34z_277">
+           <span class="control" id="-t5y34z_278">
+            Stable
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_276">
+          <p id="-t5y34z_279">
+           <span class="control" id="-t5y34z_281">
+            RangeUntil operator
+            <code class="code" id="-t5y34z_282">
+             ..&lt;
+            </code>
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_280">
+           <li class="list__item" id="-t5y34z_283">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/kotlin/KEEP/blob/open-ended-ranges/proposals/open-ended-ranges.md" id="-t5y34z_286" rel="noopener noreferrer">
+              open-ended-ranges.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_284">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-15613" id="-t5y34z_287" rel="noopener noreferrer">
+              KT-15613
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_285">
+            <p>
+             Target version: 1.7.20
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_39">
+         <th id="-t5y34z_288">
+          <p id="-t5y34z_290">
+           <span class="control" id="-t5y34z_291">
+            Stable
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_289">
+          <p id="-t5y34z_292">
+           <span class="control" id="-t5y34z_294">
+            Definitely non-nullable types
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_293">
+           <li class="list__item" id="-t5y34z_295">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/definitely-non-nullable-types.md" id="-t5y34z_298" rel="noopener noreferrer">
+              definitely-non-nullable-types.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_296">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-26245" id="-t5y34z_299" rel="noopener noreferrer">
+              KT-26245
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_297">
+            <p>
+             Target version: 1.7.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_40">
+         <th id="-t5y34z_300" width="200">
+          <p id="-t5y34z_302">
+           <span class="control" id="-t5y34z_303">
+            Revoked
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_301">
+          <p id="-t5y34z_304">
+           <span class="control" id="-t5y34z_306">
+            Context receivers
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_305">
+           <li class="list__item" id="-t5y34z_307">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/context-receivers.md" id="-t5y34z_309" rel="noopener noreferrer">
+              context-receivers.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_308">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-10468" id="-t5y34z_310" rel="noopener noreferrer">
+              KT-10468
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="tabs__content" data-gtm="tab" data-title="Exploration and design" id="exploration-and-design">
+     <div class="table-wrapper">
+      <table class="left_header wide" id="-t5y34z_317">
+       <tbody>
+        <tr id="-t5y34z_318">
+         <th id="-t5y34z_341" width="200">
+          <p id="-t5y34z_343">
+           <span class="control" id="-t5y34z_344">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_342">
+          <p id="-t5y34z_345">
+           <span class="control" id="-t5y34z_347">
+            Kotlin statics and static extensions
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_346">
+           <li class="list__item" id="-t5y34z_348">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md" id="-t5y34z_350" rel="noopener noreferrer">
+              statics.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_349">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-11968" id="-t5y34z_351" rel="noopener noreferrer">
+              KT-11968
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_319">
+         <th id="-t5y34z_352">
+          <p id="-t5y34z_354">
+           <span class="control" id="-t5y34z_355">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_353">
+          <p id="-t5y34z_356">
+           <span class="control" id="-t5y34z_358">
+            Collection literals
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_357">
+           <li class="list__item" id="-t5y34z_359">
+            <p>
+             KEEP proposal: Not defined
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_360">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-43871" id="-t5y34z_361" rel="noopener noreferrer">
+              KT-43871
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_320">
+         <th id="-t5y34z_362">
+          <p id="-t5y34z_364">
+           <span class="control" id="-t5y34z_365">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_363">
+          <p id="-t5y34z_366">
+           <span class="control" id="-t5y34z_368">
+            Union types for errors and exceptions
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_367">
+           <li class="list__item" id="-t5y34z_369">
+            <p>
+             KEEP proposal: Not defined
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_370">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-68296" id="-t5y34z_371" rel="noopener noreferrer">
+              KT-68296
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_321">
+         <th id="-t5y34z_372">
+          <p id="-t5y34z_374">
+           <span class="control" id="-t5y34z_375">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_373">
+          <p id="-t5y34z_376">
+           <span class="control" id="-t5y34z_378">
+            Name-based destructuring
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_377">
+           <li class="list__item" id="-t5y34z_379">
+            <p>
+             KEEP proposal: Not defined
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_380">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-19627" id="-t5y34z_381" rel="noopener noreferrer">
+              KT-19627
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_322">
+         <th id="-t5y34z_382">
+          <p id="-t5y34z_384">
+           <span class="control" id="-t5y34z_385">
+            Exploration and design
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_383">
+          <p id="-t5y34z_386">
+           <span class="control" id="-t5y34z_388">
+            Support immutability
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_387">
+           <li class="list__item" id="-t5y34z_389">
+            <p>
+             KEEP notes:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/notes/value-classes.md#immutability-and-value-classes" id="-t5y34z_391" rel="noopener noreferrer">
+              immutability
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_390">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-1179" id="-t5y34z_392" rel="noopener noreferrer">
+              KT-1179
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="tabs__content" data-gtm="tab" data-title="KEEP discussion" id="keep-preparation">
+     <div class="table-wrapper">
+      <table class="left_header wide" id="-t5y34z_394">
+       <tbody>
+        <tr id="-t5y34z_400">
+         <th id="-t5y34z_418" width="200">
+          <p id="-t5y34z_420">
+           <span class="control" id="-t5y34z_421">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_419">
+          <p id="-t5y34z_422">
+           <span class="control" id="-t5y34z_424">
+            KMP Kotlin-to-Java direct actualization
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_423">
+           <li class="list__item" id="-t5y34z_425">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/kotlin-to-java-direct-actualization/proposals/kmp-kotlin-to-java-direct-actualization.md" id="-t5y34z_427" rel="noopener noreferrer">
+              kmp-kotlin-to-java-direct-actualization.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_426">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-67202" id="-t5y34z_428" rel="noopener noreferrer">
+              KT-67202
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_401">
+         <th id="-t5y34z_429">
+          <p id="-t5y34z_431">
+           <span class="control" id="-t5y34z_432">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_430">
+          <p id="-t5y34z_433">
+           <span class="control" id="-t5y34z_435">
+            Streamline KDoc ambiguity links
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_434">
+           <li class="list__item" id="-t5y34z_436">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/kdoc/Streamline-KDoc-ambiguity-references/proposals/kdoc/streamline-KDoc-ambiguity-references.md" id="-t5y34z_438" rel="noopener noreferrer">
+              streamline-KDoc-ambiguity-references.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_437">
+            <p>
+             GitHub issues:
+             <a data-external="true" href="https://github.com/Kotlin/dokka/issues/3451" id="-t5y34z_439" rel="noopener noreferrer">
+              dokka/#3451
+             </a>
+             ,
+             <a data-external="true" href="https://github.com/Kotlin/dokka/issues/3179" id="-t5y34z_440" rel="noopener noreferrer">
+              dokka/#3179
+             </a>
+             ,
+             <a data-external="true" href="https://github.com/Kotlin/dokka/issues/3334" id="-t5y34z_441" rel="noopener noreferrer">
+              dokka/#3334
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_402">
+         <th id="-t5y34z_442">
+          <p id="-t5y34z_444">
+           <span class="control" id="-t5y34z_445">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_443">
+          <p id="-t5y34z_446">
+           <span class="control" id="-t5y34z_448">
+            Resolution of links to extensions in KDoc
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_447">
+           <li class="list__item" id="-t5y34z_449">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/kdoc/extension-links/proposals/kdoc/links-to-extensions.md" id="-t5y34z_451" rel="noopener noreferrer">
+              links-to-extensions.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_450">
+            <p>
+             GitHub issue:
+             <a data-external="true" href="https://github.com/Kotlin/dokka/issues/3555" id="-t5y34z_452" rel="noopener noreferrer">
+              dokka/#3555
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_403">
+         <th id="-t5y34z_453">
+          <p id="-t5y34z_455">
+           <span class="control" id="-t5y34z_456">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_454">
+          <p id="-t5y34z_457">
+           <span class="control" id="-t5y34z_459">
+            Uuid
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_458">
+           <li class="list__item" id="-t5y34z_460">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/uuid/proposals/stdlib/uuid.md" id="-t5y34z_462" rel="noopener noreferrer">
+              uuid.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_461">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-31880" id="-t5y34z_463" rel="noopener noreferrer">
+              KT-31880
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_404">
+         <th id="-t5y34z_464">
+          <p id="-t5y34z_466">
+           <span class="control" id="-t5y34z_467">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_465">
+          <p id="-t5y34z_468">
+           <span class="control" id="-t5y34z_470">
+            Improve resolution using expected type
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_469">
+           <li class="list__item" id="-t5y34z_471">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/improved-resolution-expected-type/proposals/improved-resolution-expected-type.md" id="-t5y34z_473" rel="noopener noreferrer">
+              improved-resolution-expected-type.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_472">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-16768" id="-t5y34z_474" rel="noopener noreferrer">
+              KT-16768
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_405">
+         <th id="-t5y34z_475">
+          <p id="-t5y34z_477">
+           <span class="control" id="-t5y34z_478">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_476">
+          <p id="-t5y34z_479">
+           <span class="control" id="-t5y34z_481">
+            Expose boxed inline value classes in JVM
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_480">
+           <li class="list__item" id="-t5y34z_482">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/jvm-expose-boxed/proposals/jvm-expose-boxed.md" id="-t5y34z_484" rel="noopener noreferrer">
+              jvm-expose-boxed.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_483">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-28135" id="-t5y34z_485" rel="noopener noreferrer">
+              KT-28135
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_406">
+         <th id="-t5y34z_486">
+          <p id="-t5y34z_488">
+           <span class="control" id="-t5y34z_489">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_487">
+          <p id="-t5y34z_490">
+           <span class="control" id="-t5y34z_492">
+            Explicit backing fields: both
+            <code class="code" id="-t5y34z_493">
+             public
+            </code>
+            and
+            <code class="code" id="-t5y34z_494">
+             private
+            </code>
+            type for the same property
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_491">
+           <li class="list__item" id="-t5y34z_495">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/explicit-backing-fields-re/proposals/explicit-backing-fields.md" id="-t5y34z_497" rel="noopener noreferrer">
+              explicit-backing-fields.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_496">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-14663" id="-t5y34z_498" rel="noopener noreferrer">
+              KT-14663
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_407">
+         <th id="-t5y34z_499">
+          <p id="-t5y34z_501">
+           <span class="control" id="-t5y34z_502">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_500">
+          <p id="-t5y34z_503">
+           <span class="control" id="-t5y34z_505">
+            Context parameters: support for context-dependent declarations
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_504">
+           <li class="list__item" id="-t5y34z_506">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md" id="-t5y34z_508" rel="noopener noreferrer">
+              context-parameters.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_507">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-10468" id="-t5y34z_509" rel="noopener noreferrer">
+              KT-14663
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_408">
+         <th id="-t5y34z_510">
+          <p id="-t5y34z_512">
+           <span class="control" id="-t5y34z_513">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_511">
+          <p id="-t5y34z_514">
+           <span class="control" id="-t5y34z_516">
+            Guard conditions in when-with-subject
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_515">
+           <li class="list__item" id="-t5y34z_517">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/guards/proposals/guards.md" id="-t5y34z_520" rel="noopener noreferrer">
+              guards.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_518">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-13626" id="-t5y34z_521" rel="noopener noreferrer">
+              KT-13626
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_519">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_409">
+         <th id="-t5y34z_522">
+          <p id="-t5y34z_524">
+           <span class="control" id="-t5y34z_525">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_523">
+          <p id="-t5y34z_526">
+           <span class="control" id="-t5y34z_528">
+            Stabilized
+            <code class="code" id="-t5y34z_529">
+             @SubclassOptInRequired
+            </code>
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_527">
+           <li class="list__item" id="-t5y34z_530">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/subclass-opt-in-required.md" id="-t5y34z_533" rel="noopener noreferrer">
+              subclass-opt-in-required.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_531">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-54617" id="-t5y34z_534" rel="noopener noreferrer">
+              KT-54617
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_532">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_410">
+         <th id="-t5y34z_535">
+          <p id="-t5y34z_537">
+           <span class="control" id="-t5y34z_538">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_536">
+          <p id="-t5y34z_539">
+           <span class="control" id="-t5y34z_541">
+            Multidollar interpolation: improved handling of
+            <code class="code" id="-t5y34z_542">
+             $
+            </code>
+            in string literals
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_540">
+           <li class="list__item" id="-t5y34z_543">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/dollar-escape.md" id="-t5y34z_546" rel="noopener noreferrer">
+              dollar-escape.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_544">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-2425" id="-t5y34z_547" rel="noopener noreferrer">
+              KT-2425
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_545">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_411">
+         <th id="-t5y34z_548">
+          <p id="-t5y34z_550">
+           <span class="control" id="-t5y34z_551">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_549">
+          <p id="-t5y34z_552">
+           <span class="control" id="-t5y34z_554">
+            Non-local
+            <code class="code" id="-t5y34z_555">
+             break
+            </code>
+            and
+            <code class="code" id="-t5y34z_556">
+             continue
+            </code>
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_553">
+           <li class="list__item" id="-t5y34z_557">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/break-continue-in-inline-lambdas.md" id="-t5y34z_560" rel="noopener noreferrer">
+              break-continue-in-inline-lambdas.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_558">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-1436" id="-t5y34z_561" rel="noopener noreferrer">
+              KT-1436
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_559">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_412">
+         <th id="-t5y34z_562">
+          <p id="-t5y34z_564">
+           <span class="control" id="-t5y34z_565">
+            KEEP discussion
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_563">
+          <p id="-t5y34z_566">
+           <span class="control" id="-t5y34z_568">
+            Java synthetic property references
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_567">
+           <li class="list__item" id="-t5y34z_569">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/references-to-java-synthetic-properties.md" id="-t5y34z_572" rel="noopener noreferrer">
+              references-to-java-synthetic-properties.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_570">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-8575" id="-t5y34z_573" rel="noopener noreferrer">
+              KT-8575
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_571">
+            <p>
+             Target version: 2.1.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="tabs__content" data-gtm="tab" data-title="In preview" id="in-preview">
+     <div class="table-wrapper">
+      <table class="left_header" id="-t5y34z_575">
+       <tbody>
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="tabs__content" data-gtm="tab" data-title="Stable" id="stable">
+     <div class="table-wrapper">
+      <table class="left_header wide" id="-t5y34z_600">
+       <tbody>
+        <tr id="-t5y34z_619">
+         <th id="-t5y34z_624" width="200">
+          <p id="-t5y34z_626">
+           <span class="control" id="-t5y34z_627">
+            Stable
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_625">
+          <p id="-t5y34z_628">
+           <span class="control" id="-t5y34z_630">
+            <code class="code" id="-t5y34z_631">
+             Enum.entries
+            </code>
+            : performant replacement of the
+            <code class="code" id="-t5y34z_632">
+             Enum.values()
+            </code>
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_629">
+           <li class="list__item" id="-t5y34z_633">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/enum-entries.md" id="-t5y34z_636" rel="noopener noreferrer">
+              enum-entries.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_634">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48872" id="-t5y34z_637" rel="noopener noreferrer">
+              KT-48872
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_635">
+            <p>
+             Target version: 2.0.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_620">
+         <th id="-t5y34z_638">
+          <p id="-t5y34z_640">
+           <span class="control" id="-t5y34z_641">
+            Stable
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_639">
+          <p id="-t5y34z_642">
+           <span class="control" id="-t5y34z_644">
+            Data objects
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_643">
+           <li class="list__item" id="-t5y34z_645">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/data-objects.md" id="-t5y34z_648" rel="noopener noreferrer">
+              data-objects.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_646">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-4107" id="-t5y34z_649" rel="noopener noreferrer">
+              KT-4107
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_647">
+            <p>
+             Target version: 1.9.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_621">
+         <th id="-t5y34z_650">
+          <p id="-t5y34z_652">
+           <span class="control" id="-t5y34z_653">
+            Stable
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_651">
+          <p id="-t5y34z_654">
+           <span class="control" id="-t5y34z_656">
+            RangeUntil operator
+            <code class="code" id="-t5y34z_657">
+             ..&lt;
+            </code>
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_655">
+           <li class="list__item" id="-t5y34z_658">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/kotlin/KEEP/blob/open-ended-ranges/proposals/open-ended-ranges.md" id="-t5y34z_661" rel="noopener noreferrer">
+              open-ended-ranges.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_659">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-15613" id="-t5y34z_662" rel="noopener noreferrer">
+              KT-15613
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_660">
+            <p>
+             Target version: 1.7.20
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+        <tr id="-t5y34z_622">
+         <th id="-t5y34z_663">
+          <p id="-t5y34z_665">
+           <span class="control" id="-t5y34z_666">
+            Stable
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_664">
+          <p id="-t5y34z_667">
+           <span class="control" id="-t5y34z_669">
+            Definitely non-nullable types
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_668">
+           <li class="list__item" id="-t5y34z_670">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/definitely-non-nullable-types.md" id="-t5y34z_673" rel="noopener noreferrer">
+              definitely-non-nullable-types.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_671">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-26245" id="-t5y34z_674" rel="noopener noreferrer">
+              KT-26245
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_672">
+            <p>
+             Target version: 1.7.0
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="tabs__content" data-gtm="tab" data-title="Revoked" id="revoked">
+     <div class="table-wrapper">
+      <table class="left_header wide" id="-t5y34z_676">
+       <tbody>
+        <tr id="-t5y34z_699">
+         <th id="-t5y34z_700" width="200">
+          <p id="-t5y34z_702">
+           <span class="control" id="-t5y34z_703">
+            Revoked
+           </span>
+          </p>
+         </th>
+         <td id="-t5y34z_701">
+          <p id="-t5y34z_704">
+           <span class="control" id="-t5y34z_706">
+            Context receivers
+           </span>
+          </p>
+          <ul class="list _bullet" id="-t5y34z_705">
+           <li class="list__item" id="-t5y34z_707">
+            <p>
+             KEEP proposal:
+             <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/context-receivers.md" id="-t5y34z_709" rel="noopener noreferrer">
+              context-receivers.md
+             </a>
+            </p>
+           </li>
+           <li class="list__item" id="-t5y34z_708">
+            <p>
+             YouTrack issue:
+             <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-10468" id="-t5y34z_710" rel="noopener noreferrer">
+              KT-10468
+             </a>
+            </p>
+           </li>
+          </ul>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

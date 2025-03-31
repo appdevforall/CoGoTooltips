@@ -1,0 +1,2302 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="compatibility-guide-18" id="compatibility-guide-18.md">
+    Compatibility guide for Kotlin 1.8
+   </h1>
+   <p id="yf6soc_2">
+    <span class="emphasis" id="yf6soc_8">
+     <a data-tooltip="Language design is cast in stone," href="kotlin-evolution-principles.html" id="yf6soc_10">
+      Keeping the Language Modern
+     </a>
+    </span>
+    and
+    <span class="emphasis" id="yf6soc_9">
+     <a data-tooltip="Language design is cast in stone," href="kotlin-evolution-principles.html" id="yf6soc_11">
+      Comfortable Updates
+     </a>
+    </span>
+    are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to make code migration as smooth as possible.
+   </p>
+   <p id="yf6soc_3">
+    While most of the language changes were already announced through other channels, like update changelogs or compiler warnings, this document summarizes them all, providing a complete reference for migration from Kotlin 1.7 to Kotlin 1.8.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="basic-terms" id="basic-terms">
+     Basic terms
+    </h2>
+    <p id="yf6soc_12">
+     In this document we introduce several kinds of compatibility:
+    </p>
+    <ul class="list _bullet" id="yf6soc_13">
+     <li class="list__item" id="yf6soc_15">
+      <p>
+       <span class="emphasis" id="yf6soc_18">
+        source
+       </span>
+       : source-incompatible change stops code that used to compile fine (without errors or warnings) from compiling anymore
+      </p>
+     </li>
+     <li class="list__item" id="yf6soc_16">
+      <p>
+       <span class="emphasis" id="yf6soc_19">
+        binary
+       </span>
+       : two binary artifacts are said to be binary-compatible if interchanging them doesn't lead to loading or linkage errors
+      </p>
+     </li>
+     <li class="list__item" id="yf6soc_17">
+      <p>
+       <span class="emphasis" id="yf6soc_20">
+        behavioral
+       </span>
+       : a change is said to be behavioral-incompatible if the same program demonstrates different behavior before and after applying the change
+      </p>
+     </li>
+    </ul>
+    <p id="yf6soc_14">
+     Remember that those definitions are given only for pure Kotlin. Compatibility of Kotlin code from the other languages perspective (for example, from Java) is out of the scope of this document.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="language" id="language">
+     Language
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="prohibit-the-delegation-of-super-calls-to-an-abstract-superclass-member" id="prohibit-the-delegation-of-super-calls-to-an-abstract-superclass-member">
+      Prohibit the delegation of super calls to an abstract superclass member
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_46">
+      <p id="yf6soc_47">
+       <span class="control" id="yf6soc_53">
+        Issues
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-45508" id="yf6soc_54" rel="noopener noreferrer">
+        KT-45508
+       </a>
+       ,
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-49017" id="yf6soc_55" rel="noopener noreferrer">
+        KT-49017
+       </a>
+       ,
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-38078" id="yf6soc_56" rel="noopener noreferrer">
+        KT-38078
+       </a>
+      </p>
+      <p id="yf6soc_48">
+       <span class="control" id="yf6soc_57">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_49">
+       <span class="control" id="yf6soc_58">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_50">
+       <span class="control" id="yf6soc_59">
+        Short summary
+       </span>
+       : Kotlin will report a compile error when an explicit or implicit super call is delegated to an
+       <span class="emphasis" id="yf6soc_60">
+        abstract
+       </span>
+       member of the superclass, even if there's a default implementation in a super interface
+      </p>
+      <p id="yf6soc_51">
+       <span class="control" id="yf6soc_61">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_52">
+       <li class="list__item" id="yf6soc_62">
+        <p>
+         1.5.20: introduce a warning when non-abstract classes that do not override all abstract members are used
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_63">
+        <p>
+         1.7.0: report a warning if a super call, in fact, accesses an abstract member from a superclass
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_64">
+        <p>
+         1.7.0: report an error in all affected cases if the
+         <code class="code" id="yf6soc_67">
+          -Xjvm-default=all
+         </code>
+         or
+         <code class="code" id="yf6soc_68">
+          -Xjvm-default=all-compatibility
+         </code>
+         compatibility modes are enabled; report an error in the progressive mode
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_65">
+        <p>
+         1.8.0: report an error in cases of declaring a concrete class with a non-overridden abstract method from the superclass, and super calls of
+         <code class="code" id="yf6soc_69">
+          Any
+         </code>
+         methods are overridden as abstract in the superclass
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_66">
+        <p>
+         1.9.0: report an error in all affected cases, including explicit super calls to an abstract method from the super class
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-confusing-grammar-in-when-with-subject" id="deprecate-confusing-grammar-in-when-with-subject">
+      Deprecate confusing grammar in when-with-subject
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_70">
+      <p id="yf6soc_71">
+       <span class="control" id="yf6soc_77">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48385" id="yf6soc_78" rel="noopener noreferrer">
+        KT-48385
+       </a>
+      </p>
+      <p id="yf6soc_72">
+       <span class="control" id="yf6soc_79">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_73">
+       <span class="control" id="yf6soc_80">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_74">
+       <span class="control" id="yf6soc_81">
+        Short summary
+       </span>
+       : Kotlin 1.6 deprecated several confusing grammar constructs in
+       <code class="code" id="yf6soc_82">
+        when
+       </code>
+       condition expressions
+      </p>
+      <p id="yf6soc_75">
+       <span class="control" id="yf6soc_83">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_76">
+       <li class="list__item" id="yf6soc_84">
+        <p>
+         1.6.20: introduce a deprecation warning on the affected expressions
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_85">
+        <p>
+         1.8.0: raise this warning to an error,
+         <code class="code" id="yf6soc_87">
+          -XXLanguage:-ProhibitConfusingSyntaxInWhenBranches
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_86">
+        <p>
+         &gt;= 1.9: repurpose some deprecated constructs for new language features
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prevent-implicit-coercions-between-different-numeric-types" id="prevent-implicit-coercions-between-different-numeric-types">
+      Prevent implicit coercions between different numeric types
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_88">
+      <p id="yf6soc_89">
+       <span class="control" id="yf6soc_95">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48645" id="yf6soc_96" rel="noopener noreferrer">
+        KT-48645
+       </a>
+      </p>
+      <p id="yf6soc_90">
+       <span class="control" id="yf6soc_97">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf6soc_91">
+       <span class="control" id="yf6soc_98">
+        Incompatible change type
+       </span>
+       : behavioral
+      </p>
+      <p id="yf6soc_92">
+       <span class="control" id="yf6soc_99">
+        Short summary
+       </span>
+       : Kotlin will avoid converting numeric values automatically to a primitive numeric type where only a downcast to that type is needed semantically
+      </p>
+      <p id="yf6soc_93">
+       <span class="control" id="yf6soc_100">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_94">
+       <li class="list__item" id="yf6soc_101">
+        <p>
+         &lt; 1.5.30: the old behavior in all affected cases
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_102">
+        <p>
+         1.5.30: fix the downcast behavior in generated property delegate accessors,
+         <code class="code" id="yf6soc_104">
+          -Xuse-old-backend
+         </code>
+         can be used to temporarily revert to the pre-1.5.30 fix behavior
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_103">
+        <p>
+         &gt;= 1.9: fix the downcast behavior in other affected cases
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="make-private-constructors-of-sealed-classes-really-private" id="make-private-constructors-of-sealed-classes-really-private">
+      Make private constructors of sealed classes really private
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_105">
+      <p id="yf6soc_106">
+       <span class="control" id="yf6soc_112">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-44866" id="yf6soc_113" rel="noopener noreferrer">
+        KT-44866
+       </a>
+      </p>
+      <p id="yf6soc_107">
+       <span class="control" id="yf6soc_114">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_108">
+       <span class="control" id="yf6soc_115">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_109">
+       <span class="control" id="yf6soc_116">
+        Short summary
+       </span>
+       : after relaxing restrictions on where the inheritors of sealed classes could be declared in the project structure, the default visibility of sealed class constructors became protected. However, until 1.8, Kotlin still allowed calling explicitly declared private constructors of sealed classes outside those classes' scopes
+      </p>
+      <p id="yf6soc_110">
+       <span class="control" id="yf6soc_117">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_111">
+       <li class="list__item" id="yf6soc_118">
+        <p>
+         1.6.20: report a warning (or an error in the progressive mode) when a private constructor of a sealed class is called outside that class
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_119">
+        <p>
+         1.8.0: use default visibility rules for private constructors (a call to a private constructor can be resolved only if this call is inside the corresponding class), the old behavior can be brought back temporarily by specifying the
+         <code class="code" id="yf6soc_120">
+          -XXLanguage:-UseConsistentRulesForPrivateConstructorsOfSealedClasses
+         </code>
+         compiler argument
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-using-operator-on-incompatible-numeric-types-in-builder-inference-context" id="prohibit-using-operator-on-incompatible-numeric-types-in-builder-inference-context">
+      Prohibit using operator == on incompatible numeric types in builder inference context
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_121">
+      <p id="yf6soc_122">
+       <span class="control" id="yf6soc_128">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-45508" id="yf6soc_129" rel="noopener noreferrer">
+        KT-45508
+       </a>
+      </p>
+      <p id="yf6soc_123">
+       <span class="control" id="yf6soc_130">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_124">
+       <span class="control" id="yf6soc_131">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_125">
+       <span class="control" id="yf6soc_132">
+        Short summary
+       </span>
+       : Kotlin 1.8 will prohibit using the operator
+       <code class="code" id="yf6soc_133">
+        ==
+       </code>
+       on incompatible numeric types, for example,
+       <code class="code" id="yf6soc_134">
+        Int
+       </code>
+       and
+       <code class="code" id="yf6soc_135">
+        Long
+       </code>
+       , in scopes of builder inference lambda functions, the same way as it currently does in other contexts
+      </p>
+      <p id="yf6soc_126">
+       <span class="control" id="yf6soc_136">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_127">
+       <li class="list__item" id="yf6soc_137">
+        <p>
+         1.6.20: report a warning (or an error in the progressive mode) when the operator
+         <code class="code" id="yf6soc_139">
+          ==
+         </code>
+         is used on incompatible numeric types
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_138">
+        <p>
+         1.8.0: raise the warning to an error,
+         <code class="code" id="yf6soc_140">
+          -XXLanguage:-ProperEqualityChecksInBuilderInferenceCalls
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-if-without-else-and-non-exhaustive-when-in-right-hand-side-of-elvis-operator" id="prohibit-if-without-else-and-non-exhaustive-when-in-right-hand-side-of-elvis-operator">
+      Prohibit if without else and non-exhaustive when in right hand side of elvis operator
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_141">
+      <p id="yf6soc_142">
+       <span class="control" id="yf6soc_148">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-44705" id="yf6soc_149" rel="noopener noreferrer">
+        KT-44705
+       </a>
+      </p>
+      <p id="yf6soc_143">
+       <span class="control" id="yf6soc_150">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_144">
+       <span class="control" id="yf6soc_151">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_145">
+       <span class="control" id="yf6soc_152">
+        Short summary
+       </span>
+       : Kotlin 1.8 will prohibit using a non-exhaustive
+       <code class="code" id="yf6soc_153">
+        when
+       </code>
+       or the
+       <code class="code" id="yf6soc_154">
+        if
+       </code>
+       expression without an
+       <code class="code" id="yf6soc_155">
+        else
+       </code>
+       branch on the right hand side of the Elvis operator (
+       <code class="code" id="yf6soc_156">
+        ?:
+       </code>
+       ). Previously, it was allowed if the Elvis operator's result was not used as an expression
+      </p>
+      <p id="yf6soc_146">
+       <span class="control" id="yf6soc_157">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_147">
+       <li class="list__item" id="yf6soc_158">
+        <p>
+         1.6.20: report a warning (or an error in the progressive mode) on such non-exhaustive if and when expressions
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_159">
+        <p>
+         1.8.0: raise this warning to an error,
+        </p>
+        <br/>
+        <p>
+         <code class="code" id="yf6soc_161">
+          -XXLanguage:-ProhibitNonExhaustiveIfInRhsOfElvis
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-upper-bound-violation-in-a-generic-type-alias-usage-one-type-parameter-used-in-several-type-arguments-of-the-aliased-type" id="prohibit-upper-bound-violation-in-a-generic-type-alias-usage-one-type-parameter-used-in-several-type-arguments-of-the-aliased-type">
+      Prohibit upper bound violation in a generic type alias usage (one type parameter used in several type arguments of the aliased type)
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_162">
+      <p id="yf6soc_163">
+       <span class="control" id="yf6soc_169">
+        Issues
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-29168" id="yf6soc_170" rel="noopener noreferrer">
+        KT-29168
+       </a>
+      </p>
+      <p id="yf6soc_164">
+       <span class="control" id="yf6soc_171">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_165">
+       <span class="control" id="yf6soc_172">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_166">
+       <span class="control" id="yf6soc_173">
+        Short summary
+       </span>
+       : Kotlin 1.8 will prohibit using a type alias with type arguments that violate the upper bound restrictions of the corresponding type parameters of the aliased type in case when one typealias type parameter is used in several type arguments of the aliased type, for example,
+       <code class="code" id="yf6soc_174">
+        typealias Alias&lt;T&gt; = Base&lt;T, T&gt;
+       </code>
+      </p>
+      <p id="yf6soc_167">
+       <span class="control" id="yf6soc_175">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_168">
+       <li class="list__item" id="yf6soc_176">
+        <p>
+         1.7.0: report a warning (or an error in the progressive mode) on usages of a type alias with type arguments violating upper bound constraints of the corresponding type parameters of the aliased type
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_177">
+        <p>
+         1.8.0: raise this warning to an error,
+         <code class="code" id="yf6soc_178">
+          -XXLanguage:-ReportMissingUpperBoundsViolatedErrorOnAbbreviationAtSupertypes
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-upper-bound-violation-in-a-generic-type-alias-usage-a-type-parameter-used-in-a-generic-type-argument-of-a-type-argument-of-the-aliased-type" id="prohibit-upper-bound-violation-in-a-generic-type-alias-usage-a-type-parameter-used-in-a-generic-type-argument-of-a-type-argument-of-the-aliased-type">
+      Prohibit upper bound violation in a generic type alias usage (a type parameter used in a generic type argument of a type argument of the aliased type)
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_179">
+      <p id="yf6soc_180">
+       <span class="control" id="yf6soc_186">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-54066" id="yf6soc_187" rel="noopener noreferrer">
+        KT-54066
+       </a>
+      </p>
+      <p id="yf6soc_181">
+       <span class="control" id="yf6soc_188">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_182">
+       <span class="control" id="yf6soc_189">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_183">
+       <span class="control" id="yf6soc_190">
+        Short summary
+       </span>
+       : Kotlin will prohibit using a type alias with type arguments that violate the upper bound restrictions of the corresponding type parameters of the aliased type in case when the typealias type parameter is used as a generic type argument of a type argument of the aliased type, for example,
+       <code class="code" id="yf6soc_191">
+        typealias Alias&lt;T&gt; = Base&lt;List&lt;T&gt;&gt;
+       </code>
+      </p>
+      <p id="yf6soc_184">
+       <span class="control" id="yf6soc_192">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_185">
+       <li class="list__item" id="yf6soc_193">
+        <p>
+         1.8.0: report a warning when a generic typealias usage has type arguments violating upper bound constraints of the corresponding type parameters of the aliased type
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_194">
+        <p>
+         &gt;=1.10: raise the warning to an error
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-using-a-type-parameter-declared-for-an-extension-property-inside-delegate" id="prohibit-using-a-type-parameter-declared-for-an-extension-property-inside-delegate">
+      Prohibit using a type parameter declared for an extension property inside delegate
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_195">
+      <p id="yf6soc_196">
+       <span class="control" id="yf6soc_202">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-24643" id="yf6soc_203" rel="noopener noreferrer">
+        KT-24643
+       </a>
+      </p>
+      <p id="yf6soc_197">
+       <span class="control" id="yf6soc_204">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_198">
+       <span class="control" id="yf6soc_205">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_199">
+       <span class="control" id="yf6soc_206">
+        Short summary
+       </span>
+       : Kotlin 1.8 will prohibit delegating extension properties on a generic type to generic types that use the type parameter of the receiver in an unsafe way
+      </p>
+      <p id="yf6soc_200">
+       <span class="control" id="yf6soc_207">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_201">
+       <li class="list__item" id="yf6soc_208">
+        <p>
+         1.6.0: report a warning (or an error in the progressive mode) when delegating an extension property to a type that uses type parameters inferred from the delegated property's type arguments in a particular way
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_209">
+        <p>
+         1.8.0: raise the warning to an error,
+         <code class="code" id="yf6soc_210">
+          -XXLanguage:-ForbidUsingExtensionPropertyTypeParameterInDelegate
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="forbid-synchronized-annotation-on-suspend-functions" id="forbid-synchronized-annotation-on-suspend-functions">
+      Forbid @Synchronized annotation on suspend functions
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_211">
+      <p id="yf6soc_212">
+       <span class="control" id="yf6soc_218">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48516" id="yf6soc_219" rel="noopener noreferrer">
+        KT-48516
+       </a>
+      </p>
+      <p id="yf6soc_213">
+       <span class="control" id="yf6soc_220">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_214">
+       <span class="control" id="yf6soc_221">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_215">
+       <span class="control" id="yf6soc_222">
+        Short summary
+       </span>
+       : Kotlin 1.8 will prohibit placing the
+       <code class="code" id="yf6soc_223">
+        @Synchronized
+       </code>
+       annotation on suspend functions because a suspending call should not be allowed to happen inside a synchronized block
+      </p>
+      <p id="yf6soc_216">
+       <span class="control" id="yf6soc_224">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_217">
+       <li class="list__item" id="yf6soc_225">
+        <p>
+         1.6.0: report a warning on suspend functions annotated with the
+         <code class="code" id="yf6soc_227">
+          @Synchronized
+         </code>
+         annotation, the warning is reported as an error in the progressive mode
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_226">
+        <p>
+         1.8.0: raise the warning to an error,
+         <code class="code" id="yf6soc_228">
+          -XXLanguage:-SynchronizedSuspendError
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-using-spread-operator-for-passing-arguments-to-non-vararg-parameters" id="prohibit-using-spread-operator-for-passing-arguments-to-non-vararg-parameters">
+      Prohibit using spread operator for passing arguments to non-vararg parameters
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_229">
+      <p id="yf6soc_230">
+       <span class="control" id="yf6soc_236">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48162" id="yf6soc_237" rel="noopener noreferrer">
+        KT-48162
+       </a>
+      </p>
+      <p id="yf6soc_231">
+       <span class="control" id="yf6soc_238">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_232">
+       <span class="control" id="yf6soc_239">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_233">
+       <span class="control" id="yf6soc_240">
+        Short summary
+       </span>
+       : Kotlin allowed passing arrays with the spread operator (
+       <code class="code" id="yf6soc_241">
+        *
+       </code>
+       ) to non-vararg array parameters in certain conditions. Since Kotlin 1.8, this will be prohibited
+      </p>
+      <p id="yf6soc_234">
+       <span class="control" id="yf6soc_242">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_235">
+       <li class="list__item" id="yf6soc_243">
+        <p>
+         1.6.0: report a warning (or an error in the progressive mode) on using the spread operator where a non-vararg array parameter is expected
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_244">
+        <p>
+         1.8.0: raise the warning to an error,
+         <code class="code" id="yf6soc_245">
+          -XXLanguage:-ReportNonVarargSpreadOnGenericCalls
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-null-safety-violation-in-lambdas-passed-to-functions-overloaded-by-lambda-return-type" id="prohibit-null-safety-violation-in-lambdas-passed-to-functions-overloaded-by-lambda-return-type">
+      Prohibit null-safety violation in lambdas passed to functions overloaded by lambda return type
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_246">
+      <p id="yf6soc_247">
+       <span class="control" id="yf6soc_253">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-49658" id="yf6soc_254" rel="noopener noreferrer">
+        KT-49658
+       </a>
+      </p>
+      <p id="yf6soc_248">
+       <span class="control" id="yf6soc_255">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_249">
+       <span class="control" id="yf6soc_256">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_250">
+       <span class="control" id="yf6soc_257">
+        Short summary
+       </span>
+       : Kotlin 1.8 will prohibit returning
+       <code class="code" id="yf6soc_258">
+        null
+       </code>
+       from lambdas passed to functions overloaded by those lambdas' return types when overloads don't allow a nullable return type. Previously, it was allowed when
+       <code class="code" id="yf6soc_259">
+        null
+       </code>
+       was returned from one of the branches of the
+       <code class="code" id="yf6soc_260">
+        when
+       </code>
+       operator
+      </p>
+      <p id="yf6soc_251">
+       <span class="control" id="yf6soc_261">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_252">
+       <li class="list__item" id="yf6soc_262">
+        <p>
+         1.6.20: report a type mismatch warning (or an error in the progressive mode)
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_263">
+        <p>
+         1.8.0: raise the warning to an error,
+         <code class="code" id="yf6soc_264">
+          -XXLanguage:-DontLoseDiagnosticsDuringOverloadResolutionByReturnType
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="keep-nullability-when-approximating-local-types-in-public-signatures" id="keep-nullability-when-approximating-local-types-in-public-signatures">
+      Keep nullability when approximating local types in public signatures
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_265">
+      <p id="yf6soc_266">
+       <span class="control" id="yf6soc_272">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-53982" id="yf6soc_273" rel="noopener noreferrer">
+        KT-53982
+       </a>
+      </p>
+      <p id="yf6soc_267">
+       <span class="control" id="yf6soc_274">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_268">
+       <span class="control" id="yf6soc_275">
+        Incompatible change type
+       </span>
+       : source, binary
+      </p>
+      <p id="yf6soc_269">
+       <span class="control" id="yf6soc_276">
+        Short summary
+       </span>
+       : when a local or anonymous type is returned from an expression-body function without an explicitly specified return type, Kotlin compiler infers (or approximates) the return type using the known supertype of that type. During this, the compiler can infer a non-nullable type where the null value could in fact be returned
+      </p>
+      <p id="yf6soc_270">
+       <span class="control" id="yf6soc_277">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_271">
+       <li class="list__item" id="yf6soc_278">
+        <p>
+         1.8.0: approximate flexible types by flexible supertypes
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_279">
+        <p>
+         1.8.0: report a warning when a declaration is inferred to have a non-nullable type that should be nullable, prompting users to specify the type explicitly
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_280">
+        <p>
+         1.9.0: approximate nullable types by nullable supertypes,
+         <code class="code" id="yf6soc_281">
+          -XXLanguage:-KeepNullabilityWhenApproximatingLocalType
+         </code>
+         can be used to temporarily revert to the pre-1.9 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="do-not-propagate-deprecation-through-overrides" id="do-not-propagate-deprecation-through-overrides">
+      Do not propagate deprecation through overrides
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_282">
+      <p id="yf6soc_283">
+       <span class="control" id="yf6soc_289">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-47902" id="yf6soc_290" rel="noopener noreferrer">
+        KT-47902
+       </a>
+      </p>
+      <p id="yf6soc_284">
+       <span class="control" id="yf6soc_291">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_285">
+       <span class="control" id="yf6soc_292">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_286">
+       <span class="control" id="yf6soc_293">
+        Short summary
+       </span>
+       : Kotlin 1.9 will no longer propagate deprecation from a deprecated member in the superclass to its overriding member in the subclass, thus providing an explicit mechanism for deprecating a member of the superclass while leaving it non-deprecated in the subclass
+      </p>
+      <p id="yf6soc_287">
+       <span class="control" id="yf6soc_294">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_288">
+       <li class="list__item" id="yf6soc_295">
+        <p>
+         1.6.20: reporting a warning with the message of the future behavior change and a prompt to either suppress this warning or explicitly write a
+         <code class="code" id="yf6soc_297">
+          @Deprecated
+         </code>
+         annotation on an override of a deprecated member
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_296">
+        <p>
+         1.9.0: stop propagating deprecation status to the overridden members. This change also takes effect immediately in the progressive mode
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-implicit-inferring-a-type-variable-into-an-upper-bound-in-the-builder-inference-context" id="prohibit-implicit-inferring-a-type-variable-into-an-upper-bound-in-the-builder-inference-context">
+      Prohibit implicit inferring a type variable into an upper bound in the builder inference context
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_298">
+      <p id="yf6soc_299">
+       <span class="control" id="yf6soc_305">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-47986" id="yf6soc_306" rel="noopener noreferrer">
+        KT-47986
+       </a>
+      </p>
+      <p id="yf6soc_300">
+       <span class="control" id="yf6soc_307">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_301">
+       <span class="control" id="yf6soc_308">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_302">
+       <span class="control" id="yf6soc_309">
+        Short summary
+       </span>
+       : Kotlin 1.9 will prohibit inferring a type variable into the corresponding type parameter's upper bound in the absence of any use-site type information in the scope of builder inference lambda functions, the same way as it does currently in other contexts
+      </p>
+      <p id="yf6soc_303">
+       <span class="control" id="yf6soc_310">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_304">
+       <li class="list__item" id="yf6soc_311">
+        <p>
+         1.7.20: report a warning (or an error in the progressive mode) when a type parameter is inferred into declared upper bounds in the absence of use-site type information
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_312">
+        <p>
+         1.9.0: raise the warning to an error,
+         <code class="code" id="yf6soc_313">
+          -XXLanguage:-ForbidInferringPostponedTypeVariableIntoDeclaredUpperBound
+         </code>
+         can be used to temporarily revert to the pre-1.9 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-using-collection-literals-in-annotation-classes-anywhere-except-their-parameters-declaration" id="prohibit-using-collection-literals-in-annotation-classes-anywhere-except-their-parameters-declaration">
+      Prohibit using collection literals in annotation classes anywhere except their parameters declaration
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_314">
+      <p id="yf6soc_315">
+       <span class="control" id="yf6soc_321">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-39041" id="yf6soc_322" rel="noopener noreferrer">
+        KT-39041
+       </a>
+      </p>
+      <p id="yf6soc_316">
+       <span class="control" id="yf6soc_323">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_317">
+       <span class="control" id="yf6soc_324">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_318">
+       <span class="control" id="yf6soc_325">
+        Short summary
+       </span>
+       : Kotlin allows using collection literals in a restricted way - for passing arrays to parameters of annotation classes or specifying default values for these parameters. However besides that, Kotlin allowed using collections literals anywhere else inside an annotation class, for example, in its nested object. Kotlin 1.9 will prohibit using collection literals in annotation classes anywhere except their parameters' default values.
+      </p>
+      <p id="yf6soc_319">
+       <span class="control" id="yf6soc_326">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_320">
+       <li class="list__item" id="yf6soc_327">
+        <p>
+         1.7.0: report a warning (or an error in the progressive mode) on array literals in nested objects in annotation classes
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_328">
+        <p>
+         1.9.0: raise the warning to an error
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-forward-referencing-of-parameters-with-default-values-in-default-value-expressions" id="prohibit-forward-referencing-of-parameters-with-default-values-in-default-value-expressions">
+      Prohibit forward referencing of parameters with default values in default value expressions
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_329">
+      <p id="yf6soc_330">
+       <span class="control" id="yf6soc_336">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-25694" id="yf6soc_337" rel="noopener noreferrer">
+        KT-25694
+       </a>
+      </p>
+      <p id="yf6soc_331">
+       <span class="control" id="yf6soc_338">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_332">
+       <span class="control" id="yf6soc_339">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_333">
+       <span class="control" id="yf6soc_340">
+        Short summary
+       </span>
+       : Kotlin 1.9 will prohibit forward referencing of parameters with default values in default value expressions of other parameters. This ensures that by the time the parameter is accessed in a default value expression, it would already have a value either passed to the function or initialized by its own default value expression
+      </p>
+      <p id="yf6soc_334">
+       <span class="control" id="yf6soc_341">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_335">
+       <li class="list__item" id="yf6soc_342">
+        <p>
+         1.7.0: report a warning (or an error in the progressive mode) when a parameter with default value is references in default value of another parameter that comes before it
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_343">
+        <p>
+         1.9.0: raise the warning to an error,
+         <code class="code" id="yf6soc_344">
+          -XXLanguage:-ProhibitIllegalValueParameterUsageInDefaultArguments
+         </code>
+         can be used to temporarily revert to the pre-1.9 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-extension-calls-on-inline-functional-parameters" id="prohibit-extension-calls-on-inline-functional-parameters">
+      Prohibit extension calls on inline functional parameters
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_345">
+      <p id="yf6soc_346">
+       <span class="control" id="yf6soc_352">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-52502" id="yf6soc_353" rel="noopener noreferrer">
+        KT-52502
+       </a>
+      </p>
+      <p id="yf6soc_347">
+       <span class="control" id="yf6soc_354">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_348">
+       <span class="control" id="yf6soc_355">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_349">
+       <span class="control" id="yf6soc_356">
+        Short summary
+       </span>
+       : while Kotlin allowed passing an inline functional parameter to another inline function as a receiver, it always resulted in compiler exceptions when compiling such code. Kotlin 1.9 will prohibit this, thus reporting an error instead of crashing the compiler
+      </p>
+      <p id="yf6soc_350">
+       <span class="control" id="yf6soc_357">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_351">
+       <li class="list__item" id="yf6soc_358">
+        <p>
+         1.7.20: report a warning (or an error in the progressive mode) for inline extension calls on inline functional parameters
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_359">
+        <p>
+         1.9.0: raise the warning to an error
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-calls-to-infix-functions-named-suspend-with-an-anonymous-function-argument" id="prohibit-calls-to-infix-functions-named-suspend-with-an-anonymous-function-argument">
+      Prohibit calls to infix functions named suspend with an anonymous function argument
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_360">
+      <p id="yf6soc_361">
+       <span class="control" id="yf6soc_367">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-49264" id="yf6soc_368" rel="noopener noreferrer">
+        KT-49264
+       </a>
+      </p>
+      <p id="yf6soc_362">
+       <span class="control" id="yf6soc_369">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_363">
+       <span class="control" id="yf6soc_370">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_364">
+       <span class="control" id="yf6soc_371">
+        Short summary
+       </span>
+       : Kotlin 1.9 will no longer allow calling infix functions named
+       <code class="code" id="yf6soc_372">
+        suspend
+       </code>
+       that have a single argument of a functional type passed as an anonymous function literal
+      </p>
+      <p id="yf6soc_365">
+       <span class="control" id="yf6soc_373">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_366">
+       <li class="list__item" id="yf6soc_374">
+        <p>
+         1.7.20: report a warning on suspend infix calls with an anonymous function literal
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_375">
+        <p>
+         1.9.0: raise the warning to an error,
+         <code class="code" id="yf6soc_377">
+          -XXLanguage:-ModifierNonBuiltinSuspendFunError
+         </code>
+         can be used to temporarily revert to the pre-1.9 behavior
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_376">
+        <p>
+         &gt;=1.10: Change how the
+         <code class="code" id="yf6soc_378">
+          suspend fun
+         </code>
+         token sequence is interpreted by the parser
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-using-captured-type-parameters-in-inner-classes-against-their-variance" id="prohibit-using-captured-type-parameters-in-inner-classes-against-their-variance">
+      Prohibit using captured type parameters in inner classes against their variance
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_379">
+      <p id="yf6soc_380">
+       <span class="control" id="yf6soc_386">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-50947" id="yf6soc_387" rel="noopener noreferrer">
+        KT-50947
+       </a>
+      </p>
+      <p id="yf6soc_381">
+       <span class="control" id="yf6soc_388">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_382">
+       <span class="control" id="yf6soc_389">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_383">
+       <span class="control" id="yf6soc_390">
+        Short summary
+       </span>
+       : Kotlin 1.9 will prohibit using type parameters of an outer class having
+       <code class="code" id="yf6soc_391">
+        in
+       </code>
+       or
+       <code class="code" id="yf6soc_392">
+        out
+       </code>
+       variance in an inner class of that class in positions violating that type parameters' declared variance
+      </p>
+      <p id="yf6soc_384">
+       <span class="control" id="yf6soc_393">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_385">
+       <li class="list__item" id="yf6soc_394">
+        <p>
+         1.7.0: report a warning (or an error in the progressive mode) when an outer class' type parameter usage position violates the variance rules of that parameter
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_395">
+        <p>
+         1.9.0: raise the warning to an error,
+         <code class="code" id="yf6soc_396">
+          -XXLanguage:-ReportTypeVarianceConflictOnQualifierArguments
+         </code>
+         can be used to temporarily revert to the pre-1.9 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-recursive-call-of-a-function-without-explicit-return-type-in-compound-assignment-operators" id="prohibit-recursive-call-of-a-function-without-explicit-return-type-in-compound-assignment-operators">
+      Prohibit recursive call of a function without explicit return type in compound assignment operators
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_397">
+      <p id="yf6soc_398">
+       <span class="control" id="yf6soc_404">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48546" id="yf6soc_405" rel="noopener noreferrer">
+        KT-48546
+       </a>
+      </p>
+      <p id="yf6soc_399">
+       <span class="control" id="yf6soc_406">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_400">
+       <span class="control" id="yf6soc_407">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_401">
+       <span class="control" id="yf6soc_408">
+        Short summary
+       </span>
+       : Kotlin 1.9 will prohibit calling a function without explicitly specified return type in an argument of a compound assignment operator inside that function's body, as it currently does in other expressions inside the body of that function
+      </p>
+      <p id="yf6soc_402">
+       <span class="control" id="yf6soc_409">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_403">
+       <li class="list__item" id="yf6soc_410">
+        <p>
+         1.7.0: report a warning (or an error in the progressive mode) when a function without explicitly specified return type is called recursively in that function's body in a compound assignment operator argument
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_411">
+        <p>
+         1.9.0: raise the warning to an error
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-unsound-calls-with-expected-notnull-t-and-given-kotlin-generic-parameter-with-nullable-bound" id="prohibit-unsound-calls-with-expected-notnull-t-and-given-kotlin-generic-parameter-with-nullable-bound">
+      Prohibit unsound calls with expected @NotNull T and given Kotlin generic parameter with nullable bound
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_412">
+      <p id="yf6soc_413">
+       <span class="control" id="yf6soc_419">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-36770" id="yf6soc_420" rel="noopener noreferrer">
+        KT-36770
+       </a>
+      </p>
+      <p id="yf6soc_414">
+       <span class="control" id="yf6soc_421">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf6soc_415">
+       <span class="control" id="yf6soc_422">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_416">
+       <span class="control" id="yf6soc_423">
+        Short summary
+       </span>
+       : Kotlin 1.9 will prohibit method calls where a value of a potentially nullable generic type is passed for a
+       <code class="code" id="yf6soc_424">
+        @NotNull
+       </code>
+       -annotated parameter of a Java method
+      </p>
+      <p id="yf6soc_417">
+       <span class="control" id="yf6soc_425">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_418">
+       <li class="list__item" id="yf6soc_426">
+        <p>
+         1.5.20: report a warning when an unconstrained generic type parameter is passed where a non-nullable type is expected
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_427">
+        <p>
+         1.9.0: report a type mismatch error instead of the warning above,
+        </p>
+        <br/>
+        <p>
+         <code class="code" id="yf6soc_429">
+          -XXLanguage:-ProhibitUsingNullableTypeParameterAgainstNotNullAnnotated
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-access-to-members-of-a-companion-of-an-enum-class-from-entry-initializers-of-this-enum" id="prohibit-access-to-members-of-a-companion-of-an-enum-class-from-entry-initializers-of-this-enum">
+      Prohibit access to members of a companion of an enum class from entry initializers of this enum
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_430">
+      <p id="yf6soc_431">
+       <span class="control" id="yf6soc_437">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-49110" id="yf6soc_438" rel="noopener noreferrer">
+        KT-49110
+       </a>
+      </p>
+      <p id="yf6soc_432">
+       <span class="control" id="yf6soc_439">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf6soc_433">
+       <span class="control" id="yf6soc_440">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_434">
+       <span class="control" id="yf6soc_441">
+        Short summary
+       </span>
+       : Kotlin 1.9 will prohibit all kinds of access to the companion object of an enum from an enum entry initializer
+      </p>
+      <p id="yf6soc_435">
+       <span class="control" id="yf6soc_442">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_436">
+       <li class="list__item" id="yf6soc_443">
+        <p>
+         1.6.20: report a warning (or an error in the progressive mode) on such companion member access
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_444">
+        <p>
+         1.9.0: raise the warning to an error,
+         <code class="code" id="yf6soc_445">
+          -XXLanguage:-ProhibitAccessToEnumCompanionMembersInEnumConstructorCall
+         </code>
+         can be used to temporarily revert to the pre-1.8 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-and-remove-enum-declaringclass-synthetic-property" id="deprecate-and-remove-enum-declaringclass-synthetic-property">
+      Deprecate and remove Enum.declaringClass synthetic property
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_446">
+      <p id="yf6soc_447">
+       <span class="control" id="yf6soc_453">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-49653" id="yf6soc_454" rel="noopener noreferrer">
+        KT-49653
+       </a>
+      </p>
+      <p id="yf6soc_448">
+       <span class="control" id="yf6soc_455">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf6soc_449">
+       <span class="control" id="yf6soc_456">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_450">
+       <span class="control" id="yf6soc_457">
+        Short summary
+       </span>
+       : Kotlin allowed using the synthetic property
+       <code class="code" id="yf6soc_458">
+        declaringClass
+       </code>
+       on
+       <code class="code" id="yf6soc_459">
+        Enum
+       </code>
+       values produced from the method
+       <code class="code" id="yf6soc_460">
+        getDeclaringClass()
+       </code>
+       of the underlying Java class
+       <code class="code" id="yf6soc_461">
+        java.lang.Enum
+       </code>
+       even though this method is not available for Kotlin
+       <code class="code" id="yf6soc_462">
+        Enum
+       </code>
+       type. Kotlin 1.9 will prohibit using this property, proposing to migrate to the extension property
+       <code class="code" id="yf6soc_463">
+        declaringJavaClass
+       </code>
+       instead
+      </p>
+      <p id="yf6soc_451">
+       <span class="control" id="yf6soc_464">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_452">
+       <li class="list__item" id="yf6soc_465">
+        <p>
+         1.7.0: report a warning (or an error in the progressive mode) on
+         <code class="code" id="yf6soc_468">
+          declaringClass
+         </code>
+         property usages, propose the migration to
+         <code class="code" id="yf6soc_469">
+          declaringJavaClass
+         </code>
+         extension
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_466">
+        <p>
+         1.9.0: raise the warning to an error,
+         <code class="code" id="yf6soc_470">
+          -XXLanguage:-ProhibitEnumDeclaringClass
+         </code>
+         can be used to temporarily revert to the pre-1.9 behavior
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_467">
+        <p>
+         &gt;=1.10: remove
+         <code class="code" id="yf6soc_471">
+          declaringClass
+         </code>
+         synthetic property
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-the-enable-and-the-compatibility-modes-of-the-compiler-option-xjvm-default" id="deprecate-the-enable-and-the-compatibility-modes-of-the-compiler-option-xjvm-default">
+      Deprecate the enable and the compatibility modes of the compiler option -Xjvm-default
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_472">
+      <p id="yf6soc_473">
+       <span class="control" id="yf6soc_479">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-46329" id="yf6soc_480" rel="noopener noreferrer">
+        KT-46329
+       </a>
+      </p>
+      <p id="yf6soc_474">
+       <span class="control" id="yf6soc_481">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf6soc_475">
+       <span class="control" id="yf6soc_482">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_476">
+       <span class="control" id="yf6soc_483">
+        Short summary
+       </span>
+       : Kotlin 1.6.20 warns about the usage of the
+       <code class="code" id="yf6soc_484">
+        enable
+       </code>
+       and
+       <code class="code" id="yf6soc_485">
+        compatibility
+       </code>
+       modes of the
+       <code class="code" id="yf6soc_486">
+        -Xjvm-default
+       </code>
+       compiler option
+      </p>
+      <p id="yf6soc_477">
+       <span class="control" id="yf6soc_487">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_478">
+       <li class="list__item" id="yf6soc_488">
+        <p>
+         1.6.20: introduce a warning on the
+         <code class="code" id="yf6soc_490">
+          enable
+         </code>
+         and
+         <code class="code" id="yf6soc_491">
+          compatibility
+         </code>
+         modes of the
+         <code class="code" id="yf6soc_492">
+          -Xjvm-default
+         </code>
+         compiler option
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_489">
+        <p>
+         &gt;= 1.9: raise this warning to an error
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="standard-library" id="standard-library">
+     Standard library
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="warn-about-potential-overload-resolution-change-when-range-progression-starts-implementing-collection" id="warn-about-potential-overload-resolution-change-when-range-progression-starts-implementing-collection">
+      Warn about potential overload resolution change when Range/Progression starts implementing Collection
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_496">
+      <p id="yf6soc_497">
+       <span class="control" id="yf6soc_503">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-49276" id="yf6soc_504" rel="noopener noreferrer">
+        KT-49276
+       </a>
+      </p>
+      <p id="yf6soc_498">
+       <span class="control" id="yf6soc_505">
+        Component
+       </span>
+       : Core language / kotlin-stdlib
+      </p>
+      <p id="yf6soc_499">
+       <span class="control" id="yf6soc_506">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_500">
+       <span class="control" id="yf6soc_507">
+        Short summary
+       </span>
+       : it is planned to implement the
+       <code class="code" id="yf6soc_508">
+        Collection
+       </code>
+       interface in the standard progressions and concrete ranges inherited from them in Kotlin 1.9. This could make a different overload selected in the overload resolution if there are two overloads of some method, one accepting an element and another accepting a collection. Kotlin will make this situation visible by reporting a warning or an error when such overloaded method is called with a range or progression argument
+      </p>
+      <p id="yf6soc_501">
+       <span class="control" id="yf6soc_509">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_502">
+       <li class="list__item" id="yf6soc_510">
+        <p>
+         1.6.20: report a warning when an overloaded method is called with the standard progression or its range inheritor as an argument if implementing the
+         <code class="code" id="yf6soc_513">
+          Collection
+         </code>
+         interface by this progression/range leads to another overload being selected in this call in future
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_511">
+        <p>
+         1.8.0: raise this warning to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_512">
+        <p>
+         1.9.0: stop reporting the error, implement
+         <code class="code" id="yf6soc_514">
+          Collection
+         </code>
+         interface in progressions thus changing the overload resolution result in the affected cases
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="migrate-declarations-from-kotlin-dom-and-kotlin-browser-packages-to-kotlinx" id="migrate-declarations-from-kotlin-dom-and-kotlin-browser-packages-to-kotlinx">
+      Migrate declarations from kotlin.dom and kotlin.browser packages to kotlinx.*
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_515">
+      <p id="yf6soc_516">
+       <span class="control" id="yf6soc_522">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-39330" id="yf6soc_523" rel="noopener noreferrer">
+        KT-39330
+       </a>
+      </p>
+      <p id="yf6soc_517">
+       <span class="control" id="yf6soc_524">
+        Component
+       </span>
+       : kotlin-stdlib (JS)
+      </p>
+      <p id="yf6soc_518">
+       <span class="control" id="yf6soc_525">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_519">
+       <span class="control" id="yf6soc_526">
+        Short summary
+       </span>
+       : declarations from the
+       <code class="code" id="yf6soc_527">
+        kotlin.dom
+       </code>
+       and
+       <code class="code" id="yf6soc_528">
+        kotlin.browser
+       </code>
+       packages are moved to the corresponding
+       <code class="code" id="yf6soc_529">
+        kotlinx.*
+       </code>
+       packages to prepare for extracting them from stdlib
+      </p>
+      <p id="yf6soc_520">
+       <span class="control" id="yf6soc_530">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_521">
+       <li class="list__item" id="yf6soc_531">
+        <p>
+         1.4.0: introduce the replacement API in
+         <code class="code" id="yf6soc_536">
+          kotlinx.dom
+         </code>
+         and
+         <code class="code" id="yf6soc_537">
+          kotlinx.browser
+         </code>
+         packages
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_532">
+        <p>
+         1.4.0: deprecate the API in
+         <code class="code" id="yf6soc_538">
+          kotlin.dom
+         </code>
+         and
+         <code class="code" id="yf6soc_539">
+          kotlin.browser
+         </code>
+         packages and propose the new API above as a replacement
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_533">
+        <p>
+         1.6.0: raise the deprecation level to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_534">
+        <p>
+         1.8.20: remove the deprecated functions from stdlib for JS-IR target
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_535">
+        <p>
+         &gt;= 1.9: move the API in kotlinx.* packages to a separate library
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-some-js-only-api" id="deprecate-some-js-only-api">
+      Deprecate some JS-only API
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_540">
+      <p id="yf6soc_541">
+       <span class="control" id="yf6soc_547">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48587" id="yf6soc_548" rel="noopener noreferrer">
+        KT-48587
+       </a>
+      </p>
+      <p id="yf6soc_542">
+       <span class="control" id="yf6soc_549">
+        Component
+       </span>
+       : kotlin-stdlib (JS)
+      </p>
+      <p id="yf6soc_543">
+       <span class="control" id="yf6soc_550">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_544">
+       <span class="control" id="yf6soc_551">
+        Short summary
+       </span>
+       : a number of JS-only functions in stdlib are deprecated for removal. They include:
+       <code class="code" id="yf6soc_552">
+        String.concat(String)
+       </code>
+       ,
+       <code class="code" id="yf6soc_553">
+        String.match(regex: String)
+       </code>
+       ,
+       <code class="code" id="yf6soc_554">
+        String.matches(regex: String)
+       </code>
+       , and the
+       <code class="code" id="yf6soc_555">
+        sort
+       </code>
+       functions on arrays taking a comparison function, for example,
+       <code class="code" id="yf6soc_556">
+        Array&lt;out T&gt;.sort(comparison: (a: T, b: T) -&gt; Int)
+       </code>
+      </p>
+      <p id="yf6soc_545">
+       <span class="control" id="yf6soc_557">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_546">
+       <li class="list__item" id="yf6soc_558">
+        <p>
+         1.6.0: deprecate the affected functions with a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_559">
+        <p>
+         1.9.0: raise the deprecation level to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_560">
+        <p>
+         &gt;=1.10.0: remove the deprecated functions from the public API
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="tools" id="tools">
+     Tools
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="raise-deprecation-level-of-classpath-property-of-kotlincompile-task" id="raise-deprecation-level-of-classpath-property-of-kotlincompile-task">
+      Raise deprecation level of classpath property of KotlinCompile task
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_566">
+      <p id="yf6soc_567">
+       <span class="control" id="yf6soc_573">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-51679" id="yf6soc_574" rel="noopener noreferrer">
+        KT-51679
+       </a>
+      </p>
+      <p id="yf6soc_568">
+       <span class="control" id="yf6soc_575">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf6soc_569">
+       <span class="control" id="yf6soc_576">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_570">
+       <span class="control" id="yf6soc_577">
+        Short summary
+       </span>
+       : the
+       <code class="code" id="yf6soc_578">
+        classpath
+       </code>
+       property of the
+       <code class="code" id="yf6soc_579">
+        KotlinCompile
+       </code>
+       task is deprecated
+      </p>
+      <p id="yf6soc_571">
+       <span class="control" id="yf6soc_580">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_572">
+       <li class="list__item" id="yf6soc_581">
+        <p>
+         1.7.0: the
+         <code class="code" id="yf6soc_584">
+          classpath
+         </code>
+         property is deprecated
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_582">
+        <p>
+         1.8.0: raise the deprecation level to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_583">
+        <p>
+         &gt;=1.9.0: remove the deprecated functions from the public API
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="remove-kapt-use-worker-api-gradle-property" id="remove-kapt-use-worker-api-gradle-property">
+      Remove kapt.use.worker.api Gradle property
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_585">
+      <p id="yf6soc_586">
+       <span class="control" id="yf6soc_592">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48827" id="yf6soc_593" rel="noopener noreferrer">
+        KT-48827
+       </a>
+      </p>
+      <p id="yf6soc_587">
+       <span class="control" id="yf6soc_594">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf6soc_588">
+       <span class="control" id="yf6soc_595">
+        Incompatible change type
+       </span>
+       : behavioral
+      </p>
+      <p id="yf6soc_589">
+       <span class="control" id="yf6soc_596">
+        Short summary
+       </span>
+       : remove the
+       <code class="code" id="yf6soc_597">
+        kapt.use.worker.api
+       </code>
+       property that allowed to run kapt via Gradle Workers API (default: true)
+      </p>
+      <p id="yf6soc_590">
+       <span class="control" id="yf6soc_598">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf6soc_591">
+       <li class="list__item" id="yf6soc_599">
+        <p>
+         1.6.20: raise the deprecation level to a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_600">
+        <p>
+         1.8.0: remove this property
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="remove-kotlin-compiler-execution-strategy-system-property" id="remove-kotlin-compiler-execution-strategy-system-property">
+      Remove kotlin.compiler.execution.strategy system property
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_601">
+      <p id="yf6soc_602">
+       <span class="control" id="yf6soc_608">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-51831" id="yf6soc_609" rel="noopener noreferrer">
+        KT-51831
+       </a>
+      </p>
+      <p id="yf6soc_603">
+       <span class="control" id="yf6soc_610">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf6soc_604">
+       <span class="control" id="yf6soc_611">
+        Incompatible change type
+       </span>
+       : behavioral
+      </p>
+      <p id="yf6soc_605">
+       <span class="control" id="yf6soc_612">
+        Short summary
+       </span>
+       : remove the
+       <code class="code" id="yf6soc_613">
+        kotlin.compiler.execution.strategy
+       </code>
+       system property used to choose a compiler execution strategy. Use the Gradle property
+       <code class="code" id="yf6soc_614">
+        kotlin.compiler.execution.strategy
+       </code>
+       or the compile task property
+       <code class="code" id="yf6soc_615">
+        compilerExecutionStrategy
+       </code>
+       instead
+      </p>
+      <p id="yf6soc_606">
+       <span class="control" id="yf6soc_616">
+        Deprecation cycle:
+       </span>
+      </p>
+      <ul class="list _bullet" id="yf6soc_607">
+       <li class="list__item" id="yf6soc_617">
+        <p>
+         1.7.0: raise the deprecation level to a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf6soc_618">
+        <p>
+         1.8.0: remove the property
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="changes-in-compiler-options" id="changes-in-compiler-options">
+      Changes in compiler options
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_619">
+      <p id="yf6soc_620">
+       <span class="control" id="yf6soc_626">
+        Issues
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-27301" id="yf6soc_627" rel="noopener noreferrer">
+        KT-27301
+       </a>
+       ,
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48532" id="yf6soc_628" rel="noopener noreferrer">
+        KT-48532
+       </a>
+      </p>
+      <p id="yf6soc_621">
+       <span class="control" id="yf6soc_629">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf6soc_622">
+       <span class="control" id="yf6soc_630">
+        Incompatible change type
+       </span>
+       : source, binary
+      </p>
+      <p id="yf6soc_623">
+       <span class="control" id="yf6soc_631">
+        Short summary
+       </span>
+       : this change might affect Gradle plugins authors. In
+       <code class="code" id="yf6soc_632">
+        kotlin-gradle-plugin
+       </code>
+       , there are additional generic parameters to some internal types (you should add generic types or
+       <code class="code" id="yf6soc_633">
+        *
+       </code>
+       ).
+       <code class="code" id="yf6soc_634">
+        KotlinNativeLink
+       </code>
+       task does not inherit the
+       <code class="code" id="yf6soc_635">
+        AbstractKotlinNativeCompile
+       </code>
+       task anymore.
+       <code class="code" id="yf6soc_636">
+        KotlinJsCompilerOptions.outputFile
+       </code>
+       and the related
+       <code class="code" id="yf6soc_637">
+        KotlinJsOptions.outputFile
+       </code>
+       options are deprecated. Use the
+       <code class="code" id="yf6soc_638">
+        Kotlin2JsCompile.outputFileProperty
+       </code>
+       task input instead. The
+       <code class="code" id="yf6soc_639">
+        kotlinOptions
+       </code>
+       task input and the
+       <code class="code" id="yf6soc_640">
+        kotlinOptions{...}
+       </code>
+       task DSL are in a support mode and will be deprecated in upcoming releases.
+       <code class="code" id="yf6soc_641">
+        compilerOptions
+       </code>
+       and
+       <code class="code" id="yf6soc_642">
+        kotlinOptions
+       </code>
+       can not be changed on a task execution phase (see one exception in
+       <a data-tooltip="The kotlinOptions task input and the kotlinOptions{...} task DSL are in support mode and will be deprecated in upcoming releases. Improvements will be made only to compilerOptions and toolOptions." href="whatsnew18.html#limitations" id="yf6soc_643">
+        What's new in Kotlin 1.8
+       </a>
+       ).
+       <code class="code" id="yf6soc_644">
+        freeCompilerArgs
+       </code>
+       returns an immutable
+       <code class="code" id="yf6soc_645">
+        List&lt;String&gt;
+       </code>
+       –
+       <code class="code" id="yf6soc_646">
+        kotlinOptions.freeCompilerArgs.remove("something")
+       </code>
+       will fail. The
+       <code class="code" id="yf6soc_647">
+        useOldBackend
+       </code>
+       property that allowed to use the old JVM backend is removed
+      </p>
+      <p id="yf6soc_624">
+       <span class="control" id="yf6soc_648">
+        Deprecation cycle:
+       </span>
+      </p>
+      <ul class="list _bullet" id="yf6soc_625">
+       <li class="list__item" id="yf6soc_649">
+        <p>
+         1.8.0:
+         <code class="code" id="yf6soc_650">
+          KotlinNativeLink
+         </code>
+         task does not inherit the
+         <code class="code" id="yf6soc_651">
+          AbstractKotlinNativeCompile
+         </code>
+         .
+         <code class="code" id="yf6soc_652">
+          KotlinJsCompilerOptions.outputFile
+         </code>
+         and the related
+         <code class="code" id="yf6soc_653">
+          KotlinJsOptions.outputFile
+         </code>
+         options are deprecated. The
+         <code class="code" id="yf6soc_654">
+          useOldBackend
+         </code>
+         property that allowed to use the old JVM backend is removed.
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-kotlin-internal-single-build-metrics-file-property" id="deprecate-kotlin-internal-single-build-metrics-file-property">
+      Deprecate kotlin.internal.single.build.metrics.file property
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf6soc_655">
+      <p id="yf6soc_656">
+       <span class="control" id="yf6soc_662">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-53357" id="yf6soc_663" rel="noopener noreferrer">
+        KT-53357
+       </a>
+      </p>
+      <p id="yf6soc_657">
+       <span class="control" id="yf6soc_664">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf6soc_658">
+       <span class="control" id="yf6soc_665">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf6soc_659">
+       <span class="control" id="yf6soc_666">
+        Short summary
+       </span>
+       : deprecate the
+       <code class="code" id="yf6soc_667">
+        kotlin.internal.single.build.metrics.file
+       </code>
+       property used to define a single file for build reports. Use the property
+       <code class="code" id="yf6soc_668">
+        kotlin.build.report.single_file
+       </code>
+       instead with
+       <code class="code" id="yf6soc_669">
+        kotlin.build.report.output=single_file
+       </code>
+      </p>
+      <p id="yf6soc_660">
+       <span class="control" id="yf6soc_670">
+        Deprecation cycle:
+       </span>
+      </p>
+      <ul class="list _bullet" id="yf6soc_661">
+       <li class="list__item" id="yf6soc_671">
+        <p>
+         1.8.0: raise the deprecation level to a warning &gt;= 1.9: delete the property
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,520 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="native-migration-guide" id="native-migration-guide.md">
+    Migrate to the new memory manager
+   </h1>
+   <aside class="prompt" data-title="" data-type="note" id="-j4x5ty_2">
+    <p id="-j4x5ty_13">
+     Support for the legacy memory manager has been completely removed in Kotlin 1.9.20. Migrate your projects to the current memory model, enabled by default since Kotlin 1.7.20.
+    </p>
+   </aside>
+   <p id="-j4x5ty_3">
+    This guide compares the new
+    <a data-tooltip="Kotlin/Native uses a modern memory manager that is similar to the JVM, Go, and other mainstream technologies, including the following features:" href="native-memory-manager.html" id="-j4x5ty_14">
+     Kotlin/Native memory manager
+    </a>
+    with the legacy one and describes how to migrate your projects.
+   </p>
+   <p id="-j4x5ty_4">
+    The most noticeable change in the new memory manager is lifting restrictions on object sharing. You don't need to freeze objects to share them between threads, specifically:
+   </p>
+   <ul class="list _bullet" id="-j4x5ty_5">
+    <li class="list__item" id="-j4x5ty_15">
+     <p>
+      Top-level properties can be accessed and modified by any thread without using
+      <code class="code" id="-j4x5ty_20">
+       @SharedImmutable
+      </code>
+      .
+     </p>
+    </li>
+    <li class="list__item" id="-j4x5ty_16">
+     <p>
+      Objects passing through interop can be accessed and modified by any thread without freezing them.
+     </p>
+    </li>
+    <li class="list__item" id="-j4x5ty_17">
+     <p>
+      <code class="code" id="-j4x5ty_21">
+       Worker.executeAfter
+      </code>
+      no longer requires operations to be frozen.
+     </p>
+    </li>
+    <li class="list__item" id="-j4x5ty_18">
+     <p>
+      <code class="code" id="-j4x5ty_22">
+       Worker.execute
+      </code>
+      no longer requires producers to return an isolated object subgraph.
+     </p>
+    </li>
+    <li class="list__item" id="-j4x5ty_19">
+     <p>
+      Reference cycles containing
+      <code class="code" id="-j4x5ty_23">
+       AtomicReference
+      </code>
+      and
+      <code class="code" id="-j4x5ty_24">
+       FreezableAtomicReference
+      </code>
+      do not cause memory leaks.
+     </p>
+    </li>
+   </ul>
+   <p id="-j4x5ty_6">
+    Apart from easy object sharing, the new memory manager also brings other major changes:
+   </p>
+   <ul class="list _bullet" id="-j4x5ty_7">
+    <li class="list__item" id="-j4x5ty_25">
+     <p>
+      Global properties are initialized lazily when the file they are defined in is accessed first. Previously global properties were initialized at the program startup. As a workaround, you can mark properties that must be initialized at the program start with the
+      <code class="code" id="-j4x5ty_29">
+       @EagerInitialization
+      </code>
+      annotation. Before using, check its
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native/-eager-initialization/" id="-j4x5ty_30" rel="noopener noreferrer">
+       documentation
+      </a>
+      .
+     </p>
+    </li>
+    <li class="list__item" id="-j4x5ty_26">
+     <p>
+      <code class="code" id="-j4x5ty_31">
+       by lazy {}
+      </code>
+      properties support thread-safety modes and do not handle unbounded recursion.
+     </p>
+    </li>
+    <li class="list__item" id="-j4x5ty_27">
+     <p>
+      Exceptions that escape
+      <code class="code" id="-j4x5ty_32">
+       operation
+      </code>
+      in
+      <code class="code" id="-j4x5ty_33">
+       Worker.executeAfter
+      </code>
+      are processed like in other runtime parts, by trying to execute a user-defined unhandled exception hook or terminating the program if the hook was not found or failed with an exception itself.
+     </p>
+    </li>
+    <li class="list__item" id="-j4x5ty_28">
+     <p>
+      Freezing is deprecated and always disabled.
+     </p>
+    </li>
+   </ul>
+   <p id="-j4x5ty_8">
+    Follow these guidelines to migrate your projects from the legacy memory manager:
+   </p>
+   <section class="chapter">
+    <h2 data-toc="update-kotlin" id="update-kotlin">
+     Update Kotlin
+    </h2>
+    <p id="-j4x5ty_34">
+     The new Kotlin/Native memory manager has been enabled by default since Kotlin 1.7.20. Check the Kotlin version and
+     <a data-tooltip="To upgrade your project to a new release, you need to update your build script file. For example, to update to Kotlin 2.1.0, change the version of the Kotlin Gradle plugin in your build.gradle(.kts) file:" href="releases.html#update-to-a-new-kotlin-version" id="-j4x5ty_35">
+      update to the latest one
+     </a>
+     if necessary.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="update-dependencies" id="update-dependencies">
+     Update dependencies
+    </h2>
+    <dl data-style="title-left" data-title-width="medium" id="-j4x5ty_36">
+     <dt data-expandable="false" id="-j4x5ty_37">
+      kotlinx.coroutines
+     </dt>
+     <dd>
+      <p id="-j4x5ty_40">
+       Update to version 1.6.0 or later. Do not use versions with the
+       <code class="code" id="-j4x5ty_43">
+        native-mt
+       </code>
+       suffix.
+      </p>
+      <p id="-j4x5ty_41">
+       There are also some specifics with the new memory manager you should keep in mind:
+      </p>
+      <ul class="list _bullet" id="-j4x5ty_42">
+       <li class="list__item" id="-j4x5ty_44">
+        <p>
+         Every common primitive (channels, flows, coroutines) works through the Worker boundaries, since freezing is not required.
+        </p>
+       </li>
+       <li class="list__item" id="-j4x5ty_45">
+        <p>
+         <code class="code" id="-j4x5ty_49">
+          Dispatchers.Default
+         </code>
+         is backed by a pool of Workers on Linux and Windows and by a global queue on Apple targets.
+        </p>
+       </li>
+       <li class="list__item" id="-j4x5ty_46">
+        <p>
+         Use
+         <code class="code" id="-j4x5ty_50">
+          newSingleThreadContext
+         </code>
+         to create a coroutine dispatcher that is backed by a Worker.
+        </p>
+       </li>
+       <li class="list__item" id="-j4x5ty_47">
+        <p>
+         Use
+         <code class="code" id="-j4x5ty_51">
+          newFixedThreadPoolContext
+         </code>
+         to create a coroutine dispatcher backed by a pool of
+         <code class="code" id="-j4x5ty_52">
+          N
+         </code>
+         Workers.
+        </p>
+       </li>
+       <li class="list__item" id="-j4x5ty_48">
+        <p>
+         <code class="code" id="-j4x5ty_53">
+          Dispatchers.Main
+         </code>
+         is backed by the main queue on Darwin and by a standalone Worker on other platforms.
+        </p>
+       </li>
+      </ul>
+     </dd>
+     <dt data-expandable="false" id="-j4x5ty_38">
+      Ktor
+     </dt>
+     <dd>
+      <p>
+       Update to version 2.0 or later.
+      </p>
+     </dd>
+     <dt data-expandable="false" id="-j4x5ty_39">
+      Other dependencies
+     </dt>
+     <dd>
+      <p id="-j4x5ty_54">
+       The majority of libraries should work without any changes, however, there might be exceptions.
+      </p>
+      <p id="-j4x5ty_55">
+       Make sure that you update dependencies to the latest versions, and there is no difference between library versions for the legacy and the new memory manager.
+      </p>
+     </dd>
+    </dl>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="update-your-code" id="update-your-code">
+     Update your code
+    </h2>
+    <p id="-j4x5ty_56">
+     To support the new memory manager, remove usages of the affected API:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="-j4x5ty_57">
+      <thead>
+       <tr class="ijRowHead" id="-j4x5ty_58">
+        <th id="-j4x5ty_71">
+         <p>
+          Old API
+         </p>
+        </th>
+        <th id="-j4x5ty_72">
+         <p>
+          What to do
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="-j4x5ty_59">
+        <td id="-j4x5ty_73">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-shared-immutable/" id="-j4x5ty_75" rel="noopener noreferrer">
+           <code class="code" id="-j4x5ty_76">
+            @SharedImmutable
+           </code>
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_74">
+         <p>
+          You can remove all usages, though there are no warnings for using this API in the new memory manager.
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_60">
+        <td id="-j4x5ty_77">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-freezable-atomic-reference/" id="-j4x5ty_79" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_80">
+            FreezableAtomicReference
+           </code>
+           class
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_78">
+         <p>
+          Use
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-atomic-reference/" id="-j4x5ty_81" rel="noopener noreferrer">
+           <code class="code" id="-j4x5ty_82">
+            AtomicReference
+           </code>
+          </a>
+          instead.
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_61">
+        <td id="-j4x5ty_83">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-freezing-exception/" id="-j4x5ty_86" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_87">
+            FreezingException
+           </code>
+           class
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_84">
+         <p>
+          Remove all usages.
+         </p>
+        </td>
+        <td id="-j4x5ty_85">
+        </td>
+       </tr>
+       <tr id="-j4x5ty_62">
+        <td id="-j4x5ty_88">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-invalid-mutability-exception/" id="-j4x5ty_90" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_91">
+            InvalidMutabilityException
+           </code>
+           class
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_89">
+         <p>
+          Remove all usages.
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_63">
+        <td id="-j4x5ty_92">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native/-incorrect-dereference-exception/" id="-j4x5ty_94" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_95">
+            IncorrectDereferenceException
+           </code>
+           class
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_93">
+         <p>
+          Remove all usages.
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_64">
+        <td id="-j4x5ty_96">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/freeze.html" id="-j4x5ty_98" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_99">
+            freeze()
+           </code>
+           function
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_97">
+         <p>
+          Remove all usages.
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_65">
+        <td id="-j4x5ty_100">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/is-frozen.html" id="-j4x5ty_102" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_103">
+            isFrozen
+           </code>
+           property
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_101">
+         <p>
+          You can remove all usages. Since freezing is deprecated, the property always returns
+          <code class="code" id="-j4x5ty_104">
+           false
+          </code>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_66">
+        <td id="-j4x5ty_105">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/ensure-never-frozen.html" id="-j4x5ty_107" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_108">
+            ensureNeverFrozen()
+           </code>
+           function
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_106">
+         <p>
+          Remove all usages.
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_67">
+        <td id="-j4x5ty_109">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/atomic-lazy.html" id="-j4x5ty_111" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_112">
+            atomicLazy()
+           </code>
+           function
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_110">
+         <p>
+          Use
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/lazy.html" id="-j4x5ty_113" rel="noopener noreferrer">
+           <code class="code" id="-j4x5ty_114">
+            lazy()
+           </code>
+          </a>
+          instead.
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_68">
+        <td id="-j4x5ty_115">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-mutable-data/" id="-j4x5ty_117" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_118">
+            MutableData
+           </code>
+           class
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_116">
+         <p>
+          Use any regular collection instead.
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_69">
+        <td id="-j4x5ty_119">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-worker-bound-reference/" id="-j4x5ty_121" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_122">
+            WorkerBoundReference&lt;out T : Any&gt;
+           </code>
+           class
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_120">
+         <p>
+          Use
+          <code class="code" id="-j4x5ty_123">
+           T
+          </code>
+          directly.
+         </p>
+        </td>
+       </tr>
+       <tr id="-j4x5ty_70">
+        <td id="-j4x5ty_124">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-detached-object-graph/" id="-j4x5ty_126" rel="noopener noreferrer">
+           The
+           <code class="code" id="-j4x5ty_127">
+            DetachedObjectGraph&lt;T&gt;
+           </code>
+           class
+          </a>
+         </p>
+        </td>
+        <td id="-j4x5ty_125">
+         <p>
+          Use
+          <code class="code" id="-j4x5ty_128">
+           T
+          </code>
+          directly. To pass the value through the C interop, use
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlinx.cinterop/-stable-ref/" id="-j4x5ty_129" rel="noopener noreferrer">
+           the StableRef class
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next
+    </h2>
+    <ul class="list _bullet" id="-j4x5ty_130">
+     <li class="list__item" id="-j4x5ty_131">
+      <p>
+       <a data-tooltip="Kotlin/Native uses a modern memory manager that is similar to the JVM, Go, and other mainstream technologies, including the following features:" href="native-memory-manager.html" id="-j4x5ty_133">
+        Learn more about the new memory manager
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="-j4x5ty_132">
+      <p>
+       <a data-tooltip="Kotlin and Objective-C use different memory management strategies. Kotlin has a tracing garbage collector, while Objective-C relies on automatic reference counting (ARC)." href="native-arc-integration.html" id="-j4x5ty_134">
+        Check the specifics of integration with Swift/Objective-C ARC
+       </a>
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

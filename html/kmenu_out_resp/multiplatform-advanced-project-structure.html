@@ -1,0 +1,920 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="multiplatform-advanced-project-structure" id="multiplatform-advanced-project-structure.md">
+    Advanced concepts of the multiplatform project structure
+   </h1>
+   <p id="mjv0q4_2">
+    This article explains advanced concepts of the Kotlin Multiplatform project structure and how they map to the Gradle implementation. This information will be useful if you need to work with low-level abstractions of the Gradle build (configurations, tasks, publications, and others) or are creating a Gradle plugin for Kotlin Multiplatform builds.
+   </p>
+   <p id="mjv0q4_3">
+    This page can be useful if you:
+   </p>
+   <ul class="list _bullet" id="mjv0q4_4">
+    <li class="list__item" id="mjv0q4_11">
+     <p>
+      Need to share code among a set of targets for which Kotlin doesn't create a source set.
+     </p>
+    </li>
+    <li class="list__item" id="mjv0q4_12">
+     <p>
+      Want to create a Gradle plugin for Kotlin Multiplatform builds, or need to work with low-level abstractions of the Gradle build, such as configurations, tasks, publications, and others.
+     </p>
+    </li>
+   </ul>
+   <p id="mjv0q4_5">
+    One of the crucial things to understand about dependency management in a multiplatform project is the difference between Gradle-style project or library dependencies and the
+    <code class="code" id="mjv0q4_13">
+     dependsOn
+    </code>
+    relation between source sets that is specific to Kotlin:
+   </p>
+   <ul class="list _bullet" id="mjv0q4_6">
+    <li class="list__item" id="mjv0q4_14">
+     <p>
+      <code class="code" id="mjv0q4_16">
+       dependsOn
+      </code>
+      is a relation between common and platform-specific source sets that enables
+      <a data-tooltip="Usually, you'll be working with dependencies and not with the dependsOn relation. However, examining dependsOn is crucial to understanding how Kotlin Multiplatform projects work under the hood." href="#dependson-and-source-set-hierarchies" id="mjv0q4_17">
+       source set hierarchy
+      </a>
+      and sharing code in multiplatform projects in general. For default source sets the hierarchy is managed automatically, but you may need to alter it in specific circumstances.
+     </p>
+    </li>
+    <li class="list__item" id="mjv0q4_15">
+     <p>
+      Library and project dependencies in general work as usual, but to properly manage them in a multiplatform project you should understand
+      <a data-tooltip="In multiplatform projects, you can set up regular dependencies either on a published library or on another Gradle project." href="#dependencies-on-other-libraries-or-projects" id="mjv0q4_18">
+       how Gradle dependencies are resolved
+      </a>
+      into granular
+      <span class="control" id="mjv0q4_19">
+       source set → source set
+      </span>
+      dependencies used for compilation.
+     </p>
+    </li>
+   </ul>
+   <aside class="prompt" data-title="" data-type="tip" id="mjv0q4_7">
+    <p id="mjv0q4_20">
+     Before diving into advanced concepts, we recommend learning
+     <a data-tooltip="With Kotlin Multiplatform, you can share code among different platforms. This article explains the constraints of the shared code, how to distinguish between shared and platform-specific parts of your code, and how to specify the platforms on which this shared code works." href="multiplatform-discover-project.html" id="mjv0q4_21">
+      the basics of the multiplatform project structure
+     </a>
+     .
+    </p>
+   </aside>
+   <section class="chapter">
+    <h2 data-toc="dependson-and-source-set-hierarchies" id="dependson-and-source-set-hierarchies">
+     dependsOn and source set hierarchies
+    </h2>
+    <p id="mjv0q4_22">
+     Usually, you'll be working with
+     <span class="emphasis" id="mjv0q4_35">
+      dependencies
+     </span>
+     and not with the
+     <span class="emphasis" id="mjv0q4_36">
+      <code class="code" id="mjv0q4_38">
+       dependsOn
+      </code>
+     </span>
+     relation. However, examining
+     <code class="code" id="mjv0q4_37">
+      dependsOn
+     </code>
+     is crucial to understanding how Kotlin Multiplatform projects work under the hood.
+    </p>
+    <p id="mjv0q4_23">
+     <code class="code" id="mjv0q4_39">
+      dependsOn
+     </code>
+     is a Kotlin-specific relation between two Kotlin source sets. This could be a connection between common and platform-specific source sets, for example, when the
+     <code class="code" id="mjv0q4_40">
+      jvmMain
+     </code>
+     source set depends on
+     <code class="code" id="mjv0q4_41">
+      commonMain
+     </code>
+     ,
+     <code class="code" id="mjv0q4_42">
+      iosArm64Main
+     </code>
+     depends on
+     <code class="code" id="mjv0q4_43">
+      iosMain
+     </code>
+     , and so on.
+    </p>
+    <p id="mjv0q4_24">
+     Consider a general example with Kotlin source sets
+     <code class="code" id="mjv0q4_44">
+      A
+     </code>
+     and
+     <code class="code" id="mjv0q4_45">
+      B
+     </code>
+     . The expression
+     <code class="code" id="mjv0q4_46">
+      A.dependsOn(B)
+     </code>
+     instructs Kotlin that:
+    </p>
+    <ol class="list _decimal" id="mjv0q4_25" type="1">
+     <li class="list__item" id="mjv0q4_47">
+      <p>
+       <code class="code" id="mjv0q4_51">
+        A
+       </code>
+       observes the API from
+       <code class="code" id="mjv0q4_52">
+        B
+       </code>
+       , including internal declarations.
+      </p>
+     </li>
+     <li class="list__item" id="mjv0q4_48">
+      <p>
+       <code class="code" id="mjv0q4_53">
+        A
+       </code>
+       can provide actual implementations for expected declarations from
+       <code class="code" id="mjv0q4_54">
+        B
+       </code>
+       . This is a necessary and sufficient condition, as
+       <code class="code" id="mjv0q4_55">
+        A
+       </code>
+       can provide
+       <code class="code" id="mjv0q4_56">
+        actuals
+       </code>
+       for
+       <code class="code" id="mjv0q4_57">
+        B
+       </code>
+       if and only if
+       <code class="code" id="mjv0q4_58">
+        A.dependsOn(B)
+       </code>
+       either directly or indirectly.
+      </p>
+     </li>
+     <li class="list__item" id="mjv0q4_49">
+      <p>
+       <code class="code" id="mjv0q4_59">
+        B
+       </code>
+       should compile to all the targets that
+       <code class="code" id="mjv0q4_60">
+        A
+       </code>
+       compiles to, in addition to its own targets.
+      </p>
+     </li>
+     <li class="list__item" id="mjv0q4_50">
+      <p>
+       <code class="code" id="mjv0q4_61">
+        A
+       </code>
+       inherits all the regular dependencies of
+       <code class="code" id="mjv0q4_62">
+        B
+       </code>
+       .
+      </p>
+     </li>
+    </ol>
+    <p id="mjv0q4_26">
+     The
+     <code class="code" id="mjv0q4_63">
+      dependsOn
+     </code>
+     relation creates a tree-like structure known as a source set hierarchy. Here's an example of a typical project for mobile development with
+     <code class="code" id="mjv0q4_64">
+      androidTarget
+     </code>
+     ,
+     <code class="code" id="mjv0q4_65">
+      iosArm64
+     </code>
+     (iPhone devices), and
+     <code class="code" id="mjv0q4_66">
+      iosSimulatorArm64
+     </code>
+     (iPhone simulator for Apple Silicon Mac):
+    </p>
+    <figure id="mjv0q4_27">
+     <img alt="DependsOn tree structure" height="401" src="images/dependson-tree-diagram.svg" title="DependsOn tree structure" width="700"/>
+    </figure>
+    <p id="mjv0q4_28">
+     Arrows represent
+     <code class="code" id="mjv0q4_67">
+      dependsOn
+     </code>
+     relations. These relations are preserved during the compilation of platform binaries. This is how Kotlin understands that
+     <code class="code" id="mjv0q4_68">
+      iosMain
+     </code>
+     is supposed to see the API from
+     <code class="code" id="mjv0q4_69">
+      commonMain
+     </code>
+     but not from
+     <code class="code" id="mjv0q4_70">
+      iosArm64Main
+     </code>
+     :
+    </p>
+    <figure id="mjv0q4_29">
+     <img alt="DependsOn relations during compilation" height="431" src="images/dependson-relations-diagram.svg" title="DependsOn relations during compilation" width="700"/>
+    </figure>
+    <p id="mjv0q4_30">
+     <code class="code" id="mjv0q4_71">
+      dependsOn
+     </code>
+     relations are configured with the
+     <code class="code" id="mjv0q4_72">
+      KotlinSourceSet.dependsOn(KotlinSourceSet)
+     </code>
+     call, for example:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     kotlin {
+    // Targets declaration
+    sourceSets {
+        // Example of configuring the dependsOn relation 
+        iosArm64Main.dependsOn(commonMain)
+    }
+}
+    </div>
+    <ul class="list _bullet" id="mjv0q4_32">
+     <li class="list__item" id="mjv0q4_73">
+      <p>
+       This example shows how
+       <code class="code" id="mjv0q4_75">
+        dependsOn
+       </code>
+       relations can be defined in the build script. However, the Kotlin Gradle plugin creates source sets and sets up these relations by default, so you don't need to do so manually.
+      </p>
+     </li>
+     <li class="list__item" id="mjv0q4_74">
+      <p>
+       <code class="code" id="mjv0q4_76">
+        dependsOn
+       </code>
+       relations are declared separately from the
+       <code class="code" id="mjv0q4_77">
+        dependencies {}
+       </code>
+       block in build scripts. This is because
+       <code class="code" id="mjv0q4_78">
+        dependsOn
+       </code>
+       is not a regular dependency; instead, it is a specific relation between Kotlin source sets necessary for sharing code across different targets.
+      </p>
+     </li>
+    </ul>
+    <p id="mjv0q4_33">
+     You cannot use
+     <code class="code" id="mjv0q4_79">
+      dependsOn
+     </code>
+     to declare regular dependencies on a published library or another Gradle project. For example, you can't set up
+     <code class="code" id="mjv0q4_80">
+      commonMain
+     </code>
+     to depend on the
+     <code class="code" id="mjv0q4_81">
+      commonMain
+     </code>
+     of the
+     <code class="code" id="mjv0q4_82">
+      kotlinx-coroutines-core
+     </code>
+     library or call
+     <code class="code" id="mjv0q4_83">
+      commonTest.dependsOn(commonMain)
+     </code>
+     .
+    </p>
+    <section class="chapter">
+     <h3 data-toc="declaring-custom-source-sets" id="declaring-custom-source-sets">
+      Declaring custom source sets
+     </h3>
+     <p id="mjv0q4_84">
+      In some cases, you might need to have a custom intermediate source set in your project. Consider a project that compiles to the JVM, JS, and Linux, and you want to share some sources only between the JVM and JS. In this case, you should find a specific source set for this pair of targets, as described in
+      <a data-tooltip="With Kotlin Multiplatform, you can share code among different platforms. This article explains the constraints of the shared code, how to distinguish between shared and platform-specific parts of your code, and how to specify the platforms on which this shared code works." href="multiplatform-discover-project.html" id="mjv0q4_95">
+       The basics of multiplatform project structure
+      </a>
+      .
+     </p>
+     <p id="mjv0q4_85">
+      Kotlin doesn't create such a source set automatically. This means you should create it manually with the
+      <code class="code" id="mjv0q4_96">
+       by creating
+      </code>
+      construction:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    jvm()
+    js()
+    linuxX64()
+
+    sourceSets {
+        // Create a source set named "jvmAndJs"
+        val jvmAndJsMain by creating {
+            // …
+        }
+    }
+}
+     </div>
+     <p id="mjv0q4_87">
+      However, Kotlin still doesn't know how to treat or compile this source set. If you drew a diagram, this source set would be isolated and wouldn't have any target labels:
+     </p>
+     <figure id="mjv0q4_88">
+      <img alt="Missing dependsOn relation" height="375" src="images/missing-dependson-diagram.svg" title="Missing dependsOn relation" width="700"/>
+     </figure>
+     <p id="mjv0q4_89">
+      To fix this, include
+      <code class="code" id="mjv0q4_97">
+       jvmAndJsMain
+      </code>
+      in the hierarchy by adding several
+      <code class="code" id="mjv0q4_98">
+       dependsOn
+      </code>
+      relations:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    jvm()
+    js()
+    linuxX64()
+
+    sourceSets {
+        val jvmAndJsMain by creating {
+            // Don't forget to add dependsOn to commonMain
+            dependsOn(commonMain.get())
+        }
+
+        jvmMain {
+            dependsOn(jvmAndJsMain)
+        }
+
+        jsMain {
+            dependsOn(jvmAndJsMain)
+        }
+    }
+}
+     </div>
+     <p id="mjv0q4_91">
+      Here,
+      <code class="code" id="mjv0q4_99">
+       jvmMain.dependsOn(jvmAndJsMain)
+      </code>
+      adds the JVM target to
+      <code class="code" id="mjv0q4_100">
+       jvmAndJsMain
+      </code>
+      , and
+      <code class="code" id="mjv0q4_101">
+       jsMain.dependsOn(jvmAndJsMain)
+      </code>
+      adds the JS target to
+      <code class="code" id="mjv0q4_102">
+       jvmAndJsMain
+      </code>
+      .
+     </p>
+     <p id="mjv0q4_92">
+      The final project structure will look like this:
+     </p>
+     <figure id="mjv0q4_93">
+      <img alt="Final project structure" height="376" src="images/final-structure-diagram.svg" title="Final project structure" width="700"/>
+     </figure>
+     <aside class="prompt" data-title="" data-type="note" id="mjv0q4_94">
+      <p id="mjv0q4_103">
+       Manual configuration of
+       <code class="code" id="mjv0q4_104">
+        dependsOn
+       </code>
+       relations disables automatic application of the default hierarchy template. See
+       <a data-tooltip="You might need to make adjustments to the default hierarchy template. If you have previously introduced intermediate sources manually with dependsOn calls, it cancels the use of the default hierarchy template and leads to this warning:" href="multiplatform-hierarchy.html#additional-configuration" id="mjv0q4_105">
+        Additional configuration
+       </a>
+       to learn more about such cases and how to handle them.
+      </p>
+     </aside>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="dependencies-on-other-libraries-or-projects" id="dependencies-on-other-libraries-or-projects">
+     Dependencies on other libraries or projects
+    </h2>
+    <p id="mjv0q4_106">
+     In multiplatform projects, you can set up regular dependencies either on a published library or on another Gradle project.
+    </p>
+    <p id="mjv0q4_107">
+     Kotlin Multiplatform generally declares dependencies in a typical Gradle way. Similarly to Gradle, you:
+    </p>
+    <ul class="list _bullet" id="mjv0q4_108">
+     <li class="list__item" id="mjv0q4_116">
+      <p>
+       Use the
+       <code class="code" id="mjv0q4_119">
+        dependencies {}
+       </code>
+       block in your build script.
+      </p>
+     </li>
+     <li class="list__item" id="mjv0q4_117">
+      <p>
+       Choose the proper scope for the dependencies, for example,
+       <code class="code" id="mjv0q4_120">
+        implementation
+       </code>
+       or
+       <code class="code" id="mjv0q4_121">
+        api
+       </code>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="mjv0q4_118">
+      <p>
+       Reference the dependency either by specifying its coordinates if it's published in a repo, like
+       <code class="code" id="mjv0q4_122">
+        "com.google.guava:guava:32.1.2-jre"
+       </code>
+       , or its path if it's a Gradle project in the same build, like
+       <code class="code" id="mjv0q4_123">
+        project(":utils:concurrency")
+       </code>
+       .
+      </p>
+     </li>
+    </ul>
+    <p id="mjv0q4_109">
+     Dependency configuration in multiplatform projects has some special features. Each Kotlin source set has its own
+     <code class="code" id="mjv0q4_124">
+      dependencies {}
+     </code>
+     block. This allows you to declare platform-specific dependencies in platform-specific source sets:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     kotlin {
+    // Targets declaration
+    sourceSets {
+        jvmMain.dependencies {
+            // This is jvmMain's dependencies, so it's OK to add a JVM-specific dependency
+            implementation("com.google.guava:guava:32.1.2-jre")
+        }
+    }
+}
+    </div>
+    <p id="mjv0q4_111">
+     Common dependencies are trickier. Consider a multiplatform project that declares a dependency on a multiplatform library, for example,
+     <code class="code" id="mjv0q4_125">
+      kotlinx.coroutines
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     kotlin {
+    androidTarget()     // Android
+    iosArm64()          // iPhone devices 
+    iosSimulatorArm64() // iPhone simulator on Apple Silicon Mac
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+        }
+    }
+}
+    </div>
+    <p id="mjv0q4_113">
+     There are three important concepts in dependency resolution:
+    </p>
+    <ol class="list _decimal" id="mjv0q4_114" type="1">
+     <li class="list__item" id="mjv0q4_126">
+      <p id="mjv0q4_129">
+       Multiplatform dependencies are propagated down the
+       <code class="code" id="mjv0q4_133">
+        dependsOn
+       </code>
+       structure. When you add a dependency to
+       <code class="code" id="mjv0q4_134">
+        commonMain
+       </code>
+       , it will be automatically added to all source sets that declare
+       <code class="code" id="mjv0q4_135">
+        dependsOn
+       </code>
+       relations directly or indirectly in
+       <code class="code" id="mjv0q4_136">
+        commonMain
+       </code>
+       .
+      </p>
+      <p id="mjv0q4_130">
+       In this case, the dependency was indeed automatically added to all the
+       <code class="code" id="mjv0q4_137">
+        *Main
+       </code>
+       source sets:
+       <code class="code" id="mjv0q4_138">
+        iosMain
+       </code>
+       ,
+       <code class="code" id="mjv0q4_139">
+        jvmMain
+       </code>
+       ,
+       <code class="code" id="mjv0q4_140">
+        iosSimulatorArm64Main
+       </code>
+       , and
+       <code class="code" id="mjv0q4_141">
+        iosX64Main
+       </code>
+       . All these source sets inherit the
+       <code class="code" id="mjv0q4_142">
+        kotlin-coroutines-core
+       </code>
+       dependency from the
+       <code class="code" id="mjv0q4_143">
+        commonMain
+       </code>
+       source set, so you don't have to copy and paste it in all of them manually:
+      </p>
+      <figure id="mjv0q4_131">
+       <img alt="Propagation of multiplatform dependencies" height="365" src="images/dependency-propagation-diagram.svg" title="Propagation of multiplatform dependencies" width="700"/>
+      </figure>
+      <aside class="prompt" data-title="" data-type="tip" id="mjv0q4_132">
+       <p id="mjv0q4_144">
+        The propagation mechanism allows you to choose a scope that will receive the declared dependency by selecting a specific source set. For example, if you want to use
+        <code class="code" id="mjv0q4_145">
+         kotlinx.coroutines
+        </code>
+        on iOS but not on Android, you can add this dependency to
+        <code class="code" id="mjv0q4_146">
+         iosMain
+        </code>
+        only.
+       </p>
+      </aside>
+     </li>
+     <li class="list__item" id="mjv0q4_127">
+      <p id="mjv0q4_147">
+       The
+       <span class="emphasis" id="mjv0q4_151">
+        source set → multiplatform library
+       </span>
+       dependencies, like
+       <code class="code" id="mjv0q4_152">
+        commonMain
+       </code>
+       to
+       <code class="code" id="mjv0q4_153">
+        org.jetbrians.kotlinx:kotlinx-coroutines-core:1.7.3
+       </code>
+       above, represent the intermediate state of dependency resolution. The final state of resolution is always represented by the
+       <span class="emphasis" id="mjv0q4_154">
+        source set → source set
+       </span>
+       dependencies.
+      </p>
+      <aside class="prompt" data-title="" data-type="note" id="mjv0q4_148">
+       <p id="mjv0q4_155">
+        The final
+        <span class="emphasis" id="mjv0q4_156">
+         source set → source set
+        </span>
+        dependencies are not
+        <code class="code" id="mjv0q4_157">
+         dependsOn
+        </code>
+        relations.
+       </p>
+      </aside>
+      <p id="mjv0q4_149">
+       To infer granular
+       <span class="emphasis" id="mjv0q4_158">
+        source set → source set
+       </span>
+       dependencies, Kotlin reads the source set structure that is published alongside each multiplatform library. After this step, each library will be represented internally not as a whole, but as a collection of its source sets. See this example for
+       <code class="code" id="mjv0q4_159">
+        kotlinx-coroutines-core
+       </code>
+       :
+      </p>
+      <figure id="mjv0q4_150">
+       <img alt="Serialization of the source set structure" height="282" src="images/structure-serialization-diagram.svg" title="Serialization of the source set structure" width="700"/>
+      </figure>
+     </li>
+     <li class="list__item" id="mjv0q4_128">
+      <p id="mjv0q4_160">
+       Kotlin takes each dependency relation and resolves it to a collection of source sets from a dependency. Each dependency source set in that collection must have
+       <span class="emphasis" id="mjv0q4_166">
+        compatible targets
+       </span>
+       . A dependency source set has compatible targets if it compiles to
+       <span class="emphasis" id="mjv0q4_167">
+        at least the same targets
+       </span>
+       as the consumer source set.
+      </p>
+      <p id="mjv0q4_161">
+       Consider an example where
+       <code class="code" id="mjv0q4_168">
+        commonMain
+       </code>
+       in the sample project compiles to
+       <code class="code" id="mjv0q4_169">
+        androidTarget
+       </code>
+       ,
+       <code class="code" id="mjv0q4_170">
+        iosX64
+       </code>
+       , and
+       <code class="code" id="mjv0q4_171">
+        iosSimulatorArm64
+       </code>
+       :
+      </p>
+      <ul class="list _bullet" id="mjv0q4_162">
+       <li class="list__item" id="mjv0q4_172">
+        <p>
+         First, it resolves a dependency on
+         <code class="code" id="mjv0q4_174">
+          kotlinx-coroutines-core.commonMain
+         </code>
+         . This happens because
+         <code class="code" id="mjv0q4_175">
+          kotlinx-coroutines-core
+         </code>
+         compiles to all possible Kotlin targets. Therefore, its
+         <code class="code" id="mjv0q4_176">
+          commonMain
+         </code>
+         compiles to all possible targets, including the required
+         <code class="code" id="mjv0q4_177">
+          androidTarget
+         </code>
+         ,
+         <code class="code" id="mjv0q4_178">
+          iosX64
+         </code>
+         , and
+         <code class="code" id="mjv0q4_179">
+          iosSimulatorArm64
+         </code>
+         .
+        </p>
+       </li>
+       <li class="list__item" id="mjv0q4_173">
+        <p>
+         Second,
+         <code class="code" id="mjv0q4_180">
+          commonMain
+         </code>
+         depends on
+         <code class="code" id="mjv0q4_181">
+          kotlinx-coroutines-core.concurrentMain
+         </code>
+         . Since
+         <code class="code" id="mjv0q4_182">
+          concurrentMain
+         </code>
+         in
+         <code class="code" id="mjv0q4_183">
+          kotlinx-coroutines-core
+         </code>
+         compiles to all the targets except for JS, it matches the targets of the consumer project's
+         <code class="code" id="mjv0q4_184">
+          commonMain
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+      <p id="mjv0q4_163">
+       However, source sets like
+       <code class="code" id="mjv0q4_185">
+        iosX64Main
+       </code>
+       from coroutines are incompatible with the consumer's
+       <code class="code" id="mjv0q4_186">
+        commonMain
+       </code>
+       . Even though
+       <code class="code" id="mjv0q4_187">
+        iosX64Main
+       </code>
+       compiles to one of the targets of
+       <code class="code" id="mjv0q4_188">
+        commonMain
+       </code>
+       , namely,
+       <code class="code" id="mjv0q4_189">
+        iosX64
+       </code>
+       , it doesn't compile either to
+       <code class="code" id="mjv0q4_190">
+        androidTarget
+       </code>
+       or to
+       <code class="code" id="mjv0q4_191">
+        iosSimulatorArm64
+       </code>
+       .
+      </p>
+      <p id="mjv0q4_164">
+       The results of the dependency resolution directly affect which of the code in
+       <code class="code" id="mjv0q4_192">
+        kotlinx-coroutines-core
+       </code>
+       is visible:
+      </p>
+      <figure id="mjv0q4_165">
+       <img alt="Error on JVM-specific API in common code" height="368" src="images/dependency-resolution-error.png" title="Error on JVM-specific API in common code" width="700"/>
+      </figure>
+     </li>
+    </ol>
+    <section class="chapter">
+     <h3 data-toc="aligning-versions-of-common-dependencies-across-source-sets" id="aligning-versions-of-common-dependencies-across-source-sets">
+      Aligning versions of common dependencies across source sets
+     </h3>
+     <p id="mjv0q4_193">
+      In Kotlin Multiplatform projects, the common source set is compiled several times to produce a klib and as a part of each configured
+      <a data-tooltip="Kotlin multiplatform projects use compilations for producing artifacts. Each target can have one or more compilations, for example, for production and test purposes." href="multiplatform-configure-compilations.html" id="mjv0q4_200">
+       compilation
+      </a>
+      . To produce consistent binaries, common code should be compiled against the same versions of multiplatform dependencies each time. The Kotlin Gradle plugin helps align these dependencies, ensuring the effective dependency version is the same for each source set.
+     </p>
+     <p id="mjv0q4_194">
+      In the example above, imagine that you want to add the
+      <code class="code" id="mjv0q4_201">
+       androidx.navigation:navigation-compose:2.7.7
+      </code>
+      dependency to your
+      <code class="code" id="mjv0q4_202">
+       androidMain
+      </code>
+      source set. Your project explicitly declares the
+      <code class="code" id="mjv0q4_203">
+       kotlinx-coroutines-core:1.7.3
+      </code>
+      dependency for the
+      <code class="code" id="mjv0q4_204">
+       commonMain
+      </code>
+      source set, but the Compose Navigation library with the version 2.7.7 requires Kotlin coroutines 1.8.0 or newer.
+     </p>
+     <p id="mjv0q4_195">
+      Since
+      <code class="code" id="mjv0q4_205">
+       commonMain
+      </code>
+      and
+      <code class="code" id="mjv0q4_206">
+       androidMain
+      </code>
+      are compiled together, the Kotlin Gradle plugin chooses between the two versions of the coroutines library and applies
+      <code class="code" id="mjv0q4_207">
+       kotlinx-coroutines-core:1.8.0
+      </code>
+      to the
+      <code class="code" id="mjv0q4_208">
+       commonMain
+      </code>
+      source set. But to make the common code compile consistently across all configured targets, iOS source sets also need to be constrained to the same dependency version. So Gradle propagates the
+      <code class="code" id="mjv0q4_209">
+       kotlinx.coroutines-*:1.8.0
+      </code>
+      dependency to the
+      <code class="code" id="mjv0q4_210">
+       iosMain
+      </code>
+      source set as well.
+     </p>
+     <figure id="mjv0q4_196">
+      <img alt="Alignment of dependencies among *Main source sets" height="391" src="images/multiplatform-source-set-dependency-alignment.svg" title="Alignment of dependencies among *Main source sets" width="700"/>
+     </figure>
+     <p id="mjv0q4_197">
+      Dependencies are aligned separately across the
+      <code class="code" id="mjv0q4_211">
+       *Main
+      </code>
+      source sets and the
+      <a data-tooltip="Real-life projects also require tests alongside the main production code. This is why all source sets created by default have the Main and Test prefixes. Main contains production code, while Test contains tests for this code. The connection between them is established automatically,…" href="multiplatform-discover-project.html#integration-with-tests" id="mjv0q4_212">
+       <code class="code" id="mjv0q4_215">
+        *Test
+       </code>
+       source sets
+      </a>
+      . The Gradle configuration for
+      <code class="code" id="mjv0q4_213">
+       *Test
+      </code>
+      source sets includes all dependencies of
+      <code class="code" id="mjv0q4_214">
+       *Main
+      </code>
+      source sets, but not vice versa. So you can test your project with newer library versions without affecting your main code.
+     </p>
+     <p id="mjv0q4_198">
+      For example, you have the Kotlin coroutines 1.7.3 dependency in your
+      <code class="code" id="mjv0q4_216">
+       *Main
+      </code>
+      source sets, propagated to every source set in the project. However, in the
+      <code class="code" id="mjv0q4_217">
+       iosTest
+      </code>
+      source set, you decide to upgrade the version to 1.8.0 to test out the new library release. According to the same algorithm, this dependency is going to be propagated throughout the tree of
+      <code class="code" id="mjv0q4_218">
+       *Test
+      </code>
+      source sets, so every
+      <code class="code" id="mjv0q4_219">
+       *Test
+      </code>
+      source set will be compiled with the
+      <code class="code" id="mjv0q4_220">
+       kotlinx.coroutines-*:1.8.0
+      </code>
+      dependency.
+     </p>
+     <figure id="mjv0q4_199">
+      <img alt="Test source sets resolving dependencies separately from the main source sets" height="444" src="images/test-main-source-set-dependency-alignment.svg" title="Test source sets resolving dependencies separately from the main source sets" width="706"/>
+     </figure>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="compilations" id="compilations">
+     Compilations
+    </h2>
+    <p id="mjv0q4_221">
+     Contrary to single-platform projects, Kotlin Multiplatform projects require multiple compiler launches to build all the artifacts. Each compiler launch is a
+     <span class="emphasis" id="mjv0q4_227">
+      Kotlin compilation
+     </span>
+     .
+    </p>
+    <p id="mjv0q4_222">
+     For example, here's how binaries for iPhone devices are generate during this Kotlin compilation mentioned earlier:
+    </p>
+    <figure id="mjv0q4_223">
+     <img alt="Kotlin compilation for iOS" height="446" src="images/ios-compilation-diagram.svg" title="Kotlin compilation for iOS" width="700"/>
+    </figure>
+    <p id="mjv0q4_224">
+     Kotlin compilations are grouped under targets. By default, Kotlin creates two compilations for each target, the
+     <code class="code" id="mjv0q4_228">
+      main
+     </code>
+     compilation for production sources and the
+     <code class="code" id="mjv0q4_229">
+      test
+     </code>
+     compilation for test sources.
+    </p>
+    <p id="mjv0q4_225">
+     Compilations in build scripts are accessed in a similar manner. You first select a Kotlin target, then access the
+     <code class="code" id="mjv0q4_230">
+      compilations
+     </code>
+     container inside, and finally choose the necessary compilation by its name:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     kotlin {
+    // Declare and configure the JVM target
+    jvm {
+        val mainCompilation: KotlinJvmCompilation = compilations.getByName("main")
+    }
+}
+    </div>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

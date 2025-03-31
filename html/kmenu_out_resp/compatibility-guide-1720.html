@@ -1,0 +1,200 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="compatibility-guide-1720" id="compatibility-guide-1720.md">
+    Compatibility guide for Kotlin 1.7.20
+   </h1>
+   <p id="-le0ii9_2">
+    <span class="emphasis" id="-le0ii9_7">
+     <a data-tooltip="Language design is cast in stone," href="kotlin-evolution-principles.html" id="-le0ii9_9">
+      Keeping the Language Modern
+     </a>
+    </span>
+    and
+    <span class="emphasis" id="-le0ii9_8">
+     <a data-tooltip="Language design is cast in stone," href="kotlin-evolution-principles.html" id="-le0ii9_10">
+      Comfortable Updates
+     </a>
+    </span>
+    are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to make code migration as smooth as possible.
+   </p>
+   <p id="-le0ii9_3">
+    Usually incompatible changes happen only in feature releases, but this time we have to introduce two such changes in an incremental release to limit spread of the problems introduced by changes in Kotlin 1.7.
+   </p>
+   <p id="-le0ii9_4">
+    This document summarizes them, providing a reference for migration from Kotlin 1.7.0 and 1.7.10 to Kotlin 1.7.20.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="basic-terms" id="basic-terms">
+     Basic terms
+    </h2>
+    <p id="-le0ii9_11">
+     In this document we introduce several kinds of compatibility:
+    </p>
+    <ul class="list _bullet" id="-le0ii9_12">
+     <li class="list__item" id="-le0ii9_14">
+      <p>
+       <span class="emphasis" id="-le0ii9_17">
+        source
+       </span>
+       : source-incompatible change stops code that used to compile fine (without errors or warnings) from compiling anymore
+      </p>
+     </li>
+     <li class="list__item" id="-le0ii9_15">
+      <p>
+       <span class="emphasis" id="-le0ii9_18">
+        binary
+       </span>
+       : two binary artifacts are said to be binary-compatible if interchanging them doesn't lead to loading or linkage errors
+      </p>
+     </li>
+     <li class="list__item" id="-le0ii9_16">
+      <p>
+       <span class="emphasis" id="-le0ii9_19">
+        behavioral
+       </span>
+       : a change is said to be behavioral-incompatible if the same program demonstrates different behavior before and after applying the change
+      </p>
+     </li>
+    </ul>
+    <p id="-le0ii9_13">
+     Remember that those definitions are given only for pure Kotlin. Compatibility of Kotlin code from the other languages perspective (for example, from Java) is out of the scope of this document.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="language" id="language">
+     Language
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="rollback-attempt-to-fix-proper-constraints-processing" id="rollback-attempt-to-fix-proper-constraints-processing">
+      Rollback attempt to fix proper constraints processing
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="-le0ii9_22">
+      <p id="-le0ii9_23">
+       <span class="control" id="-le0ii9_29">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-53813" id="-le0ii9_30" rel="noopener noreferrer">
+        KT-53813
+       </a>
+      </p>
+      <p id="-le0ii9_24">
+       <span class="control" id="-le0ii9_31">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="-le0ii9_25">
+       <span class="control" id="-le0ii9_32">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="-le0ii9_26">
+       <span class="control" id="-le0ii9_33">
+        Short summary
+       </span>
+       : Rollback an attempt of fixing issues in type inference constraints processing appeared in 1.7.0 after implementing the change described in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-52668" id="-le0ii9_34" rel="noopener noreferrer">
+        KT-52668
+       </a>
+       . The attempt was made in 1.7.10, but it in turn introduced new problems.
+      </p>
+      <p id="-le0ii9_27">
+       <span class="control" id="-le0ii9_35">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="-le0ii9_28">
+       <li class="list__item" id="-le0ii9_36">
+        <p>
+         1.7.20: Rollback to 1.7.0 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="forbid-some-builder-inference-cases-to-avoid-problematic-interaction-with-multiple-lambdas-and-resolution" id="forbid-some-builder-inference-cases-to-avoid-problematic-interaction-with-multiple-lambdas-and-resolution">
+      Forbid some builder inference cases to avoid problematic interaction with multiple lambdas and resolution
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="-le0ii9_37">
+      <p id="-le0ii9_38">
+       <span class="control" id="-le0ii9_45">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-53797" id="-le0ii9_46" rel="noopener noreferrer">
+        KT-53797
+       </a>
+      </p>
+      <p id="-le0ii9_39">
+       <span class="control" id="-le0ii9_47">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="-le0ii9_40">
+       <span class="control" id="-le0ii9_48">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="-le0ii9_41">
+       <span class="control" id="-le0ii9_49">
+        Short summary
+       </span>
+       : Kotlin 1.7 introduced a feature called unrestricted builder inference, so that even the lambdas passed to parameters not annotated with
+       <code class="code" id="-le0ii9_50">
+        @BuilderInference
+       </code>
+       could benefit from the builder inference. However, that could cause several problems if more than one such lambda occurred in a function invocation.
+      </p>
+      <p id="-le0ii9_42">
+       Kotlin 1.7.20 will report an error if more than one lambda function having the corresponding parameter not annotated with
+       <code class="code" id="-le0ii9_51">
+        @BuilderInference
+       </code>
+       requires using builder inference to complete inferring the types in the lambda.
+      </p>
+      <p id="-le0ii9_43">
+       <span class="control" id="-le0ii9_52">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="-le0ii9_44">
+       <li class="list__item" id="-le0ii9_53">
+        <p>
+         1.7.20: report an error on such lambda functions,
+        </p>
+        <br/>
+        <p>
+         <code class="code" id="-le0ii9_55">
+          -XXLanguage:+NoBuilderInferenceWithoutAnnotationRestriction
+         </code>
+         can be used to temporarily revert to the pre-1.7.20 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

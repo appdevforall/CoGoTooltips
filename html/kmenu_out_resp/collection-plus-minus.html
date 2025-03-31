@@ -1,0 +1,155 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="collection-plus-minus" id="collection-plus-minus.md">
+    Plus and minus operators
+   </h1>
+   <p id="z2rop5p_2">
+    In Kotlin,
+    <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/plus.html" id="z2rop5p_6" rel="noopener noreferrer">
+     <code class="code" id="z2rop5p_10">
+      plus
+     </code>
+    </a>
+    (
+    <code class="code" id="z2rop5p_7">
+     +
+    </code>
+    ) and
+    <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/minus.html" id="z2rop5p_8" rel="noopener noreferrer">
+     <code class="code" id="z2rop5p_11">
+      minus
+     </code>
+    </a>
+    (
+    <code class="code" id="z2rop5p_9">
+     -
+    </code>
+    ) operators are defined for collections. They take a collection as the first operand; the second operand can be either an element or another collection. The return value is a new read-only collection:
+   </p>
+   <ul class="list _bullet" id="z2rop5p_3">
+    <li class="list__item" id="z2rop5p_12">
+     <p>
+      The result of
+      <code class="code" id="z2rop5p_14">
+       plus
+      </code>
+      contains the elements from the original collection
+      <span class="emphasis" id="z2rop5p_15">
+       and
+      </span>
+      from the second operand.
+     </p>
+    </li>
+    <li class="list__item" id="z2rop5p_13">
+     <p>
+      The result of
+      <code class="code" id="z2rop5p_16">
+       minus
+      </code>
+      contains the elements of the original collection
+      <span class="emphasis" id="z2rop5p_17">
+       except
+      </span>
+      the elements from the second operand. If it's an element,
+      <code class="code" id="z2rop5p_18">
+       minus
+      </code>
+      removes its
+      <span class="emphasis" id="z2rop5p_19">
+       first
+      </span>
+      occurrence; if it's a collection,
+      <span class="emphasis" id="z2rop5p_20">
+       all
+      </span>
+      occurrences of its elements are removed.
+     </p>
+    </li>
+   </ul>
+   <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+    fun main() {
+//sampleStart
+    val numbers = listOf("one", "two", "three", "four")
+
+    val plusList = numbers + "five"
+    val minusList = numbers - listOf("three", "four")
+    println(plusList)
+    println(minusList)
+//sampleEnd
+}
+   </div>
+   <p id="z2rop5p_5">
+    For the details on
+    <code class="code" id="z2rop5p_21">
+     plus
+    </code>
+    and
+    <code class="code" id="z2rop5p_22">
+     minus
+    </code>
+    operators for maps, see
+    <a data-tooltip="In maps, types of both keys and values are user-defined. Key-based access to map entries enables various map-specific processing capabilities from getting a value by key to separate filtering of keys and values. On this page, we provide descriptions of the map processing functions…" href="map-operations.html" id="z2rop5p_23">
+     Map specific operations
+    </a>
+    . The
+    <a data-tooltip="For the assignment operations, for example a += b, the compiler performs the following steps:" href="operator-overloading.html#augmented-assignments" id="z2rop5p_24">
+     augmented assignment operators
+    </a>
+    <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/plus-assign.html" id="z2rop5p_25" rel="noopener noreferrer">
+     <code class="code" id="z2rop5p_34">
+      plusAssign
+     </code>
+    </a>
+    (
+    <code class="code" id="z2rop5p_26">
+     +=
+    </code>
+    ) and
+    <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/minus-assign.html" id="z2rop5p_27" rel="noopener noreferrer">
+     <code class="code" id="z2rop5p_35">
+      minusAssign
+     </code>
+    </a>
+    (
+    <code class="code" id="z2rop5p_28">
+     -=
+    </code>
+    ) are also defined for collections. However, for read-only collections, they actually use the
+    <code class="code" id="z2rop5p_29">
+     plus
+    </code>
+    or
+    <code class="code" id="z2rop5p_30">
+     minus
+    </code>
+    operators and try to assign the result to the same variable. Thus, they are available only on
+    <code class="code" id="z2rop5p_31">
+     var
+    </code>
+    read-only collections. For mutable collections, they modify the collection if it's a
+    <code class="code" id="z2rop5p_32">
+     val
+    </code>
+    . For more details see
+    <a data-tooltip="Mutable collections support operations for changing the collection contents, for example, adding or removing elements. On this page, we'll describe write operations available for all implementations of MutableCollection. For more specific operations available for List and Map, see…" href="collection-write.html" id="z2rop5p_33">
+     Collection write operations
+    </a>
+    .
+   </p>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

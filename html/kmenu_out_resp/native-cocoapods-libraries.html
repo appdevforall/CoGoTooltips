@@ -1,0 +1,678 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="native-cocoapods-libraries" id="native-cocoapods-libraries.md">
+    Add dependencies on a Pod library
+   </h1>
+   <p id="r9yq38_2">
+    To add dependencies between a Kotlin project and a Pod library,
+    <a data-tooltip="Install the CocoaPods dependency manager using the installation tool of your choice:" href="native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods" id="r9yq38_13">
+     complete the initial configuration
+    </a>
+    . You can then add dependencies on different types of Pod libraries.
+   </p>
+   <p id="r9yq38_3">
+    When you add a new dependency and re-import the project in your IDE, the new dependency will be added automatically. No additional steps are required.
+   </p>
+   <p id="r9yq38_4">
+    To use your Kotlin project with Xcode, you should
+    <a data-tooltip="If you want to import your Kotlin project to an Xcode project:" href="native-cocoapods.html#update-podfile-for-xcode" id="r9yq38_14">
+     make changes in your project Podfile
+    </a>
+    .
+   </p>
+   <p id="r9yq38_5">
+    A Kotlin project requires the
+    <code class="code" id="r9yq38_15">
+     pod()
+    </code>
+    function call in
+    <code class="code" id="r9yq38_16">
+     build.gradle(.kts)
+    </code>
+    for adding a Pod dependency. Each dependency requires its separate function call. You can specify the parameters for the dependency in the configuration block of the function.
+   </p>
+   <aside class="prompt" data-title="" data-type="note" id="r9yq38_6">
+    <p id="r9yq38_17">
+     If you don't specify the minimum deployment target version and a dependency Pod requires a higher deployment target, you will get an error.
+    </p>
+   </aside>
+   <p id="r9yq38_7">
+    You can find a sample project
+    <a data-external="true" href="https://github.com/Kotlin/kmm-with-cocoapods-sample" id="r9yq38_18" rel="noopener noreferrer">
+     here
+    </a>
+    .
+   </p>
+   <section class="chapter">
+    <h2 data-toc="from-the-cocoapods-repository" id="from-the-cocoapods-repository">
+     From the CocoaPods repository
+    </h2>
+    <ol class="list _decimal" id="r9yq38_19" type="1">
+     <li class="list__item" id="r9yq38_22">
+      <p id="r9yq38_25">
+       Specify the name of a Pod library in the
+       <code class="code" id="r9yq38_28">
+        pod()
+       </code>
+       function.
+      </p>
+      <p id="r9yq38_26">
+       In the configuration block, you can specify the version of the library using the
+       <code class="code" id="r9yq38_29">
+        version
+       </code>
+       parameter. To use the latest version of the library, you can just omit this parameter altogether.
+      </p>
+      <aside class="prompt" data-title="" data-type="note" id="r9yq38_27">
+       <p id="r9yq38_30">
+        You can add dependencies on subspecs.
+       </p>
+      </aside>
+     </li>
+     <li class="list__item" id="r9yq38_23">
+      <p id="r9yq38_31">
+       Specify the minimum deployment target version for the Pod library.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    iosArm64()
+
+    cocoapods {
+        iosArm64.deploymentTarget = "13.5"
+
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+
+        pod("FirebaseAuth") {
+            version = "10.16.0"
+        }
+    }
+}
+      </div>
+     </li>
+     <li class="list__item" id="r9yq38_24">
+      <p id="r9yq38_33">
+       Run
+       <span class="control" id="r9yq38_34">
+        Reload All Gradle Projects
+       </span>
+       in IntelliJ IDEA (or
+       <span class="control" id="r9yq38_35">
+        Sync Project with Gradle Files
+       </span>
+       in Android Studio) to re-import the project.
+      </p>
+     </li>
+    </ol>
+    <p id="r9yq38_20">
+     To use these dependencies from the Kotlin code, import the packages
+     <code class="code" id="r9yq38_36">
+      cocoapods.&lt;library-name&gt;
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import cocoapods.FirebaseAuth.*
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="on-a-locally-stored-library" id="on-a-locally-stored-library">
+     On a locally stored library
+    </h2>
+    <ol class="list _decimal" id="r9yq38_37" type="1">
+     <li class="list__item" id="r9yq38_40">
+      <p id="r9yq38_43">
+       Specify the name of a Pod library in the
+       <code class="code" id="r9yq38_46">
+        pod()
+       </code>
+       function.
+      </p>
+      <p id="r9yq38_44">
+       In the configuration block, specify the path to the local Pod library: use the
+       <code class="code" id="r9yq38_47">
+        path()
+       </code>
+       function in the
+       <code class="code" id="r9yq38_48">
+        source
+       </code>
+       parameter value.
+      </p>
+      <aside class="prompt" data-title="" data-type="note" id="r9yq38_45">
+       <p id="r9yq38_49">
+        You can add local dependencies on subspecs as well. The
+        <code class="code" id="r9yq38_50">
+         cocoapods
+        </code>
+        block can include dependencies to Pods stored locally and Pods from the CocoaPods repository at the same time.
+       </p>
+      </aside>
+     </li>
+     <li class="list__item" id="r9yq38_41">
+      <p id="r9yq38_51">
+       Specify the minimum deployment target version for the Pod library.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    iosArm64()
+
+    cocoapods {
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+
+        iosArm64.deploymentTarget = "13.5"
+
+        pod("pod_dependency") {
+            version = "1.0"
+            source = path(project.file("../pod_dependency"))
+        }
+        pod("subspec_dependency/Core") {
+            version = "1.0"
+            source = path(project.file("../subspec_dependency"))
+        }
+        pod("FirebaseAuth") {
+            version = "10.16.0"
+        }
+    }
+}
+      </div>
+      <aside class="prompt" data-title="" data-type="note" id="r9yq38_53">
+       <p id="r9yq38_54">
+        You can also specify the version of the library using
+        <code class="code" id="r9yq38_55">
+         version
+        </code>
+        parameter in the configuration block. To use the latest version of the library, omit the parameter.
+       </p>
+      </aside>
+     </li>
+     <li class="list__item" id="r9yq38_42">
+      <p id="r9yq38_56">
+       Run
+       <span class="control" id="r9yq38_57">
+        Reload All Gradle Projects
+       </span>
+       in IntelliJ IDEA (or
+       <span class="control" id="r9yq38_58">
+        Sync Project with Gradle Files
+       </span>
+       in Android Studio) to re-import the project.
+      </p>
+     </li>
+    </ol>
+    <p id="r9yq38_38">
+     To use these dependencies from the Kotlin code, import the packages
+     <code class="code" id="r9yq38_59">
+      cocoapods.&lt;library-name&gt;
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import cocoapods.pod_dependency.*
+import cocoapods.subspec_dependency.*
+import cocoapods.FirebaseAuth.*
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="from-a-custom-git-repository" id="from-a-custom-git-repository">
+     From a custom Git repository
+    </h2>
+    <ol class="list _decimal" id="r9yq38_60" type="1">
+     <li class="list__item" id="r9yq38_63">
+      <p id="r9yq38_66">
+       Specify the name of a Pod library in the
+       <code class="code" id="r9yq38_72">
+        pod()
+       </code>
+       function.
+      </p>
+      <p id="r9yq38_67">
+       In the configuration block, specify the path to the git repository: use the
+       <code class="code" id="r9yq38_73">
+        git()
+       </code>
+       function in the
+       <code class="code" id="r9yq38_74">
+        source
+       </code>
+       parameter value.
+      </p>
+      <p id="r9yq38_68">
+       Additionally, you can specify the following parameters in the block after
+       <code class="code" id="r9yq38_75">
+        git()
+       </code>
+       :
+      </p>
+      <ul class="list _bullet" id="r9yq38_69">
+       <li class="list__item" id="r9yq38_76">
+        <p>
+         <code class="code" id="r9yq38_79">
+          commit
+         </code>
+         – to use a specific commit from the repository
+        </p>
+       </li>
+       <li class="list__item" id="r9yq38_77">
+        <p>
+         <code class="code" id="r9yq38_80">
+          tag
+         </code>
+         – to use a specific tag from the repository
+        </p>
+       </li>
+       <li class="list__item" id="r9yq38_78">
+        <p>
+         <code class="code" id="r9yq38_81">
+          branch
+         </code>
+         – to use a specific branch from the repository
+        </p>
+       </li>
+      </ul>
+      <p id="r9yq38_70">
+       The
+       <code class="code" id="r9yq38_82">
+        git()
+       </code>
+       function prioritizes passed parameters in the following order:
+       <code class="code" id="r9yq38_83">
+        commit
+       </code>
+       ,
+       <code class="code" id="r9yq38_84">
+        tag
+       </code>
+       ,
+       <code class="code" id="r9yq38_85">
+        branch
+       </code>
+       . If you don't specify a parameter, the Kotlin plugin uses
+       <code class="code" id="r9yq38_86">
+        HEAD
+       </code>
+       from the
+       <code class="code" id="r9yq38_87">
+        master
+       </code>
+       branch.
+      </p>
+      <aside class="prompt" data-title="" data-type="note" id="r9yq38_71">
+       <p id="r9yq38_88">
+        You can combine
+        <code class="code" id="r9yq38_89">
+         branch
+        </code>
+        ,
+        <code class="code" id="r9yq38_90">
+         commit
+        </code>
+        , and
+        <code class="code" id="r9yq38_91">
+         tag
+        </code>
+        parameters to get the specific version of a Pod.
+       </p>
+      </aside>
+     </li>
+     <li class="list__item" id="r9yq38_64">
+      <p id="r9yq38_92">
+       Specify the minimum deployment target version for the Pod library.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    iosArm64()
+
+    cocoapods {
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+
+        iosArm64.deploymentTarget = "13.5"
+
+        pod("FirebaseAuth") {
+            source = git("https://github.com/firebase/firebase-ios-sdk") {
+                tag = "10.16.0"
+            }
+        }
+
+        pod("JSONModel") {
+            source = git("https://github.com/jsonmodel/jsonmodel.git") {
+                branch = "key-mapper-class"
+            }
+        }
+
+        pod("CocoaLumberjack") {
+            source = git("https://github.com/CocoaLumberjack/CocoaLumberjack.git") {
+                commit = "3e7f595e3a459c39b917aacf9856cd2a48c4dbf3"
+            }
+        }
+    }
+}
+      </div>
+     </li>
+     <li class="list__item" id="r9yq38_65">
+      <p id="r9yq38_94">
+       Run
+       <span class="control" id="r9yq38_95">
+        Reload All Gradle Projects
+       </span>
+       in IntelliJ IDEA (or
+       <span class="control" id="r9yq38_96">
+        Sync Project with Gradle Files
+       </span>
+       in Android Studio) to re-import the project.
+      </p>
+     </li>
+    </ol>
+    <p id="r9yq38_61">
+     To use these dependencies from the Kotlin code, import the packages
+     <code class="code" id="r9yq38_97">
+      cocoapods.&lt;library-name&gt;
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import cocoapods.Alamofire.*
+import cocoapods.JSONModel.*
+import cocoapods.CocoaLumberjack.*
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="from-a-custom-podspec-repository" id="from-a-custom-podspec-repository">
+     From a custom Podspec repository
+    </h2>
+    <ol class="list _decimal" id="r9yq38_98" type="1">
+     <li class="list__item" id="r9yq38_102">
+      <p id="r9yq38_106">
+       Specify the HTTP address to the custom Podspec repository using the
+       <code class="code" id="r9yq38_107">
+        url()
+       </code>
+       inside the
+       <code class="code" id="r9yq38_108">
+        specRepos
+       </code>
+       block.
+      </p>
+     </li>
+     <li class="list__item" id="r9yq38_103">
+      <p id="r9yq38_109">
+       Specify the name of a Pod library in the
+       <code class="code" id="r9yq38_110">
+        pod()
+       </code>
+       function.
+      </p>
+     </li>
+     <li class="list__item" id="r9yq38_104">
+      <p id="r9yq38_111">
+       Specify the minimum deployment target version for the Pod library.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    iosArm64()
+
+    cocoapods {
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+
+        iosArm64.deploymentTarget = "13.5"
+
+        specRepos {
+            url("https://github.com/Kotlin/kotlin-cocoapods-spec.git")
+        }
+        pod("example")
+    }
+}
+      </div>
+     </li>
+     <li class="list__item" id="r9yq38_105">
+      <p id="r9yq38_113">
+       Run
+       <span class="control" id="r9yq38_114">
+        Reload All Gradle Projects
+       </span>
+       in IntelliJ IDEA (or
+       <span class="control" id="r9yq38_115">
+        Sync Project with Gradle Files
+       </span>
+       in Android Studio) to re-import the project.
+      </p>
+     </li>
+    </ol>
+    <aside class="prompt" data-title="" data-type="note" id="r9yq38_99">
+     <p id="r9yq38_116">
+      To work correctly with Xcode, you should specify the location of specs at the beginning of your Podfile. For example,
+     </p>
+     <div class="code-block" data-lang="ruby">
+      source 'https://github.com/Kotlin/kotlin-cocoapods-spec.git'
+     </div>
+    </aside>
+    <p id="r9yq38_100">
+     To use these dependencies from the Kotlin code, import the packages
+     <code class="code" id="r9yq38_118">
+      cocoapods.&lt;library-name&gt;
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import cocoapods.example.*
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="with-custom-cinterop-options" id="with-custom-cinterop-options">
+     With custom cinterop options
+    </h2>
+    <ol class="list _decimal" id="r9yq38_119" type="1">
+     <li class="list__item" id="r9yq38_126">
+      <p id="r9yq38_129">
+       Specify the name of a Pod library in the
+       <code class="code" id="r9yq38_132">
+        pod()
+       </code>
+       function.
+      </p>
+      <p id="r9yq38_130">
+       In the configuration block, specify the cinterop options:
+      </p>
+      <ul class="list _bullet" id="r9yq38_131">
+       <li class="list__item" id="r9yq38_133">
+        <p>
+         <code class="code" id="r9yq38_135">
+          extraOpts
+         </code>
+         – to specify the list of options for a Pod library. For example, specific flags:
+         <code class="code" id="r9yq38_136">
+          extraOpts = listOf("-compiler-option")
+         </code>
+         .
+        </p>
+       </li>
+       <li class="list__item" id="r9yq38_134">
+        <p>
+         <code class="code" id="r9yq38_137">
+          packageName
+         </code>
+         – to specify the package name. If you specify this, you can import the library using the package name:
+         <code class="code" id="r9yq38_138">
+          import &lt;packageName&gt;
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+     </li>
+     <li class="list__item" id="r9yq38_127">
+      <p id="r9yq38_139">
+       Specify the minimum deployment target version for the Pod library.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    iosArm64()
+
+    cocoapods {
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+
+        iosArm64.deploymentTarget = "13.5"
+
+        pod("YandexMapKit") {
+            packageName = "YandexMK"
+        }
+    }
+}
+      </div>
+     </li>
+     <li class="list__item" id="r9yq38_128">
+      <p id="r9yq38_141">
+       Run
+       <span class="control" id="r9yq38_142">
+        Reload All Gradle Projects
+       </span>
+       in IntelliJ IDEA (or
+       <span class="control" id="r9yq38_143">
+        Sync Project with Gradle Files
+       </span>
+       in Android Studio) to re-import the project.
+      </p>
+     </li>
+    </ol>
+    <p id="r9yq38_120">
+     To use these dependencies from the Kotlin code, import the packages
+     <code class="code" id="r9yq38_144">
+      cocoapods.&lt;library-name&gt;
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import cocoapods.YandexMapKit.*
+    </div>
+    <p id="r9yq38_122">
+     If you use the
+     <code class="code" id="r9yq38_145">
+      packageName
+     </code>
+     parameter, you can import the library using the package name
+     <code class="code" id="r9yq38_146">
+      import &lt;packageName&gt;
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import YandexMK.YMKPoint
+import YandexMK.YMKDistance
+    </div>
+    <section class="chapter">
+     <h3 data-toc="support-for-objective-c-headers-with-import-directives" id="support-for-objective-c-headers-with-import-directives">
+      Support for Objective-C headers with @import directives
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="r9yq38_147">
+      <p id="r9yq38_151">
+       This feature is
+       <a data-tooltip="Here's a quick guide to these stability levels and their meaning:" href="components-stability.html#stability-levels-explained" id="r9yq38_152">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Use it only for evaluation purposes. We'd appreciate your feedback on it in
+       <a data-external="true" href="https://kotl.in/issue" id="r9yq38_153" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="r9yq38_148">
+      Some Objective-C libraries, specifically those that serve as wrappers for Swift libraries, have
+      <code class="code" id="r9yq38_154">
+       @import
+      </code>
+      directives in their headers. By default, cinterop doesn't provide support for these directives.
+     </p>
+     <p id="r9yq38_149">
+      To enable support for
+      <code class="code" id="r9yq38_155">
+       @import
+      </code>
+      directives, specify the
+      <code class="code" id="r9yq38_156">
+       -fmodules
+      </code>
+      option in the configuration block of the
+      <code class="code" id="r9yq38_157">
+       pod()
+      </code>
+      function:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    iosArm64()
+
+    cocoapods {
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+
+        iosArm64.deploymentTarget = "13.5"
+
+        pod("PodName") {
+            extraOpts = listOf("-compiler-option", "-fmodules")
+        }
+    }
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="share-kotlin-cinterop-between-dependent-pods" id="share-kotlin-cinterop-between-dependent-pods">
+      Share Kotlin cinterop between dependent Pods
+     </h3>
+     <p id="r9yq38_158">
+      If you add multiple dependencies on Pods using the
+      <code class="code" id="r9yq38_163">
+       pod()
+      </code>
+      function, you might encounter issues when there are dependencies between APIs of your Pods.
+     </p>
+     <p id="r9yq38_159">
+      To make the code compile in such cases, use the
+      <code class="code" id="r9yq38_164">
+       useInteropBindingFrom()
+      </code>
+      function. It utilizes the cinterop binding generated for another Pod while building a binding for the new Pod.
+     </p>
+     <p id="r9yq38_160">
+      You should declare the dependent Pod before setting up the dependency:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      // The cinterop of pod("WebImage"):
+fun loadImage(): WebImage
+
+// The cinterop of pod("Info"):
+fun printImageInfo(image: WebImage)
+
+// Your code:
+printImageInfo(loadImage())
+     </div>
+     <p id="r9yq38_162">
+      If you haven't configured the correct dependencies between cinterops in this case, the code would be invalid because the
+      <code class="code" id="r9yq38_165">
+       WebImage
+      </code>
+      type would be sourced from different cinterop files and, consequently, different packages.
+     </p>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

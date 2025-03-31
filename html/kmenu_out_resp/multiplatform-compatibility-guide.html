@@ -1,0 +1,2668 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="multiplatform-compatibility-guide" id="multiplatform-compatibility-guide.md">
+    Compatibility guide for Kotlin Multiplatform
+   </h1>
+   <p id="-gw0rkl_2">
+    This guide summarizes
+    <a data-tooltip="If, upon updating from one version to another, some code that used to work doesn't work anymore, it is an incompatible change in the language (sometimes referred to as a &quot;breaking change&quot;). There can be debates as to what &quot;doesn't work anymore&quot; means precisely in…" href="kotlin-evolution-principles.html#incompatible-changes" id="-gw0rkl_22">
+     incompatible changes
+    </a>
+    you might encounter while developing projects with Kotlin Multiplatform.
+   </p>
+   <aside class="prompt" data-title="" data-type="note" id="-gw0rkl_3">
+    <p id="-gw0rkl_23">
+     Mind the deprecation cycle of a specific change in relation to the Kotlin version you have in your projects. The current Stable version of Kotlin is 2.1.0.
+    </p>
+   </aside>
+   <section class="chapter">
+    <h2 data-toc="version-compatibility" id="version-compatibility">
+     Version compatibility
+    </h2>
+    <p id="-gw0rkl_24">
+     When configuring your project, check the compatibility of a particular version of the Kotlin Multiplatform Gradle plugin (same as the Kotlin version in your project) with available Gradle, Xcode, and Android Gradle plugin versions:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="-gw0rkl_25">
+      <thead>
+       <tr class="ijRowHead" id="-gw0rkl_27">
+        <th id="-gw0rkl_33">
+         <p>
+          Kotlin Multiplatform plugin version
+         </p>
+        </th>
+        <th id="-gw0rkl_34">
+         <p>
+          Gradle
+         </p>
+        </th>
+        <th id="-gw0rkl_35">
+         <p>
+          Android Gradle plugin
+         </p>
+        </th>
+        <th id="-gw0rkl_36">
+         <p>
+          Xcode
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="-gw0rkl_28">
+        <td id="-gw0rkl_37">
+         <p>
+          2.1.0
+         </p>
+        </td>
+        <td id="-gw0rkl_38">
+         <p>
+          7.6.3–8.10*
+         </p>
+        </td>
+        <td id="-gw0rkl_39">
+         <p>
+          7.4.2–8.7.2
+         </p>
+        </td>
+        <td id="-gw0rkl_40">
+         <p>
+          16.0
+         </p>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_29">
+        <td id="-gw0rkl_41">
+         <p>
+          2.0.21
+         </p>
+        </td>
+        <td id="-gw0rkl_42">
+         <p>
+          7.5-8.8*
+         </p>
+        </td>
+        <td id="-gw0rkl_43">
+         <p>
+          7.4.2–8.5
+         </p>
+        </td>
+        <td id="-gw0rkl_44">
+         <p>
+          16.0
+         </p>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_30">
+        <td id="-gw0rkl_45">
+         <p>
+          2.0.20
+         </p>
+        </td>
+        <td id="-gw0rkl_46">
+         <p>
+          7.5-8.8*
+         </p>
+        </td>
+        <td id="-gw0rkl_47">
+         <p>
+          7.4.2–8.5
+         </p>
+        </td>
+        <td id="-gw0rkl_48">
+         <p>
+          15.3
+         </p>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_31">
+        <td id="-gw0rkl_49">
+         <p>
+          2.0.0
+         </p>
+        </td>
+        <td id="-gw0rkl_50">
+         <p>
+          7.5-8.5
+         </p>
+        </td>
+        <td id="-gw0rkl_51">
+         <p>
+          7.4.2–8.3
+         </p>
+        </td>
+        <td id="-gw0rkl_52">
+         <p>
+          15.3
+         </p>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_32">
+        <td id="-gw0rkl_53">
+         <p>
+          1.9.20
+         </p>
+        </td>
+        <td id="-gw0rkl_54">
+         <p>
+          7.5-8.1.1
+         </p>
+        </td>
+        <td id="-gw0rkl_55">
+         <p>
+          7.4.2–8.2
+         </p>
+        </td>
+        <td id="-gw0rkl_56">
+         <p>
+          15.0
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <aside class="prompt" data-title="" data-type="warning" id="-gw0rkl_26">
+     <p id="-gw0rkl_57">
+      *Kotlin 2.0.20–2.0.21 and Kotlin 2.1.0 are fully compatible with Gradle up to 8.6. Gradle 8.7 and 8.8 are also supported, but you may see deprecation warnings in your multiplatform projects calling the
+      <a data-tooltip="In addition to common target configuration, jvm targets have a specific function:" href="multiplatform-dsl-reference.html#jvm-targets" id="-gw0rkl_58">
+       <code class="code" id="-gw0rkl_60">
+        withJava()
+       </code>
+       function in the JVM target
+      </a>
+      . For more information, see the issue in
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-66542/Gradle-JVM-target-with-withJava-produces-a-deprecation-warning" id="-gw0rkl_59" rel="noopener noreferrer">
+       YouTrack
+      </a>
+      .
+     </p>
+    </aside>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deprecated-compatibility-with-kotlin-multiplatform-gradle-plugin-and-gradle-java-plugins" id="deprecated-compatibility-with-kotlin-multiplatform-gradle-plugin-and-gradle-java-plugins">
+     Deprecated compatibility with Kotlin Multiplatform Gradle plugin and Gradle Java plugins
+    </h2>
+    <p id="-gw0rkl_61">
+     <span class="control" id="-gw0rkl_82">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_62">
+     Due to compatibility issues between the Kotlin Multiplatform Gradle plugin and the Gradle plugins
+     <a data-external="true" href="https://docs.gradle.org/current/userguide/java_plugin.html" id="-gw0rkl_83" rel="noopener noreferrer">
+      Java
+     </a>
+     ,
+     <a data-external="true" href="https://docs.gradle.org/current/userguide/java_library_plugin.html" id="-gw0rkl_84" rel="noopener noreferrer">
+      Java Library
+     </a>
+     , and
+     <a data-external="true" href="https://docs.gradle.org/current/userguide/application_plugin.html" id="-gw0rkl_85" rel="noopener noreferrer">
+      Application
+     </a>
+     , there is now a deprecation warning when you apply these plugins to the same project. The warning also appears when another Gradle plugin in your multiplatform project applies a Gradle Java plugin. For example, the
+     <a data-external="true" href="https://docs.spring.io/spring-boot/gradle-plugin/index.html" id="-gw0rkl_86" rel="noopener noreferrer">
+      Spring Boot Gradle Plugin
+     </a>
+     automatically applies the Application plugin. In future Kotlin releases, the warning will be increased to an error.
+    </p>
+    <p id="-gw0rkl_63">
+     We've added this deprecation warning due to fundamental compatibility issues between Kotlin Multiplatform's project model and Gradle's Java ecosystem plugins. Gradle's Java ecosystem plugins currently don't take into account that other plugins may:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_64">
+     <li class="list__item" id="-gw0rkl_87">
+      <p>
+       Also publish or compile for the JVM target in a different way than the Java ecosystem plugins.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_88">
+      <p>
+       Have two different JVM targets in the same project, such as JVM and Android.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_89">
+      <p>
+       Have a complex multiplatform project structure with potentially multiple non-JVM targets.
+      </p>
+     </li>
+    </ul>
+    <p id="-gw0rkl_65">
+     Unfortunately, Gradle doesn't currently provide any API to address these issues.
+    </p>
+    <p id="-gw0rkl_66">
+     We previously used some workarounds in Kotlin Multiplatform to help with the integration of Java ecosystem plugins. However, these workarounds never truly solved the compatibility issues, and since the release of Gradle 8.8, these workarounds are no longer possible. For more information, see our
+     <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-66542/Gradle-JVM-target-with-withJava-produces-a-deprecation-warning" id="-gw0rkl_90" rel="noopener noreferrer">
+      YouTrack issue
+     </a>
+     .
+    </p>
+    <p id="-gw0rkl_67">
+     While we don't yet know exactly how to resolve this compatibility problem, we are committed to continuing support for some form of Java source compilation in your Kotlin Multiplatform projects. At a minimum, we will support the compilation of Java sources and using Gradle's
+     <a data-external="true" href="https://docs.gradle.org/current/javadoc/org/gradle/api/plugins/JavaBasePlugin.html" id="-gw0rkl_91" rel="noopener noreferrer">
+      <code class="code" id="-gw0rkl_92">
+       java-base
+      </code>
+     </a>
+     plugin within your multiplatform projects.
+    </p>
+    <p id="-gw0rkl_68">
+     <span class="control" id="-gw0rkl_93">
+      What's the best practice now?
+     </span>
+    </p>
+    <p id="-gw0rkl_69">
+     If you see this deprecation warning in your multiplatform project, we recommend that you:
+    </p>
+    <ol class="list _decimal" id="-gw0rkl_70" type="1">
+     <li class="list__item" id="-gw0rkl_94">
+      <p>
+       Determine whether you actually need the Gradle Java plugin in your project. If not, consider removing it.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_95">
+      <p>
+       Check if the Gradle Java plugin is only used for a single task. If so, you might be able to remove the plugin without much effort. For example, if the task uses a Gradle Java plugin to create a Javadoc JAR file, you can define the Javadoc task manually instead.
+      </p>
+     </li>
+    </ol>
+    <p id="-gw0rkl_71">
+     Otherwise, if you want to use both the Kotlin Multiplatform Gradle plugin and these Gradle plugins for Java in your multiplatform project, we recommend that you:
+    </p>
+    <ol class="list _decimal" id="-gw0rkl_72" type="1">
+     <li class="list__item" id="-gw0rkl_96">
+      <p>
+       Create a separate subproject in your multiplatform project.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_97">
+      <p>
+       In the separate subproject, apply the Gradle plugin for Java.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_98">
+      <p>
+       In the separate subproject, add a dependency on your parent multiplatform project.
+      </p>
+     </li>
+    </ol>
+    <aside class="prompt" data-title="" data-type="warning" id="-gw0rkl_73">
+     <p id="-gw0rkl_99">
+      The separate subproject must
+      <span class="control" id="-gw0rkl_100">
+       not
+      </span>
+      be a multiplatform project, and you must only use it to set up a dependency on your multiplatform project.
+     </p>
+    </aside>
+    <p id="-gw0rkl_74">
+     For example, you have a multiplatform project called
+     <code class="code" id="-gw0rkl_101">
+      my-main-project
+     </code>
+     and you want to use the
+     <a data-external="true" href="https://docs.gradle.org/current/userguide/application_plugin.html" id="-gw0rkl_102" rel="noopener noreferrer">
+      Application
+     </a>
+     Gradle plugin to run a JVM application.
+    </p>
+    <p id="-gw0rkl_75">
+     Once you've created a subproject, let's call it
+     <code class="code" id="-gw0rkl_103">
+      subproject-A
+     </code>
+     , your parent project structure should look like this:
+    </p>
+    <div class="code-block" data-lang="none">
+     .
+├── build.gradle
+├── settings.gradle.kts
+├── subproject-A
+    └── build.gradle.kts
+    └── src
+        └── Main.java
+    </div>
+    <p id="-gw0rkl_77">
+     In your subproject's
+     <code class="code" id="-gw0rkl_104">
+      build.gradle.kts
+     </code>
+     file, apply the Application plugin in the
+     <code class="code" id="-gw0rkl_105">
+      plugins {}
+     </code>
+     block:
+    </p>
+    <div class="tabs" data-anchors="[-gw0rkl_106,-gw0rkl_107]" data-group="build-script" id="-gw0rkl_78">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="-gw0rkl_106">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       plugins {
+    id("application")
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="-gw0rkl_107">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       plugins {
+    id('application')
+}
+      </div>
+     </div>
+    </div>
+    <p id="-gw0rkl_79">
+     In your subproject's
+     <code class="code" id="-gw0rkl_110">
+      build.gradle.kts
+     </code>
+     file, add a dependency on your parent multiplatform project:
+    </p>
+    <div class="tabs" data-anchors="[-gw0rkl_111,-gw0rkl_112]" data-group="build-script" id="-gw0rkl_80">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="-gw0rkl_111">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       dependencies {
+    implementation(project(":my-main-project")) // The name of your parent multiplatform project
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="-gw0rkl_112">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       dependencies {
+    implementation project(':my-main-project') // The name of your parent multiplatform project
+}
+      </div>
+     </div>
+    </div>
+    <p id="-gw0rkl_81">
+     Your parent project is now set up to work with both plugins.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="new-approach-to-auto-generated-targets" id="new-approach-to-auto-generated-targets">
+     New approach to auto-generated targets
+    </h2>
+    <p id="-gw0rkl_115">
+     <span class="control" id="-gw0rkl_123">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_116">
+     Target accessors auto-generated by Gradle are no longer available inside the
+     <code class="code" id="-gw0rkl_124">
+      kotlin.targets {}
+     </code>
+     block. Use the
+     <code class="code" id="-gw0rkl_125">
+      findByName("targetName")
+     </code>
+     method instead.
+    </p>
+    <p id="-gw0rkl_117">
+     Note that such accessors are still available in the
+     <code class="code" id="-gw0rkl_126">
+      kotlin.targets {}
+     </code>
+     case, for example,
+     <code class="code" id="-gw0rkl_127">
+      kotlin.targets.linuxX64
+     </code>
+     .
+    </p>
+    <p id="-gw0rkl_118">
+     <span class="control" id="-gw0rkl_128">
+      What's the best practice now?
+     </span>
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="-gw0rkl_119">
+      <thead>
+       <tr class="ijRowHead" id="-gw0rkl_129">
+        <th id="-gw0rkl_131">
+         <p>
+          Before
+         </p>
+        </th>
+        <th id="-gw0rkl_132">
+         <p>
+          Now
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="-gw0rkl_130">
+        <td id="-gw0rkl_133">
+         <div class="code-block" data-lang="kotlin">
+          kotlin {
+    targets {
+        configure(['windows',
+            'linux']) {
+        }
+    }
+}
+         </div>
+        </td>
+        <td id="-gw0rkl_134">
+         <div class="code-block" data-lang="kotlin">
+          kotlin {
+    targets {
+        configure([findByName('windows'),
+            findByName('linux')]) {
+        }
+    }
+}
+         </div>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <p id="-gw0rkl_120">
+     <span class="control" id="-gw0rkl_137">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_121">
+     In Kotlin 1.7.20, an error is introduced when using target accessors in the
+     <code class="code" id="-gw0rkl_138">
+      kotlin.targets {}
+     </code>
+     block.
+    </p>
+    <p id="-gw0rkl_122">
+     For more information, see the
+     <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-47047" id="-gw0rkl_139" rel="noopener noreferrer">
+      corresponding issue in YouTrack
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="changes-in-gradle-input-and-output-compile-tasks" id="changes-in-gradle-input-and-output-compile-tasks">
+     Changes in Gradle input and output compile tasks
+    </h2>
+    <p id="-gw0rkl_140">
+     <span class="control" id="-gw0rkl_148">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_141">
+     Kotlin compile tasks no longer inherit the Gradle
+     <code class="code" id="-gw0rkl_149">
+      AbstractCompile
+     </code>
+     task that has the
+     <code class="code" id="-gw0rkl_150">
+      sourceCompatibility
+     </code>
+     and
+     <code class="code" id="-gw0rkl_151">
+      targetCompatibility
+     </code>
+     inputs, making them unavailable in Kotlin users' scripts.
+    </p>
+    <p id="-gw0rkl_142">
+     Other breaking changes in compile tasks:
+    </p>
+    <p id="-gw0rkl_143">
+     <span class="control" id="-gw0rkl_152">
+      What's the best practice now?
+     </span>
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="-gw0rkl_144">
+      <thead>
+       <tr class="ijRowHead" id="-gw0rkl_153">
+        <th id="-gw0rkl_158">
+         <p>
+          Before
+         </p>
+        </th>
+        <th id="-gw0rkl_159">
+         <p>
+          Now
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="-gw0rkl_154">
+        <td id="-gw0rkl_160">
+         <p>
+          The
+          <code class="code" id="-gw0rkl_162">
+           SourceTask.stableSources
+          </code>
+          input is no longer available.
+         </p>
+        </td>
+        <td id="-gw0rkl_161">
+         <p>
+          Use the
+          <code class="code" id="-gw0rkl_163">
+           sources
+          </code>
+          input instead. Also, the
+          <code class="code" id="-gw0rkl_164">
+           setSource()
+          </code>
+          methods are still available.
+         </p>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_155">
+        <td id="-gw0rkl_165">
+         <p>
+          The
+          <code class="code" id="-gw0rkl_167">
+           sourceFilesExtensions
+          </code>
+          input was removed.
+         </p>
+        </td>
+        <td id="-gw0rkl_166">
+         <p>
+          Compile tasks still implement the
+          <code class="code" id="-gw0rkl_168">
+           PatternFilterable
+          </code>
+          interface. Use its methods for filtering Kotlin sources.
+         </p>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_156">
+        <td id="-gw0rkl_169">
+         <p>
+          The
+          <code class="code" id="-gw0rkl_171">
+           Gradle destinationDir: File
+          </code>
+          output was deprecated.
+         </p>
+        </td>
+        <td id="-gw0rkl_170">
+         <p>
+          Use the
+          <code class="code" id="-gw0rkl_172">
+           destinationDirectory: DirectoryProperty
+          </code>
+          output instead.
+         </p>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_157">
+        <td id="-gw0rkl_173">
+         <p>
+          The
+          <code class="code" id="-gw0rkl_175">
+           classpath
+          </code>
+          property of the
+          <code class="code" id="-gw0rkl_176">
+           KotlinCompile
+          </code>
+          task is deprecated.
+         </p>
+        </td>
+        <td id="-gw0rkl_174">
+         <p>
+          All compile tasks now use the
+          <code class="code" id="-gw0rkl_177">
+           libraries
+          </code>
+          input for a list of libraries required for compilation.
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <p id="-gw0rkl_145">
+     <span class="control" id="-gw0rkl_178">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_146">
+     In Kotlin 1.7.20, inputs are not available, the output is replaced, and the
+     <code class="code" id="-gw0rkl_179">
+      classpath
+     </code>
+     property is deprecated.
+    </p>
+    <p id="-gw0rkl_147">
+     For more information, see the
+     <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-32805" id="-gw0rkl_180" rel="noopener noreferrer">
+      corresponding issue in YouTrack
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="new-configuration-names-for-dependencies-on-the-compilation" id="new-configuration-names-for-dependencies-on-the-compilation">
+     New configuration names for dependencies on the compilation
+    </h2>
+    <p id="-gw0rkl_181">
+     <span class="control" id="-gw0rkl_193">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_182">
+     Compilation configurations created by the Kotlin Multiplatform Gradle Plugin received new names.
+    </p>
+    <p id="-gw0rkl_183">
+     A target in the Kotlin Multiplatform project has two default compilations,
+     <code class="code" id="-gw0rkl_194">
+      main
+     </code>
+     and
+     <code class="code" id="-gw0rkl_195">
+      test
+     </code>
+     . Each of these compilations has its own default source set, for example,
+     <code class="code" id="-gw0rkl_196">
+      jvmMain
+     </code>
+     and
+     <code class="code" id="-gw0rkl_197">
+      jvmTest
+     </code>
+     . Previously the configuration names for the test compilation and its default source set were the same, which might lead to a name clash resulting in issues when a configuration marked with platform-specific attributes is included in another configuration.
+    </p>
+    <p id="-gw0rkl_184">
+     Now compilation configurations have an extra
+     <code class="code" id="-gw0rkl_198">
+      Compilation
+     </code>
+     postfix, while projects and plugins that use old hard-coded configuration names no longer compile.
+    </p>
+    <p id="-gw0rkl_185">
+     Configuration names for dependencies on the corresponding source set stay the same.
+    </p>
+    <p id="-gw0rkl_186">
+     <span class="control" id="-gw0rkl_199">
+      What's the best practice now?
+     </span>
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="-gw0rkl_187">
+      <thead>
+       <tr class="ijRowHead" id="-gw0rkl_200">
+        <th id="-gw0rkl_206">
+        </th>
+        <th id="-gw0rkl_207">
+         <p>
+          Before
+         </p>
+        </th>
+        <th id="-gw0rkl_208">
+         <p>
+          Now
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="-gw0rkl_201">
+        <td id="-gw0rkl_209" rowspan="2">
+         <p>
+          Dependencies of the
+          <code class="code" id="-gw0rkl_212">
+           jvmMain
+          </code>
+          compilation
+         </p>
+        </td>
+        <td id="-gw0rkl_210">
+         <div class="code-block" data-lang="kotlin">
+          jvm&lt;Scope&gt;
+         </div>
+        </td>
+        <td id="-gw0rkl_211">
+         <div class="code-block" data-lang="kotlin">
+          jvmCompilation&lt;Scope&gt;
+         </div>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_202">
+        <td id="-gw0rkl_215">
+         <div class="code-block" data-lang="kotlin">
+          dependencies {
+    add("jvmImplementation",
+        "foo.bar.baz:1.2.3")
+}
+         </div>
+        </td>
+        <td id="-gw0rkl_216">
+         <div class="code-block" data-lang="kotlin">
+          dependencies {
+    add("jvmCompilationImplementation",
+        "foo.bar.baz:1.2.3")
+}
+         </div>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_203">
+        <td id="-gw0rkl_219">
+         <p>
+          Dependencies of the
+          <code class="code" id="-gw0rkl_221">
+           jvmMain
+          </code>
+          source set
+         </p>
+        </td>
+        <td colspan="2" id="-gw0rkl_220">
+         <div class="code-block" data-lang="kotlin">
+          jvmMain&lt;Scope&gt;
+         </div>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_204">
+        <td id="-gw0rkl_223">
+         <p>
+          Dependencies of the
+          <code class="code" id="-gw0rkl_226">
+           jvmTest
+          </code>
+          compilation
+         </p>
+        </td>
+        <td id="-gw0rkl_224">
+         <div class="code-block" data-lang="kotlin">
+          jvmTest&lt;Scope&gt;
+         </div>
+        </td>
+        <td id="-gw0rkl_225">
+         <div class="code-block" data-lang="kotlin">
+          jvmTestCompilation&lt;Scope&gt;
+         </div>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_205">
+        <td id="-gw0rkl_229">
+         <p>
+          Dependencies of the
+          <code class="code" id="-gw0rkl_231">
+           jvmTest
+          </code>
+          source set
+         </p>
+        </td>
+        <td colspan="2" id="-gw0rkl_230">
+         <div class="code-block" data-lang="kotlin">
+          jvmTest&lt;Scope&gt;
+         </div>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <p id="-gw0rkl_188">
+     The available scopes are
+     <code class="code" id="-gw0rkl_233">
+      Api
+     </code>
+     ,
+     <code class="code" id="-gw0rkl_234">
+      Implementation
+     </code>
+     ,
+     <code class="code" id="-gw0rkl_235">
+      CompileOnly
+     </code>
+     , and
+     <code class="code" id="-gw0rkl_236">
+      RuntimeOnly
+     </code>
+     .
+    </p>
+    <p id="-gw0rkl_189">
+     <span class="control" id="-gw0rkl_237">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_190">
+     In Kotlin 1.8.0, an error is introduced when using old configuration names in hard-coded strings.
+    </p>
+    <p id="-gw0rkl_191">
+     For more information, see the
+     <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-35916/" id="-gw0rkl_238" rel="noopener noreferrer">
+      corresponding issue in YouTrack
+     </a>
+     .
+    </p>
+    <a name="deprecate-hmpp-properties">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deprecated-gradle-properties-for-hierarchical-structure-support" id="deprecated-gradle-properties-for-hierarchical-structure-support">
+     Deprecated Gradle properties for hierarchical structure support
+    </h2>
+    <p id="-gw0rkl_239">
+     <span class="control" id="-gw0rkl_254">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_240">
+     Throughout its evolution, Kotlin was gradually introducing the support for
+     <a data-tooltip="Kotlin Multiplatform projects support hierarchical source set structures. This means you can arrange a hierarchy of intermediate source sets for sharing the common code among some, but not all, supported targets. Using intermediate source sets helps you to:" href="multiplatform-hierarchy.html" id="-gw0rkl_255">
+      hierarchical structure
+     </a>
+     , in multiplatform projects, an ability to have intermediate source sets between the common source set
+     <code class="code" id="-gw0rkl_256">
+      commonMain
+     </code>
+     and any platform-specific one, for example,
+     <code class="code" id="-gw0rkl_257">
+      jvmMain
+     </code>
+     .
+    </p>
+    <p id="-gw0rkl_241">
+     For the transition period, while the toolchain wasn't stable enough, a couple of Gradle properties were introduced, allowing granular opt-ins and opt-outs.
+    </p>
+    <p id="-gw0rkl_242">
+     Since Kotlin 1.6.20, the hierarchical project structure support has been enabled by default. However, these properties were kept for opting out in case of blocking issues. After processing all the feedback, we're now starting to phase out those properties completely.
+    </p>
+    <p id="-gw0rkl_243">
+     The following properties are now deprecated:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_244">
+     <li class="list__item" id="-gw0rkl_258">
+      <p>
+       <code class="code" id="-gw0rkl_263">
+        kotlin.internal.mpp.hierarchicalStructureByDefault
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_259">
+      <p>
+       <code class="code" id="-gw0rkl_264">
+        kotlin.mpp.enableCompatibilityMetadataVariant
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_260">
+      <p>
+       <code class="code" id="-gw0rkl_265">
+        kotlin.mpp.hierarchicalStructureSupport
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_261">
+      <p>
+       <code class="code" id="-gw0rkl_266">
+        kotlin.mpp.enableGranularSourceSetsMetadata
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_262">
+      <p>
+       <code class="code" id="-gw0rkl_267">
+        kotlin.native.enableDependencyPropagation
+       </code>
+      </p>
+     </li>
+    </ul>
+    <p id="-gw0rkl_245">
+     <span class="control" id="-gw0rkl_268">
+      What's the best practice now?
+     </span>
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_246">
+     <li class="list__item" id="-gw0rkl_269">
+      <p>
+       Remove these properties from your
+       <code class="code" id="-gw0rkl_272">
+        gradle.properties
+       </code>
+       and
+       <code class="code" id="-gw0rkl_273">
+        local.properties
+       </code>
+       files.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_270">
+      <p>
+       Avoid setting them programmatically in the Gradle build scripts or your Gradle plugins.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_271">
+      <p>
+       In case deprecated properties are set by some third-party Gradle plugin used in your build, ask the plugin maintainers not to set these properties.
+      </p>
+     </li>
+    </ul>
+    <p id="-gw0rkl_247">
+     As the default behavior of the Kotlin toolchain doesn't include such properties since 1.6.20, we don't expect any serious impact from removing them. Most possible consequences will be visible immediately after the project rebuild.
+    </p>
+    <p id="-gw0rkl_248">
+     If you're a library author and want to be extra safe, check that consumers can work with your library.
+    </p>
+    <p id="-gw0rkl_249">
+     <span class="control" id="-gw0rkl_274">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_250">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_251">
+     <li class="list__item" id="-gw0rkl_275">
+      <p>
+       1.8.20: report a warning when these properties are used
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_276">
+      <p>
+       1.9.20: raise this warning to an error
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_277">
+      <p>
+       2.0: remove these properties; the Kotlin Gradle plugin ignores their usages
+      </p>
+     </li>
+    </ul>
+    <p id="-gw0rkl_252">
+     In the unlikely case you face some problems after removing these properties, create an
+     <a data-external="true" href="https://kotl.in/issue" id="-gw0rkl_278" rel="noopener noreferrer">
+      issue in YouTrack
+     </a>
+     .
+    </p>
+    <a name="deprecate-pre-hmpp-dependencies">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deprecated-support-of-multiplatform-libraries-published-in-the-legacy-mode" id="deprecated-support-of-multiplatform-libraries-published-in-the-legacy-mode">
+     Deprecated support of multiplatform libraries published in the legacy mode
+    </h2>
+    <p id="-gw0rkl_279">
+     <span class="control" id="-gw0rkl_292">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_280">
+     Previously, we
+     <a data-tooltip="What's changed?" href="#deprecated-gradle-properties-for-hierarchical-structure-support" id="-gw0rkl_293">
+      have deprecated the legacy mode
+     </a>
+     in Kotlin Multiplatform projects preventing the publication of "legacy" binaries and encouraged you to migrate your projects to the
+     <a data-tooltip="Kotlin Multiplatform projects support hierarchical source set structures. This means you can arrange a hierarchy of intermediate source sets for sharing the common code among some, but not all, supported targets. Using intermediate source sets helps you to:" href="multiplatform-hierarchy.html" id="-gw0rkl_294">
+      hierarchical structure
+     </a>
+     .
+    </p>
+    <p id="-gw0rkl_281">
+     To continue phasing out "legacy" binaries from the ecosystem, starting with Kotlin 1.9.0, the use of legacy libraries is also discouraged. If your project uses dependencies on legacy libraries, you'll see the following warning:
+    </p>
+    <div class="code-block" data-lang="none">
+     The dependency group:artifact:1.0 was published in the legacy mode. Support for such dependencies will be removed in the future
+    </div>
+    <p id="-gw0rkl_283">
+     <span class="control" id="-gw0rkl_295">
+      What's the best practice now?
+     </span>
+    </p>
+    <p id="-gw0rkl_284">
+     <span class="emphasis" id="-gw0rkl_296">
+      If you use multiplatform libraries
+     </span>
+     , most of them have already migrated to the "hierarchical structure" mode, so you only need to update the library version. See the documentation of the respective libraries for details.
+    </p>
+    <p id="-gw0rkl_285">
+     If the library doesn't support non-legacy binaries yet, you can contact the maintainers and tell them about this compatibility issue.
+    </p>
+    <p id="-gw0rkl_286">
+     <span class="emphasis" id="-gw0rkl_297">
+      If you're a library author
+     </span>
+     , update the Kotlin Gradle plugin to the latest version and ensure you've fixed the
+     <a data-tooltip="What's changed?" href="#deprecated-gradle-properties-for-hierarchical-structure-support" id="-gw0rkl_298">
+      deprecated Gradle properties
+     </a>
+     .
+    </p>
+    <p id="-gw0rkl_287">
+     The Kotlin team is eager to help the ecosystem migrate, so if you face any issues, don't hesitate to create an
+     <a data-external="true" href="https://kotl.in/issue" id="-gw0rkl_299" rel="noopener noreferrer">
+      issue in YouTrack
+     </a>
+     .
+    </p>
+    <p id="-gw0rkl_288">
+     <span class="control" id="-gw0rkl_300">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_289">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_290">
+     <li class="list__item" id="-gw0rkl_301">
+      <p>
+       1.9: introduce a deprecation warning for dependencies on legacy libraries
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_302">
+      <p>
+       2.0: raise the warning for dependencies on legacy libraries to an error
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_303">
+      <p>
+       &gt;2.0: remove support for dependencies on legacy libraries; using such dependencies can cause build failures
+      </p>
+     </li>
+    </ul>
+    <a name="compilation-source-deprecation">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deprecated-api-for-adding-kotlin-source-sets-directly-to-the-kotlin-compilation" id="deprecated-api-for-adding-kotlin-source-sets-directly-to-the-kotlin-compilation">
+     Deprecated API for adding Kotlin source sets directly to the Kotlin compilation
+    </h2>
+    <p id="-gw0rkl_304">
+     <span class="control" id="-gw0rkl_315">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_305">
+     The access to
+     <code class="code" id="-gw0rkl_316">
+      KotlinCompilation.source
+     </code>
+     has been deprecated. A code like this produces a deprecation warning:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     kotlin {
+    jvm()
+    js()
+    iosArm64()
+    iosSimulatorArm64()
+    
+    sourceSets {
+        val commonMain by getting
+        val myCustomIntermediateSourceSet by creating {
+            dependsOn(commonMain)
+        }
+        
+        targets["jvm"].compilations["main"].source(myCustomIntermediateSourceSet)
+    }
+}
+    </div>
+    <p id="-gw0rkl_307">
+     <span class="control" id="-gw0rkl_317">
+      What's the best practice now?
+     </span>
+    </p>
+    <p id="-gw0rkl_308">
+     To replace
+     <code class="code" id="-gw0rkl_318">
+      KotlinCompilation.source(someSourceSet)
+     </code>
+     , add the
+     <code class="code" id="-gw0rkl_319">
+      dependsOn
+     </code>
+     relation from the default source set of the
+     <code class="code" id="-gw0rkl_320">
+      KotlinCompilation
+     </code>
+     to
+     <code class="code" id="-gw0rkl_321">
+      someSourceSet
+     </code>
+     . We recommend referring to the source directly using
+     <code class="code" id="-gw0rkl_322">
+      by getting
+     </code>
+     , which is shorter and more readable. However, you can also use
+     <code class="code" id="-gw0rkl_323">
+      KotlinCompilation.defaultSourceSet.dependsOn(someSourceSet)
+     </code>
+     , which is applicable in all cases.
+    </p>
+    <p id="-gw0rkl_309">
+     You can change the code above in one of the following ways:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     kotlin {
+    jvm()
+    js()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets {
+        val commonMain by getting
+        val myCustomIntermediateSourceSet by creating {
+            dependsOn(commonMain)
+        }
+        
+        // Option #1. Shorter and more readable, use it when possible. 
+        // Usually, the name of the default source set 
+        // is a simple concatenation of the target name and the compilation name:
+        val jvmMain by getting {
+            dependsOn(myCustomIntermediateSourceSet)
+        }
+        
+        // Option #2. Generic solution, use it if your build script requires a more advanced approach:
+        targets["jvm"].compilations["main"].defaultSourceSet.dependsOn(myCustomIntermediateSourceSet)
+    }
+}
+    </div>
+    <p id="-gw0rkl_311">
+     <span class="control" id="-gw0rkl_324">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_312">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_313">
+     <li class="list__item" id="-gw0rkl_325">
+      <p>
+       1.9.0: introduce a deprecation warning when
+       <code class="code" id="-gw0rkl_328">
+        KotlinComplation.source
+       </code>
+       is used
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_326">
+      <p>
+       1.9.20: raise this warning to an error
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_327">
+      <p>
+       &gt;1.9.20: remove
+       <code class="code" id="-gw0rkl_329">
+        KotlinComplation.source
+       </code>
+       from the Kotlin Gradle plugin, attempts to use it lead to "unresolved reference" errors during the buildscript compilation
+      </p>
+     </li>
+    </ul>
+    <a name="kotlin-js-plugin-deprecation">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="migration-from-kotlin-js-gradle-plugin-to-kotlin-multiplatform-gradle-plugin" id="migration-from-kotlin-js-gradle-plugin-to-kotlin-multiplatform-gradle-plugin">
+     Migration from kotlin-js Gradle plugin to kotlin-multiplatform Gradle plugin
+    </h2>
+    <p id="-gw0rkl_330">
+     <span class="control" id="-gw0rkl_337">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_331">
+     Starting with Kotlin 1.9.0, the
+     <code class="code" id="-gw0rkl_338">
+      kotlin-js
+     </code>
+     Gradle plugin is deprecated. Basically, it duplicated the functionality of the
+     <code class="code" id="-gw0rkl_339">
+      kotlin-multiplatform
+     </code>
+     plugin with the
+     <code class="code" id="-gw0rkl_340">
+      js()
+     </code>
+     target and shared the same implementation under the hood. Such overlap created confusion and increased maintenance load on the Kotlin team. We encourage you to migrate to the
+     <code class="code" id="-gw0rkl_341">
+      kotlin-multiplatform
+     </code>
+     Gradle plugin with the
+     <code class="code" id="-gw0rkl_342">
+      js()
+     </code>
+     target instead.
+    </p>
+    <p id="-gw0rkl_332">
+     <span class="control" id="-gw0rkl_343">
+      What's the best practice now?
+     </span>
+    </p>
+    <ol class="list _decimal" id="-gw0rkl_333" type="1">
+     <li class="list__item" id="-gw0rkl_344">
+      <p id="-gw0rkl_348">
+       Remove the
+       <code class="code" id="-gw0rkl_351">
+        kotlin-js
+       </code>
+       Gradle plugin from your project and apply
+       <code class="code" id="-gw0rkl_352">
+        kotlin-multiplatform
+       </code>
+       in the
+       <code class="code" id="-gw0rkl_353">
+        settings.gradle.kts
+       </code>
+       file if you're using the
+       <code class="code" id="-gw0rkl_354">
+        pluginManagement {}
+       </code>
+       block:
+      </p>
+      <div class="tabs" data-anchors="[-gw0rkl_355,-gw0rkl_356]" id="-gw0rkl_349">
+       <div class="tabs__content" data-gtm="tab" data-title="kotlin-js" id="-gw0rkl_355">
+        <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+         // settings.gradle.kts:
+pluginManagement {
+    plugins {
+        // Remove the following line:
+        kotlin("js") version "1.9.0"
+    }
+
+    repositories {
+        // ...
+    }
+}
+        </div>
+       </div>
+       <div class="tabs__content" data-gtm="tab" data-title="kotlin-multiplatform" id="-gw0rkl_356">
+        <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+         // settings.gradle.kts:
+pluginManagement {
+    plugins {
+        // Add the following line instead:
+        kotlin("multiplatform") version "1.9.0"
+    }
+
+    repositories {
+        // ...
+    }
+}
+        </div>
+       </div>
+      </div>
+      <p id="-gw0rkl_350">
+       In case you're using a different way of applying plugins, see
+       <a data-external="true" href="https://docs.gradle.org/current/userguide/plugins.html" id="-gw0rkl_359" rel="noopener noreferrer">
+        the Gradle documentation
+       </a>
+       for migration instructions.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_345">
+      <p id="-gw0rkl_360">
+       Move your source files from the
+       <code class="code" id="-gw0rkl_361">
+        main
+       </code>
+       and
+       <code class="code" id="-gw0rkl_362">
+        test
+       </code>
+       folders to the
+       <code class="code" id="-gw0rkl_363">
+        jsMain
+       </code>
+       and
+       <code class="code" id="-gw0rkl_364">
+        jsTest
+       </code>
+       folders in the same directory.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_346">
+      <p id="-gw0rkl_365">
+       Adjust dependency declarations:
+      </p>
+      <ul class="list _bullet" id="-gw0rkl_366">
+       <li class="list__item" id="-gw0rkl_369">
+        <p id="-gw0rkl_371">
+         We recommend using the
+         <code class="code" id="-gw0rkl_372">
+          sourceSets {}
+         </code>
+         block and configuring dependencies of respective source sets,
+         <code class="code" id="-gw0rkl_373">
+          jsMain {}
+         </code>
+         for production dependencies and
+         <code class="code" id="-gw0rkl_374">
+          jsTest {}
+         </code>
+         for test dependencies. See
+         <a data-tooltip="Every program requires a set of libraries to operate successfully. A Kotlin Multiplatform project can depend on multiplatform libraries that work for all target platforms, platform-specific libraries, and other multiplatform projects." href="multiplatform-add-dependencies.html" id="-gw0rkl_375">
+          Adding dependencies
+         </a>
+         for more details.
+        </p>
+       </li>
+       <li class="list__item" id="-gw0rkl_370">
+        <p id="-gw0rkl_376">
+         However, if you want to declare your dependencies in a top-level block, change declarations from
+         <code class="code" id="-gw0rkl_378">
+          api("group:artifact:1.0")
+         </code>
+         to
+         <code class="code" id="-gw0rkl_379">
+          add("jsMainApi", "group:artifact:1.0")
+         </code>
+         and so on.
+        </p>
+        <aside class="prompt" data-title="" data-type="note" id="-gw0rkl_377">
+         <p id="-gw0rkl_380">
+          In this case, make sure that the top-level
+          <code class="code" id="-gw0rkl_381">
+           dependencies {}
+          </code>
+          block comes
+          <span class="control" id="-gw0rkl_382">
+           after
+          </span>
+          the
+          <code class="code" id="-gw0rkl_383">
+           kotlin {}
+          </code>
+          block. Otherwise, you'll get an error "Configuration not found".
+         </p>
+        </aside>
+       </li>
+      </ul>
+      <p id="-gw0rkl_367">
+       You can change the code in your
+       <code class="code" id="-gw0rkl_384">
+        build.gradle.kts
+       </code>
+       file in one of the following ways:
+      </p>
+      <div class="tabs" data-anchors="[-gw0rkl_385,-gw0rkl_386]" id="-gw0rkl_368">
+       <div class="tabs__content" data-gtm="tab" data-title="kotlin-js" id="-gw0rkl_385">
+        <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+         // build.gradle.kts:
+plugins {
+    kotlin("js") version "1.9.0"
+}
+
+dependencies {
+    testImplementation(kotlin("test"))
+    implementation("org.jetbrains.kotlinx:kotlinx-html:0.8.0")
+}
+
+kotlin {
+    js {
+        // ...
+    }
+}
+        </div>
+       </div>
+       <div class="tabs__content" data-gtm="tab" data-title="kotlin-multiplatform" id="-gw0rkl_386">
+        <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+         // build.gradle.kts:
+plugins {
+    kotlin("multiplatform") version "1.9.0"
+}
+
+kotlin {
+    js {
+        // ...
+    }
+
+    // Option #1. Declare dependencies in the sourceSets {} block:
+    sourceSets {
+        val jsMain by getting {
+            dependencies {
+                // No need for the js prefix here, you can just copy and paste it from the top-level block
+                implementation("org.jetbrains.kotlinx:kotlinx-html:0.8.0")
+            }
+        }
+    }
+}
+
+dependencies {
+    // Option #2. Add the js prefix to the dependency declaration:
+    add("jsTestImplementation", kotlin("test"))
+}
+        </div>
+       </div>
+      </div>
+     </li>
+     <li class="list__item" id="-gw0rkl_347">
+      <p id="-gw0rkl_389">
+       The DSL provided by the Kotlin Gradle plugin inside the
+       <code class="code" id="-gw0rkl_390">
+        kotlin {}
+       </code>
+       block remains unchanged in most cases. However, if you were referring to low-level Gradle entities, like tasks and configurations, by names, you now need to adjust them, usually by adding the
+       <code class="code" id="-gw0rkl_391">
+        js
+       </code>
+       prefix. For example, you can find the
+       <code class="code" id="-gw0rkl_392">
+        browserTest
+       </code>
+       task under the name
+       <code class="code" id="-gw0rkl_393">
+        jsBrowserTest
+       </code>
+       .
+      </p>
+     </li>
+    </ol>
+    <p id="-gw0rkl_334">
+     <span class="control" id="-gw0rkl_394">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_335">
+     In 1.9.0, the use of the
+     <code class="code" id="-gw0rkl_395">
+      kotlin-js
+     </code>
+     Gradle plugin produces a deprecation warning.
+    </p>
+    <a name="android-target-rename">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="rename-of-android-target-to-androidtarget" id="rename-of-android-target-to-androidtarget">
+     Rename of android target to androidTarget
+    </h2>
+    <p id="-gw0rkl_396">
+     <span class="control" id="-gw0rkl_405">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_397">
+     We continue our efforts to stabilize Kotlin Multiplatform. An essential step in this way is to provide first-class support for the Android target. In the future, this support will be provided via a separate plugin, developed by the Android team from Google.
+    </p>
+    <p id="-gw0rkl_398">
+     To open the way for the new solution from Google, we're renaming the
+     <code class="code" id="-gw0rkl_406">
+      android
+     </code>
+     block to
+     <code class="code" id="-gw0rkl_407">
+      androidTarget
+     </code>
+     in the current Kotlin DSL. This is a temporary change that is necessary to free the short
+     <code class="code" id="-gw0rkl_408">
+      android
+     </code>
+     name for the upcoming DSL from Google.
+    </p>
+    <p id="-gw0rkl_399">
+     <span class="control" id="-gw0rkl_409">
+      What's the best practice now?
+     </span>
+    </p>
+    <p id="-gw0rkl_400">
+     Rename all the occurrences of the
+     <code class="code" id="-gw0rkl_410">
+      android
+     </code>
+     block to
+     <code class="code" id="-gw0rkl_411">
+      androidTarget
+     </code>
+     . When the new plugin for the Android target support is available, migrate to the DSL from Google. It will be the preferred option to work with Android in Kotlin Multiplatform projects.
+    </p>
+    <p id="-gw0rkl_401">
+     <span class="control" id="-gw0rkl_412">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_402">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_403">
+     <li class="list__item" id="-gw0rkl_413">
+      <p>
+       1.9.0: introduce a deprecation warning when the
+       <code class="code" id="-gw0rkl_416">
+        android
+       </code>
+       name is used in Kotlin Multiplatform projects
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_414">
+      <p>
+       2.1.0: raise this warning to an error
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_415">
+      <p>
+       2.2.0: remove the
+       <code class="code" id="-gw0rkl_417">
+        android
+       </code>
+       target DSL from the Kotlin Multiplatform Gradle plugin
+      </p>
+     </li>
+    </ul>
+    <a name="declaring-multiple-targets">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="declaring-several-similar-targets" id="declaring-several-similar-targets">
+     Declaring several similar targets
+    </h2>
+    <p id="-gw0rkl_418">
+     <span class="control" id="-gw0rkl_434">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_419">
+     We discourage declaring several similar targets in a single Gradle project. For example:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     kotlin {
+    jvm("jvmKtor")
+    jvm("jvmOkHttp") // Not recommended and produces a deprecation warning
+}
+    </div>
+    <p id="-gw0rkl_421">
+     One popular case is having two related pieces of code together. For example, you might want to use
+     <code class="code" id="-gw0rkl_435">
+      jvm("jvmKtor")
+     </code>
+     and
+     <code class="code" id="-gw0rkl_436">
+      jvm("jvmOkHttp")
+     </code>
+     in your
+     <code class="code" id="-gw0rkl_437">
+      :shared
+     </code>
+     Gradle project to implement networking using the Ktor or OkHttp libraries:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     // shared/build.gradle.kts:
+kotlin {
+    jvm("jvmKtor") {
+        attributes.attribute(/* ... */)
+    }
+    jvm("jvmOkHttp") {
+        attributes.attribute(/* ... */)
+    }
+
+    sourceSets {
+        val commonMain by getting
+        val commonJvmMain by sourceSets.creating {
+            dependsOn(commonMain)
+            dependencies {
+                // Shared dependencies
+            }
+        }
+        val jvmKtorMain by getting {
+            dependsOn(commonJvmMain)
+            dependencies {
+                // Ktor dependencies
+            }
+        }
+        val jvmOkHttpMain by getting {
+            dependsOn(commonJvmMain)
+            dependencies {
+                // OkHttp dependencies
+            }
+        }
+    }
+}
+    </div>
+    <p id="-gw0rkl_423">
+     The implementation comes with non-trivial configuration complexity:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_424">
+     <li class="list__item" id="-gw0rkl_438">
+      <p>
+       You have to set up Gradle attributes on the
+       <code class="code" id="-gw0rkl_441">
+        :shared
+       </code>
+       side and each consumer's side. Otherwise, Gradle can't resolve dependencies in such projects because without additional information it's not clear whether the consumer should receive the Ktor-based or the OkHttp-based implementation.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_439">
+      <p>
+       You have to set up the
+       <code class="code" id="-gw0rkl_442">
+        commonJvmMain
+       </code>
+       source set manually.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_440">
+      <p>
+       The configuration involves a handful of low-level Gradle and Kotlin Gradle plugin abstractions and APIs.
+      </p>
+     </li>
+    </ul>
+    <p id="-gw0rkl_425">
+     <span class="control" id="-gw0rkl_443">
+      What's the best practice now?
+     </span>
+    </p>
+    <p id="-gw0rkl_426">
+     The configuration is complex because Ktor-based and OkHttp-based implementations are
+     <span class="emphasis" id="-gw0rkl_444">
+      in the same Gradle project
+     </span>
+     . In many cases, it's possible to extract those parts into separate Gradle projects. Here's a general outline of such as a refactoring:
+    </p>
+    <ol class="list _decimal" id="-gw0rkl_427" type="1">
+     <li class="list__item" id="-gw0rkl_445">
+      <p id="-gw0rkl_448">
+       Replace two duplicated targets from the original project with a single target. If you had a shared source set between these targets, move its sources and configuration to the default source set of the newly created target:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       // shared/build.gradle.kts:
+kotlin {
+    jvm()
+
+    sourceSets {
+        jvmMain {
+            // Copy the configuration of jvmCommonMain here
+        }
+    }
+}
+      </div>
+     </li>
+     <li class="list__item" id="-gw0rkl_446">
+      <p id="-gw0rkl_450">
+       Add two new Gradle projects, usually by calling
+       <code class="code" id="-gw0rkl_452">
+        include
+       </code>
+       in your
+       <code class="code" id="-gw0rkl_453">
+        settings.gradle.kts
+       </code>
+       file. For example:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       include(":okhttp-impl")
+include(":ktor-impl")
+      </div>
+     </li>
+     <li class="list__item" id="-gw0rkl_447">
+      <p id="-gw0rkl_454">
+       Configure each new Gradle project:
+      </p>
+      <ul class="list _bullet" id="-gw0rkl_455">
+       <li class="list__item" id="-gw0rkl_457">
+        <p>
+         Most likely, you don't need to apply the
+         <code class="code" id="-gw0rkl_461">
+          kotlin("multiplatform")
+         </code>
+         plugin, as these projects compile only to one target. In this example, you can apply
+         <code class="code" id="-gw0rkl_462">
+          kotlin("jvm")
+         </code>
+         .
+        </p>
+       </li>
+       <li class="list__item" id="-gw0rkl_458">
+        <p>
+         Move the content of original target-specific source sets to their respective projects, for example, from
+         <code class="code" id="-gw0rkl_463">
+          jvmKtorMain
+         </code>
+         to
+         <code class="code" id="-gw0rkl_464">
+          ktor-impl/src
+         </code>
+         .
+        </p>
+       </li>
+       <li class="list__item" id="-gw0rkl_459">
+        <p>
+         Copy the configuration of source sets: dependencies, compiler options, and so on.
+        </p>
+       </li>
+       <li class="list__item" id="-gw0rkl_460">
+        <p>
+         Add a dependency from the new Gradle project to the original project.
+        </p>
+       </li>
+      </ul>
+      <div class="code-block" data-lang="kotlin">
+       // ktor-impl/build.gradle.kts:
+plugins {
+    kotlin("jvm")
+}
+
+dependencies {
+    project(":shared") // Add dependency on the original project
+    // Copy dependencies of jvmKtorMain here
+}
+
+kotlin {
+    compilerOptions {
+        // Copy compiler options of jvmKtorMain here
+    }
+}
+      </div>
+     </li>
+    </ol>
+    <p id="-gw0rkl_428">
+     While this approach requires more work on the initial setup, it doesn't use any low-level entities of Gradle and the Kotlin Gradle plugin, making it easier to use and maintain the resulting build.
+    </p>
+    <aside class="prompt" data-title="" data-type="tip" id="-gw0rkl_429">
+     <p id="-gw0rkl_465">
+      Unfortunately, we can't provide detailed migration steps for each case. If the instructions above don't work for you, describe your use case in this
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-59316" id="-gw0rkl_466" rel="noopener noreferrer">
+       YouTrack issue
+      </a>
+      .
+     </p>
+    </aside>
+    <p id="-gw0rkl_430">
+     <span class="control" id="-gw0rkl_467">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_431">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_432">
+     <li class="list__item" id="-gw0rkl_468">
+      <p>
+       1.9.20: introduce a deprecation warning when multiple similar targets are used in Kotlin Multiplatform projects
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_469">
+      <p>
+       2.1.0: report an error in such cases, except for Kotlin/JS targets; to learn more about this exception, see the issue in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-47038/KJS-MPP-Split-JS-target-into-JsBrowser-and-JsNode" id="-gw0rkl_470" rel="noopener noreferrer">
+        YouTrack
+       </a>
+      </p>
+     </li>
+    </ul>
+    <a name="jvmWithJava-preset-deprecation">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deprecated-jvmwithjava-preset" id="deprecated-jvmwithjava-preset">
+     Deprecated jvmWithJava preset
+    </h2>
+    <p id="-gw0rkl_471">
+     <span class="control" id="-gw0rkl_482">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_472">
+     <code class="code" id="-gw0rkl_483">
+      targetPresets.jvmWithJava
+     </code>
+     is deprecated, and its usage is discouraged.
+    </p>
+    <p id="-gw0rkl_473">
+     <span class="control" id="-gw0rkl_484">
+      What's the best practice now?
+     </span>
+    </p>
+    <p id="-gw0rkl_474">
+     Use
+     <code class="code" id="-gw0rkl_485">
+      jvm { withJava() }
+     </code>
+     target instead. Note that after switching to
+     <code class="code" id="-gw0rkl_486">
+      jvm { withJava() }
+     </code>
+     , you'll need to adjust the paths to source directories with
+     <code class="code" id="-gw0rkl_487">
+      .java
+     </code>
+     sources.
+    </p>
+    <p id="-gw0rkl_475">
+     For example, if you use a
+     <code class="code" id="-gw0rkl_488">
+      jvm
+     </code>
+     target with the default name "jvm":
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="-gw0rkl_476">
+      <thead>
+       <tr class="ijRowHead" id="-gw0rkl_489">
+        <th id="-gw0rkl_492">
+         <p>
+          Before
+         </p>
+        </th>
+        <th id="-gw0rkl_493">
+         <p>
+          Now
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="-gw0rkl_490">
+        <td id="-gw0rkl_494">
+         <p>
+          <code class="code" id="-gw0rkl_496">
+           src/main/java
+          </code>
+         </p>
+        </td>
+        <td id="-gw0rkl_495">
+         <p>
+          <code class="code" id="-gw0rkl_497">
+           src/jvmMain/java
+          </code>
+         </p>
+        </td>
+       </tr>
+       <tr id="-gw0rkl_491">
+        <td id="-gw0rkl_498">
+         <p>
+          <code class="code" id="-gw0rkl_500">
+           src/test/java
+          </code>
+         </p>
+        </td>
+        <td id="-gw0rkl_499">
+         <p>
+          <code class="code" id="-gw0rkl_501">
+           src/jvmTest/java
+          </code>
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <p id="-gw0rkl_477">
+     <span class="control" id="-gw0rkl_502">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_478">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_479">
+     <li class="list__item" id="-gw0rkl_503">
+      <p>
+       1.3.40: introduce a warning when
+       <code class="code" id="-gw0rkl_506">
+        targetPresets.jvmWithJava
+       </code>
+       is used
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_504">
+      <p>
+       1.9.20: raise this warning to an error
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_505">
+      <p>
+       &gt;1.9.20: remove
+       <code class="code" id="-gw0rkl_507">
+        targetPresets.jvmWithJava
+       </code>
+       API; attempts to use it lead to the buildscript compilation failure
+      </p>
+     </li>
+    </ul>
+    <aside class="prompt" data-title="" data-type="note" id="-gw0rkl_480">
+     <p id="-gw0rkl_508">
+      Even though the whole
+      <code class="code" id="-gw0rkl_509">
+       targetPresets
+      </code>
+      API is deprecated, the
+      <code class="code" id="-gw0rkl_510">
+       jvmWithJava
+      </code>
+      preset has a different deprecation timeline.
+     </p>
+    </aside>
+    <a name="android-sourceset-layout-v1-deprecation">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deprecated-legacy-android-source-set-layout" id="deprecated-legacy-android-source-set-layout">
+     Deprecated legacy Android source set layout
+    </h2>
+    <p id="-gw0rkl_511">
+     <span class="control" id="-gw0rkl_517">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_512">
+     The
+     <a data-tooltip="The new Android source set layout was introduced in Kotlin 1.8.0 and became the default in 1.9.0. Follow this guide to understand the key differences between the deprecated and the new layouts, as well as how to migrate your projects." href="multiplatform-android-layout.html" id="-gw0rkl_518">
+      new Android source set layout
+     </a>
+     is used by default since Kotlin 1.9.0. Support for the legacy layout is deprecated, and the use of the
+     <code class="code" id="-gw0rkl_519">
+      kotlin.mpp.androidSourceSetLayoutVersion
+     </code>
+     Gradle property now triggers a deprecation diagnostic.
+    </p>
+    <p id="-gw0rkl_513">
+     <span class="control" id="-gw0rkl_520">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_514">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_515">
+     <li class="list__item" id="-gw0rkl_521">
+      <p>
+       &lt;=1.9.0: report a warning when
+       <code class="code" id="-gw0rkl_524">
+        kotlin.mpp.androidSourceSetLayoutVersion=1
+       </code>
+       is used; the warning can be suppressed with
+       <code class="code" id="-gw0rkl_525">
+        kotlin.mpp.androidSourceSetLayoutVersion1.nowarn=true
+       </code>
+       Gradle property
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_522">
+      <p>
+       1.9.20: raise this warning to an error; the error
+       <span class="control" id="-gw0rkl_526">
+        cannot
+       </span>
+       be suppressed
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_523">
+      <p>
+       &gt;1.9.20: remove support for
+       <code class="code" id="-gw0rkl_527">
+        kotlin.mpp.androidSourceSetLayoutVersion=1
+       </code>
+       ; the Kotlin Gradle plugin ignores the property
+      </p>
+     </li>
+    </ul>
+    <a name="common-sourceset-with-dependson-deprecation">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deprecated-commonmain-and-commontest-with-custom-dependson" id="deprecated-commonmain-and-commontest-with-custom-dependson">
+     Deprecated commonMain and commonTest with custom dependsOn
+    </h2>
+    <p id="-gw0rkl_528">
+     <span class="control" id="-gw0rkl_541">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_529">
+     The
+     <code class="code" id="-gw0rkl_542">
+      commonMain
+     </code>
+     and
+     <code class="code" id="-gw0rkl_543">
+      commonTest
+     </code>
+     source sets usually represent the roots of the
+     <code class="code" id="-gw0rkl_544">
+      main
+     </code>
+     and
+     <code class="code" id="-gw0rkl_545">
+      test
+     </code>
+     source set hierarchies, respectively. However, it was possible to override that by manually configuring
+     <code class="code" id="-gw0rkl_546">
+      dependsOn
+     </code>
+     relations of these source sets.
+    </p>
+    <p id="-gw0rkl_530">
+     Maintaining such configuration requires extra effort and knowledge about multiplatform build internals. Additionally, it decreases code readability and reusability of the code because you need to read the particular buildscript to be sure whether
+     <code class="code" id="-gw0rkl_547">
+      commonMain
+     </code>
+     is the root of the
+     <code class="code" id="-gw0rkl_548">
+      main
+     </code>
+     source set hierarchy.
+    </p>
+    <p id="-gw0rkl_531">
+     Therefore, accessing
+     <code class="code" id="-gw0rkl_549">
+      dependsOn
+     </code>
+     on
+     <code class="code" id="-gw0rkl_550">
+      commonMain
+     </code>
+     and
+     <code class="code" id="-gw0rkl_551">
+      commonTest
+     </code>
+     is now deprecated.
+    </p>
+    <p id="-gw0rkl_532">
+     <span class="control" id="-gw0rkl_552">
+      What's the best practice now?
+     </span>
+    </p>
+    <p id="-gw0rkl_533">
+     Suppose you need to migrate to 1.9.20 the
+     <code class="code" id="-gw0rkl_553">
+      customCommonMain
+     </code>
+     source set that uses
+     <code class="code" id="-gw0rkl_554">
+      commonMain.dependsOn(customCommonMain)
+     </code>
+     . In most cases,
+     <code class="code" id="-gw0rkl_555">
+      customCommonMain
+     </code>
+     participates in the same compilations as
+     <code class="code" id="-gw0rkl_556">
+      commonMain
+     </code>
+     , so you can merge
+     <code class="code" id="-gw0rkl_557">
+      customCommonMain
+     </code>
+     into
+     <code class="code" id="-gw0rkl_558">
+      commonMain
+     </code>
+     :
+    </p>
+    <ol class="list _decimal" id="-gw0rkl_534" type="1">
+     <li class="list__item" id="-gw0rkl_559">
+      <p>
+       Copy sources of
+       <code class="code" id="-gw0rkl_562">
+        customCommonMain
+       </code>
+       into
+       <code class="code" id="-gw0rkl_563">
+        commonMain
+       </code>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_560">
+      <p>
+       Add all dependencies of
+       <code class="code" id="-gw0rkl_564">
+        customCommonMain
+       </code>
+       to
+       <code class="code" id="-gw0rkl_565">
+        commonMain
+       </code>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_561">
+      <p>
+       Add all compiler option settings of
+       <code class="code" id="-gw0rkl_566">
+        customCommonMain
+       </code>
+       to
+       <code class="code" id="-gw0rkl_567">
+        commonMain
+       </code>
+       .
+      </p>
+     </li>
+    </ol>
+    <p id="-gw0rkl_535">
+     In rare cases,
+     <code class="code" id="-gw0rkl_568">
+      customCommonMain
+     </code>
+     might be participating in more compilations than
+     <code class="code" id="-gw0rkl_569">
+      commonMain
+     </code>
+     . Such a configuration requires additional low-level configuration of the build script. If you're not sure if that's your use case, it most likely isn't.
+    </p>
+    <p id="-gw0rkl_536">
+     If it is your use case, "swap" these two source sets by moving the sources and settings of
+     <code class="code" id="-gw0rkl_570">
+      customCommonMain
+     </code>
+     to
+     <code class="code" id="-gw0rkl_571">
+      commonMain
+     </code>
+     and vice versa.
+    </p>
+    <p id="-gw0rkl_537">
+     <span class="control" id="-gw0rkl_572">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_538">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_539">
+     <li class="list__item" id="-gw0rkl_573">
+      <p>
+       1.9.0: report a warning when
+       <code class="code" id="-gw0rkl_575">
+        dependsOn
+       </code>
+       is used in
+       <code class="code" id="-gw0rkl_576">
+        commonMain
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_574">
+      <p>
+       &gt;=1.9.20: report an error when
+       <code class="code" id="-gw0rkl_577">
+        dependsOn
+       </code>
+       is used in
+       <code class="code" id="-gw0rkl_578">
+        commonMain
+       </code>
+       or
+       <code class="code" id="-gw0rkl_579">
+        commonTest
+       </code>
+      </p>
+     </li>
+    </ul>
+    <a name="target-presets-deprecation">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deprecated-target-presets-api" id="deprecated-target-presets-api">
+     Deprecated target presets API
+    </h2>
+    <p id="-gw0rkl_580">
+     <span class="control" id="-gw0rkl_591">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_581">
+     In the very early development stages, Kotlin Multiplatform introduced an API for working with so-called
+     <span class="emphasis" id="-gw0rkl_592">
+      target presets
+     </span>
+     . Each target preset essentially represented a factory for Kotlin Multiplatform targets. This API turned out to be largely redundant, as DSL functions like
+     <code class="code" id="-gw0rkl_593">
+      jvm()
+     </code>
+     or
+     <code class="code" id="-gw0rkl_594">
+      iosSimulatorArm64()
+     </code>
+     cover the same use cases while being much more straightforward and concise.
+    </p>
+    <p id="-gw0rkl_582">
+     To reduce the confusion and provide clearer guidelines, all presets-related APIs are now deprecated and will be removed from the public API of the Kotlin Gradle plugin in future releases. This includes:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_583">
+     <li class="list__item" id="-gw0rkl_595">
+      <p>
+       The
+       <code class="code" id="-gw0rkl_598">
+        presets
+       </code>
+       property in
+       <code class="code" id="-gw0rkl_599">
+        org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_596">
+      <p>
+       The
+       <code class="code" id="-gw0rkl_600">
+        org.jetbrains.kotlin.gradle.plugin.KotlinTargetPreset
+       </code>
+       interface and all its inheritors
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_597">
+      <p>
+       The
+       <code class="code" id="-gw0rkl_601">
+        fromPreset
+       </code>
+       overloads
+      </p>
+     </li>
+    </ul>
+    <p id="-gw0rkl_584">
+     <span class="control" id="-gw0rkl_602">
+      What's the best practice now?
+     </span>
+    </p>
+    <p id="-gw0rkl_585">
+     Use respective
+     <a data-tooltip="A target is a part of the build responsible for compiling, testing, and packaging a piece of software aimed at one of the supported platforms. Kotlin provides targets for each platform, so you can instruct Kotlin to compile code for that specific target. Learn more about setting up…" href="multiplatform-dsl-reference.html#targets" id="-gw0rkl_603">
+      Kotlin targets
+     </a>
+     instead, for example:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="-gw0rkl_586">
+      <thead>
+       <tr class="ijRowHead" id="-gw0rkl_604">
+        <th id="-gw0rkl_606">
+         <p>
+          Before
+         </p>
+        </th>
+        <th id="-gw0rkl_607">
+         <p>
+          Now
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="-gw0rkl_605">
+        <td id="-gw0rkl_608">
+         <div class="code-block" data-lang="kotlin">
+          kotlin {
+    targets {
+        fromPreset(presets.iosArm64, 'ios')
+    }
+}
+         </div>
+        </td>
+        <td id="-gw0rkl_609">
+         <div class="code-block" data-lang="kotlin">
+          kotlin {
+    iosArm64()
+}
+         </div>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <p id="-gw0rkl_587">
+     <span class="control" id="-gw0rkl_612">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_588">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_589">
+     <li class="list__item" id="-gw0rkl_613">
+      <p>
+       1.9.20: report a warning on any usages of the presets-related API
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_614">
+      <p>
+       2.0: raise this warning to an error
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_615">
+      <p>
+       &gt;2.0: remove the presets-related API from the public API of the Kotlin Gradle plugin; sources that still use it fail with "unresolved reference" errors, and binaries (for example, Gradle plugins) might fail with linkage errors unless recompiled against the latest versions of the Kotlin Gradle plugin
+      </p>
+     </li>
+    </ul>
+    <a name="target-shortcuts-deprecation">
+    </a>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deprecated-apple-target-shortcuts" id="deprecated-apple-target-shortcuts">
+     Deprecated Apple target shortcuts
+    </h2>
+    <p id="-gw0rkl_616">
+     <span class="control" id="-gw0rkl_627">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_617">
+     We're deprecating
+     <code class="code" id="-gw0rkl_628">
+      ios()
+     </code>
+     ,
+     <code class="code" id="-gw0rkl_629">
+      watchos()
+     </code>
+     , and
+     <code class="code" id="-gw0rkl_630">
+      tvos()
+     </code>
+     target shortcuts in Kotlin Multiplatform DSL. They were designed to partially create a source set hierarchy for Apple targets. However, they proved to be difficult to expand and sometimes confusing.
+    </p>
+    <p id="-gw0rkl_618">
+     For example, the
+     <code class="code" id="-gw0rkl_631">
+      ios()
+     </code>
+     shortcut created both the
+     <code class="code" id="-gw0rkl_632">
+      iosArm64
+     </code>
+     and
+     <code class="code" id="-gw0rkl_633">
+      iosX64
+     </code>
+     targets but didn't include the
+     <code class="code" id="-gw0rkl_634">
+      iosSimulatorArm64
+     </code>
+     target, which is necessary when working on hosts with Apple M chips. However, changing this shortcut was hard to implement and could cause issues in existing user projects.
+    </p>
+    <p id="-gw0rkl_619">
+     <span class="control" id="-gw0rkl_635">
+      What's the best practice now?
+     </span>
+    </p>
+    <p id="-gw0rkl_620">
+     The Kotlin Gradle plugin now provides a built-in hierarchy template. Since Kotlin 1.9.20, it's enabled by default and contains predefined intermediate source sets for popular use cases.
+    </p>
+    <p id="-gw0rkl_621">
+     Instead of shortcuts, you should specify the list of targets, and then the plugin automatically sets up intermediate source sets based on this list.
+    </p>
+    <p id="-gw0rkl_622">
+     For example, if you have
+     <code class="code" id="-gw0rkl_636">
+      iosArm64
+     </code>
+     and
+     <code class="code" id="-gw0rkl_637">
+      iosSimulatorArm64
+     </code>
+     targets in your project, the plugin automatically creates the
+     <code class="code" id="-gw0rkl_638">
+      iosMain
+     </code>
+     and
+     <code class="code" id="-gw0rkl_639">
+      iosTest
+     </code>
+     intermediate source sets. If you have
+     <code class="code" id="-gw0rkl_640">
+      iosArm64
+     </code>
+     and
+     <code class="code" id="-gw0rkl_641">
+      macosArm64
+     </code>
+     targets, the
+     <code class="code" id="-gw0rkl_642">
+      appleMain
+     </code>
+     and
+     <code class="code" id="-gw0rkl_643">
+      appleTest
+     </code>
+     source sets are created.
+    </p>
+    <p id="-gw0rkl_623">
+     For more information, see
+     <a data-tooltip="Kotlin Multiplatform projects support hierarchical source set structures. This means you can arrange a hierarchy of intermediate source sets for sharing the common code among some, but not all, supported targets. Using intermediate source sets helps you to:" href="multiplatform-hierarchy.html" id="-gw0rkl_644">
+      Hierarchical project structure
+     </a>
+    </p>
+    <p id="-gw0rkl_624">
+     <span class="control" id="-gw0rkl_645">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_625">
+     Here's the planned deprecation cycle:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_626">
+     <li class="list__item" id="-gw0rkl_646">
+      <p>
+       1.9.20: report a warning when
+       <code class="code" id="-gw0rkl_649">
+        ios()
+       </code>
+       ,
+       <code class="code" id="-gw0rkl_650">
+        watchos()
+       </code>
+       , and
+       <code class="code" id="-gw0rkl_651">
+        tvos()
+       </code>
+       target shortcuts are used; the default hierarchy template is enabled by default instead
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_647">
+      <p>
+       2.1.0: report an error when target shortcuts are used
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_648">
+      <p>
+       2.2.0: remove target shortcut DSL from the Kotlin Multiplatform Gradle plugin
+      </p>
+     </li>
+    </ul>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="new-approach-to-forward-declarations" id="new-approach-to-forward-declarations">
+     New approach to forward declarations
+    </h2>
+    <p id="-gw0rkl_652">
+     <span class="control" id="-gw0rkl_659">
+      What's changed?
+     </span>
+    </p>
+    <p id="-gw0rkl_653">
+     The JetBrains team has revamped the approach to forward declarations in Kotlin to make their behavior more predictable:
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_654">
+     <li class="list__item" id="-gw0rkl_660">
+      <p>
+       You can only import forward declarations using the
+       <code class="code" id="-gw0rkl_662">
+        cnames
+       </code>
+       or
+       <code class="code" id="-gw0rkl_663">
+        objcnames
+       </code>
+       packages.
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_661">
+      <p>
+       You need to explicitly make a cast to and from the corresponding C and Objective-C forward declaration.
+      </p>
+     </li>
+    </ul>
+    <p id="-gw0rkl_655">
+     <span class="control" id="-gw0rkl_664">
+      What's the best practice now?
+     </span>
+    </p>
+    <ul class="list _bullet" id="-gw0rkl_656">
+     <li class="list__item" id="-gw0rkl_665">
+      <p id="-gw0rkl_667">
+       Consider a C library with a
+       <code class="code" id="-gw0rkl_668">
+        library.package
+       </code>
+       that declares a
+       <code class="code" id="-gw0rkl_669">
+        cstructName
+       </code>
+       forward declaration. Previously, it was possible to import it directly from the library with
+       <code class="code" id="-gw0rkl_670">
+        import library.package.cstructName
+       </code>
+       . Now, you can only use a special forward declaration package for that:
+       <code class="code" id="-gw0rkl_671">
+        import cnames.structs.cstructName
+       </code>
+       . The same is true for
+       <code class="code" id="-gw0rkl_672">
+        objcnames
+       </code>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_666">
+      <p id="-gw0rkl_673">
+       Consider two objcinterop libraries: one that uses
+       <code class="code" id="-gw0rkl_679">
+        objcnames.protocols.ForwardDeclaredProtocolProtocol
+       </code>
+       and another that has an actual definition:
+      </p>
+      <div class="code-block" data-lang="objectivec">
+       // First objcinterop library
+#import &lt;Foundation/Foundation.h&gt;
+
+@protocol ForwardDeclaredProtocol;
+
+NSString* consumeProtocol(id&lt;ForwardDeclaredProtocol&gt; s) {
+    return [NSString stringWithUTF8String:"Protocol"];
+}
+      </div>
+      <div class="code-block" data-lang="objectivec">
+       // Second objcinterop library
+// Header:
+#import &lt;Foundation/Foundation.h&gt;
+@protocol ForwardDeclaredProtocol
+@end
+// Implementation:
+@interface ForwardDeclaredProtocolImpl : NSObject &lt;ForwardDeclaredProtocol&gt;
+@end
+
+id&lt;ForwardDeclaredProtocol&gt; produceProtocol() {
+    return [ForwardDeclaredProtocolImpl new];
+}
+      </div>
+      <p id="-gw0rkl_676">
+       Previously, it was possible to transfer objects between them seamlessly. Now, an explicit
+       <code class="code" id="-gw0rkl_680">
+        as
+       </code>
+       cast is required for the forward declaration:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       // Kotlin code:
+fun test() {
+    consumeProtocol(produceProtocol() as objcnames.protocols.ForwardDeclaredProtocolProtocol)
+}
+      </div>
+      <aside class="prompt" data-title="" data-type="note" id="-gw0rkl_678">
+       <p id="-gw0rkl_681">
+        You can only cast to
+        <code class="code" id="-gw0rkl_682">
+         objcnames.protocols.ForwardDeclaredProtocolProtocol
+        </code>
+        from the corresponding real class. Otherwise, you'll get an error.
+       </p>
+      </aside>
+     </li>
+    </ul>
+    <p id="-gw0rkl_657">
+     <span class="control" id="-gw0rkl_683">
+      When do the changes take effect?
+     </span>
+    </p>
+    <p id="-gw0rkl_658">
+     Starting with Kotlin 1.9.20, you need to explicitly make a cast to and from the corresponding C and Objective-C forward declarations. Also, it's now only possible to import forward declarations by using special packages.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="incorrect-version-of-ios-framework-after-kotlin-upgrade" id="incorrect-version-of-ios-framework-after-kotlin-upgrade">
+     Incorrect version of iOS framework after Kotlin upgrade
+    </h2>
+    <p id="-gw0rkl_684">
+     <span class="control" id="-gw0rkl_692">
+      What's the issue?
+     </span>
+    </p>
+    <p id="-gw0rkl_685">
+     Changes in Kotlin code might not be reflected in the iOS app in Xcode when direct integration is used. The direct integration is set up with the
+     <code class="code" id="-gw0rkl_693">
+      embedAndSignAppleFrameworkForXcode
+     </code>
+     task, which connects the iOS framework from your multiplatform project to the iOS app in Xcode.
+    </p>
+    <p id="-gw0rkl_686">
+     This can happen when you upgrade the Kotlin version from 1.9.2x to 2.0.0 in your multiplatform project (or downgrade it from 2.0.0 to 1.9.2x), then make changes in Kotlin files and try building the app, Xcode may incorrectly use the previous version of the iOS framework. So, the changes won't be visible in the iOS app in Xcode.
+    </p>
+    <p id="-gw0rkl_687">
+     <span class="control" id="-gw0rkl_694">
+      What's the workaround?
+     </span>
+    </p>
+    <ol class="list _decimal" id="-gw0rkl_688" type="1">
+     <li class="list__item" id="-gw0rkl_695">
+      <p id="-gw0rkl_698">
+       In Xcode, clean build directories using
+       <span class="control" id="-gw0rkl_699">
+        Product
+       </span>
+       |
+       <span class="control" id="-gw0rkl_700">
+        Clean Build Folder
+       </span>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-gw0rkl_696">
+      <p id="-gw0rkl_701">
+       In the terminal, run the following command:
+      </p>
+      <div class="code-block" data-lang="none">
+       ./gradlew clean
+      </div>
+     </li>
+     <li class="list__item" id="-gw0rkl_697">
+      <p id="-gw0rkl_703">
+       Build the app again to ensure that the new version of the iOS framework is used.
+      </p>
+     </li>
+    </ol>
+    <p id="-gw0rkl_689">
+     <span class="control" id="-gw0rkl_704">
+      When will the issue be fixed?
+     </span>
+    </p>
+    <p id="-gw0rkl_690">
+     We're planning to fix this issue in Kotlin 2.0.10. You can check if any preview versions of Kotlin 2.0.10 are already available in the
+     <a data-tooltip="You can participate in the Kotlin Early Access Preview (EAP) to try out the latest Kotlin features before they are released." href="eap.html" id="-gw0rkl_705">
+      Participate in the Kotlin Early Access Preview
+     </a>
+     section.
+    </p>
+    <p id="-gw0rkl_691">
+     For more information, see the
+     <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-68257" id="-gw0rkl_706" rel="noopener noreferrer">
+      corresponding issue in YouTrack
+     </a>
+     .
+    </p>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

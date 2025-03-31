@@ -1,0 +1,1109 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="whatsnew1430" id="whatsnew1430.md">
+    What's new in Kotlin 1.4.30
+   </h1>
+   <p id="xixfzk_2">
+    <span class="emphasis" id="xixfzk_12">
+     <a data-tooltip="The following table lists details of the latest Kotlin releases:" href="releases.html#release-details" id="xixfzk_13">
+      Released: 3 February 2021
+     </a>
+    </span>
+   </p>
+   <p id="xixfzk_3">
+    Kotlin 1.4.30 offers preview versions of new language features, promotes the new IR backend of the Kotlin/JVM compiler to Beta, and ships various performance and functional improvements.
+   </p>
+   <p id="xixfzk_4">
+    You can also learn about new features in
+    <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/01/kotlin-1-4-30-released/" id="xixfzk_14" rel="noopener noreferrer">
+     this blog post
+    </a>
+    .
+   </p>
+   <section class="chapter">
+    <h2 data-toc="language-features" id="language-features">
+     Language features
+    </h2>
+    <p id="xixfzk_15">
+     Kotlin 1.5.0 is going to deliver new language features – JVM records support, sealed interfaces, and Stable inline classes. In Kotlin 1.4.30, you can try these features and improvements in preview mode. We would be very grateful if you share your feedback with us in the corresponding YouTrack tickets, as that will allow us to address it before the release of 1.5.0.
+    </p>
+    <ul class="list _bullet" id="xixfzk_16">
+     <li class="list__item" id="xixfzk_23">
+      <p>
+       <a data-tooltip="The JVM records feature is Experimental. It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="#jvm-records-support" id="xixfzk_26">
+        JVM records support
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xixfzk_24">
+      <p>
+       <a data-tooltip="Sealed interfaces are Experimental. They may be dropped or changed at any time. Opt-in is required (see the details below), and you should use them only for evaluation purposes. We would appreciate your feedback on them in YouTrack." href="#sealed-interfaces" id="xixfzk_27">
+        Sealed interfaces
+       </a>
+       and
+       <a data-tooltip="Package-wide hierarchies of sealed classes are Experimental. They may be dropped or changed at any time. Opt-in is required (see the details below), and you should use them only for evaluation purposes. We would appreciate your feedback on them in YouTrack." href="#package-wide-sealed-class-hierarchies" id="xixfzk_28">
+        sealed class improvements
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xixfzk_25">
+      <p>
+       <a data-tooltip="Inline value classes are in Beta. They are almost stable, but migration steps may be required in the future. We'll do our best to minimize any changes you have to make. We would appreciate your feedback on the inline classes feature in YouTrack." href="#improved-inline-classes" id="xixfzk_29">
+        Improved inline classes
+       </a>
+      </p>
+     </li>
+    </ul>
+    <p id="xixfzk_17">
+     To enable these language features and improvements in preview mode, you need to opt in by adding specific compiler options. See the sections below for details.
+    </p>
+    <p id="xixfzk_18">
+     Learn more about the new features preview in
+     <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/01/new-language-features-preview-in-kotlin-1-4-30" id="xixfzk_30" rel="noopener noreferrer">
+      this blog post
+     </a>
+     .
+    </p>
+    <section class="chapter">
+     <h3 data-toc="jvm-records-support" id="jvm-records-support">
+      JVM records support
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xixfzk_31">
+      <p id="xixfzk_39">
+       The JVM records feature is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xixfzk_40">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42430" id="xixfzk_41" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xixfzk_32">
+      The
+      <a data-external="true" href="https://openjdk.java.net/projects/jdk/16/" id="xixfzk_42" rel="noopener noreferrer">
+       JDK 16 release
+      </a>
+      includes plans to stabilize a new Java class type called
+      <a data-external="true" href="https://openjdk.java.net/jeps/395" id="xixfzk_43" rel="noopener noreferrer">
+       record
+      </a>
+      . To provide all the benefits of Kotlin and maintain its interoperability with Java, Kotlin is introducing experimental record class support.
+     </p>
+     <p id="xixfzk_33">
+      You can use record classes that are declared in Java just like classes with properties in Kotlin. No additional steps are required.
+     </p>
+     <p id="xixfzk_34">
+      Starting with 1.4.30, you can declare the record class in Kotlin using the
+      <code class="code" id="xixfzk_44">
+       @JvmRecord
+      </code>
+      annotation for a
+      <a data-tooltip="Data classes in Kotlin are primarily used to hold data. For each data class, the compiler automatically generates additional member functions that allow you to print an instance to readable output, compare instances, copy instances, and more. Data classes are marked with data:" href="data-classes.html" id="xixfzk_45">
+       data class
+      </a>
+      :
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      @JvmRecord
+data class User(val name: String, val age: Int)
+     </div>
+     <p id="xixfzk_36">
+      To try the preview version of JVM records, add the compiler options
+      <code class="code" id="xixfzk_46">
+       -Xjvm-enable-preview
+      </code>
+      and
+      <code class="code" id="xixfzk_47">
+       -language-version 1.5
+      </code>
+      .
+     </p>
+     <p id="xixfzk_37">
+      We're continuing to work on JVM records support, and we would be very grateful if you would share your feedback with us using this
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42430" id="xixfzk_48" rel="noopener noreferrer">
+       YouTrack ticket
+      </a>
+      .
+     </p>
+     <p id="xixfzk_38">
+      Learn more about implementation, restrictions, and the syntax in
+      <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/jvm-records.md" id="xixfzk_49" rel="noopener noreferrer">
+       KEEP
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="sealed-interfaces" id="sealed-interfaces">
+      Sealed interfaces
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xixfzk_50">
+      <p id="xixfzk_58">
+       Sealed interfaces are
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xixfzk_59">
+        Experimental
+       </a>
+       . They may be dropped or changed at any time. Opt-in is required (see the details below), and you should use them only for evaluation purposes. We would appreciate your feedback on them in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42433" id="xixfzk_60" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xixfzk_51">
+      In Kotlin 1.4.30, we're shipping the prototype of
+      <span class="emphasis" id="xixfzk_61">
+       sealed interfaces
+      </span>
+      . They complement sealed classes and make it possible to build more flexible restricted class hierarchies.
+     </p>
+     <p id="xixfzk_52">
+      They can serve as "internal" interfaces that cannot be implemented outside the same module. You can rely on that fact, for example, to write exhaustive
+      <code class="code" id="xixfzk_62">
+       when
+      </code>
+      expressions.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      sealed interface Polygon
+
+class Rectangle(): Polygon
+class Triangle(): Polygon
+
+// when() is exhaustive: no other polygon implementations can appear
+// after the module is compiled
+fun draw(polygon: Polygon) = when (polygon) {
+    is Rectangle -&gt; // ...
+    is Triangle -&gt; // ...
+}
+     </div>
+     <p id="xixfzk_54">
+      Another use-case: with sealed interfaces, you can inherit a class from two or more sealed superclasses.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      sealed interface Fillable {
+   fun fill()
+}
+sealed interface Polygon {
+   val vertices: List&lt;Point&gt;
+}
+
+class Rectangle(override val vertices: List&lt;Point&gt;): Fillable, Polygon {
+   override fun fill() { /*...*/ }
+}
+     </div>
+     <p id="xixfzk_56">
+      To try the preview version of sealed interfaces, add the compiler option
+      <code class="code" id="xixfzk_63">
+       -language-version 1.5
+      </code>
+      . Once you switch to this version, you'll be able to use the
+      <code class="code" id="xixfzk_64">
+       sealed
+      </code>
+      modifier on interfaces. We would be very grateful if you would share your feedback with us using this
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42433" id="xixfzk_65" rel="noopener noreferrer">
+       YouTrack ticket
+      </a>
+      .
+     </p>
+     <p id="xixfzk_57">
+      <a data-tooltip="Sealed classes and interfaces provide controlled inheritance of your class hierarchies. All direct subclasses of a sealed class are known at compile time. No other subclasses may appear outside the module and package within which the sealed class is defined. The same logic applies…" href="sealed-classes.html" id="xixfzk_66">
+       Learn more about sealed interfaces
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="package-wide-sealed-class-hierarchies" id="package-wide-sealed-class-hierarchies">
+      Package-wide sealed class hierarchies
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xixfzk_67">
+      <p id="xixfzk_72">
+       Package-wide hierarchies of sealed classes are
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xixfzk_73">
+        Experimental
+       </a>
+       . They may be dropped or changed at any time. Opt-in is required (see the details below), and you should use them only for evaluation purposes. We would appreciate your feedback on them in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42433" id="xixfzk_74" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xixfzk_68">
+      Sealed classes can now form more flexible hierarchies. They can have subclasses in all files of the same compilation unit and the same package. Previously, all subclasses had to appear in the same file.
+     </p>
+     <p id="xixfzk_69">
+      Direct subclasses may be top-level or nested inside any number of other named classes, named interfaces, or named objects. The subclasses of a sealed class must have a name that is properly qualified – they cannot be local nor anonymous objects.
+     </p>
+     <p id="xixfzk_70">
+      To try package-wide hierarchies of sealed classes, add the compiler option
+      <code class="code" id="xixfzk_75">
+       -language-version 1.5
+      </code>
+      . We would be very grateful if you would share your feedback with us using this
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42433" id="xixfzk_76" rel="noopener noreferrer">
+       YouTrack ticket
+      </a>
+      .
+     </p>
+     <p id="xixfzk_71">
+      <a data-tooltip="Direct subclasses of sealed classes and interfaces must be declared in the same package. They may be top-level or nested inside any number of other named classes, named interfaces, or named objects. Subclasses can have any visibility as long as they are compatible with normal…" href="sealed-classes.html#inheritance" id="xixfzk_77">
+       Learn more about package-wide hierarchies of sealed classes
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="improved-inline-classes" id="improved-inline-classes">
+      Improved inline classes
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xixfzk_78">
+      <p id="xixfzk_85">
+       Inline value classes are in
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xixfzk_86">
+        Beta
+       </a>
+       . They are almost stable, but migration steps may be required in the future. We'll do our best to minimize any changes you have to make. We would appreciate your feedback on the inline classes feature in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42434" id="xixfzk_87" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xixfzk_79">
+      Kotlin 1.4.30 promotes
+      <a data-tooltip="Sometimes it is useful to wrap a value in a class to create a more domain-specific type. However, it introduces runtime overhead due to additional heap allocations. Moreover, if the wrapped type is primitive, the performance hit is significant, because primitive types are usually…" href="inline-classes.html" id="xixfzk_88">
+       inline classes
+      </a>
+      to
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xixfzk_89">
+       Beta
+      </a>
+      and brings the following features and improvements to them:
+     </p>
+     <ul class="list _bullet" id="xixfzk_80">
+      <li class="list__item" id="xixfzk_90">
+       <p id="xixfzk_94">
+        Since inline classes are
+        <a data-external="true" href="https://docs.oracle.com/en/java/javase/15/docs/api/java.base/java/lang/doc-files/ValueBased.html" id="xixfzk_97" rel="noopener noreferrer">
+         value-based
+        </a>
+        , you can define them using the
+        <code class="code" id="xixfzk_98">
+         value
+        </code>
+        modifier. The
+        <code class="code" id="xixfzk_99">
+         inline
+        </code>
+        and
+        <code class="code" id="xixfzk_100">
+         value
+        </code>
+        modifiers are now equivalent to each other. In future Kotlin versions, we're planning to deprecate the
+        <code class="code" id="xixfzk_101">
+         inline
+        </code>
+        modifier.
+       </p>
+       <p id="xixfzk_95">
+        From now on, Kotlin requires the
+        <code class="code" id="xixfzk_102">
+         @JvmInline
+        </code>
+        annotation before a class declaration for the JVM backend:
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        inline class Name(private val s: String)
+
+value class Name(private val s: String)
+
+// For JVM backends
+@JvmInline
+value class Name(private val s: String)
+       </div>
+      </li>
+      <li class="list__item" id="xixfzk_91">
+       <p id="xixfzk_103">
+        Inline classes can have
+        <code class="code" id="xixfzk_105">
+         init
+        </code>
+        blocks. You can add code to be executed right after the class is instantiated:
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        @JvmInline
+value class Negative(val x: Int) {
+  init {
+      require(x &lt; 0) { }
+  }
+}
+       </div>
+      </li>
+      <li class="list__item" id="xixfzk_92">
+       <p id="xixfzk_106">
+        Calling functions with inline classes from Java code: before Kotlin 1.4.30, you couldn't call functions that accept inline classes from Java because of mangling. From now on, you can disable mangling manually. To call such functions from Java code, you should add the
+        <code class="code" id="xixfzk_108">
+         @JvmName
+        </code>
+        annotation before the function declaration:
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        inline class UInt(val x: Int)
+
+fun compute(x: Int) { }
+
+@JvmName("computeUInt")
+fun compute(x: UInt) { }
+       </div>
+      </li>
+      <li class="list__item" id="xixfzk_93">
+       <p id="xixfzk_109">
+        In this release, we've changed the mangling scheme for functions to fix the incorrect behavior. These changes led to ABI changes.
+       </p>
+       <p id="xixfzk_110">
+        Starting with 1.4.30, the Kotlin compiler uses a new mangling scheme by default. Use the
+        <code class="code" id="xixfzk_111">
+         -Xuse-14-inline-classes-mangling-scheme
+        </code>
+        compiler flag to force the compiler to use the old 1.4.0 mangling scheme and preserve binary compatibility.
+       </p>
+      </li>
+     </ul>
+     <p id="xixfzk_81">
+      Kotlin 1.4.30 promotes inline classes to Beta and we are planning to make them Stable in future releases. We'd be very grateful if you would share your feedback with us using this
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42434" id="xixfzk_112" rel="noopener noreferrer">
+       YouTrack ticket
+      </a>
+      .
+     </p>
+     <p id="xixfzk_82">
+      To try the preview version of inline classes, add the compiler option
+      <code class="code" id="xixfzk_113">
+       -Xinline-classes
+      </code>
+      or
+      <code class="code" id="xixfzk_114">
+       -language-version 1.5
+      </code>
+      .
+     </p>
+     <p id="xixfzk_83">
+      Learn more about the mangling algorithm in
+      <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/inline-classes.md" id="xixfzk_115" rel="noopener noreferrer">
+       KEEP
+      </a>
+      .
+     </p>
+     <p id="xixfzk_84">
+      <a data-tooltip="Sometimes it is useful to wrap a value in a class to create a more domain-specific type. However, it introduces runtime overhead due to additional heap allocations. Moreover, if the wrapped type is primitive, the performance hit is significant, because primitive types are usually…" href="inline-classes.html" id="xixfzk_116">
+       Learn more about inline classes
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-jvm" id="kotlin-jvm">
+     Kotlin/JVM
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="jvm-ir-compiler-backend-reaches-beta" id="jvm-ir-compiler-backend-reaches-beta">
+      JVM IR compiler backend reaches Beta
+     </h3>
+     <p id="xixfzk_118">
+      The
+      <a data-tooltip="In Kotlin, we have three backends that generate executables: Kotlin/JVM, Kotlin/JS, and Kotlin/Native. Kotlin/JVM and Kotlin/JS don't share much code since they were developed independently of each other. Kotlin/Native is based on a new infrastructure built around an intermediate…" href="whatsnew14.html#unified-backends-and-extensibility" id="xixfzk_123">
+       IR-based compiler backend
+      </a>
+      for Kotlin/JVM, which was presented in 1.4.0 in
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xixfzk_124">
+       Alpha
+      </a>
+      , has reached Beta. This is the last pre-stable level before the IR backend becomes the default for the Kotlin/JVM compiler.
+     </p>
+     <p id="xixfzk_119">
+      We're now dropping the restriction on consuming binaries produced by the IR compiler. Previously, you could use code compiled by the new JVM IR backend only if you had enabled the new backend. Starting from 1.4.30, there is no such limitation, so you can use the new backend to build components for third-party use, such as libraries. Try the Beta version of the new backend and share your feedback in our
+      <a data-external="true" href="https://kotl.in/issue" id="xixfzk_125" rel="noopener noreferrer">
+       issue tracker
+      </a>
+      .
+     </p>
+     <p id="xixfzk_120">
+      To enable the new JVM IR backend, add the following lines to the project's configuration file:
+     </p>
+     <ul class="list _bullet" id="xixfzk_121">
+      <li class="list__item" id="xixfzk_126">
+       <p id="xixfzk_128">
+        In Gradle:
+       </p>
+       <div class="tabs" data-anchors="[xixfzk_130,xixfzk_131]" data-group="build-script" id="xixfzk_129">
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="xixfzk_130">
+         <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+          tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile::class) {
+  kotlinOptions.useIR = true
+}
+         </div>
+        </div>
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="xixfzk_131">
+         <div class="code-block" data-lang="groovy" data-title="Groovy">
+          tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
+  kotlinOptions.useIR = true
+}
+         </div>
+        </div>
+       </div>
+      </li>
+      <li class="list__item" id="xixfzk_127">
+       <p id="xixfzk_134">
+        In Maven:
+       </p>
+       <div class="code-block" data-lang="markup">
+        &lt;configuration&gt;
+    &lt;args&gt;
+        &lt;arg&gt;-Xuse-ir&lt;/arg&gt;
+    &lt;/args&gt;
+&lt;/configuration&gt;
+       </div>
+      </li>
+     </ul>
+     <p id="xixfzk_122">
+      Learn more about the changes that the JVM IR backend brings in
+      <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/01/the-jvm-backend-is-in-beta-let-s-make-it-stable-together" id="xixfzk_136" rel="noopener noreferrer">
+       this blog post
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-native" id="kotlin-native">
+     Kotlin/Native
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="performance-improvements" id="performance-improvements">
+      Performance improvements
+     </h3>
+     <p id="xixfzk_140">
+      Kotlin/Native has received a variety of performance improvements in 1.4.30, which has resulted in faster compilation times. For example, the time required to rebuild the framework in the
+      <a data-external="true" href="https://github.com/kotlin-hands-on/kmm-networking-and-data-storage/tree/final" id="xixfzk_141" rel="noopener noreferrer">
+       Networking and data storage with Kotlin Multiplatform Mobile
+      </a>
+      sample has decreased from 9.5 seconds (in 1.4.10) to 4.5 seconds (in 1.4.30).
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="apple-watchos-64-bit-simulator-target" id="apple-watchos-64-bit-simulator-target">
+      Apple watchOS 64-bit simulator target
+     </h3>
+     <p id="xixfzk_142">
+      The x86 simulator target has been deprecated for watchOS since version 7.0. To keep up with the latest watchOS versions, Kotlin/Native has the new target
+      <code class="code" id="xixfzk_143">
+       watchosX64
+      </code>
+      for running the simulator on 64-bit architecture.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="support-for-xcode-12-2-libraries" id="support-for-xcode-12-2-libraries">
+      Support for Xcode 12.2 libraries
+     </h3>
+     <p id="xixfzk_144">
+      We have added support for the new libraries delivered with Xcode 12.2. You can now use them from Kotlin code.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-js" id="kotlin-js">
+     Kotlin/JS
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="lazy-initialization-of-top-level-properties" id="lazy-initialization-of-top-level-properties">
+      Lazy initialization of top-level properties
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xixfzk_146">
+      <p id="xixfzk_150">
+       Lazy initialization of top-level properties is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xixfzk_151">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-44320" id="xixfzk_152" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xixfzk_147">
+      The
+      <a data-tooltip="The Kotlin/JS IR compiler backend is the main focus of innovation around Kotlin/JS, and paves the way forward for the technology." href="js-ir-compiler.html" id="xixfzk_153">
+       IR backend
+      </a>
+      for Kotlin/JS is receiving a prototype implementation of lazy initialization for top-level properties. This reduces the need to initialize all top-level properties when the application starts, and it should significantly improve application start-up times.
+     </p>
+     <p id="xixfzk_148">
+      We'll keep working on the lazy initialization, and we ask you to try the current prototype and share your thoughts and results in this
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-44320" id="xixfzk_154" rel="noopener noreferrer">
+       YouTrack ticket
+      </a>
+      or the
+      <a data-external="true" href="https://kotlinlang.slack.com/archives/C0B8L3U69" id="xixfzk_155" rel="noopener noreferrer">
+       <code class="code" id="xixfzk_158">
+        #javascript
+       </code>
+      </a>
+      channel in the official
+      <a data-external="true" href="https://kotlinlang.slack.com" id="xixfzk_156" rel="noopener noreferrer">
+       Kotlin Slack
+      </a>
+      (get an invite
+      <a data-external="true" href="https://surveys.jetbrains.com/s3/kotlin-slack-sign-up" id="xixfzk_157" rel="noopener noreferrer">
+       here
+      </a>
+      ).
+     </p>
+     <p id="xixfzk_149">
+      To use the lazy initialization, add the
+      <code class="code" id="xixfzk_159">
+       -Xir-property-lazy-initialization
+      </code>
+      compiler option when compiling the code with the JS IR compiler.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="gradle-project-improvements" id="gradle-project-improvements">
+     Gradle project improvements
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="support-the-gradle-configuration-cache" id="support-the-gradle-configuration-cache">
+      Support the Gradle configuration cache
+     </h3>
+     <p id="xixfzk_161">
+      Starting with 1.4.30, the Kotlin Gradle plugin supports the
+      <a data-external="true" href="https://docs.gradle.org/current/userguide/configuration_cache.html" id="xixfzk_163" rel="noopener noreferrer">
+       configuration cache
+      </a>
+      feature. It speeds up the build process: once you run the command, Gradle executes the configuration phase and calculates the task graph. Gradle caches the result and reuses it for subsequent builds.
+     </p>
+     <p id="xixfzk_162">
+      To start using this feature, you can
+      <a data-external="true" href="https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage" id="xixfzk_164" rel="noopener noreferrer">
+       use the Gradle command
+      </a>
+      or
+      <a data-external="true" href="https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:ide:intellij" id="xixfzk_165" rel="noopener noreferrer">
+       set up the IntelliJ based IDE
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="standard-library" id="standard-library">
+     Standard library
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="locale-agnostic-api-for-upper-lowercasing-text" id="locale-agnostic-api-for-upper-lowercasing-text">
+      Locale-agnostic API for upper/lowercasing text
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xixfzk_168">
+      <p id="xixfzk_175">
+       The locale-agnostic API feature is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xixfzk_176">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Use it only for evaluation purposes. We would appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42437" id="xixfzk_177" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xixfzk_169">
+      This release introduces the experimental locale-agnostic API for changing the case of strings and characters. The current
+      <code class="code" id="xixfzk_178">
+       toLowerCase()
+      </code>
+      ,
+      <code class="code" id="xixfzk_179">
+       toUpperCase()
+      </code>
+      ,
+      <code class="code" id="xixfzk_180">
+       capitalize()
+      </code>
+      ,
+      <code class="code" id="xixfzk_181">
+       decapitalize()
+      </code>
+      API functions are locale-sensitive. This means that different platform locale settings can affect code behavior. For example, in the Turkish locale, when the string "kotlin" is converted using
+      <code class="code" id="xixfzk_182">
+       toUpperCase
+      </code>
+      , the result is "KOTLİN", not "KOTLIN".
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      // current API
+println("Needs to be capitalized".toUpperCase()) // NEEDS TO BE CAPITALIZED
+
+// new API
+println("Needs to be capitalized".uppercase()) // NEEDS TO BE CAPITALIZED
+     </div>
+     <p id="xixfzk_171">
+      Kotlin 1.4.30 provides the following alternatives:
+     </p>
+     <ul class="list _bullet" id="xixfzk_172">
+      <li class="list__item" id="xixfzk_183">
+       <p id="xixfzk_185">
+        For
+        <code class="code" id="xixfzk_187">
+         String
+        </code>
+        functions:
+       </p>
+       <div class="table-wrapper">
+        <table class="wide" id="xixfzk_186">
+         <thead>
+          <tr class="ijRowHead" id="xixfzk_188">
+           <th id="xixfzk_193">
+            <p>
+             <span class="control" id="xixfzk_195">
+              Earlier versions
+             </span>
+            </p>
+           </th>
+           <th id="xixfzk_194">
+            <p>
+             <span class="control" id="xixfzk_196">
+              1.4.30 alternative
+             </span>
+            </p>
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr id="xixfzk_189">
+           <td id="xixfzk_197">
+            <p>
+             <code class="code" id="xixfzk_199">
+              String.toUpperCase()
+             </code>
+            </p>
+           </td>
+           <td id="xixfzk_198">
+            <p>
+             <code class="code" id="xixfzk_200">
+              String.uppercase()
+             </code>
+            </p>
+           </td>
+          </tr>
+          <tr id="xixfzk_190">
+           <td id="xixfzk_201">
+            <p>
+             <code class="code" id="xixfzk_203">
+              String.toLowerCase()
+             </code>
+            </p>
+           </td>
+           <td id="xixfzk_202">
+            <p>
+             <code class="code" id="xixfzk_204">
+              String.lowercase()
+             </code>
+            </p>
+           </td>
+          </tr>
+          <tr id="xixfzk_191">
+           <td id="xixfzk_205">
+            <p>
+             <code class="code" id="xixfzk_207">
+              String.capitalize()
+             </code>
+            </p>
+           </td>
+           <td id="xixfzk_206">
+            <p>
+             <code class="code" id="xixfzk_208">
+              String.replaceFirstChar { it.uppercase() }
+             </code>
+            </p>
+           </td>
+          </tr>
+          <tr id="xixfzk_192">
+           <td id="xixfzk_209">
+            <p>
+             <code class="code" id="xixfzk_211">
+              String.decapitalize()
+             </code>
+            </p>
+           </td>
+           <td id="xixfzk_210">
+            <p>
+             <code class="code" id="xixfzk_212">
+              String.replaceFirstChar { it.lowercase() }
+             </code>
+            </p>
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </li>
+      <li class="list__item" id="xixfzk_184">
+       <p id="xixfzk_213">
+        For
+        <code class="code" id="xixfzk_215">
+         Char
+        </code>
+        functions:
+       </p>
+       <div class="table-wrapper">
+        <table class="wide" id="xixfzk_214">
+         <thead>
+          <tr class="ijRowHead" id="xixfzk_216">
+           <th id="xixfzk_220">
+            <p>
+             <span class="control" id="xixfzk_222">
+              Earlier versions
+             </span>
+            </p>
+           </th>
+           <th id="xixfzk_221">
+            <p>
+             <span class="control" id="xixfzk_223">
+              1.4.30 alternative
+             </span>
+            </p>
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr id="xixfzk_217">
+           <td id="xixfzk_224">
+            <p>
+             <code class="code" id="xixfzk_226">
+              Char.toUpperCase()
+             </code>
+            </p>
+           </td>
+           <td id="xixfzk_225">
+            <p>
+             <code class="code" id="xixfzk_227">
+              Char.uppercaseChar(): Char
+             </code>
+            </p>
+            <br/>
+            <p>
+             <code class="code" id="xixfzk_229">
+              Char.uppercase(): String
+             </code>
+            </p>
+           </td>
+          </tr>
+          <tr id="xixfzk_218">
+           <td id="xixfzk_230">
+            <p>
+             <code class="code" id="xixfzk_232">
+              Char.toLowerCase()
+             </code>
+            </p>
+           </td>
+           <td id="xixfzk_231">
+            <p>
+             <code class="code" id="xixfzk_233">
+              Char.lowercaseChar(): Char
+             </code>
+            </p>
+            <br/>
+            <p>
+             <code class="code" id="xixfzk_235">
+              Char.lowercase(): String
+             </code>
+            </p>
+           </td>
+          </tr>
+          <tr id="xixfzk_219">
+           <td id="xixfzk_236">
+            <p>
+             <code class="code" id="xixfzk_238">
+              Char.toTitleCase()
+             </code>
+            </p>
+           </td>
+           <td id="xixfzk_237">
+            <p>
+             <code class="code" id="xixfzk_239">
+              Char.titlecaseChar(): Char
+             </code>
+            </p>
+            <br/>
+            <p>
+             <code class="code" id="xixfzk_241">
+              Char.titlecase(): String
+             </code>
+            </p>
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </li>
+     </ul>
+     <aside class="prompt" data-title="" data-type="note" id="xixfzk_173">
+      <p id="xixfzk_242">
+       For Kotlin/JVM, there are also overloaded
+       <code class="code" id="xixfzk_243">
+        uppercase()
+       </code>
+       ,
+       <code class="code" id="xixfzk_244">
+        lowercase()
+       </code>
+       , and
+       <code class="code" id="xixfzk_245">
+        titlecase()
+       </code>
+       functions with an explicit
+       <code class="code" id="xixfzk_246">
+        Locale
+       </code>
+       parameter.
+      </p>
+     </aside>
+     <p id="xixfzk_174">
+      See the full list of changes to the text processing functions in
+      <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/locale-agnostic-string-conversions.md" id="xixfzk_247" rel="noopener noreferrer">
+       KEEP
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="clear-char-to-code-and-char-to-digit-conversions" id="clear-char-to-code-and-char-to-digit-conversions">
+      Clear Char-to-code and Char-to-digit conversions
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xixfzk_248">
+      <p id="xixfzk_254">
+       The unambiguous API for the
+       <code class="code" id="xixfzk_255">
+        Char
+       </code>
+       conversion feature is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xixfzk_256">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Use it only for evaluation purposes. We would appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-44333" id="xixfzk_257" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xixfzk_249">
+      The current
+      <code class="code" id="xixfzk_258">
+       Char
+      </code>
+      to numbers conversion functions, which return UTF-16 codes expressed in different numeric types, are often confused with the similar String-to-Int conversion, which returns the numeric value of a string:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      "4".toInt() // returns 4
+'4'.toInt() // returns 52
+// and there was no common function that would return the numeric value 4 for Char '4'
+     </div>
+     <p id="xixfzk_251">
+      To avoid this confusion we've decided to separate
+      <code class="code" id="xixfzk_259">
+       Char
+      </code>
+      conversions into two following sets of clearly named functions:
+     </p>
+     <ul class="list _bullet" id="xixfzk_252">
+      <li class="list__item" id="xixfzk_260">
+       <p id="xixfzk_263">
+        Functions to get the integer code of
+        <code class="code" id="xixfzk_265">
+         Char
+        </code>
+        and to construct
+        <code class="code" id="xixfzk_266">
+         Char
+        </code>
+        from the given code:
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        fun Char(code: Int): Char
+fun Char(code: UShort): Char
+val Char.code: Int
+       </div>
+      </li>
+      <li class="list__item" id="xixfzk_261">
+       <p id="xixfzk_267">
+        Functions to convert
+        <code class="code" id="xixfzk_269">
+         Char
+        </code>
+        to the numeric value of the digit it represents:
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        fun Char.digitToInt(radix: Int): Int
+fun Char.digitToIntOrNull(radix: Int): Int?
+       </div>
+      </li>
+      <li class="list__item" id="xixfzk_262">
+       <p id="xixfzk_270">
+        An extension function for
+        <code class="code" id="xixfzk_272">
+         Int
+        </code>
+        to convert the non-negative single digit it represents to the corresponding
+        <code class="code" id="xixfzk_273">
+         Char
+        </code>
+        representation:
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        fun Int.digitToChar(radix: Int): Char
+       </div>
+      </li>
+     </ul>
+     <p id="xixfzk_253">
+      See more details in
+      <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/char-int-conversions.md" id="xixfzk_274" rel="noopener noreferrer">
+       KEEP
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="serialization-updates" id="serialization-updates">
+     Serialization updates
+    </h2>
+    <p id="xixfzk_275">
+     Along with Kotlin 1.4.30, we are releasing
+     <code class="code" id="xixfzk_279">
+      kotlinx.serialization
+     </code>
+     <a data-external="true" href="https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.1.0-RC" id="xixfzk_280" rel="noopener noreferrer">
+      1.1.0-RC
+     </a>
+     , which includes some new features:
+    </p>
+    <ul class="list _bullet" id="xixfzk_276">
+     <li class="list__item" id="xixfzk_281">
+      <p>
+       Inline classes serialization support
+      </p>
+     </li>
+     <li class="list__item" id="xixfzk_282">
+      <p>
+       Unsigned primitive type serialization support
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="inline-classes-serialization-support" id="inline-classes-serialization-support">
+      Inline classes serialization support
+     </h3>
+     <p id="xixfzk_283">
+      Starting with Kotlin 1.4.30, you can make inline classes
+      <a data-tooltip="Serialization is the process of converting data used by an application to a format that can be transferred over a network or stored in a database or a file. In turn, deserialization is the opposite process of reading data from an external source and converting it into a runtime…" href="serialization.html" id="xixfzk_288">
+       serializable
+      </a>
+      :
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      @Serializable
+inline class Color(val rgb: Int)
+     </div>
+     <aside class="prompt" data-title="" data-type="note" id="xixfzk_285">
+      <p id="xixfzk_289">
+       The feature requires the new 1.4.30 IR compiler.
+      </p>
+     </aside>
+     <p id="xixfzk_286">
+      The serialization framework does not box serializable inline classes when they are used in other serializable classes.
+     </p>
+     <p id="xixfzk_287">
+      Learn more in the
+      <code class="code" id="xixfzk_290">
+       kotlinx.serialization
+      </code>
+      <a data-external="true" href="https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/inline-classes.md#serializable-inline-classes" id="xixfzk_291" rel="noopener noreferrer">
+       docs
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="unsigned-primitive-type-serialization-support" id="unsigned-primitive-type-serialization-support">
+      Unsigned primitive type serialization support
+     </h3>
+     <p id="xixfzk_292">
+      Starting from 1.4.30, you can use standard JSON serializers of
+      <a data-external="true" href="https://github.com/Kotlin/kotlinx.serialization" id="xixfzk_295" rel="noopener noreferrer">
+       kotlinx.serialization
+      </a>
+      for unsigned primitive types:
+      <code class="code" id="xixfzk_296">
+       UInt
+      </code>
+      ,
+      <code class="code" id="xixfzk_297">
+       ULong
+      </code>
+      ,
+      <code class="code" id="xixfzk_298">
+       UByte
+      </code>
+      , and
+      <code class="code" id="xixfzk_299">
+       UShort
+      </code>
+      :
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      @Serializable
+class Counter(val counted: UByte, val description: String)
+fun main() {
+   val counted = 239.toUByte()
+   println(Json.encodeToString(Counter(counted, "tries")))
+}
+     </div>
+     <p id="xixfzk_294">
+      Learn more in the
+      <code class="code" id="xixfzk_300">
+       kotlinx.serialization
+      </code>
+      <a data-external="true" href="https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/inline-classes.md#unsigned-types-support-json-only" id="xixfzk_301" rel="noopener noreferrer">
+       docs
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

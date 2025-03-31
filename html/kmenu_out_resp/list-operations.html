@@ -1,0 +1,628 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="list-operations" id="list-operations.md">
+    List-specific operations
+   </h1>
+   <p id="wtr5hq_2">
+    <a data-tooltip="List&lt;T&gt; stores elements in a specified order and provides indexed access to them. Indices start from zero – the index of the first element – and go to lastIndex which is the (list.size - 1)." href="collections-overview.html#list" id="wtr5hq_7">
+     <code class="code" id="wtr5hq_8">
+      List
+     </code>
+    </a>
+    is the most popular type of built-in collection in Kotlin. Index access to the elements of lists provides a powerful set of operations for lists.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="retrieve-elements-by-index" id="retrieve-elements-by-index">
+     Retrieve elements by index
+    </h2>
+    <p id="wtr5hq_9">
+     Lists support all common operations for element retrieval:
+     <code class="code" id="wtr5hq_13">
+      elementAt()
+     </code>
+     ,
+     <code class="code" id="wtr5hq_14">
+      first()
+     </code>
+     ,
+     <code class="code" id="wtr5hq_15">
+      last()
+     </code>
+     , and others listed in
+     <a data-tooltip="Kotlin collections provide a set of functions for retrieving single elements from collections. Functions described on this page apply to both lists and sets." href="collection-elements.html" id="wtr5hq_16">
+      Retrieve single elements
+     </a>
+     . What is specific for lists is index access to the elements, so the simplest way to read an element is retrieving it by index. That is done with the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/get.html" id="wtr5hq_17" rel="noopener noreferrer">
+      <code class="code" id="wtr5hq_19">
+       get()
+      </code>
+     </a>
+     function with the index passed in the argument or the shorthand
+     <code class="code" id="wtr5hq_18">
+      [index]
+     </code>
+     syntax.
+    </p>
+    <p id="wtr5hq_10">
+     If the list size is less than the specified index, an exception is thrown. There are two other functions that help you avoid such exceptions:
+    </p>
+    <ul class="list _bullet" id="wtr5hq_11">
+     <li class="list__item" id="wtr5hq_20">
+      <p>
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html" id="wtr5hq_22" rel="noopener noreferrer">
+        <code class="code" id="wtr5hq_23">
+         getOrElse()
+        </code>
+       </a>
+       lets you provide the function for calculating the default value to return if the index isn't present in the collection.
+      </p>
+     </li>
+     <li class="list__item" id="wtr5hq_21">
+      <p>
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-null.html" id="wtr5hq_24" rel="noopener noreferrer">
+        <code class="code" id="wtr5hq_26">
+         getOrNull()
+        </code>
+       </a>
+       returns
+       <code class="code" id="wtr5hq_25">
+        null
+       </code>
+       as the default value.
+      </p>
+     </li>
+    </ul>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+     fun main() {
+//sampleStart
+    val numbers = listOf(1, 2, 3, 4)
+    println(numbers.get(0))
+    println(numbers[0])
+    //numbers.get(5)                         // exception!
+    println(numbers.getOrNull(5))             // null
+    println(numbers.getOrElse(5, {it}))        // 5
+//sampleEnd
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="retrieve-list-parts" id="retrieve-list-parts">
+     Retrieve list parts
+    </h2>
+    <p id="wtr5hq_27">
+     In addition to common operations for
+     <a data-tooltip="The Kotlin standard library contains extension functions for retrieving parts of a collection. These functions provide a variety of ways to select elements for the result collection: listing their positions explicitly, specifying the result size, and others." href="collection-parts.html" id="wtr5hq_29">
+      Retrieving Collection Parts
+     </a>
+     , lists provide the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/sub-list.html" id="wtr5hq_30" rel="noopener noreferrer">
+      <code class="code" id="wtr5hq_31">
+       subList()
+      </code>
+     </a>
+     function that returns a view of the specified elements range as a list. Thus, if an element of the original collection changes, it also changes in the previously created sublists and vice versa.
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+     fun main() {
+//sampleStart
+    val numbers = (0..13).toList()
+    println(numbers.subList(3, 6))
+//sampleEnd
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="find-element-positions" id="find-element-positions">
+     Find element positions
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="linear-search" id="linear-search">
+      Linear search
+     </h3>
+     <p id="wtr5hq_34">
+      In any lists, you can find the position of an element using the functions
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/index-of.html" id="wtr5hq_39" rel="noopener noreferrer">
+       <code class="code" id="wtr5hq_42">
+        indexOf()
+       </code>
+      </a>
+      and
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/last-index-of.html" id="wtr5hq_40" rel="noopener noreferrer">
+       <code class="code" id="wtr5hq_43">
+        lastIndexOf()
+       </code>
+      </a>
+      . They return the first and the last position of an element equal to the given argument in the list. If there are no such elements, both functions return
+      <code class="code" id="wtr5hq_41">
+       -1
+      </code>
+      .
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+      fun main() {
+//sampleStart
+    val numbers = listOf(1, 2, 3, 4, 2, 5)
+    println(numbers.indexOf(2))
+    println(numbers.lastIndexOf(2))
+//sampleEnd
+}
+     </div>
+     <p id="wtr5hq_36">
+      There is also a pair of functions that take a predicate and search for elements matching it:
+     </p>
+     <ul class="list _bullet" id="wtr5hq_37">
+      <li class="list__item" id="wtr5hq_44">
+       <p>
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/index-of-first.html" id="wtr5hq_46" rel="noopener noreferrer">
+         <code class="code" id="wtr5hq_49">
+          indexOfFirst()
+         </code>
+        </a>
+        returns the
+        <span class="emphasis" id="wtr5hq_47">
+         index of the first
+        </span>
+        element matching the predicate or
+        <code class="code" id="wtr5hq_48">
+         -1
+        </code>
+        if there are no such elements.
+       </p>
+      </li>
+      <li class="list__item" id="wtr5hq_45">
+       <p>
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/index-of-last.html" id="wtr5hq_50" rel="noopener noreferrer">
+         <code class="code" id="wtr5hq_53">
+          indexOfLast()
+         </code>
+        </a>
+        returns the
+        <span class="emphasis" id="wtr5hq_51">
+         index of the last
+        </span>
+        element matching the predicate or
+        <code class="code" id="wtr5hq_52">
+         -1
+        </code>
+        if there are no such elements.
+       </p>
+      </li>
+     </ul>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+      fun main() {
+//sampleStart
+    val numbers = mutableListOf(1, 2, 3, 4)
+    println(numbers.indexOfFirst { it &gt; 2})
+    println(numbers.indexOfLast { it % 2 == 1})
+//sampleEnd
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="binary-search-in-sorted-lists" id="binary-search-in-sorted-lists">
+      Binary search in sorted lists
+     </h3>
+     <p id="wtr5hq_54">
+      There is one more way to search elements in lists –
+      <a data-external="true" href="https://en.wikipedia.org/wiki/Binary_search_algorithm" id="wtr5hq_60" rel="noopener noreferrer">
+       binary search
+      </a>
+      . It works significantly faster than other built-in search functions but
+      <span class="emphasis" id="wtr5hq_61">
+       requires the list to be
+       <a data-tooltip="The order of elements is an important aspect of certain collection types. For example, two lists of the same elements are not equal if their elements are ordered differently." href="collection-ordering.html" id="wtr5hq_62">
+        sorted
+       </a>
+      </span>
+      in ascending order according to a certain ordering: natural or another one provided in the function parameter. Otherwise, the result is undefined.
+     </p>
+     <p id="wtr5hq_55">
+      To search an element in a sorted list, call the
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/binary-search.html" id="wtr5hq_63" rel="noopener noreferrer">
+       <code class="code" id="wtr5hq_66">
+        binarySearch()
+       </code>
+      </a>
+      function passing the value as an argument. If such an element exists, the function returns its index; otherwise, it returns
+      <code class="code" id="wtr5hq_64">
+       (-insertionPoint - 1)
+      </code>
+      where
+      <code class="code" id="wtr5hq_65">
+       insertionPoint
+      </code>
+      is the index where this element should be inserted so that the list remains sorted. If there is more than one element with the given value, the search can return any of their indices.
+     </p>
+     <p id="wtr5hq_56">
+      You can also specify an index range to search in: in this case, the function searches only between two provided indices.
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+      fun main() {
+//sampleStart
+    val numbers = mutableListOf("one", "two", "three", "four")
+    numbers.sort()
+    println(numbers)
+    println(numbers.binarySearch("two"))  // 3
+    println(numbers.binarySearch("z")) // -5
+    println(numbers.binarySearch("two", 0, 2))  // -3
+//sampleEnd
+}
+     </div>
+     <section class="chapter">
+      <h4 data-toc="comparator-binary-search" id="comparator-binary-search">
+       Comparator binary search
+      </h4>
+      <p id="wtr5hq_67">
+       When list elements aren't
+       <code class="code" id="wtr5hq_72">
+        Comparable
+       </code>
+       , you should provide a
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparator.html" id="wtr5hq_73" rel="noopener noreferrer">
+        <code class="code" id="wtr5hq_75">
+         Comparator
+        </code>
+       </a>
+       to use in the binary search. The list must be sorted in ascending order according to this
+       <code class="code" id="wtr5hq_74">
+        Comparator
+       </code>
+       . Let's have a look at an example:
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+       data class Product(val name: String, val price: Double)
+
+fun main() {
+//sampleStart
+    val productList = listOf(
+        Product("WebStorm", 49.0),
+        Product("AppCode", 99.0),
+        Product("DotTrace", 129.0),
+        Product("ReSharper", 149.0))
+
+    println(productList.binarySearch(Product("AppCode", 99.0), compareBy&lt;Product&gt; { it.price }.thenBy { it.name }))
+//sampleEnd
+}
+      </div>
+      <p id="wtr5hq_69">
+       Here's a list of
+       <code class="code" id="wtr5hq_76">
+        Product
+       </code>
+       instances that aren't
+       <code class="code" id="wtr5hq_77">
+        Comparable
+       </code>
+       and a
+       <code class="code" id="wtr5hq_78">
+        Comparator
+       </code>
+       that defines the order: product
+       <code class="code" id="wtr5hq_79">
+        p1
+       </code>
+       precedes product
+       <code class="code" id="wtr5hq_80">
+        p2
+       </code>
+       if
+       <code class="code" id="wtr5hq_81">
+        p1
+       </code>
+       's price is less than
+       <code class="code" id="wtr5hq_82">
+        p2
+       </code>
+       's price. So, having a list sorted ascending according to this order, we use
+       <code class="code" id="wtr5hq_83">
+        binarySearch()
+       </code>
+       to find the index of the specified
+       <code class="code" id="wtr5hq_84">
+        Product
+       </code>
+       .
+      </p>
+      <p id="wtr5hq_70">
+       Custom comparators are also handy when a list uses an order different from natural one, for example, a case-insensitive order for
+       <code class="code" id="wtr5hq_85">
+        String
+       </code>
+       elements.
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+       fun main() {
+//sampleStart
+    val colors = listOf("Blue", "green", "ORANGE", "Red", "yellow")
+    println(colors.binarySearch("RED", String.CASE_INSENSITIVE_ORDER)) // 3
+//sampleEnd
+}
+      </div>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="comparison-binary-search" id="comparison-binary-search">
+       Comparison binary search
+      </h4>
+      <p id="wtr5hq_86">
+       Binary search with
+       <span class="emphasis" id="wtr5hq_89">
+        comparison
+       </span>
+       function lets you find elements without providing explicit search values. Instead, it takes a comparison function mapping elements to
+       <code class="code" id="wtr5hq_90">
+        Int
+       </code>
+       values and searches for the element where the function returns zero. The list must be sorted in the ascending order according to the provided function; in other words, the return values of comparison must grow from one list element to the next one.
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+       import kotlin.math.sign
+//sampleStart
+data class Product(val name: String, val price: Double)
+
+fun priceComparison(product: Product, price: Double) = sign(product.price - price).toInt()
+
+fun main() {
+    val productList = listOf(
+        Product("WebStorm", 49.0),
+        Product("AppCode", 99.0),
+        Product("DotTrace", 129.0),
+        Product("ReSharper", 149.0))
+
+    println(productList.binarySearch { priceComparison(it, 99.0) })
+}
+//sampleEnd
+      </div>
+      <p id="wtr5hq_88">
+       Both comparator and comparison binary search can be performed for list ranges as well.
+      </p>
+     </section>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="list-write-operations" id="list-write-operations">
+     List write operations
+    </h2>
+    <p id="wtr5hq_91">
+     In addition to the collection modification operations described in
+     <a data-tooltip="Mutable collections support operations for changing the collection contents, for example, adding or removing elements. On this page, we'll describe write operations available for all implementations of MutableCollection. For more specific operations available for List and Map, see…" href="collection-write.html" id="wtr5hq_96">
+      Collection write operations
+     </a>
+     ,
+     <a data-tooltip="The Kotlin Standard Library provides implementations for basic collection types: sets, lists, and maps. A pair of interfaces represent each collection type:" href="collections-overview.html#collection-types" id="wtr5hq_97">
+      mutable
+     </a>
+     lists support specific write operations. Such operations use the index to access elements to broaden the list modification capabilities.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="add" id="add">
+      Add
+     </h3>
+     <p id="wtr5hq_98">
+      To add elements to a specific position in a list, use
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/add.html" id="wtr5hq_100" rel="noopener noreferrer">
+       <code class="code" id="wtr5hq_102">
+        add()
+       </code>
+      </a>
+      and
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/add-all.html" id="wtr5hq_101" rel="noopener noreferrer">
+       <code class="code" id="wtr5hq_103">
+        addAll()
+       </code>
+      </a>
+      providing the position for element insertion as an additional argument. All elements that come after the position shift to the right.
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+      fun main() {
+//sampleStart
+    val numbers = mutableListOf("one", "five", "six")
+    numbers.add(1, "two")
+    numbers.addAll(2, listOf("three", "four"))
+    println(numbers)
+//sampleEnd
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="update" id="update">
+      Update
+     </h3>
+     <p id="wtr5hq_104">
+      Lists also offer a function to replace an element at a given position -
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/set.html" id="wtr5hq_108" rel="noopener noreferrer">
+       <code class="code" id="wtr5hq_111">
+        set()
+       </code>
+      </a>
+      and its operator form
+      <code class="code" id="wtr5hq_109">
+       []
+      </code>
+      .
+      <code class="code" id="wtr5hq_110">
+       set()
+      </code>
+      doesn't change the indexes of other elements.
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+      fun main() {
+//sampleStart
+    val numbers = mutableListOf("one", "five", "three")
+    numbers[1] =  "two"
+    println(numbers)
+//sampleEnd
+}
+     </div>
+     <p id="wtr5hq_106">
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fill.html" id="wtr5hq_112" rel="noopener noreferrer">
+       <code class="code" id="wtr5hq_113">
+        fill()
+       </code>
+      </a>
+      simply replaces all the collection elements with the specified value.
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+      fun main() {
+//sampleStart
+    val numbers = mutableListOf(1, 2, 3, 4)
+    numbers.fill(3)
+    println(numbers)
+//sampleEnd
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="remove" id="remove">
+      Remove
+     </h3>
+     <p id="wtr5hq_114">
+      To remove an element at a specific position from a list, use the
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-at.html" id="wtr5hq_116" rel="noopener noreferrer">
+       <code class="code" id="wtr5hq_117">
+        removeAt()
+       </code>
+      </a>
+      function providing the position as an argument. All indices of elements that come after the element being removed will decrease by one.
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+      fun main() {
+//sampleStart
+    val numbers = mutableListOf(1, 2, 3, 4, 3)    
+    numbers.removeAt(1)
+    println(numbers)
+//sampleEnd
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="sort" id="sort">
+      Sort
+     </h3>
+     <p id="wtr5hq_118">
+      In
+      <a data-tooltip="The order of elements is an important aspect of certain collection types. For example, two lists of the same elements are not equal if their elements are ordered differently." href="collection-ordering.html" id="wtr5hq_123">
+       Collection Ordering
+      </a>
+      , we describe operations that retrieve collection elements in specific orders. For mutable lists, the standard library offers similar extension functions that perform the same ordering operations in place. When you apply such an operation to a list instance, it changes the order of elements in that exact instance.
+     </p>
+     <p id="wtr5hq_119">
+      The in-place sorting functions have similar names to the functions that apply to read-only lists, but without the
+      <code class="code" id="wtr5hq_124">
+       ed/d
+      </code>
+      suffix:
+     </p>
+     <ul class="list _bullet" id="wtr5hq_120">
+      <li class="list__item" id="wtr5hq_125">
+       <p>
+        <code class="code" id="wtr5hq_128">
+         sort*
+        </code>
+        instead of
+        <code class="code" id="wtr5hq_129">
+         sorted*
+        </code>
+        in the names of all sorting functions:
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sort.html" id="wtr5hq_130" rel="noopener noreferrer">
+         <code class="code" id="wtr5hq_133">
+          sort()
+         </code>
+        </a>
+        ,
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sort-descending.html" id="wtr5hq_131" rel="noopener noreferrer">
+         <code class="code" id="wtr5hq_134">
+          sortDescending()
+         </code>
+        </a>
+        ,
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sort-by.html" id="wtr5hq_132" rel="noopener noreferrer">
+         <code class="code" id="wtr5hq_135">
+          sortBy()
+         </code>
+        </a>
+        , and so on.
+       </p>
+      </li>
+      <li class="list__item" id="wtr5hq_126">
+       <p>
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/shuffle.html" id="wtr5hq_136" rel="noopener noreferrer">
+         <code class="code" id="wtr5hq_138">
+          shuffle()
+         </code>
+        </a>
+        instead of
+        <code class="code" id="wtr5hq_137">
+         shuffled()
+        </code>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="wtr5hq_127">
+       <p>
+        <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reverse.html" id="wtr5hq_139" rel="noopener noreferrer">
+         <code class="code" id="wtr5hq_141">
+          reverse()
+         </code>
+        </a>
+        instead of
+        <code class="code" id="wtr5hq_140">
+         reversed()
+        </code>
+        .
+       </p>
+      </li>
+     </ul>
+     <p id="wtr5hq_121">
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/as-reversed.html" id="wtr5hq_142" rel="noopener noreferrer">
+       <code class="code" id="wtr5hq_143">
+        asReversed()
+       </code>
+      </a>
+      called on a mutable list returns another mutable list which is a reversed view of the original list. Changes in that view are reflected in the original list. The following example shows sorting functions for mutable lists:
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+      fun main() {
+//sampleStart
+    val numbers = mutableListOf("one", "two", "three", "four")
+
+    numbers.sort()
+    println("Sort into ascending: $numbers")
+    numbers.sortDescending()
+    println("Sort into descending: $numbers")
+
+    numbers.sortBy { it.length }
+    println("Sort into ascending by length: $numbers")
+    numbers.sortByDescending { it.last() }
+    println("Sort into descending by the last letter: $numbers")
+    
+    numbers.sortWith(compareBy&lt;String&gt; { it.length }.thenBy { it })
+    println("Sort by Comparator: $numbers")
+
+    numbers.shuffle()
+    println("Shuffle: $numbers")
+
+    numbers.reverse()
+    println("Reverse: $numbers")
+//sampleEnd
+}
+     </div>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

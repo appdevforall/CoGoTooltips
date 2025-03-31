@@ -1,0 +1,599 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="gsoc-2024" id="gsoc-2024.md">
+    Google Summer of Code with Kotlin 2024
+   </h1>
+   <p id="a331ek_2">
+    This article contains the
+    <a data-tooltip="Incremental compilation is a technique that helps increase compilation speed by recompiling only changed files instead of your whole program (also known as performing a clean build). The Kotlin-to-Wasm compiler currently supports only clean builds, but during this project, we will…" href="#project-ideas" id="a331ek_6">
+     list of project ideas
+    </a>
+    for Google Summer of Code with Kotlin 2024, and
+    <a data-tooltip="Check out the GSoC FAQ and the program announcement." href="#kotlin-contributor-guidelines-for-google-summer-of-code-gsoc" id="a331ek_7">
+     contributor guidelines
+    </a>
+   </p>
+   <aside class="prompt" data-title="" data-type="note" id="a331ek_3">
+    <p id="a331ek_8">
+     Kotlin resources:
+    </p>
+    <ul class="list _bullet" id="a331ek_9">
+     <li class="list__item" id="a331ek_11">
+      <p>
+       <a data-external="true" href="https://github.com/jetbrains/kotlin" id="a331ek_13" rel="noopener noreferrer">
+        Kotlin GitHub repository
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="a331ek_12">
+      <p>
+       <a data-external="true" href="https://surveys.jetbrains.com/s3/kotlin-slack-sign-up" id="a331ek_14" rel="noopener noreferrer">
+        Kotlin Slack
+       </a>
+       and the
+       <a data-external="true" href="https://slack-chats.kotlinlang.org/c/gsoc" id="a331ek_15" rel="noopener noreferrer">
+        #gsoc
+       </a>
+       Slack channel
+      </p>
+     </li>
+    </ul>
+    <p id="a331ek_10">
+     If you got any questions,
+     <a data-external="true" href="mailto:gsoc@kotlinfoundation.org" id="a331ek_16">
+      contact us
+     </a>
+     via gsoc@kotlinfoundation.org
+    </p>
+   </aside>
+   <section class="chapter">
+    <h2 data-toc="kotlin-contributor-guidelines-for-google-summer-of-code-gsoc" id="kotlin-contributor-guidelines-for-google-summer-of-code-gsoc">
+     Kotlin contributor guidelines for Google Summer of Code (GSoC)
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="getting-started" id="getting-started">
+      Getting started
+     </h3>
+     <ol class="list _decimal" id="a331ek_19" type="1">
+      <li class="list__item" id="a331ek_20">
+       <p id="a331ek_23">
+        Check out the
+        <a data-external="true" href="https://developers.google.com/open-source/gsoc/faq" id="a331ek_24" rel="noopener noreferrer">
+         GSoC FAQ
+        </a>
+        and the
+        <a data-external="true" href="https://summerofcode.withgoogle.com/" id="a331ek_25" rel="noopener noreferrer">
+         program announcement
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="a331ek_21">
+       <p id="a331ek_26">
+        Familiarize yourself with the Kotlin language:
+       </p>
+       <ul class="list _bullet" id="a331ek_27">
+        <li class="list__item" id="a331ek_28">
+         <p>
+          The official
+          <a data-external="true" href="https://kotlinlang.org/" id="a331ek_33" rel="noopener noreferrer">
+           Kotlin website
+          </a>
+          is a great place to start.
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_29">
+         <p>
+          Read the official
+          <a data-tooltip="Kotlin is a modern but already mature programming language designed to make developers happier. It's concise, safe, interoperable with Java and other languages, and provides many ways to reuse code between multiple platforms for productive programming." href="getting-started.html" id="a331ek_34">
+           documentation
+          </a>
+          to get a better understanding of the language.
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_30">
+         <p>
+          Take a look at the Kotlin courses on
+          <a data-external="true" href="https://lp.jetbrains.com/academy/learn-kotlin/" id="a331ek_35" rel="noopener noreferrer">
+           JetBrains Academy
+          </a>
+          or the Android team’s
+          <a data-external="true" href="https://developer.android.com/courses/" id="a331ek_36" rel="noopener noreferrer">
+           Training options
+          </a>
+          .
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_31">
+         <p>
+          Follow the
+          <a data-external="true" href="https://twitter.com/kotlin" id="a331ek_37" rel="noopener noreferrer">
+           Kotlin X
+          </a>
+          account to stay up to date on the latest news and developments.
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_32">
+         <p>
+          Check out the
+          <a data-external="true" href="https://www.youtube.com/@Kotlin" id="a331ek_38" rel="noopener noreferrer">
+           Kotlin YouTube channel
+          </a>
+          for tutorials, tips, and the latest updates.
+         </p>
+        </li>
+       </ul>
+      </li>
+      <li class="list__item" id="a331ek_22">
+       <p id="a331ek_39">
+        Get to know the Kotlin open source community:
+       </p>
+       <ul class="list _bullet" id="a331ek_40">
+        <li class="list__item" id="a331ek_41">
+         <p>
+          Explore the general
+          <a data-tooltip="Kotlin is an open-source project under the Apache 2.0 License. The source code, tooling, documentation, and even this website are maintained on GitHub. Kotlin is developed by JetBrains, but we are always on the lookout for more people to help us." href="contribute.html" id="a331ek_44">
+           Kotlin contribution guidelines
+          </a>
+          .
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_42">
+         <p>
+          <a data-external="true" href="https://surveys.jetbrains.com/s3/kotlin-slack-sign-up" id="a331ek_45" rel="noopener noreferrer">
+           Join the Kotlin Slack channel
+          </a>
+          to connect with other developers and get help with any questions you may have.
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_43">
+         <p>
+          <a data-external="true" href="https://slack-chats.kotlinlang.org/c/gsoc" id="a331ek_46" rel="noopener noreferrer">
+           Join the #gsoc channel
+          </a>
+          to ask questions and get support from the GSoC team.
+         </p>
+        </li>
+       </ul>
+      </li>
+     </ol>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="how-to-apply" id="how-to-apply">
+      How to apply
+     </h3>
+     <ol class="list _decimal" id="a331ek_47" type="1">
+      <li class="list__item" id="a331ek_49">
+       <p>
+        Check out the
+        <a data-tooltip="Incremental compilation is a technique that helps increase compilation speed by recompiling only changed files instead of your whole program (also known as performing a clean build). The Kotlin-to-Wasm compiler currently supports only clean builds, but during this project, we will…" href="#project-ideas" id="a331ek_53">
+         project ideas
+        </a>
+        and select the one you would like to work on.
+       </p>
+      </li>
+      <li class="list__item" id="a331ek_50">
+       <p>
+        If you are not familiar with Kotlin,
+        <a data-tooltip="Kotlin is a modern but already mature programming language designed to make developers happier. It's concise, safe, interoperable with Java and other languages, and provides many ways to reuse code between multiple platforms for productive programming." href="getting-started.html" id="a331ek_54">
+         read the introductory info on the Kotlin website
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="a331ek_51">
+       <p>
+        Refer to the
+        <a data-external="true" href="https://google.github.io/gsocguides/student/writing-a-proposal" id="a331ek_55" rel="noopener noreferrer">
+         GSoC contributor guidelines
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="a331ek_52">
+       <p>
+        Apply via the
+        <a data-external="true" href="https://summerofcode.withgoogle.com/" id="a331ek_56" rel="noopener noreferrer">
+         GSoC website
+        </a>
+        .
+       </p>
+       <ul class="list _bullet" id="a331ek_57">
+        <li class="list__item" id="a331ek_58">
+         <p>
+          We suggest that you write a working code sample relevant to the proposed project. You can also show us any code sample that you are particularly proud of.
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_59">
+         <p>
+          Describe why you are interested in Kotlin and your experience with it.
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_60">
+         <p>
+          If you participate in open source projects, please reference your contribution history.
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_61">
+         <p>
+          If you have a GitHub, Twitter account, blog, or portfolio of technical or scientific publications, please reference them as well.
+         </p>
+        </li>
+        <li class="list__item" id="a331ek_62">
+         <p>
+          Disclose any conflicts with the GSoC timeline due to other commitments, such as exams and vacations.
+         </p>
+        </li>
+       </ul>
+      </li>
+     </ol>
+     <p id="a331ek_48">
+      Thank you! We look forward to reading your applications!
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="project-ideas" id="project-ideas">
+     Project ideas
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="incremental-compilation-for-the-kotlin-to-webassembly-compiler-hard-350-hrs" id="incremental-compilation-for-the-kotlin-to-webassembly-compiler-hard-350-hrs">
+      Incremental compilation for the Kotlin-to-WebAssembly compiler [Hard, 350 hrs]
+     </h3>
+     <p id="a331ek_73">
+      Incremental compilation is a technique that helps increase compilation speed by recompiling only changed files instead of your whole program (also known as performing a clean build). The Kotlin-to-Wasm compiler currently supports only clean builds, but during this project, we will enhance it to support incremental compilation, too.
+     </p>
+     <p id="a331ek_74">
+      <span class="control" id="a331ek_80">
+       Expected outcomes
+      </span>
+     </p>
+     <p id="a331ek_75">
+      Implementation of the incremental compilation feature in the Kotlin-to-WebAssembly compiler, contributing to faster development workflows.
+     </p>
+     <p id="a331ek_76">
+      <span class="control" id="a331ek_81">
+       Skills required (preferred)
+      </span>
+     </p>
+     <p id="a331ek_77">
+      Kotlin
+     </p>
+     <p id="a331ek_78">
+      <span class="control" id="a331ek_82">
+       Possible mentor
+      </span>
+     </p>
+     <p id="a331ek_79">
+      Artem Kobzar, JetBrains
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="compose-multiplatform-with-node-js-native-bindings-for-skia-hard-350-hrs" id="compose-multiplatform-with-node-js-native-bindings-for-skia-hard-350-hrs">
+      Compose Multiplatform with Node.js native bindings for Skia [Hard, 350 hrs]
+     </h3>
+     <p id="a331ek_84">
+      <a data-external="true" href="https://github.com/JetBrains/compose-multiplatform" id="a331ek_91" rel="noopener noreferrer">
+       Compose Multiplatform
+      </a>
+      is a declarative framework for sharing UIs built with Kotlin across multiple platforms. The current approach to rendering desktop applications uses the JVM as a platform, but what if we use Compose Multiplatform for Web and try to run an application outside the browser with Skia’s native bindings? Will this improve desktop applications performance and memory consumption? Or will it do the opposite? We'll find out in this project!
+     </p>
+     <p id="a331ek_85">
+      <span class="control" id="a331ek_92">
+       Expected outcomes
+      </span>
+     </p>
+     <p id="a331ek_86">
+      Integration of Skia bindings with Compose Multiplatform and evaluation of performance impact on desktop applications.
+     </p>
+     <p id="a331ek_87">
+      <span class="control" id="a331ek_93">
+       Skills required (preferred)
+      </span>
+     </p>
+     <p id="a331ek_88">
+      Kotlin, Node.js, C++, or Rust
+     </p>
+     <p id="a331ek_89">
+      <span class="control" id="a331ek_94">
+       Possible mentor
+      </span>
+     </p>
+     <p id="a331ek_90">
+      Artem Kobzar, JetBrains
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="compose-multiplatform-component-gallery-generator-medium-350-hrs" id="compose-multiplatform-component-gallery-generator-medium-350-hrs">
+      Compose Multiplatform component gallery generator [Medium, 350 hrs]
+     </h3>
+     <p id="a331ek_96">
+      <a data-external="true" href="https://github.com/JetBrains/compose-multiplatform" id="a331ek_103" rel="noopener noreferrer">
+       Compose Multiplatform
+      </a>
+      is a declarative framework for sharing UIs built with Kotlin across multiple platforms. At the beginning of the React era of web development, Storybook was created, and Storybook’s proposed approach of describing component states and generating the whole UI library gallery is still one of the essential approaches to documentation in web development. Can we do the same with Compose Multiplatform, using it to generate a gallery of web UI elements, as well as galleries for mobile and desktop? Let's give it a try in this project.
+     </p>
+     <p id="a331ek_97">
+      <span class="control" id="a331ek_104">
+       Expected outcomes
+      </span>
+     </p>
+     <p id="a331ek_98">
+      Creation of a tool to generate UI component galleries for web, mobile, and desktop platforms using Compose Multiplatform.
+     </p>
+     <p id="a331ek_99">
+      <span class="control" id="a331ek_105">
+       Skills required (preferred)
+      </span>
+     </p>
+     <p id="a331ek_100">
+      Kotlin, Jetpack Compose, UI/UX Design
+     </p>
+     <p id="a331ek_101">
+      <span class="control" id="a331ek_106">
+       Possible mentor
+      </span>
+     </p>
+     <p id="a331ek_102">
+      Artem Kobzar, JetBrains
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="kotlin-dsl-improvements-for-declarative-gradle-medium-175-hrs" id="kotlin-dsl-improvements-for-declarative-gradle-medium-175-hrs">
+      Kotlin DSL improvements for declarative Gradle [Medium, 175 hrs]
+     </h3>
+     <p id="a331ek_108">
+      Last November, the Gradle team
+      <a data-external="true" href="https://blog.gradle.org/declarative-gradle" id="a331ek_116" rel="noopener noreferrer">
+       announced the new Declarative Gradle project
+      </a>
+      , introducing a higher level Kotlin DSL in the project. We invite GSoC contributors to join us and work on improving the developer experience of the new DSL, in particular by implementing extensibility in Gradle plugins to support the most common Kotlin and Java project integrations: static analysis, test frameworks like Kotest and others.
+     </p>
+     <p id="a331ek_109">
+      <span class="control" id="a331ek_117">
+       Expected outcomes
+      </span>
+     </p>
+     <p id="a331ek_110">
+      Implementing extensibility features in the Kotlin DSL for Gradle and improving support for common project integrations.
+     </p>
+     <p id="a331ek_111">
+      <span class="control" id="a331ek_118">
+       Skills required (preferred)
+      </span>
+     </p>
+     <p id="a331ek_112">
+      Kotlin, Gradle, Java, Static Analysis
+     </p>
+     <p id="a331ek_113">
+      <span class="control" id="a331ek_119">
+       Possible mentor
+      </span>
+     </p>
+     <p id="a331ek_114">
+      Oleg Nenashev, Gradle
+     </p>
+     <p id="a331ek_115">
+      <a data-external="true" href="https://gradle.github.io/community/events/gsoc/" id="a331ek_120" rel="noopener noreferrer">
+       Gradle guidelines
+      </a>
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="kotlin-dsl-documentation-samples-test-framework-easy-or-medium-90-hrs-or-175-hrs" id="kotlin-dsl-documentation-samples-test-framework-easy-or-medium-90-hrs-or-175-hrs">
+      Kotlin DSL documentation samples test framework [Easy or Medium, 90 hrs or 175 hrs]
+     </h3>
+     <p id="a331ek_122">
+      Many projects, including Gradle, have a lot of Kotlin DSL samples and code snippets (see the
+      <a data-external="true" href="https://docs.gradle.org/current/userguide/userguide.html" id="a331ek_130" rel="noopener noreferrer">
+       Gradle Docs
+      </a>
+      for examples). Testing them against multiple versions poses certain challenges because the snippets often represent incomplete code for the sake of brevity. We would like to build a test framework that simplifies the verification of those samples within a unit test framework (Kotest or JUnit 5) on GitHub Actions and Teamcity.
+     </p>
+     <p id="a331ek_123">
+      <span class="control" id="a331ek_131">
+       Expected outcomes
+      </span>
+     </p>
+     <p id="a331ek_124">
+      Implementation of a basic test framework for Kotlin DSL samples, integrated with GitHub Actions for continuous testing.
+     </p>
+     <p id="a331ek_125">
+      <span class="control" id="a331ek_132">
+       Skills required (preferred)
+      </span>
+     </p>
+     <p id="a331ek_126">
+      Kotlin, Testing Frameworks, CI/CD
+     </p>
+     <p id="a331ek_127">
+      <span class="control" id="a331ek_133">
+       Possible mentor
+      </span>
+     </p>
+     <p id="a331ek_128">
+      Oleg Nenashev, Gradle
+     </p>
+     <p id="a331ek_129">
+      <a data-external="true" href="https://gradle.github.io/community/events/gsoc/" id="a331ek_134" rel="noopener noreferrer">
+       Gradle guidelines
+      </a>
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="gradle-build-server-support-for-android-projects-medium-or-hard-175-hrs-or-350-hrs" id="gradle-build-server-support-for-android-projects-medium-or-hard-175-hrs-or-350-hrs">
+      Gradle build server – support for Android projects [Medium or Hard, 175 hrs or 350 hrs]
+     </h3>
+     <p id="a331ek_136">
+      Kotlin and Gradle are the default choices for building Android projects. In November 2023, the Microsoft team
+      <a data-external="true" href="https://devblogs.microsoft.com/java/announcing-the-build-server-for-gradle-open-source-repository/" id="a331ek_144" rel="noopener noreferrer">
+       announced the Gradle Build Server project
+      </a>
+      , which is a Gradle-specific implementation of the
+      <a data-external="true" href="https://build-server-protocol.github.io/" id="a331ek_145" rel="noopener noreferrer">
+       Build Server Protocol (BSP)
+      </a>
+      . It would be great to introduce full support for Android builds there. For smaller-scope projects, it is possible to implement auto-discovery and cancellation for Gradle tasks in the Gradle Build Server.
+     </p>
+     <p id="a331ek_137">
+      <span class="control" id="a331ek_146">
+       Expected outcomes
+      </span>
+     </p>
+     <p id="a331ek_138">
+      Implementation of Android project support in the Gradle Build Server, including auto-discovery and task cancellation.
+     </p>
+     <p id="a331ek_139">
+      <span class="control" id="a331ek_147">
+       Skills required (preferred)
+      </span>
+     </p>
+     <p id="a331ek_140">
+      Kotlin, Gradle, Android Development, Visual Studio Code
+     </p>
+     <p id="a331ek_141">
+      <span class="control" id="a331ek_148">
+       Possible mentor
+      </span>
+     </p>
+     <p id="a331ek_142">
+      Oleg Nenashev, Gradle
+     </p>
+     <p id="a331ek_143">
+      <a data-external="true" href="https://gradle.github.io/community/events/gsoc/" id="a331ek_149" rel="noopener noreferrer">
+       Gradle guidelines
+      </a>
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="implement-memory-usage-profiling-for-kotlin-native-benchmarks-medium-175-hrs" id="implement-memory-usage-profiling-for-kotlin-native-benchmarks-medium-175-hrs">
+      Implement memory usage profiling for Kotlin/Native benchmarks [Medium, 175 hrs]
+     </h3>
+     <p id="a331ek_151">
+      The
+      <a data-external="true" href="https://github.com/Kotlin/kotlinx-benchmark" id="a331ek_159" rel="noopener noreferrer">
+       kotlinx-benchmark library
+      </a>
+      , an open-source toolkit, facilitates the benchmarking of Kotlin code across various platforms. It currently features GC profiling for the JVM, detailing each benchmark method’s allocation rate. This project aims to extend similar profiling capabilities to Kotlin/Native, advancing toward uniform benchmarking capabilities across platforms.
+     </p>
+     <p id="a331ek_152">
+      The contributor will collaborate closely with the Kotlin/Native team to create an API for accessing allocation data from the Kotlin/Native memory manager. The objective is to generate reports that align with the JVM format, ensuring the consistency of data presentation across platforms. Furthermore, the project involves identifying and rectifying any discrepancies in reporting formats for other library features, thereby standardizing the benchmarking output for comprehensive cross-platform analysis.
+     </p>
+     <p id="a331ek_153">
+      <span class="control" id="a331ek_160">
+       Expected outcomes
+      </span>
+     </p>
+     <p id="a331ek_154">
+      Implementation of memory usage profiling in kotlinx-benchmark for Kotlin/Native and standardized benchmarking output.
+     </p>
+     <p id="a331ek_155">
+      <span class="control" id="a331ek_161">
+       Skills required (preferred)
+      </span>
+     </p>
+     <p id="a331ek_156">
+      Kotlin, Kotlin/Native, Benchmarking, Memory Profiling
+     </p>
+     <p id="a331ek_157">
+      <span class="control" id="a331ek_162">
+       Possible mentor
+      </span>
+     </p>
+     <p id="a331ek_158">
+      Abduqodiri Qurbonzoda, JetBrains
+      <br/>
+      Alexander Shabalin, JetBrains
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="support-android-target-in-kotlinx-benchmark-medium-175-hrs" id="support-android-target-in-kotlinx-benchmark-medium-175-hrs">
+      Support Android target in kotlinx-benchmark [Medium, 175 hrs]
+     </h3>
+     <p id="a331ek_165">
+      The
+      <a data-external="true" href="https://github.com/Kotlin/kotlinx-benchmark" id="a331ek_172" rel="noopener noreferrer">
+       kotlinx-benchmark library
+      </a>
+      is an open-source tool designed for benchmarking Kotlin code across multiple platforms, including the JVM, JS, WasmJs, and Native. Despite its broad compatibility, the library currently does not support benchmarking on Android. This project aims to bridge that gap. The plan is to utilize an existing Android library, such as androidx.benchmark, behind the scenes to integrate this functionality. A key aspect of the project will be ensuring that all features currently available for other platforms are also supported on Android, maintaining the library’s multiplatform utility.
+     </p>
+     <p id="a331ek_166">
+      <span class="control" id="a331ek_173">
+       Expected outcomes
+      </span>
+     </p>
+     <p id="a331ek_167">
+      Integration of benchmarking support for Android platforms in kotlinx-benchmark, ensuring feature parity with other platforms.
+     </p>
+     <p id="a331ek_168">
+      <span class="control" id="a331ek_174">
+       Skills required (preferred)
+      </span>
+     </p>
+     <p id="a331ek_169">
+      Kotlin, Android Development, Benchmarking
+     </p>
+     <p id="a331ek_170">
+      <span class="control" id="a331ek_175">
+       Possible mentor
+      </span>
+     </p>
+     <p id="a331ek_171">
+      Abduqodiri Qurbonzoda, JetBrains
+      <br/>
+      Rahul Ravikumar, Google
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="enabling-click-to-run-for-kotlinx-benchmark-benchmarks-in-intellij-idea-medium-175-hrs" id="enabling-click-to-run-for-kotlinx-benchmark-benchmarks-in-intellij-idea-medium-175-hrs">
+      Enabling click-to-run for kotlinx-benchmark benchmarks in IntelliJ IDEA [Medium, 175 hrs]
+     </h3>
+     <p id="a331ek_178">
+      <a data-external="true" href="https://github.com/Kotlin/kotlinx-benchmark" id="a331ek_185" rel="noopener noreferrer">
+       kotlinx-benchmark
+      </a>
+      is an open-source library for benchmarking multiplatform code written in Kotlin. It includes a Gradle plugin that, when applied, provides tasks for running benchmarks. However, executing these tasks requires navigating to the IDE’s Gradle panel or using the terminal. Additionally, running a specific benchmark necessitates further steps, adding to the complication. To mitigate this inconvenience and streamline the process, this project aims to enable users to run an individual benchmark or an entire suite directly from the IntelliJ IDEA interface, mirroring the convenience offered for unit tests. Achieving this goal may necessitate collaboration with the IntelliJ IDEA team and/or contributions directly to the IntelliJ project.
+     </p>
+     <p id="a331ek_179">
+      <span class="control" id="a331ek_186">
+       Expected outcomes
+      </span>
+     </p>
+     <p id="a331ek_180">
+      Integration of click-to-run functionality for kotlinx-benchmark benchmarks in IntelliJ IDEA, improving user experience.
+     </p>
+     <p id="a331ek_181">
+      <span class="control" id="a331ek_187">
+       Skills required (preferred)
+      </span>
+     </p>
+     <p id="a331ek_182">
+      Kotlin, IntelliJ IDEA Plugin Development, Benchmarking
+     </p>
+     <p id="a331ek_183">
+      <span class="control" id="a331ek_188">
+       Possible mentor
+      </span>
+     </p>
+     <p id="a331ek_184">
+      Abduqodiri Qurbonzoda, JetBrains
+     </p>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

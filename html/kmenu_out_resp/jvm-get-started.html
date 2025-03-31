@@ -1,0 +1,330 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="jvm-get-started" id="jvm-get-started.md">
+    Get started with Kotlin/JVM
+   </h1>
+   <p id="pkk023_2">
+    This tutorial demonstrates how to use IntelliJ IDEA for creating a console application.
+   </p>
+   <p id="pkk023_3">
+    To get started, first download and install the latest version of
+    <a data-external="true" href="https://www.jetbrains.com/idea/download/index.html" id="pkk023_8" rel="noopener noreferrer">
+     IntelliJ IDEA
+    </a>
+    .
+   </p>
+   <section class="chapter">
+    <h2 data-toc="create-a-project" id="create-a-project">
+     Create a project
+    </h2>
+    <ol class="list _decimal" id="pkk023_9" type="1">
+     <li class="list__item" id="pkk023_10">
+      <p id="pkk023_17">
+       In IntelliJ IDEA, select
+       <span class="control" id="pkk023_18">
+        File
+       </span>
+       |
+       <span class="control" id="pkk023_19">
+        New
+       </span>
+       |
+       <span class="control" id="pkk023_20">
+        Project
+       </span>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="pkk023_11">
+      <p id="pkk023_21">
+       In the list on the left, select
+       <span class="control" id="pkk023_22">
+        Kotlin
+       </span>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="pkk023_12">
+      <p id="pkk023_23">
+       Name the new project and change its location if necessary.
+      </p>
+      <aside class="prompt" data-title="" data-type="tip" id="pkk023_24">
+       <p id="pkk023_26">
+        Select the
+        <span class="control" id="pkk023_27">
+         Create Git repository
+        </span>
+        checkbox to place the new project under version control. You will be able to do it later at any time.
+       </p>
+      </aside>
+      <figure id="pkk023_25">
+       <img alt="Create a console application" height="666" src="images/jvm-new-project.png" title="Create a console application" width="700"/>
+      </figure>
+     </li>
+     <li class="list__item" id="pkk023_13">
+      <p id="pkk023_28">
+       Select the
+       <span class="control" id="pkk023_30">
+        IntelliJ
+       </span>
+       build system. It's a native builder that doesn't require downloading additional artifacts.
+      </p>
+      <p id="pkk023_29">
+       If you want to create a more complex project that needs further configuration, select Maven or Gradle. For Gradle, choose a language for the build script: Kotlin or Groovy.
+      </p>
+     </li>
+     <li class="list__item" id="pkk023_14">
+      <p id="pkk023_31">
+       From the
+       <span class="control" id="pkk023_33">
+        JDK list
+       </span>
+       , select the
+       <a data-external="true" href="https://www.oracle.com/java/technologies/downloads/" id="pkk023_34" rel="noopener noreferrer">
+        JDK
+       </a>
+       that you want to use in your project.
+      </p>
+      <ul class="list _bullet" id="pkk023_32">
+       <li class="list__item" id="pkk023_35">
+        <p>
+         If the JDK is installed on your computer, but not defined in the IDE, select
+         <span class="control" id="pkk023_37">
+          Add JDK
+         </span>
+         and specify the path to the JDK home directory.
+        </p>
+       </li>
+       <li class="list__item" id="pkk023_36">
+        <p>
+         If you don't have the necessary JDK on your computer, select
+         <span class="control" id="pkk023_38">
+          Download JDK
+         </span>
+         .
+        </p>
+       </li>
+      </ul>
+     </li>
+     <li class="list__item" id="pkk023_15">
+      <p id="pkk023_39">
+       Enable the
+       <span class="control" id="pkk023_41">
+        Add sample code
+       </span>
+       option to create a file with a sample
+       <code class="code" id="pkk023_42">
+        "Hello World!"
+       </code>
+       application.
+      </p>
+      <aside class="prompt" data-title="" data-type="tip" id="pkk023_40">
+       <p id="pkk023_43">
+        You can also enable the
+        <span class="control" id="pkk023_44">
+         Generate code with onboarding tips
+        </span>
+        option to add some additional useful comments to your sample code.
+       </p>
+      </aside>
+     </li>
+     <li class="list__item" id="pkk023_16">
+      <p id="pkk023_45">
+       Click
+       <span class="control" id="pkk023_47">
+        Create
+       </span>
+       .
+      </p>
+      <aside class="prompt" data-title="" data-type="note" id="pkk023_46">
+       <p id="pkk023_48">
+        If you chose the Gradle build system, you have in your project a build script file:
+        <code class="code" id="pkk023_50">
+         build.gradle(.kts)
+        </code>
+        . It includes the
+        <code class="code" id="pkk023_51">
+         kotlin("jvm")
+        </code>
+        plugin and dependencies required for your console application. Make sure that you use the latest version of the plugin:
+       </p>
+       <div class="code-block" data-lang="kotlin">
+        plugins {
+    kotlin("jvm") version "2.1.0"
+    application
+}
+       </div>
+      </aside>
+     </li>
+    </ol>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="create-an-application" id="create-an-application">
+     Create an application
+    </h2>
+    <ol class="list _decimal" id="pkk023_52" type="1">
+     <li class="list__item" id="pkk023_53">
+      <p id="pkk023_55">
+       Open the
+       <code class="code" id="pkk023_57">
+        Main.kt
+       </code>
+       file in
+       <code class="code" id="pkk023_58">
+        src/main/kotlin
+       </code>
+       .
+       <br/>
+       The
+       <code class="code" id="pkk023_60">
+        src
+       </code>
+       directory contains Kotlin source files and resources. The
+       <code class="code" id="pkk023_61">
+        Main.kt
+       </code>
+       file contains sample code that will print
+       <code class="code" id="pkk023_62">
+        Hello, Kotlin!
+       </code>
+       as well as several lines with values of the cycle iterator.
+      </p>
+      <figure id="pkk023_56">
+       <img alt="Main.kt with main fun" height="443" src="images/jvm-main-kt-initial.png" title="Main.kt with main fun" width="700"/>
+      </figure>
+     </li>
+     <li class="list__item" id="pkk023_54">
+      <p id="pkk023_63">
+       Modify the code so that it requests your name and says
+       <code class="code" id="pkk023_66">
+        Hello
+       </code>
+       to you:
+      </p>
+      <ul class="list _bullet" id="pkk023_64">
+       <li class="list__item" id="pkk023_67">
+        <p>
+         Create an input prompt and assign to the
+         <code class="code" id="pkk023_69">
+          name
+         </code>
+         variable the value returned by the
+         <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln.html" id="pkk023_70" rel="noopener noreferrer">
+          <code class="code" id="pkk023_71">
+           readln()
+          </code>
+         </a>
+         function.
+        </p>
+       </li>
+       <li class="list__item" id="pkk023_68">
+        <p>
+         Let's use a string template instead of concatenation by adding a dollar sign
+         <code class="code" id="pkk023_72">
+          $
+         </code>
+         before the variable name directly in the text output like this –
+         <code class="code" id="pkk023_73">
+          $name
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+      <div class="code-block" data-lang="kotlin">
+       fun main() {
+    println("What's your name?")
+    val name = readln()
+    println("Hello, $name!")
+
+    // ...
+}
+      </div>
+     </li>
+    </ol>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="run-the-application" id="run-the-application">
+     Run the application
+    </h2>
+    <p id="pkk023_74">
+     Now the application is ready to run. The easiest way to do this is to click the green
+     <span class="control" id="pkk023_81">
+      Run
+     </span>
+     icon in the gutter and select
+     <span class="control" id="pkk023_82">
+      Run 'MainKt'
+     </span>
+     .
+    </p>
+    <figure id="pkk023_75">
+     <img alt="Running a console app" height="253" src="images/jvm-run-app.png" title="Running a console app" width="350"/>
+    </figure>
+    <p id="pkk023_76">
+     You can see the result in the
+     <span class="control" id="pkk023_83">
+      Run
+     </span>
+     tool window.
+    </p>
+    <figure id="pkk023_77">
+     <img alt="Kotlin run output" height="321" src="images/jvm-output-1.png" title="Kotlin run output" width="600"/>
+    </figure>
+    <p id="pkk023_78">
+     Enter your name and accept the greetings from your application!
+    </p>
+    <figure id="pkk023_79">
+     <img alt="Kotlin run output" height="362" src="images/jvm-output-2.png" title="Kotlin run output" width="600"/>
+    </figure>
+    <p id="pkk023_80">
+     Congratulations! You have just run your first Kotlin application.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next?
+    </h2>
+    <p id="pkk023_84">
+     Once you've created this application, you can start to dive deeper into Kotlin syntax:
+    </p>
+    <ul class="list _bullet" id="pkk023_85">
+     <li class="list__item" id="pkk023_86">
+      <p>
+       Add sample code from
+       <a data-external="true" href="https://play.kotlinlang.org/byExample/overview" id="pkk023_88" rel="noopener noreferrer">
+        Kotlin examples
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pkk023_87">
+      <p>
+       Install the
+       <a data-external="true" href="https://plugins.jetbrains.com/plugin/10081-jetbrains-academy" id="pkk023_89" rel="noopener noreferrer">
+        JetBrains Academy plugin
+       </a>
+       for IDEA and complete exercises from the
+       <a data-external="true" href="https://plugins.jetbrains.com/plugin/10081-jetbrains-academy/docs/learner-start-guide.html?section=Kotlin%20Koans" id="pkk023_90" rel="noopener noreferrer">
+        Kotlin Koans course
+       </a>
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

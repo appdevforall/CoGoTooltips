@@ -1,0 +1,1299 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="compiler-reference" id="compiler-reference.md">
+    Kotlin compiler options
+   </h1>
+   <p id="-lhy7bw_2">
+    Each release of Kotlin includes compilers for the supported targets: JVM, JavaScript, and native binaries for
+    <a data-tooltip="Kotlin/Native supports the following platforms:" href="native-overview.html#target-platforms" id="-lhy7bw_11">
+     supported platforms
+    </a>
+    .
+   </p>
+   <p id="-lhy7bw_3">
+    These compilers are used by:
+   </p>
+   <ul class="list _bullet" id="-lhy7bw_4">
+    <li class="list__item" id="-lhy7bw_12">
+     <p>
+      The IDE, when you click the
+      <span class="control" id="-lhy7bw_15">
+       Compile
+      </span>
+      or
+      <span class="control" id="-lhy7bw_16">
+       Run
+      </span>
+      button for your Kotlin project.
+     </p>
+    </li>
+    <li class="list__item" id="-lhy7bw_13">
+     <p>
+      Gradle, when you call
+      <code class="code" id="-lhy7bw_17">
+       gradle build
+      </code>
+      in a console or in the IDE.
+     </p>
+    </li>
+    <li class="list__item" id="-lhy7bw_14">
+     <p>
+      Maven, when you call
+      <code class="code" id="-lhy7bw_18">
+       mvn compile
+      </code>
+      or
+      <code class="code" id="-lhy7bw_19">
+       mvn test-compile
+      </code>
+      in a console or in the IDE.
+     </p>
+    </li>
+   </ul>
+   <p id="-lhy7bw_5">
+    You can also run Kotlin compilers manually from the command line as described in the
+    <a data-tooltip="Every Kotlin release ships with a standalone version of the compiler. You can download the latest version manually or via a package manager." href="command-line.html" id="-lhy7bw_20">
+     Working with command-line compiler
+    </a>
+    tutorial.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="compiler-options" id="compiler-options">
+     Compiler options
+    </h2>
+    <p id="-lhy7bw_21">
+     Kotlin compilers have a number of options for tailoring the compiling process. Compiler options for different targets are listed on this page together with a description of each one.
+    </p>
+    <p id="-lhy7bw_22">
+     There are several ways to set the compiler options and their values (
+     <span class="emphasis" id="-lhy7bw_27">
+      compiler arguments
+     </span>
+     ):
+    </p>
+    <ul class="list _bullet" id="-lhy7bw_23">
+     <li class="list__item" id="-lhy7bw_28">
+      <p>
+       In IntelliJ IDEA, write in the compiler arguments in the
+       <span class="control" id="-lhy7bw_32">
+        Additional command line parameters
+       </span>
+       text box in
+       <span class="control" id="-lhy7bw_33">
+        Settings/Preferences
+       </span>
+       |
+       <span class="control" id="-lhy7bw_34">
+        Build, Execution, Deployment
+       </span>
+       |
+       <span class="control" id="-lhy7bw_35">
+        Compiler
+       </span>
+       |
+       <span class="control" id="-lhy7bw_36">
+        Kotlin Compiler
+       </span>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-lhy7bw_29">
+      <p>
+       If you're using Gradle, specify the compiler arguments in the
+       <code class="code" id="-lhy7bw_37">
+        compilerOptions
+       </code>
+       property of the Kotlin compilation task. For details, see
+       <a data-tooltip="Kotlin compilers have a number of options for tailoring the compiling process." href="gradle-compiler-options.html#how-to-define-options" id="-lhy7bw_38">
+        Gradle compiler options
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-lhy7bw_30">
+      <p>
+       If you're using Maven, specify the compiler arguments in the
+       <code class="code" id="-lhy7bw_39">
+        &lt;configuration&gt;
+       </code>
+       element of the Maven plugin node. For details, see
+       <a data-tooltip="Additional options and arguments for the compiler can be specified as tags under the &lt;configuration&gt; element of the Maven plugin node:" href="maven.html#specify-compiler-options" id="-lhy7bw_40">
+        Maven
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-lhy7bw_31">
+      <p>
+       If you run a command-line compiler, add the compiler arguments directly to the utility call or write them into an
+       <a data-tooltip="Read the compiler options from the given file. Such a file can contain compiler options with values and paths to the source files. Options and paths should be separated by whitespaces. For example:" href="#argfile" id="-lhy7bw_41">
+        argfile
+       </a>
+       .
+      </p>
+     </li>
+    </ul>
+    <p id="-lhy7bw_24">
+     For example:
+    </p>
+    <div class="code-block" data-lang="bash">
+     $ kotlinc hello.kt -include-runtime -d hello.jar
+    </div>
+    <aside class="prompt" data-title="" data-type="note" id="-lhy7bw_26">
+     <p id="-lhy7bw_42">
+      On Windows, when you pass compiler arguments that contain delimiter characters (whitespace,
+      <code class="code" id="-lhy7bw_44">
+       =
+      </code>
+      ,
+      <code class="code" id="-lhy7bw_45">
+       ;
+      </code>
+      ,
+      <code class="code" id="-lhy7bw_46">
+       ,
+      </code>
+      ), surround these arguments with double quotes (
+      <code class="code" id="-lhy7bw_47">
+       "
+      </code>
+      ).
+     </p>
+     <div class="code-block" data-lang="none">
+      $ kotlinc.bat hello.kt -include-runtime -d "My Folder\hello.jar"
+     </div>
+    </aside>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="common-options" id="common-options">
+     Common options
+    </h2>
+    <p id="-lhy7bw_48">
+     The following options are common for all Kotlin compilers.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="version" id="version">
+      -version
+     </h3>
+     <p id="-lhy7bw_65">
+      Display the compiler version.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="nowarn" id="nowarn">
+      -nowarn
+     </h3>
+     <p id="-lhy7bw_66">
+      Suppress the compiler from displaying warnings during compilation.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="werror" id="werror">
+      -Werror
+     </h3>
+     <p id="-lhy7bw_67">
+      Turn any warnings into a compilation error.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="wextra" id="wextra">
+      -Wextra
+     </h3>
+     <p id="-lhy7bw_68">
+      Enable
+      <a data-tooltip="With Kotlin 2.1.0, you can now enable additional checks in the K2 compiler. These are extra declaration, expression, and type checks that are usually not crucial for compilation but can still be useful if you want to validate the following cases:" href="whatsnew21.html#extra-compiler-checks" id="-lhy7bw_69">
+       additional declaration, expression, and type compiler checks
+      </a>
+      that emit warnings if true.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="verbose" id="verbose">
+      -verbose
+     </h3>
+     <p id="-lhy7bw_70">
+      Enable verbose logging output which includes details of the compilation process.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="script" id="script">
+      -script
+     </h3>
+     <p id="-lhy7bw_71">
+      Evaluate a Kotlin script file. When called with this option, the compiler executes the first Kotlin script (
+      <code class="code" id="-lhy7bw_72">
+       *.kts
+      </code>
+      ) file among the given arguments.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="help-h" id="help-h">
+      -help (-h)
+     </h3>
+     <p id="-lhy7bw_73">
+      Display usage information and exit. Only standard options are shown. To show advanced options, use
+      <code class="code" id="-lhy7bw_74">
+       -X
+      </code>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="x" id="x">
+      -X
+     </h3>
+     <p id="-lhy7bw_75">
+      Display information about the advanced options and exit. These options are currently unstable: their names and behavior may be changed without notice.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="kotlin-home-path" id="kotlin-home-path">
+      -kotlin-home
+      <span class="emphasis" id="-lhy7bw_78">
+       path
+      </span>
+     </h3>
+     <p id="-lhy7bw_77">
+      Specify a custom path to the Kotlin compiler used for the discovery of runtime libraries.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="p-plugin-pluginid-optionname-value" id="p-plugin-pluginid-optionname-value">
+      -P plugin:pluginId:optionName=value
+     </h3>
+     <p id="-lhy7bw_79">
+      Pass an option to a Kotlin compiler plugin. Core plugins and their options are listed in the
+      <a data-tooltip="ComponentStatusStatus since versionComments All-openStable1.3.0 No-argStable1.3.0 SAM-with-receiverStable1.3.0 kaptStable1.3.0 LombokExperimental1.5.20 Power-assertExperimental2.0.0" href="components-stability.html#core-compiler-plugins" id="-lhy7bw_80">
+       Core compiler plugins
+      </a>
+      section of the documentation.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="language-version-version" id="language-version-version">
+      -language-version
+      <span class="emphasis" id="-lhy7bw_83">
+       version
+      </span>
+     </h3>
+     <p id="-lhy7bw_82">
+      Provide source compatibility with the specified version of Kotlin.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="api-version-version" id="api-version-version">
+      -api-version
+      <span class="emphasis" id="-lhy7bw_86">
+       version
+      </span>
+     </h3>
+     <p id="-lhy7bw_85">
+      Allow using declarations only from the specified version of Kotlin bundled libraries.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="progressive" id="progressive">
+      -progressive
+     </h3>
+     <p id="-lhy7bw_87">
+      Enable the
+      <a data-tooltip="Kotlin cares a lot about stability and backward compatibility of code: Kotlin compatibility policy says that breaking changes (e.g., a change which makes the code that used to compile fine, not compile anymore) can be introduced only in the major releases (1.2, 1.3, etc.)." href="whatsnew13.html#progressive-mode" id="-lhy7bw_89">
+       progressive mode
+      </a>
+      for the compiler.
+     </p>
+     <p id="-lhy7bw_88">
+      In the progressive mode, deprecations and bug fixes for unstable code take effect immediately, instead of going through a graceful migration cycle. Code written in the progressive mode is backwards compatible; however, code written in a non-progressive mode may cause compilation errors in the progressive mode.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="argfile" id="argfile">
+      @argfile
+     </h3>
+     <p id="-lhy7bw_90">
+      Read the compiler options from the given file. Such a file can contain compiler options with values and paths to the source files. Options and paths should be separated by whitespaces. For example:
+     </p>
+     <div class="code-block" data-lang="none">
+      -include-runtime -d hello.jar hello.kt
+     </div>
+     <p id="-lhy7bw_92">
+      To pass values that contain whitespaces, surround them with single (
+      <span class="control" id="-lhy7bw_98">
+       '
+      </span>
+      ) or double (
+      <span class="control" id="-lhy7bw_99">
+       "
+      </span>
+      ) quotes. If a value contains quotation marks in it, escape them with a backslash (
+      <span class="control" id="-lhy7bw_100">
+       \
+      </span>
+      ).
+     </p>
+     <div class="code-block" data-lang="none">
+      -include-runtime -d 'My folder'
+     </div>
+     <p id="-lhy7bw_94">
+      You can also pass multiple argument files, for example, to separate compiler options from source files.
+     </p>
+     <div class="code-block" data-lang="bash">
+      $ kotlinc @compiler.options @classes
+     </div>
+     <p id="-lhy7bw_96">
+      If the files reside in locations different from the current directory, use relative paths.
+     </p>
+     <div class="code-block" data-lang="bash">
+      $ kotlinc @options/compiler.options hello.kt
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="opt-in-annotation" id="opt-in-annotation">
+      -opt-in
+      <span class="emphasis" id="-lhy7bw_103">
+       annotation
+      </span>
+     </h3>
+     <p id="-lhy7bw_102">
+      Enable usages of API that
+      <a data-tooltip="The Kotlin standard library provides a mechanism for requiring and giving explicit consent to use certain API elements. This mechanism allows library authors to inform users about specific conditions that require opt-in, such as when an API is in an experimental state and is likely…" href="opt-in-requirements.html" id="-lhy7bw_104">
+       requires opt-in
+      </a>
+      with a requirement annotation with the given fully qualified name.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="xsuppress-warning" id="xsuppress-warning">
+      -Xsuppress-warning
+     </h3>
+     <p id="-lhy7bw_105">
+      Suppresses specific warnings
+      <a data-tooltip="Released: November 18, 2024" href="whatsnew-eap.html" id="-lhy7bw_107">
+       globally across the whole project
+      </a>
+      , for example:
+     </p>
+     <div class="code-block" data-lang="bash">
+      kotlinc -Xsuppress-warning=NOTHING_TO_INLINE -Xsuppress-warning=NO_TAIL_CALLS_FOUND main.kt
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-jvm-compiler-options" id="kotlin-jvm-compiler-options">
+     Kotlin/JVM compiler options
+    </h2>
+    <p id="-lhy7bw_108">
+     The Kotlin compiler for JVM compiles Kotlin source files into Java class files. The command-line tools for Kotlin to JVM compilation are
+     <code class="code" id="-lhy7bw_122">
+      kotlinc
+     </code>
+     and
+     <code class="code" id="-lhy7bw_123">
+      kotlinc-jvm
+     </code>
+     . You can also use them for executing Kotlin script files.
+    </p>
+    <p id="-lhy7bw_109">
+     In addition to the
+     <a data-tooltip="The following options are common for all Kotlin compilers." href="#common-options" id="-lhy7bw_124">
+      common options
+     </a>
+     , Kotlin/JVM compiler has the options listed below.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="classpath-path-cp-path" id="classpath-path-cp-path">
+      -classpath
+      <span class="emphasis" id="-lhy7bw_127">
+       path
+      </span>
+      (-cp
+      <span class="emphasis" id="-lhy7bw_128">
+       path
+      </span>
+      )
+     </h3>
+     <p id="-lhy7bw_126">
+      Search for class files in the specified paths. Separate elements of the classpath with system path separators (
+      <span class="control" id="-lhy7bw_129">
+       ;
+      </span>
+      on Windows,
+      <span class="control" id="-lhy7bw_130">
+       :
+      </span>
+      on macOS/Linux). The classpath can contain file and directory paths, ZIP, or JAR files.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="d-path" id="d-path">
+      -d
+      <span class="emphasis" id="-lhy7bw_133">
+       path
+      </span>
+     </h3>
+     <p id="-lhy7bw_132">
+      Place the generated class files into the specified location. The location can be a directory, a ZIP, or a JAR file.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="include-runtime" id="include-runtime">
+      -include-runtime
+     </h3>
+     <p id="-lhy7bw_134">
+      Include the Kotlin runtime into the resulting JAR file. Makes the resulting archive runnable on any Java-enabled environment.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="jdk-home-path" id="jdk-home-path">
+      -jdk-home
+      <span class="emphasis" id="-lhy7bw_137">
+       path
+      </span>
+     </h3>
+     <p id="-lhy7bw_136">
+      Use a custom JDK home directory to include into the classpath if it differs from the default
+      <code class="code" id="-lhy7bw_138">
+       JAVA_HOME
+      </code>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="xjdk-release-version" id="xjdk-release-version">
+      -Xjdk-release=version
+     </h3>
+     <p id="-lhy7bw_139">
+      Specify the target version of the generated JVM bytecode. Limit the API of the JDK in the classpath to the specified Java version. Automatically sets
+      <a data-tooltip="Specify the target version of the generated JVM bytecode. Possible values are 1.8, 9, 10, ..., 21. The default value is 1.8." href="#jvm-target-version" id="-lhy7bw_141">
+       <code class="code" id="-lhy7bw_146">
+        -jvm-target version
+       </code>
+      </a>
+      . Possible values are
+      <code class="code" id="-lhy7bw_142">
+       1.8
+      </code>
+      ,
+      <code class="code" id="-lhy7bw_143">
+       9
+      </code>
+      ,
+      <code class="code" id="-lhy7bw_144">
+       10
+      </code>
+      , ...,
+      <code class="code" id="-lhy7bw_145">
+       21
+      </code>
+      .
+     </p>
+     <aside class="prompt" data-title="" data-type="note" id="-lhy7bw_140">
+      <p id="-lhy7bw_147">
+       This option is
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-29974" id="-lhy7bw_148" rel="noopener noreferrer">
+        not guaranteed
+       </a>
+       to be effective for each JDK distribution.
+      </p>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="jvm-target-version" id="jvm-target-version">
+      -jvm-target
+      <span class="emphasis" id="-lhy7bw_151">
+       version
+      </span>
+     </h3>
+     <p id="-lhy7bw_150">
+      Specify the target version of the generated JVM bytecode. Possible values are
+      <code class="code" id="-lhy7bw_152">
+       1.8
+      </code>
+      ,
+      <code class="code" id="-lhy7bw_153">
+       9
+      </code>
+      ,
+      <code class="code" id="-lhy7bw_154">
+       10
+      </code>
+      , ...,
+      <code class="code" id="-lhy7bw_155">
+       21
+      </code>
+      . The default value is
+      <code class="code" id="-lhy7bw_156">
+       1.8
+      </code>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="java-parameters" id="java-parameters">
+      -java-parameters
+     </h3>
+     <p id="-lhy7bw_157">
+      Generate metadata for Java 1.8 reflection on method parameters.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="module-name-name-jvm" id="module-name-name-jvm">
+      -module-name
+      <span class="emphasis" id="-lhy7bw_160">
+       name
+      </span>
+      (JVM)
+     </h3>
+     <p id="-lhy7bw_159">
+      Set a custom name for the generated
+      <code class="code" id="-lhy7bw_161">
+       .kotlin_module
+      </code>
+      file.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="no-jdk" id="no-jdk">
+      -no-jdk
+     </h3>
+     <p id="-lhy7bw_162">
+      Don't automatically include the Java runtime into the classpath.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="no-reflect" id="no-reflect">
+      -no-reflect
+     </h3>
+     <p id="-lhy7bw_163">
+      Don't automatically include the Kotlin reflection (
+      <code class="code" id="-lhy7bw_164">
+       kotlin-reflect.jar
+      </code>
+      ) into the classpath.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="no-stdlib-jvm" id="no-stdlib-jvm">
+      -no-stdlib (JVM)
+     </h3>
+     <p id="-lhy7bw_165">
+      Don't automatically include the Kotlin/JVM stdlib (
+      <code class="code" id="-lhy7bw_166">
+       kotlin-stdlib.jar
+      </code>
+      ) and Kotlin reflection (
+      <code class="code" id="-lhy7bw_167">
+       kotlin-reflect.jar
+      </code>
+      ) into the classpath.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="script-templates-classnames" id="script-templates-classnames">
+      -script-templates
+      <span class="emphasis" id="-lhy7bw_170">
+       classnames[,]
+      </span>
+     </h3>
+     <p id="-lhy7bw_169">
+      Script definition template classes. Use fully qualified class names and separate them with commas (
+      <span class="control" id="-lhy7bw_171">
+       ,
+      </span>
+      ).
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-js-compiler-options" id="kotlin-js-compiler-options">
+     Kotlin/JS compiler options
+    </h2>
+    <p id="-lhy7bw_172">
+     The Kotlin compiler for JS compiles Kotlin source files into JavaScript code. The command-line tool for Kotlin to JS compilation is
+     <code class="code" id="-lhy7bw_187">
+      kotlinc-js
+     </code>
+     .
+    </p>
+    <p id="-lhy7bw_173">
+     In addition to the
+     <a data-tooltip="The following options are common for all Kotlin compilers." href="#common-options" id="-lhy7bw_188">
+      common options
+     </a>
+     , Kotlin/JS compiler has the options listed below.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="libraries-path" id="libraries-path">
+      -libraries
+      <span class="emphasis" id="-lhy7bw_191">
+       path
+      </span>
+     </h3>
+     <p id="-lhy7bw_190">
+      Paths to Kotlin libraries with
+      <code class="code" id="-lhy7bw_192">
+       .meta.js
+      </code>
+      and
+      <code class="code" id="-lhy7bw_193">
+       .kjsm
+      </code>
+      files, separated by the system path separator.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="main-call-nocall" id="main-call-nocall">
+      -main
+      <span class="emphasis" id="-lhy7bw_196">
+       {call|noCall}
+      </span>
+     </h3>
+     <p id="-lhy7bw_195">
+      Define whether the
+      <code class="code" id="-lhy7bw_197">
+       main
+      </code>
+      function should be called upon execution.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="meta-info" id="meta-info">
+      -meta-info
+     </h3>
+     <p id="-lhy7bw_198">
+      Generate
+      <code class="code" id="-lhy7bw_199">
+       .meta.js
+      </code>
+      and
+      <code class="code" id="-lhy7bw_200">
+       .kjsm
+      </code>
+      files with metadata. Use this option when creating a JS library.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="module-kind-umd-commonjs-amd-plain" id="module-kind-umd-commonjs-amd-plain">
+      -module-kind {umd|commonjs|amd|plain}
+     </h3>
+     <p id="-lhy7bw_201">
+      The kind of JS module generated by the compiler:
+     </p>
+     <ul class="list _bullet" id="-lhy7bw_202">
+      <li class="list__item" id="-lhy7bw_204">
+       <p>
+        <code class="code" id="-lhy7bw_208">
+         umd
+        </code>
+        - a
+        <a data-external="true" href="https://github.com/umdjs/umd" id="-lhy7bw_209" rel="noopener noreferrer">
+         Universal Module Definition
+        </a>
+        module
+       </p>
+      </li>
+      <li class="list__item" id="-lhy7bw_205">
+       <p>
+        <code class="code" id="-lhy7bw_210">
+         commonjs
+        </code>
+        - a
+        <a data-external="true" href="http://www.commonjs.org/" id="-lhy7bw_211" rel="noopener noreferrer">
+         CommonJS
+        </a>
+        module
+       </p>
+      </li>
+      <li class="list__item" id="-lhy7bw_206">
+       <p>
+        <code class="code" id="-lhy7bw_212">
+         amd
+        </code>
+        - an
+        <a data-external="true" href="https://en.wikipedia.org/wiki/Asynchronous_module_definition" id="-lhy7bw_213" rel="noopener noreferrer">
+         Asynchronous Module Definition
+        </a>
+        module
+       </p>
+      </li>
+      <li class="list__item" id="-lhy7bw_207">
+       <p>
+        <code class="code" id="-lhy7bw_214">
+         plain
+        </code>
+        - a plain JS module
+       </p>
+      </li>
+     </ul>
+     <p id="-lhy7bw_203">
+      To learn more about the different kinds of JS module and the distinctions between them, see
+      <a data-external="true" href="https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/" id="-lhy7bw_215" rel="noopener noreferrer">
+       this
+      </a>
+      article.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="no-stdlib-js" id="no-stdlib-js">
+      -no-stdlib (JS)
+     </h3>
+     <p id="-lhy7bw_216">
+      Don't automatically include the default Kotlin/JS stdlib into the compilation dependencies.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="output-filepath" id="output-filepath">
+      -output
+      <span class="emphasis" id="-lhy7bw_219">
+       filepath
+      </span>
+     </h3>
+     <p id="-lhy7bw_218">
+      Set the destination file for the compilation result. The value must be a path to a
+      <code class="code" id="-lhy7bw_220">
+       .js
+      </code>
+      file including its name.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="output-postfix-filepath" id="output-postfix-filepath">
+      -output-postfix
+      <span class="emphasis" id="-lhy7bw_223">
+       filepath
+      </span>
+     </h3>
+     <p id="-lhy7bw_222">
+      Add the content of the specified file to the end of the output file.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="output-prefix-filepath" id="output-prefix-filepath">
+      -output-prefix
+      <span class="emphasis" id="-lhy7bw_226">
+       filepath
+      </span>
+     </h3>
+     <p id="-lhy7bw_225">
+      Add the content of the specified file to the beginning of the output file.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="source-map" id="source-map">
+      -source-map
+     </h3>
+     <p id="-lhy7bw_227">
+      Generate the source map.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="source-map-base-dirs-path" id="source-map-base-dirs-path">
+      -source-map-base-dirs
+      <span class="emphasis" id="-lhy7bw_230">
+       path
+      </span>
+     </h3>
+     <p id="-lhy7bw_229">
+      Use the specified paths as base directories. Base directories are used for calculating relative paths in the source map.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="source-map-embed-sources-always-never-inlining" id="source-map-embed-sources-always-never-inlining">
+      -source-map-embed-sources
+      <span class="emphasis" id="-lhy7bw_233">
+       {always|never|inlining}
+      </span>
+     </h3>
+     <p id="-lhy7bw_232">
+      Embed source files into the source map.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="source-map-names-policy-simple-names-fully-qualified-names-no" id="source-map-names-policy-simple-names-fully-qualified-names-no">
+      -source-map-names-policy
+      <span class="emphasis" id="-lhy7bw_237">
+       {simple-names|fully-qualified-names|no}
+      </span>
+     </h3>
+     <p id="-lhy7bw_235">
+      Add variable and function names that you declared in Kotlin code into the source map.
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="-lhy7bw_236">
+       <thead>
+        <tr class="ijRowHead" id="-lhy7bw_238">
+         <th id="-lhy7bw_242">
+          <p>
+           Setting
+          </p>
+         </th>
+         <th id="-lhy7bw_243">
+          <p>
+           Description
+          </p>
+         </th>
+         <th id="-lhy7bw_244">
+          <p>
+           Example output
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="-lhy7bw_239">
+         <td id="-lhy7bw_245">
+          <p>
+           <code class="code" id="-lhy7bw_248">
+            simple-names
+           </code>
+          </p>
+         </td>
+         <td id="-lhy7bw_246">
+          <p>
+           Variable names and simple function names are added. (Default)
+          </p>
+         </td>
+         <td id="-lhy7bw_247">
+          <p>
+           <code class="code" id="-lhy7bw_249">
+            main
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="-lhy7bw_240">
+         <td id="-lhy7bw_250">
+          <p>
+           <code class="code" id="-lhy7bw_253">
+            fully-qualified-names
+           </code>
+          </p>
+         </td>
+         <td id="-lhy7bw_251">
+          <p>
+           Variable names and fully qualified function names are added.
+          </p>
+         </td>
+         <td id="-lhy7bw_252">
+          <p>
+           <code class="code" id="-lhy7bw_254">
+            com.example.kjs.playground.main
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="-lhy7bw_241">
+         <td id="-lhy7bw_255">
+          <p>
+           <code class="code" id="-lhy7bw_258">
+            no
+           </code>
+          </p>
+         </td>
+         <td id="-lhy7bw_256">
+          <p>
+           No variable or function names are added.
+          </p>
+         </td>
+         <td id="-lhy7bw_257">
+          <p>
+           N/A
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="source-map-prefix" id="source-map-prefix">
+      -source-map-prefix
+     </h3>
+     <p id="-lhy7bw_259">
+      Add the specified prefix to paths in the source map.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-native-compiler-options" id="kotlin-native-compiler-options">
+     Kotlin/Native compiler options
+    </h2>
+    <p id="-lhy7bw_260">
+     Kotlin/Native compiler compiles Kotlin source files into native binaries for the
+     <a data-tooltip="Kotlin/Native supports the following platforms:" href="native-overview.html#target-platforms" id="-lhy7bw_285">
+      supported platforms
+     </a>
+     . The command-line tool for Kotlin/Native compilation is
+     <code class="code" id="-lhy7bw_286">
+      kotlinc-native
+     </code>
+     .
+    </p>
+    <p id="-lhy7bw_261">
+     In addition to the
+     <a data-tooltip="The following options are common for all Kotlin compilers." href="#common-options" id="-lhy7bw_287">
+      common options
+     </a>
+     , Kotlin/Native compiler has the options listed below.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="enable-assertions-ea" id="enable-assertions-ea">
+      -enable-assertions (-ea)
+     </h3>
+     <p id="-lhy7bw_288">
+      Enable runtime assertions in the generated code.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="g" id="g">
+      -g
+     </h3>
+     <p id="-lhy7bw_289">
+      Enable emitting debug information. This option lowers the optimization level and should not be combined with the
+      <a data-tooltip="Enable compilation optimizations and produce a binary with better runtime performance. It's not recommended to combine it with the -g option, which lowers the optimization level." href="#opt" id="-lhy7bw_290">
+       <code class="code" id="-lhy7bw_291">
+        -opt
+       </code>
+      </a>
+      option.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="generate-test-runner-tr" id="generate-test-runner-tr">
+      -generate-test-runner (-tr)
+     </h3>
+     <p id="-lhy7bw_292">
+      Produce an application for running unit tests from the project.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="generate-no-exit-test-runner-trn" id="generate-no-exit-test-runner-trn">
+      -generate-no-exit-test-runner (-trn)
+     </h3>
+     <p id="-lhy7bw_293">
+      Produce an application for running unit tests without an explicit process exit.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="include-binary-path-ib-path" id="include-binary-path-ib-path">
+      -include-binary
+      <span class="emphasis" id="-lhy7bw_296">
+       path
+      </span>
+      (-ib
+      <span class="emphasis" id="-lhy7bw_297">
+       path
+      </span>
+      )
+     </h3>
+     <p id="-lhy7bw_295">
+      Pack external binary within the generated klib file.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="library-path-l-path" id="library-path-l-path">
+      -library
+      <span class="emphasis" id="-lhy7bw_300">
+       path
+      </span>
+      (-l
+      <span class="emphasis" id="-lhy7bw_301">
+       path
+      </span>
+      )
+     </h3>
+     <p id="-lhy7bw_299">
+      Link with the library. To learn about using libraries in Kotlin/native projects, see
+      <a data-tooltip="To produce a library with the Kotlin/Native compiler use the -produce library or -p library flag. For example:" href="native-libraries.html" id="-lhy7bw_302">
+       Kotlin/Native libraries
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="library-version-version-lv-version" id="library-version-version-lv-version">
+      -library-version
+      <span class="emphasis" id="-lhy7bw_305">
+       version
+      </span>
+      (-lv
+      <span class="emphasis" id="-lhy7bw_306">
+       version
+      </span>
+      )
+     </h3>
+     <p id="-lhy7bw_304">
+      Set the library version.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="list-targets" id="list-targets">
+      -list-targets
+     </h3>
+     <p id="-lhy7bw_307">
+      List the available hardware targets.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="manifest-path" id="manifest-path">
+      -manifest
+      <span class="emphasis" id="-lhy7bw_310">
+       path
+      </span>
+     </h3>
+     <p id="-lhy7bw_309">
+      Provide a manifest addend file.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="module-name-name-native" id="module-name-name-native">
+      -module-name
+      <span class="emphasis" id="-lhy7bw_313">
+       name
+      </span>
+      (Native)
+     </h3>
+     <p id="-lhy7bw_312">
+      Specify a name for the compilation module. This option can also be used to specify a name prefix for the declarations exported to Objective-C:
+      <a data-tooltip="Use the -module-name compiler option or matching Gradle DSL statement." href="native-faq.html#how-do-i-specify-a-custom-objective-c-prefix-name-for-my-kotlin-framework" id="-lhy7bw_314">
+       How do I specify a custom Objective-C prefix/name for my Kotlin framework?
+      </a>
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="native-library-path-nl-path" id="native-library-path-nl-path">
+      -native-library
+      <span class="emphasis" id="-lhy7bw_317">
+       path
+      </span>
+      (-nl
+      <span class="emphasis" id="-lhy7bw_318">
+       path
+      </span>
+      )
+     </h3>
+     <p id="-lhy7bw_316">
+      Include the native bitcode library.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="no-default-libs" id="no-default-libs">
+      -no-default-libs
+     </h3>
+     <p id="-lhy7bw_319">
+      Disable linking user code with the
+      <a data-tooltip="To provide access to user's native operating system services, Kotlin/Native distribution includes a set of prebuilt libraries specific to each target. We call them Platform Libraries." href="native-platform-libs.html" id="-lhy7bw_320">
+       default platform libraries
+      </a>
+      distributed with the compiler.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="nomain" id="nomain">
+      -nomain
+     </h3>
+     <p id="-lhy7bw_321">
+      Assume the
+      <code class="code" id="-lhy7bw_322">
+       main
+      </code>
+      entry point to be provided by external libraries.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="nopack" id="nopack">
+      -nopack
+     </h3>
+     <p id="-lhy7bw_323">
+      Don't pack the library into a klib file.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="linker-option" id="linker-option">
+      -linker-option
+     </h3>
+     <p id="-lhy7bw_324">
+      Pass an argument to the linker during binary building. This can be used for linking against some native library.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="linker-options-args" id="linker-options-args">
+      -linker-options
+      <span class="emphasis" id="-lhy7bw_327">
+       args
+      </span>
+     </h3>
+     <p id="-lhy7bw_326">
+      Pass multiple arguments to the linker during binary building. Separate arguments with whitespaces.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="nostdlib" id="nostdlib">
+      -nostdlib
+     </h3>
+     <p id="-lhy7bw_328">
+      Don't link with stdlib.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="opt" id="opt">
+      -opt
+     </h3>
+     <p id="-lhy7bw_329">
+      Enable compilation optimizations and produce a binary with better runtime performance. It's not recommended to combine it with the
+      <a data-tooltip="Enable emitting debug information. This option lowers the optimization level and should not be combined with the -opt option." href="#g" id="-lhy7bw_330">
+       <code class="code" id="-lhy7bw_331">
+        -g
+       </code>
+      </a>
+      option, which lowers the optimization level.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="output-name-o-name" id="output-name-o-name">
+      -output
+      <span class="emphasis" id="-lhy7bw_334">
+       name
+      </span>
+      (-o
+      <span class="emphasis" id="-lhy7bw_335">
+       name
+      </span>
+      )
+     </h3>
+     <p id="-lhy7bw_333">
+      Set the name for the output file.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="entry-name-e-name" id="entry-name-e-name">
+      -entry
+      <span class="emphasis" id="-lhy7bw_338">
+       name
+      </span>
+      (-e
+      <span class="emphasis" id="-lhy7bw_339">
+       name
+      </span>
+      )
+     </h3>
+     <p id="-lhy7bw_337">
+      Specify the qualified entry point name.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="produce-output-p-output" id="produce-output-p-output">
+      -produce
+      <span class="emphasis" id="-lhy7bw_343">
+       output
+      </span>
+      (-p
+      <span class="emphasis" id="-lhy7bw_344">
+       output
+      </span>
+      )
+     </h3>
+     <p id="-lhy7bw_341">
+      Specify output file kind:
+     </p>
+     <ul class="list _bullet" id="-lhy7bw_342">
+      <li class="list__item" id="-lhy7bw_345">
+       <p>
+        <code class="code" id="-lhy7bw_351">
+         program
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="-lhy7bw_346">
+       <p>
+        <code class="code" id="-lhy7bw_352">
+         static
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="-lhy7bw_347">
+       <p>
+        <code class="code" id="-lhy7bw_353">
+         dynamic
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="-lhy7bw_348">
+       <p>
+        <code class="code" id="-lhy7bw_354">
+         framework
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="-lhy7bw_349">
+       <p>
+        <code class="code" id="-lhy7bw_355">
+         library
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="-lhy7bw_350">
+       <p>
+        <code class="code" id="-lhy7bw_356">
+         bitcode
+        </code>
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="repo-path-r-path" id="repo-path-r-path">
+      -repo
+      <span class="emphasis" id="-lhy7bw_359">
+       path
+      </span>
+      (-r
+      <span class="emphasis" id="-lhy7bw_360">
+       path
+      </span>
+      )
+     </h3>
+     <p id="-lhy7bw_358">
+      Library search path. For more information, see
+      <a data-tooltip="When given a -library foo flag, the compiler searches the foo library in the following order:" href="native-libraries.html#library-search-sequence" id="-lhy7bw_361">
+       Library search sequence
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="target-target" id="target-target">
+      -target
+      <span class="emphasis" id="-lhy7bw_364">
+       target
+      </span>
+     </h3>
+     <p id="-lhy7bw_363">
+      Set hardware target. To see the list of available targets, use the
+      <a data-tooltip="List the available hardware targets." href="#list-targets" id="-lhy7bw_365">
+       <code class="code" id="-lhy7bw_366">
+        -list-targets
+       </code>
+      </a>
+      option.
+     </p>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,2988 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="multiplatform-dsl-reference" id="multiplatform-dsl-reference.md">
+    Multiplatform Gradle DSL reference
+   </h1>
+   <p id="u0d2vj_2">
+    The Kotlin Multiplatform Gradle plugin is a tool for creating Kotlin Multiplatform projects. Here we provide a reference of its contents; use it as a reminder when writing Gradle build scripts for Kotlin Multiplatform projects. Learn the
+    <a data-tooltip="Support for multiplatform programming is one of Kotlin's key benefits. It reduces time spent writing and maintaining the same code for different platforms while retaining the flexibility and benefits of native programming." href="multiplatform-intro.html" id="u0d2vj_11">
+     concepts of Kotlin Multiplatform projects, how to create and configure them
+    </a>
+    .
+   </p>
+   <section class="chapter">
+    <h2 data-toc="id-and-version" id="id-and-version">
+     Id and version
+    </h2>
+    <p id="u0d2vj_12">
+     The fully qualified name of the Kotlin Multiplatform Gradle plugin is
+     <code class="code" id="u0d2vj_14">
+      org.jetbrains.kotlin.multiplatform
+     </code>
+     . If you use the Kotlin Gradle DSL, you can apply the plugin with
+     <code class="code" id="u0d2vj_15">
+      kotlin("multiplatform")
+     </code>
+     . The plugin versions match the Kotlin release versions. The most recent version is 2.1.0.
+    </p>
+    <div class="tabs" data-anchors="[u0d2vj_16,u0d2vj_17]" data-group="build-script" id="u0d2vj_13">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_16">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       plugins {
+    kotlin("multiplatform") version "2.1.0"
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_17">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version '2.1.0'
+}
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="top-level-blocks" id="top-level-blocks">
+     Top-level blocks
+    </h2>
+    <p id="u0d2vj_20">
+     <code class="code" id="u0d2vj_22">
+      kotlin {}
+     </code>
+     is the top-level block for multiplatform project configuration in the Gradle build script. Inside
+     <code class="code" id="u0d2vj_23">
+      kotlin {}
+     </code>
+     , you can write the following blocks:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="u0d2vj_21">
+      <thead>
+       <tr class="ijRowHead" id="u0d2vj_24">
+        <th id="u0d2vj_29">
+         <p>
+          <span class="control" id="u0d2vj_31">
+           Block
+          </span>
+         </p>
+        </th>
+        <th id="u0d2vj_30">
+         <p>
+          <span class="control" id="u0d2vj_32">
+           Description
+          </span>
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="u0d2vj_25">
+        <td id="u0d2vj_33">
+         <p>
+          <span class="emphasis" id="u0d2vj_35">
+           &lt;targetName&gt;
+          </span>
+         </p>
+        </td>
+        <td id="u0d2vj_34">
+         <p>
+          Declares a particular target of a project. The names of available targets are listed in the
+          <a data-tooltip="A target is a part of the build responsible for compiling, testing, and packaging a piece of software aimed at one of the supported platforms. Kotlin provides targets for each platform, so you can instruct Kotlin to compile code for that specific target. Learn more about setting up…" href="#targets" id="u0d2vj_36">
+           Targets
+          </a>
+          section.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_26">
+        <td id="u0d2vj_37">
+         <p>
+          <code class="code" id="u0d2vj_39">
+           targets
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_38">
+         <p>
+          Lists all targets of the project.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_27">
+        <td id="u0d2vj_40">
+         <p>
+          <code class="code" id="u0d2vj_42">
+           sourceSets
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_41">
+         <p>
+          Configures predefined and declares custom
+          <a data-tooltip="The sourceSets {} block describes source sets of the project. A source set contains Kotlin source files that participate in compilations together, along with their resources, dependencies, and language settings." href="#source-sets" id="u0d2vj_43">
+           source sets
+          </a>
+          of the project.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_28">
+        <td id="u0d2vj_44">
+         <p>
+          <code class="code" id="u0d2vj_46">
+           compilerOptions
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_45">
+         <p>
+          Specifies common extension-level
+          <a data-tooltip="You can configure compiler options in your projects at three different levels:" href="#compiler-options" id="u0d2vj_47">
+           compiler options
+          </a>
+          that are used as defaults for all targets and shared source sets.
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="targets" id="targets">
+     Targets
+    </h2>
+    <p id="u0d2vj_48">
+     A
+     <span class="emphasis" id="u0d2vj_62">
+      target
+     </span>
+     is a part of the build responsible for compiling, testing, and packaging a piece of software aimed at one of the supported platforms. Kotlin provides targets for each platform, so you can instruct Kotlin to compile code for that specific target. Learn more about
+     <a data-tooltip="Targets define the platforms to which Kotlin compiles the common code. These could be, for example, the JVM, JS, Android, iOS, or Linux. The previous example compiled the common code to the JVM and native targets." href="multiplatform-discover-project.html#targets" id="u0d2vj_63">
+      setting up targets
+     </a>
+     .
+    </p>
+    <p id="u0d2vj_49">
+     Each target can have one or more
+     <a data-tooltip="A target can have one or more compilations, for example, for production or testing. There are predefined compilations that are added automatically upon target creation. You can additionally create custom compilations." href="#compilations" id="u0d2vj_64">
+      compilations
+     </a>
+     . In addition to default compilations for test and production purposes, you can
+     <a data-tooltip="If you need to compile something other than production code and unit tests, for example, integration or performance tests, create a custom compilation." href="multiplatform-configure-compilations.html#create-a-custom-compilation" id="u0d2vj_65">
+      create custom compilations
+     </a>
+     .
+    </p>
+    <p id="u0d2vj_50">
+     The targets of a multiplatform project are described in the corresponding blocks inside
+     <code class="code" id="u0d2vj_66">
+      kotlin {}
+     </code>
+     , for example,
+     <code class="code" id="u0d2vj_67">
+      jvm
+     </code>
+     ,
+     <code class="code" id="u0d2vj_68">
+      androidTarget
+     </code>
+     ,
+     <code class="code" id="u0d2vj_69">
+      iosArm64
+     </code>
+     . The complete list of available targets is the following:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="u0d2vj_51">
+      <thead>
+       <tr class="ijRowHead" id="u0d2vj_70">
+        <th id="u0d2vj_77">
+         <p>
+          Target platform
+         </p>
+        </th>
+        <th id="u0d2vj_78">
+         <p>
+          Target
+         </p>
+        </th>
+        <th id="u0d2vj_79">
+         <p>
+          Comments
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="u0d2vj_71">
+        <td id="u0d2vj_80">
+         <p>
+          Kotlin/JVM
+         </p>
+        </td>
+        <td id="u0d2vj_81">
+         <p>
+          <code class="code" id="u0d2vj_83">
+           jvm
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_82">
+        </td>
+       </tr>
+       <tr id="u0d2vj_72">
+        <td id="u0d2vj_84" rowspan="2">
+         <p>
+          Kotlin/Wasm
+         </p>
+        </td>
+        <td id="u0d2vj_85">
+         <p>
+          <code class="code" id="u0d2vj_87">
+           wasmJs
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_86">
+         <p>
+          Use it if you plan to run your projects in the JavaScript runtime.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_73">
+        <td id="u0d2vj_88">
+         <p>
+          <code class="code" id="u0d2vj_90">
+           wasmWasi
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_89">
+         <p>
+          Use it if you need support for the
+          <a data-external="true" href="https://github.com/WebAssembly/WASI" id="u0d2vj_91" rel="noopener noreferrer">
+           WASI
+          </a>
+          system interface.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_74">
+        <td id="u0d2vj_92">
+         <p>
+          Kotlin/JS
+         </p>
+        </td>
+        <td id="u0d2vj_93">
+         <p>
+          <code class="code" id="u0d2vj_95">
+           js
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_94">
+         <p id="u0d2vj_96">
+          Select the execution environment:
+         </p>
+         <ul class="list _bullet" id="u0d2vj_97">
+          <li class="list__item" id="u0d2vj_99">
+           <p>
+            <code class="code" id="u0d2vj_101">
+             browser {}
+            </code>
+            for applications running in the browser.
+           </p>
+          </li>
+          <li class="list__item" id="u0d2vj_100">
+           <p>
+            <code class="code" id="u0d2vj_102">
+             nodejs {}
+            </code>
+            for applications running on Node.js.
+           </p>
+          </li>
+         </ul>
+         <p id="u0d2vj_98">
+          Learn more in
+          <a data-tooltip="Kotlin/JS projects can target two different execution environments:" href="js-project-setup.html#execution-environments" id="u0d2vj_103">
+           Setting up a Kotlin/JS project
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_75">
+        <td id="u0d2vj_104">
+         <p>
+          Kotlin/Native
+         </p>
+        </td>
+        <td id="u0d2vj_105">
+        </td>
+        <td id="u0d2vj_106">
+         <p id="u0d2vj_107">
+          Learn about currently supported targets for the macOS, Linux, and Windows hosts in
+          <a data-tooltip="The Kotlin/Native compiler supports a great number of different targets, though it is hard to provide the same level of support for all of them. This document describes which targets Kotlin/Native supports and breaks them into several tiers depending on how well the compiler…" href="native-target-support.html" id="u0d2vj_108">
+           Kotlin/Native target support
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_76">
+        <td id="u0d2vj_109">
+         <p>
+          Android applications and libraries
+         </p>
+        </td>
+        <td id="u0d2vj_110">
+         <p>
+          <code class="code" id="u0d2vj_112">
+           androidTarget
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_111">
+         <p id="u0d2vj_113">
+          Manually apply an Android Gradle plugin:
+          <code class="code" id="u0d2vj_115">
+           com.android.application
+          </code>
+          or
+          <code class="code" id="u0d2vj_116">
+           com.android.library
+          </code>
+          .
+         </p>
+         <p id="u0d2vj_114">
+          You can only create one Android target per Gradle subproject.
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <aside class="prompt" data-title="" data-type="note" id="u0d2vj_52">
+     <p id="u0d2vj_117">
+      A target that is not supported by the current host is ignored during building and, therefore, not published.
+     </p>
+    </aside>
+    <div class="code-block" data-lang="groovy">
+     kotlin {
+    jvm()
+    iosArm64()
+    macosX64()
+    js().browser()
+}
+    </div>
+    <p id="u0d2vj_54">
+     The configuration of a target can include two parts:
+    </p>
+    <ul class="list _bullet" id="u0d2vj_55">
+     <li class="list__item" id="u0d2vj_118">
+      <p>
+       <a data-tooltip="In any target block, you can use the following declarations:" href="#common-target-configuration" id="u0d2vj_120">
+        Common configuration
+       </a>
+       available for all targets.
+      </p>
+     </li>
+     <li class="list__item" id="u0d2vj_119">
+      <p>
+       Target-specific configuration.
+      </p>
+     </li>
+    </ul>
+    <p id="u0d2vj_56">
+     Each target can have one or more
+     <a data-tooltip="A target can have one or more compilations, for example, for production or testing. There are predefined compilations that are added automatically upon target creation. You can additionally create custom compilations." href="#compilations" id="u0d2vj_121">
+      compilations
+     </a>
+     .
+    </p>
+    <section class="chapter">
+     <h3 data-toc="common-target-configuration" id="common-target-configuration">
+      Common target configuration
+     </h3>
+     <p id="u0d2vj_122">
+      In any target block, you can use the following declarations:
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="u0d2vj_123">
+       <thead>
+        <tr class="ijRowHead" id="u0d2vj_124">
+         <th id="u0d2vj_129">
+          <p>
+           <span class="control" id="u0d2vj_131">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="u0d2vj_130">
+          <p>
+           <span class="control" id="u0d2vj_132">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="u0d2vj_125">
+         <td id="u0d2vj_133">
+          <p>
+           <code class="code" id="u0d2vj_135">
+            platformType
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_134">
+          <p>
+           The Kotlin platform for this target. Available values:
+           <code class="code" id="u0d2vj_136">
+            jvm
+           </code>
+           ,
+           <code class="code" id="u0d2vj_137">
+            androidJvm
+           </code>
+           ,
+           <code class="code" id="u0d2vj_138">
+            js
+           </code>
+           ,
+           <code class="code" id="u0d2vj_139">
+            wasm
+           </code>
+           ,
+           <code class="code" id="u0d2vj_140">
+            native
+           </code>
+           ,
+           <code class="code" id="u0d2vj_141">
+            common
+           </code>
+           .
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_126">
+         <td id="u0d2vj_142">
+          <p>
+           <code class="code" id="u0d2vj_144">
+            artifactsTaskName
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_143">
+          <p>
+           The name of the task that builds the resulting artifacts of this target.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_127">
+         <td id="u0d2vj_145">
+          <p>
+           <code class="code" id="u0d2vj_147">
+            components
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_146">
+          <p>
+           Components used to set up Gradle publications.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_128">
+         <td id="u0d2vj_148">
+          <p>
+           <code class="code" id="u0d2vj_150">
+            compilerOptions
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_149">
+          <p>
+           <a data-tooltip="You can configure compiler options in your projects at three different levels:" href="#compiler-options" id="u0d2vj_151">
+            Compiler options
+           </a>
+           used for the target. This declaration overrides any
+           <code class="code" id="u0d2vj_152">
+            compilerOptions {}
+           </code>
+           configured at
+           <a data-tooltip="kotlin {} is the top-level block for multiplatform project configuration in the Gradle build script. Inside kotlin {}, you can write the following blocks:" href="#top-level-blocks" id="u0d2vj_153">
+            top level
+           </a>
+           .
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="jvm-targets" id="jvm-targets">
+      JVM targets
+     </h3>
+     <p id="u0d2vj_154">
+      In addition to
+      <a data-tooltip="In any target block, you can use the following declarations:" href="#common-target-configuration" id="u0d2vj_158">
+       common target configuration
+      </a>
+      ,
+      <code class="code" id="u0d2vj_159">
+       jvm
+      </code>
+      targets have a specific function:
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="u0d2vj_155">
+       <thead>
+        <tr class="ijRowHead" id="u0d2vj_160">
+         <th id="u0d2vj_162">
+          <p>
+           <span class="control" id="u0d2vj_164">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="u0d2vj_163">
+          <p>
+           <span class="control" id="u0d2vj_165">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="u0d2vj_161">
+         <td id="u0d2vj_166">
+          <p>
+           <code class="code" id="u0d2vj_168">
+            withJava()
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_167">
+          <p>
+           Includes Java sources into the JVM target's compilations.
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p id="u0d2vj_156">
+      Use this function for projects that contain both Java and Kotlin source files. Note that the default source directories for Java sources don't follow the Java plugin's defaults. Instead, they are derived from the Kotlin source sets. For example, if the JVM target has the default name
+      <code class="code" id="u0d2vj_169">
+       jvm
+      </code>
+      , the paths are
+      <code class="code" id="u0d2vj_170">
+       src/jvmMain/java
+      </code>
+      (for production Java sources) and
+      <code class="code" id="u0d2vj_171">
+       src/jvmTest/java
+      </code>
+      for test Java sources. Learn more about
+      <a data-tooltip="When creating a project with the project wizard, Java sources are included in the compilations of the JVM target." href="multiplatform-configure-compilations.html#use-java-sources-in-jvm-compilations" id="u0d2vj_172">
+       Java sources in JVM compilations
+      </a>
+      .
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    jvm {
+        withJava()
+    } 
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="web-targets" id="web-targets">
+      Web targets
+     </h3>
+     <p id="u0d2vj_173">
+      The
+      <code class="code" id="u0d2vj_181">
+       js {}
+      </code>
+      block describes the configuration of Kotlin/JS targets, and the
+      <code class="code" id="u0d2vj_182">
+       wasmJs {}
+      </code>
+      block describes the configuration of Kotlin/Wasm targets interoperable with JavaScript. They can contain one of two blocks depending on the target execution environment:
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="u0d2vj_174">
+       <thead>
+        <tr class="ijRowHead" id="u0d2vj_183">
+         <th id="u0d2vj_186">
+          <p>
+           <span class="control" id="u0d2vj_188">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="u0d2vj_187">
+          <p>
+           <span class="control" id="u0d2vj_189">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="u0d2vj_184">
+         <td id="u0d2vj_190">
+          <p>
+           <a data-tooltip="browser {} can contain the following configuration blocks:" href="#browser" id="u0d2vj_192">
+            <code class="code" id="u0d2vj_193">
+             browser
+            </code>
+           </a>
+          </p>
+         </td>
+         <td id="u0d2vj_191">
+          <p>
+           Configuration of the browser target.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_185">
+         <td id="u0d2vj_194">
+          <p>
+           <a data-tooltip="nodejs {} can contain configurations of test and run tasks:" href="#node-js" id="u0d2vj_196">
+            <code class="code" id="u0d2vj_197">
+             nodejs
+            </code>
+           </a>
+          </p>
+         </td>
+         <td id="u0d2vj_195">
+          <p>
+           Configuration of the Node.js target.
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p id="u0d2vj_175">
+      Learn more about
+      <a data-tooltip="Kotlin/JS projects use Gradle as a build system. To let developers easily manage their Kotlin/JS projects, we offer the kotlin.multiplatform Gradle plugin that provides project configuration tools together with helper tasks for automating routines typical for JavaScript development." href="js-project-setup.html" id="u0d2vj_198">
+       configuring Kotlin/JS projects
+      </a>
+      .
+     </p>
+     <p id="u0d2vj_176">
+      A separate
+      <code class="code" id="u0d2vj_199">
+       wasmWasi {}
+      </code>
+      block describes the configuration of Kotlin/Wasm targets that support the WASI system interface. Here, only the
+      <a data-tooltip="nodejs {} can contain configurations of test and run tasks:" href="#node-js" id="u0d2vj_200">
+       <code class="code" id="u0d2vj_201">
+        nodejs
+       </code>
+      </a>
+      execution environment is available:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    wasmWasi {
+        nodejs()
+        binaries.executable()
+    }
+}
+     </div>
+     <p id="u0d2vj_178">
+      All the web targets,
+      <code class="code" id="u0d2vj_202">
+       js
+      </code>
+      ,
+      <code class="code" id="u0d2vj_203">
+       wasmJs
+      </code>
+      , and
+      <code class="code" id="u0d2vj_204">
+       wasmWasi
+      </code>
+      , also support the
+      <code class="code" id="u0d2vj_205">
+       binaries.executable()
+      </code>
+      call. It explicitly instructs the Kotlin compiler to emit executable files. For more information, see
+      <a data-tooltip="Kotlin/JS projects can target two different execution environments:" href="js-project-setup.html#execution-environments" id="u0d2vj_206">
+       Execution environments
+      </a>
+      in the Kotlin/JS documentation.
+     </p>
+     <section class="chapter">
+      <h4 data-toc="browser" id="browser">
+       Browser
+      </h4>
+      <p id="u0d2vj_207">
+       <code class="code" id="u0d2vj_210">
+        browser {}
+       </code>
+       can contain the following configuration blocks:
+      </p>
+      <div class="table-wrapper">
+       <table class="wide" id="u0d2vj_208">
+        <thead>
+         <tr class="ijRowHead" id="u0d2vj_211">
+          <th id="u0d2vj_216">
+           <p>
+            <span class="control" id="u0d2vj_218">
+             Name
+            </span>
+           </p>
+          </th>
+          <th id="u0d2vj_217">
+           <p>
+            <span class="control" id="u0d2vj_219">
+             Description
+            </span>
+           </p>
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr id="u0d2vj_212">
+          <td id="u0d2vj_220">
+           <p>
+            <code class="code" id="u0d2vj_222">
+             testRuns
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_221">
+           <p>
+            Configuration of test execution.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_213">
+          <td id="u0d2vj_223">
+           <p>
+            <code class="code" id="u0d2vj_225">
+             runTask
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_224">
+           <p>
+            Configuration of project running.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_214">
+          <td id="u0d2vj_226">
+           <p>
+            <code class="code" id="u0d2vj_228">
+             webpackTask
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_227">
+           <p>
+            Configuration of project bundling with
+            <a data-external="true" href="https://webpack.js.org/" id="u0d2vj_229" rel="noopener noreferrer">
+             Webpack
+            </a>
+            .
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_215">
+          <td id="u0d2vj_230">
+           <p>
+            <code class="code" id="u0d2vj_232">
+             distribution
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_231">
+           <p>
+            Path to output files.
+           </p>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    js().browser {
+        webpackTask { /* ... */ }
+        testRuns { /* ... */ }
+        distribution {
+            directory = File("$projectDir/customdir/")
+        }
+    }
+}
+      </div>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="node-js" id="node-js">
+       Node.js
+      </h4>
+      <p id="u0d2vj_233">
+       <code class="code" id="u0d2vj_236">
+        nodejs {}
+       </code>
+       can contain configurations of test and run tasks:
+      </p>
+      <div class="table-wrapper">
+       <table class="wide" id="u0d2vj_234">
+        <thead>
+         <tr class="ijRowHead" id="u0d2vj_237">
+          <th id="u0d2vj_240">
+           <p>
+            <span class="control" id="u0d2vj_242">
+             Name
+            </span>
+           </p>
+          </th>
+          <th id="u0d2vj_241">
+           <p>
+            <span class="control" id="u0d2vj_243">
+             Description
+            </span>
+           </p>
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr id="u0d2vj_238">
+          <td id="u0d2vj_244">
+           <p>
+            <code class="code" id="u0d2vj_246">
+             testRuns
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_245">
+           <p>
+            Configuration of test execution.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_239">
+          <td id="u0d2vj_247">
+           <p>
+            <code class="code" id="u0d2vj_249">
+             runTask
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_248">
+           <p>
+            Configuration of project running.
+           </p>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    js().nodejs {
+        runTask { /* ... */ }
+        testRuns { /* ... */ }
+    }
+}
+      </div>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="native-targets" id="native-targets">
+      Native targets
+     </h3>
+     <p id="u0d2vj_250">
+      For native targets, the following specific blocks are available:
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="u0d2vj_251">
+       <thead>
+        <tr class="ijRowHead" id="u0d2vj_254">
+         <th id="u0d2vj_257">
+          <p>
+           <span class="control" id="u0d2vj_259">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="u0d2vj_258">
+          <p>
+           <span class="control" id="u0d2vj_260">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="u0d2vj_255">
+         <td id="u0d2vj_261">
+          <p>
+           <code class="code" id="u0d2vj_263">
+            binaries
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_262">
+          <p>
+           Configuration of
+           <a data-tooltip="There are the following kinds of binaries:" href="#binaries" id="u0d2vj_264">
+            binaries
+           </a>
+           to produce.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_256">
+         <td id="u0d2vj_265">
+          <p>
+           <code class="code" id="u0d2vj_267">
+            cinterops
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_266">
+          <p>
+           Configuration of
+           <a data-tooltip="cinterops is a collection of descriptions for interop with native libraries. To provide an interop with a library, add an entry to cinterops and define its parameters:" href="#cinterops" id="u0d2vj_268">
+            interop with C libraries
+           </a>
+           .
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <section class="chapter">
+      <h4 data-toc="binaries" id="binaries">
+       Binaries
+      </h4>
+      <p id="u0d2vj_269">
+       There are the following kinds of binaries:
+      </p>
+      <div class="table-wrapper">
+       <table class="wide" id="u0d2vj_270">
+        <thead>
+         <tr class="ijRowHead" id="u0d2vj_276">
+          <th id="u0d2vj_282">
+           <p>
+            <span class="control" id="u0d2vj_284">
+             Name
+            </span>
+           </p>
+          </th>
+          <th id="u0d2vj_283">
+           <p>
+            <span class="control" id="u0d2vj_285">
+             Description
+            </span>
+           </p>
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr id="u0d2vj_277">
+          <td id="u0d2vj_286">
+           <p>
+            <code class="code" id="u0d2vj_288">
+             executable
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_287">
+           <p>
+            Product executable.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_278">
+          <td id="u0d2vj_289">
+           <p>
+            <code class="code" id="u0d2vj_291">
+             test
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_290">
+           <p>
+            Test executable.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_279">
+          <td id="u0d2vj_292">
+           <p>
+            <code class="code" id="u0d2vj_294">
+             sharedLib
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_293">
+           <p>
+            Shared library.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_280">
+          <td id="u0d2vj_295">
+           <p>
+            <code class="code" id="u0d2vj_297">
+             staticLib
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_296">
+           <p>
+            Static library.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_281">
+          <td id="u0d2vj_298">
+           <p>
+            <code class="code" id="u0d2vj_300">
+             framework
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_299">
+           <p>
+            Objective-C framework.
+           </p>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    linuxX64 { // Use your target instead.
+        binaries {
+            executable {
+                // Binary configuration.
+            }
+        }
+    }
+}
+      </div>
+      <p id="u0d2vj_272">
+       For binary configuration, the following parameters are available:
+      </p>
+      <div class="table-wrapper">
+       <table class="wide" id="u0d2vj_273">
+        <thead>
+         <tr class="ijRowHead" id="u0d2vj_301">
+          <th id="u0d2vj_310">
+           <p>
+            <span class="control" id="u0d2vj_312">
+             Name
+            </span>
+           </p>
+          </th>
+          <th id="u0d2vj_311">
+           <p>
+            <span class="control" id="u0d2vj_313">
+             Description
+            </span>
+           </p>
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr id="u0d2vj_302">
+          <td id="u0d2vj_314">
+           <p>
+            <code class="code" id="u0d2vj_316">
+             compilation
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_315">
+           <p>
+            The compilation from which the binary is built. By default,
+            <code class="code" id="u0d2vj_317">
+             test
+            </code>
+            binaries are based on the
+            <code class="code" id="u0d2vj_318">
+             test
+            </code>
+            compilation while other binaries - on the
+            <code class="code" id="u0d2vj_319">
+             main
+            </code>
+            compilation.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_303">
+          <td id="u0d2vj_320">
+           <p>
+            <code class="code" id="u0d2vj_322">
+             linkerOpts
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_321">
+           <p>
+            Options passed to a system linker during binary building.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_304">
+          <td id="u0d2vj_323">
+           <p>
+            <code class="code" id="u0d2vj_325">
+             baseName
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_324">
+           <p>
+            Custom base name for the output file. The final file name will be formed by adding system-dependent prefix and postfix to this base name.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_305">
+          <td id="u0d2vj_326">
+           <p>
+            <code class="code" id="u0d2vj_328">
+             entryPoint
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_327">
+           <p>
+            The entry point function for executable binaries. By default, it's
+            <code class="code" id="u0d2vj_329">
+             main()
+            </code>
+            in the root package.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_306">
+          <td id="u0d2vj_330">
+           <p>
+            <code class="code" id="u0d2vj_332">
+             outputFile
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_331">
+           <p>
+            Access to the output file.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_307">
+          <td id="u0d2vj_333">
+           <p>
+            <code class="code" id="u0d2vj_335">
+             linkTask
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_334">
+           <p>
+            Access to the link task.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_308">
+          <td id="u0d2vj_336">
+           <p>
+            <code class="code" id="u0d2vj_338">
+             runTask
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_337">
+           <p>
+            Access to the run task for executable binaries. For targets other than
+            <code class="code" id="u0d2vj_339">
+             linuxX64
+            </code>
+            ,
+            <code class="code" id="u0d2vj_340">
+             macosX64
+            </code>
+            , or
+            <code class="code" id="u0d2vj_341">
+             mingwX64
+            </code>
+            the value is
+            <code class="code" id="u0d2vj_342">
+             null
+            </code>
+            .
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_309">
+          <td id="u0d2vj_343">
+           <p>
+            <code class="code" id="u0d2vj_345">
+             isStatic
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_344">
+           <p>
+            For Objective-C frameworks. Includes a static library instead of a dynamic one.
+           </p>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="tabs" data-anchors="[u0d2vj_346,u0d2vj_347]" data-group="build-script" id="u0d2vj_274">
+       <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_346">
+        <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+         binaries {
+    executable("my_executable", listOf(RELEASE)) {
+        // Build a binary on the basis of the test compilation.
+        compilation = compilations["test"]
+
+        // Custom command line options for the linker.
+        linkerOpts = mutableListOf("-L/lib/search/path", "-L/another/search/path", "-lmylib")
+
+        // Base name for the output file.
+        baseName = "foo"
+
+        // Custom entry point function.
+        entryPoint = "org.example.main"
+
+        // Accessing the output file.
+        println("Executable path: ${outputFile.absolutePath}")
+
+        // Accessing the link task.
+        linkTask.dependsOn(additionalPreprocessingTask)
+
+        // Accessing the run task.
+        // Note that the runTask is null for non-host platforms.
+        runTask?.dependsOn(prepareForRun)
+    }
+
+    framework("my_framework" listOf(RELEASE)) {
+        // Include a static library instead of a dynamic one into the framework.
+        isStatic = true
+    }
+}
+        </div>
+       </div>
+       <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_347">
+        <div class="code-block" data-lang="groovy" data-title="Groovy">
+         binaries {
+    executable('my_executable', [RELEASE]) {
+        // Build a binary on the basis of the test compilation.
+        compilation = compilations.test
+
+        // Custom command line options for the linker.
+        linkerOpts = ['-L/lib/search/path', '-L/another/search/path', '-lmylib']
+
+        // Base name for the output file.
+        baseName = 'foo'
+
+        // Custom entry point function.
+        entryPoint = 'org.example.main'
+
+        // Accessing the output file.
+        println("Executable path: ${outputFile.absolutePath}")
+
+        // Accessing the link task.
+        linkTask.dependsOn(additionalPreprocessingTask)
+
+        // Accessing the run task.
+        // Note that the runTask is null for non-host platforms.
+        runTask?.dependsOn(prepareForRun)
+    }
+
+    framework('my_framework' [RELEASE]) {
+        // Include a static library instead of a dynamic one into the framework.
+        isStatic = true
+    }
+}
+        </div>
+       </div>
+      </div>
+      <p id="u0d2vj_275">
+       Learn more about
+       <a data-tooltip="By default, a Kotlin/Native target is compiled down to a *.klib library artifact, which can be consumed by Kotlin/Native itself as a dependency but cannot be executed or used as a native library." href="multiplatform-build-native-binaries.html" id="u0d2vj_350">
+        building native binaries
+       </a>
+       .
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="cinterops" id="cinterops">
+       CInterops
+      </h4>
+      <p id="u0d2vj_351">
+       <code class="code" id="u0d2vj_355">
+        cinterops
+       </code>
+       is a collection of descriptions for interop with native libraries. To provide an interop with a library, add an entry to
+       <code class="code" id="u0d2vj_356">
+        cinterops
+       </code>
+       and define its parameters:
+      </p>
+      <div class="table-wrapper">
+       <table class="wide" id="u0d2vj_352">
+        <thead>
+         <tr class="ijRowHead" id="u0d2vj_357">
+          <th id="u0d2vj_364">
+           <p>
+            <span class="control" id="u0d2vj_366">
+             Name
+            </span>
+           </p>
+          </th>
+          <th id="u0d2vj_365">
+           <p>
+            <span class="control" id="u0d2vj_367">
+             Description
+            </span>
+           </p>
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr id="u0d2vj_358">
+          <td id="u0d2vj_368">
+           <p>
+            <code class="code" id="u0d2vj_370">
+             definitionFile
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_369">
+           <p>
+            The
+            <code class="code" id="u0d2vj_371">
+             .def
+            </code>
+            file describing the native API.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_359">
+          <td id="u0d2vj_372">
+           <p>
+            <code class="code" id="u0d2vj_374">
+             packageName
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_373">
+           <p>
+            Package prefix for the generated Kotlin API.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_360">
+          <td id="u0d2vj_375">
+           <p>
+            <code class="code" id="u0d2vj_377">
+             compilerOpts
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_376">
+           <p>
+            Options to pass to the compiler by the cinterop tool.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_361">
+          <td id="u0d2vj_378">
+           <p>
+            <code class="code" id="u0d2vj_380">
+             includeDirs
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_379">
+           <p>
+            Directories to look for headers.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_362">
+          <td id="u0d2vj_381">
+           <p>
+            <code class="code" id="u0d2vj_383">
+             header
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_382">
+           <p>
+            Header to be included in the bindings.
+           </p>
+          </td>
+         </tr>
+         <tr id="u0d2vj_363">
+          <td id="u0d2vj_384">
+           <p>
+            <code class="code" id="u0d2vj_386">
+             headers
+            </code>
+           </p>
+          </td>
+          <td id="u0d2vj_385">
+           <p>
+            The list of headers to be included in the bindings.
+           </p>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="tabs" data-anchors="[u0d2vj_387,u0d2vj_388]" data-group="build-script" id="u0d2vj_353">
+       <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_387">
+        <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+         kotlin {
+    linuxX64 { // Replace with a target you need.
+        compilations.getByName("main") {
+            val myInterop by cinterops.creating {
+                // Def-file describing the native API.
+                // The default path is src/nativeInterop/cinterop/&lt;interop-name&gt;.def
+                definitionFile.set(project.file("def-file.def"))
+
+                // Package to place the Kotlin API generated.
+                packageName("org.sample")
+
+                // Options to be passed to compiler by cinterop tool.
+                compilerOpts("-Ipath/to/headers")
+
+                // Directories for header search (an analogue of the -I&lt;path&gt; compiler option).
+                includeDirs.allHeaders("path1", "path2")
+
+                // A shortcut for includeDirs.allHeaders.
+                includeDirs("include/directory", "another/directory")
+
+                // Header files to be included in the bindings.
+                header("path/to/header.h")
+                headers("path/to/header1.h", "path/to/header2.h")
+            }
+
+            val anotherInterop by cinterops.creating { /* ... */ }
+        }
+    }
+}
+        </div>
+       </div>
+       <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_388">
+        <div class="code-block" data-lang="groovy" data-title="Groovy">
+         kotlin {
+    linuxX64 { // Replace with a target you need.
+        compilations.main {
+            cinterops {
+                myInterop {
+                    // Def-file describing the native API.
+                    // The default path is src/nativeInterop/cinterop/&lt;interop-name&gt;.def
+                    definitionFile = project.file("def-file.def")
+
+                    // Package to place the Kotlin API generated.
+                    packageName 'org.sample'
+
+                    // Options to be passed to compiler by cinterop tool.
+                    compilerOpts '-Ipath/to/headers'
+
+                    // Directories for header search (an analogue of the -I&lt;path&gt; compiler option).
+                    includeDirs.allHeaders("path1", "path2")
+
+                    // A shortcut for includeDirs.allHeaders.
+                    includeDirs("include/directory", "another/directory")
+
+                    // Header files to be included in the bindings.
+                    header("path/to/header.h")
+                    headers("path/to/header1.h", "path/to/header2.h")
+                }
+
+                anotherInterop { /* ... */ }
+            }
+        }
+    }
+}
+        </div>
+       </div>
+      </div>
+      <p id="u0d2vj_354">
+       For more cinterop properties, see
+       <a data-tooltip="Here's the full list of properties you can use in your definition file to adjust the content of the generated binaries. For more information, see the corresponding sections below." href="native-definition-file.html#properties" id="u0d2vj_391">
+        Definition file
+       </a>
+       .
+      </p>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="android-targets" id="android-targets">
+      Android targets
+     </h3>
+     <p id="u0d2vj_392">
+      The Kotlin Multiplatform plugin contains two specific functions for android targets. Two functions help you configure
+      <a data-external="true" href="https://developer.android.com/studio/build/build-variants" id="u0d2vj_397" rel="noopener noreferrer">
+       build variants
+      </a>
+      :
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="u0d2vj_393">
+       <thead>
+        <tr class="ijRowHead" id="u0d2vj_398">
+         <th id="u0d2vj_401">
+          <p>
+           <span class="control" id="u0d2vj_403">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="u0d2vj_402">
+          <p>
+           <span class="control" id="u0d2vj_404">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="u0d2vj_399">
+         <td id="u0d2vj_405">
+          <p>
+           <code class="code" id="u0d2vj_407">
+            publishLibraryVariants()
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_406">
+          <p>
+           Specifies build variants to publish. Learn more about
+           <a data-tooltip="To publish an Android library, you need to provide additional configuration." href="multiplatform-publish-lib.html#publish-an-android-library" id="u0d2vj_408">
+            publishing Android libraries
+           </a>
+           .
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_400">
+         <td id="u0d2vj_409">
+          <p>
+           <code class="code" id="u0d2vj_411">
+            publishAllLibraryVariants()
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_410">
+          <p>
+           Publishes all build variants.
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    androidTarget {
+        publishLibraryVariants("release")
+    }
+}
+     </div>
+     <p id="u0d2vj_395">
+      Learn more about
+      <a data-tooltip="The compilations created for an Android target by default are tied to Android build variants: for each build variant, a Kotlin compilation is created under the same name." href="multiplatform-configure-compilations.html#compilation-for-android" id="u0d2vj_412">
+       compilation for Android
+      </a>
+      .
+     </p>
+     <aside class="prompt" data-title="" data-type="note" id="u0d2vj_396">
+      <p id="u0d2vj_413">
+       The
+       <code class="code" id="u0d2vj_414">
+        androidTarget
+       </code>
+       configuration inside the
+       <code class="code" id="u0d2vj_415">
+        kotlin {}
+       </code>
+       block doesn't replace the build configuration of any Android project. Learn more about writing build scripts for Android projects in
+       <a data-external="true" href="https://developer.android.com/studio/build" id="u0d2vj_416" rel="noopener noreferrer">
+        Android developer documentation
+       </a>
+       .
+      </p>
+     </aside>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="source-sets" id="source-sets">
+     Source sets
+    </h2>
+    <p id="u0d2vj_417">
+     The
+     <code class="code" id="u0d2vj_422">
+      sourceSets {}
+     </code>
+     block describes source sets of the project. A source set contains Kotlin source files that participate in compilations together, along with their resources, dependencies, and language settings.
+    </p>
+    <p id="u0d2vj_418">
+     A multiplatform project contains
+     <a data-tooltip="Predefined source sets are set up automatically upon creation of a multiplatform project. Available predefined source sets are the following:" href="#predefined-source-sets" id="u0d2vj_423">
+      predefined
+     </a>
+     source sets for its targets; developers can also create
+     <a data-tooltip="Custom source sets are created by the project developers manually. To create a custom source set, add a section with its name inside the sourceSets section. If using Kotlin Gradle DSL, mark custom source sets by creating." href="#custom-source-sets" id="u0d2vj_424">
+      custom
+     </a>
+     source sets for their needs.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="predefined-source-sets" id="predefined-source-sets">
+      Predefined source sets
+     </h3>
+     <p id="u0d2vj_425">
+      Predefined source sets are set up automatically upon creation of a multiplatform project. Available predefined source sets are the following:
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="u0d2vj_426">
+       <thead>
+        <tr class="ijRowHead" id="u0d2vj_430">
+         <th id="u0d2vj_434">
+          <p>
+           <span class="control" id="u0d2vj_436">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="u0d2vj_435">
+          <p>
+           <span class="control" id="u0d2vj_437">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="u0d2vj_431">
+         <td id="u0d2vj_438">
+          <p>
+           <code class="code" id="u0d2vj_440">
+            commonMain
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_439">
+          <p>
+           Code and resources shared between all platforms. Available in all multiplatform projects. Used in all main
+           <a data-tooltip="A target can have one or more compilations, for example, for production or testing. There are predefined compilations that are added automatically upon target creation. You can additionally create custom compilations." href="#compilations" id="u0d2vj_441">
+            compilations
+           </a>
+           of a project.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_432">
+         <td id="u0d2vj_442">
+          <p>
+           <code class="code" id="u0d2vj_444">
+            commonTest
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_443">
+          <p>
+           Test code and resources shared between all platforms. Available in all multiplatform projects. Used in all test compilations of a project.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_433">
+         <td id="u0d2vj_445">
+          <p>
+           <span class="emphasis" id="u0d2vj_447">
+            &lt;targetName&gt;&lt;compilationName&gt;
+           </span>
+          </p>
+         </td>
+         <td id="u0d2vj_446">
+          <p>
+           Target-specific sources for a compilation.
+           <span class="emphasis" id="u0d2vj_448">
+            &lt;targetName&gt;
+           </span>
+           is the name of a predefined target and
+           <span class="emphasis" id="u0d2vj_449">
+            &lt;compilationName&gt;
+           </span>
+           is the name of a compilation for this target. Examples:
+           <code class="code" id="u0d2vj_450">
+            jsTest
+           </code>
+           ,
+           <code class="code" id="u0d2vj_451">
+            jvmMain
+           </code>
+           .
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p id="u0d2vj_427">
+      With Kotlin Gradle DSL, the sections of predefined source sets should be marked
+      <code class="code" id="u0d2vj_452">
+       by getting
+      </code>
+      .
+     </p>
+     <div class="tabs" data-anchors="[u0d2vj_453,u0d2vj_454]" data-group="build-script" id="u0d2vj_428">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_453">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {
+    sourceSets {
+        val commonMain by getting { /* ... */ }
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_454">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin { 
+    sourceSets { 
+        commonMain { /* ... */ } 
+    }
+}
+       </div>
+      </div>
+     </div>
+     <p id="u0d2vj_429">
+      Learn more about
+      <a data-tooltip="A Kotlin source set is a set of source files with its own targets, dependencies, and compiler options. It's the main way to share code in multiplatform projects." href="multiplatform-discover-project.html#source-sets" id="u0d2vj_457">
+       source sets
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="custom-source-sets" id="custom-source-sets">
+      Custom source sets
+     </h3>
+     <p id="u0d2vj_458">
+      Custom source sets are created by the project developers manually. To create a custom source set, add a section with its name inside the
+      <code class="code" id="u0d2vj_461">
+       sourceSets
+      </code>
+      section. If using Kotlin Gradle DSL, mark custom source sets
+      <code class="code" id="u0d2vj_462">
+       by creating
+      </code>
+      .
+     </p>
+     <div class="tabs" data-anchors="[u0d2vj_463,u0d2vj_464]" data-group="build-script" id="u0d2vj_459">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_463">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin { 
+    sourceSets { 
+        val myMain by creating { /* ... */ } // create a new source set by the name 'MyMain'
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_464">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin { 
+    sourceSets { 
+        myMain { /* ... */ } // create or configure a source set by the name 'myMain' 
+    }
+}
+       </div>
+      </div>
+     </div>
+     <p id="u0d2vj_460">
+      Note that a newly created source set isn't connected to other ones. To use it in the project's compilations,
+      <a data-tooltip="You can manually introduce an intermediate source in the source set structure. It will hold the shared code for several targets." href="multiplatform-hierarchy.html#manual-configuration" id="u0d2vj_467">
+       connect it with other source sets
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="source-set-parameters" id="source-set-parameters">
+      Source set parameters
+     </h3>
+     <p id="u0d2vj_468">
+      Configurations of source sets are stored inside the corresponding blocks of
+      <code class="code" id="u0d2vj_471">
+       sourceSets {}
+      </code>
+      . A source set has the following parameters:
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="u0d2vj_469">
+       <thead>
+        <tr class="ijRowHead" id="u0d2vj_472">
+         <th id="u0d2vj_478">
+          <p>
+           <span class="control" id="u0d2vj_480">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="u0d2vj_479">
+          <p>
+           <span class="control" id="u0d2vj_481">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="u0d2vj_473">
+         <td id="u0d2vj_482">
+          <p>
+           <code class="code" id="u0d2vj_484">
+            kotlin.srcDir
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_483">
+          <p>
+           Location of Kotlin source files inside the source set directory.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_474">
+         <td id="u0d2vj_485">
+          <p>
+           <code class="code" id="u0d2vj_487">
+            resources.srcDir
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_486">
+          <p>
+           Location of resources inside the source set directory.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_475">
+         <td id="u0d2vj_488">
+          <p>
+           <code class="code" id="u0d2vj_490">
+            dependsOn
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_489">
+          <p>
+           <a data-tooltip="You can manually introduce an intermediate source in the source set structure. It will hold the shared code for several targets." href="multiplatform-hierarchy.html#manual-configuration" id="u0d2vj_491">
+            Connection with another source set
+           </a>
+           .
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_476">
+         <td id="u0d2vj_492">
+          <p>
+           <code class="code" id="u0d2vj_494">
+            dependencies
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_493">
+          <p>
+           <a data-tooltip="The dependencies {} block of the source set declaration contains the dependencies of this source set." href="#dependencies" id="u0d2vj_495">
+            Dependencies
+           </a>
+           of the source set.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_477">
+         <td id="u0d2vj_496">
+          <p>
+           <code class="code" id="u0d2vj_498">
+            languageSettings
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_497">
+          <p>
+           <a data-tooltip="The languageSettings {} block of a source set defines certain aspects of project analysis and build. The following language settings are available:" href="#language-settings" id="u0d2vj_499">
+            Language settings
+           </a>
+           applied to the source set.
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <div class="tabs" data-anchors="[u0d2vj_500,u0d2vj_501]" data-group="build-script" id="u0d2vj_470">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_500">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin { 
+    sourceSets { 
+        val commonMain by getting {
+            kotlin.srcDir("src")
+            resources.srcDir("res")
+
+            dependencies {
+                /* ... */
+            }
+        }
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_501">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin { 
+    sourceSets { 
+        commonMain {
+            kotlin.srcDir('src')
+            resources.srcDir('res')
+
+            dependencies {
+                /* ... */
+            }
+        }
+    }
+}
+       </div>
+      </div>
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="compilations" id="compilations">
+     Compilations
+    </h2>
+    <p id="u0d2vj_504">
+     A target can have one or more compilations, for example, for production or testing. There are
+     <a data-tooltip="Predefined compilations are created automatically for each target of a project except for Android targets. Available predefined compilations are the following:" href="#predefined-compilations" id="u0d2vj_510">
+      predefined compilations
+     </a>
+     that are added automatically upon target creation. You can additionally create
+     <a data-tooltip="In addition to predefined compilations, you can create your own custom compilations. To create a custom compilation, add a new item into the compilations collection. If using Kotlin Gradle DSL, mark custom compilations by creating." href="#custom-compilations" id="u0d2vj_511">
+      custom compilations
+     </a>
+     .
+    </p>
+    <p id="u0d2vj_505">
+     To refer to all or some particular compilations of a target, use the
+     <code class="code" id="u0d2vj_512">
+      compilations
+     </code>
+     object collection. From
+     <code class="code" id="u0d2vj_513">
+      compilations
+     </code>
+     , you can refer to a compilation by its name.
+    </p>
+    <p id="u0d2vj_506">
+     Learn more about
+     <a data-tooltip="Kotlin multiplatform projects use compilations for producing artifacts. Each target can have one or more compilations, for example, for production and test purposes." href="multiplatform-configure-compilations.html" id="u0d2vj_514">
+      configuring compilations
+     </a>
+     .
+    </p>
+    <section class="chapter">
+     <h3 data-toc="predefined-compilations" id="predefined-compilations">
+      Predefined compilations
+     </h3>
+     <p id="u0d2vj_515">
+      Predefined compilations are created automatically for each target of a project except for Android targets. Available predefined compilations are the following:
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="u0d2vj_516">
+       <thead>
+        <tr class="ijRowHead" id="u0d2vj_518">
+         <th id="u0d2vj_521">
+          <p>
+           <span class="control" id="u0d2vj_523">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="u0d2vj_522">
+          <p>
+           <span class="control" id="u0d2vj_524">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="u0d2vj_519">
+         <td id="u0d2vj_525">
+          <p>
+           <code class="code" id="u0d2vj_527">
+            main
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_526">
+          <p>
+           Compilation for production sources.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_520">
+         <td id="u0d2vj_528">
+          <p>
+           <code class="code" id="u0d2vj_530">
+            test
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_529">
+          <p>
+           Compilation for tests.
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <div class="tabs" data-anchors="[u0d2vj_531,u0d2vj_532]" data-group="build-script" id="u0d2vj_517">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_531">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {
+    jvm {
+        val main by compilations.getting {
+            output // get the main compilation output
+        }
+
+        compilations["test"].runtimeDependencyFiles // get the test runtime classpath
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_532">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {
+    jvm {
+        compilations.main.output // get the main compilation output
+        compilations.test.runtimeDependencyFiles // get the test runtime classpath
+    }
+}
+       </div>
+      </div>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="custom-compilations" id="custom-compilations">
+      Custom compilations
+     </h3>
+     <p id="u0d2vj_535">
+      In addition to predefined compilations, you can create your own custom compilations. To create a custom compilation, add a new item into the
+      <code class="code" id="u0d2vj_538">
+       compilations
+      </code>
+      collection. If using Kotlin Gradle DSL, mark custom compilations
+      <code class="code" id="u0d2vj_539">
+       by creating
+      </code>
+      .
+     </p>
+     <p id="u0d2vj_536">
+      Learn more about creating a
+      <a data-tooltip="If you need to compile something other than production code and unit tests, for example, integration or performance tests, create a custom compilation." href="multiplatform-configure-compilations.html#create-a-custom-compilation" id="u0d2vj_540">
+       custom compilation
+      </a>
+      .
+     </p>
+     <div class="tabs" data-anchors="[u0d2vj_541,u0d2vj_542]" data-group="build-script" id="u0d2vj_537">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_541">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {
+    jvm() {
+        compilations {
+            val integrationTest by compilations.creating {
+                defaultSourceSet {
+                    dependencies {
+                        /* ... */
+                    }
+                }
+
+                // Create a test task to run the tests produced by this compilation:
+                tasks.register&lt;Test&gt;("integrationTest") {
+                    /* ... */
+                }
+            }
+        }
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_542">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {
+    jvm() {
+        compilations.create('integrationTest') {
+            defaultSourceSet {
+                dependencies {
+                    /* ... */
+                }
+            }
+
+            // Create a test task to run the tests produced by this compilation:
+            tasks.register('jvmIntegrationTest', Test) {
+                /* ... */
+            }
+        }
+    }
+}
+       </div>
+      </div>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="compilation-parameters" id="compilation-parameters">
+      Compilation parameters
+     </h3>
+     <p id="u0d2vj_545">
+      A compilation has the following parameters:
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="u0d2vj_546">
+       <thead>
+        <tr class="ijRowHead" id="u0d2vj_548">
+         <th id="u0d2vj_559">
+          <p>
+           <span class="control" id="u0d2vj_561">
+            Name
+           </span>
+          </p>
+         </th>
+         <th id="u0d2vj_560">
+          <p>
+           <span class="control" id="u0d2vj_562">
+            Description
+           </span>
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="u0d2vj_549">
+         <td id="u0d2vj_563">
+          <p>
+           <code class="code" id="u0d2vj_565">
+            defaultSourceSet
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_564">
+          <p>
+           The compilation's default source set.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_550">
+         <td id="u0d2vj_566">
+          <p>
+           <code class="code" id="u0d2vj_568">
+            kotlinSourceSets
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_567">
+          <p>
+           Source sets participating in the compilation.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_551">
+         <td id="u0d2vj_569">
+          <p>
+           <code class="code" id="u0d2vj_571">
+            allKotlinSourceSets
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_570">
+          <p>
+           Source sets participating in the compilation and their connections via
+           <code class="code" id="u0d2vj_572">
+            dependsOn()
+           </code>
+           .
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_552">
+         <td id="u0d2vj_573">
+          <p>
+           <code class="code" id="u0d2vj_575">
+            compilerOptions
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_574">
+          <p>
+           Compiler options applied to the compilation. For the list of available options, see
+           <a data-tooltip="Each release of Kotlin includes compilers for the supported targets: JVM, JavaScript, and native binaries for supported platforms." href="gradle-compiler-options.html" id="u0d2vj_576">
+            Compiler options
+           </a>
+           .
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_553">
+         <td id="u0d2vj_577">
+          <p>
+           <code class="code" id="u0d2vj_579">
+            compileKotlinTask
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_578">
+          <p>
+           Gradle task for compiling Kotlin sources.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_554">
+         <td id="u0d2vj_580">
+          <p>
+           <code class="code" id="u0d2vj_582">
+            compileKotlinTaskName
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_581">
+          <p>
+           Name of
+           <code class="code" id="u0d2vj_583">
+            compileKotlinTask
+           </code>
+           .
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_555">
+         <td id="u0d2vj_584">
+          <p>
+           <code class="code" id="u0d2vj_586">
+            compileAllTaskName
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_585">
+          <p>
+           Name of the Gradle task for compiling all sources of a compilation.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_556">
+         <td id="u0d2vj_587">
+          <p>
+           <code class="code" id="u0d2vj_589">
+            output
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_588">
+          <p>
+           The compilation output.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_557">
+         <td id="u0d2vj_590">
+          <p>
+           <code class="code" id="u0d2vj_592">
+            compileDependencyFiles
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_591">
+          <p>
+           Compile-time dependency files (classpath) of the compilation. For all Kotlin/Native compilations, this automatically includes standard library and platform dependencies.
+          </p>
+         </td>
+        </tr>
+        <tr id="u0d2vj_558">
+         <td id="u0d2vj_593">
+          <p>
+           <code class="code" id="u0d2vj_595">
+            runtimeDependencyFiles
+           </code>
+          </p>
+         </td>
+         <td id="u0d2vj_594">
+          <p>
+           Runtime dependency files (classpath) of the compilation.
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <div class="tabs" data-anchors="[u0d2vj_596,u0d2vj_597]" data-group="build-script" id="u0d2vj_547">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_596">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {
+    jvm {
+        val main by compilations.getting {
+            compilerOptions.configure { 
+                // Set up the Kotlin compiler options for the 'main' compilation:
+                jvmTarget.set(JvmTarget.JVM_1_8)
+            }
+        
+            compileKotlinTask // get the Kotlin task 'compileKotlinJvm' 
+            output // get the main compilation output
+        }
+        
+        compilations["test"].runtimeDependencyFiles // get the test runtime classpath
+    }
+
+    // Configure all compilations of all targets:
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_597">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {
+    jvm {
+        compilations.main.compilerOptions.configure { 
+            // Setup the Kotlin compiler options for the 'main' compilation:
+            jvmTarget = JvmTarget.JVM_1_8
+        }
+
+        compilations.main.compileKotlinTask // get the Kotlin task 'compileKotlinJvm' 
+        compilations.main.output // get the main compilation output
+        compilations.test.runtimeDependencyFiles // get the test runtime classpath
+    }
+
+    // Configure all compilations of all targets:
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
+}
+       </div>
+      </div>
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="compiler-options" id="compiler-options">
+     Compiler options
+    </h2>
+    <p id="u0d2vj_600">
+     You can configure compiler options in your projects at three different levels:
+    </p>
+    <ul class="list _bullet" id="u0d2vj_601">
+     <li class="list__item" id="u0d2vj_611">
+      <p>
+       <span class="control" id="u0d2vj_614">
+        Extension level
+       </span>
+       , in the
+       <code class="code" id="u0d2vj_615">
+        kotlin {}
+       </code>
+       block.
+      </p>
+     </li>
+     <li class="list__item" id="u0d2vj_612">
+      <p>
+       <span class="control" id="u0d2vj_616">
+        Target level
+       </span>
+       , in a target block.
+      </p>
+     </li>
+     <li class="list__item" id="u0d2vj_613">
+      <p>
+       <span class="control" id="u0d2vj_617">
+        Compilation unit level
+       </span>
+       , usually in a specific compilation task.
+      </p>
+     </li>
+    </ul>
+    <figure id="u0d2vj_602">
+     <img alt="Kotlin compiler options levels" height="440" src="images/compiler-options-levels.svg" title="Kotlin compiler options levels" width="700"/>
+    </figure>
+    <p id="u0d2vj_603">
+     Settings at a higher level work as defaults for the level below:
+    </p>
+    <ul class="list _bullet" id="u0d2vj_604">
+     <li class="list__item" id="u0d2vj_618">
+      <p>
+       Compiler options set at the extension level are the default for target-level options, including shared source sets like
+       <code class="code" id="u0d2vj_620">
+        commonMain
+       </code>
+       ,
+       <code class="code" id="u0d2vj_621">
+        nativeMain
+       </code>
+       , and
+       <code class="code" id="u0d2vj_622">
+        commonTest
+       </code>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="u0d2vj_619">
+      <p>
+       Compiler options set at the target level are the default for options at the compilation unit (task) level, like
+       <code class="code" id="u0d2vj_623">
+        compileKotlinJvm
+       </code>
+       and
+       <code class="code" id="u0d2vj_624">
+        compileTestKotlinJvm
+       </code>
+       tasks.
+      </p>
+     </li>
+    </ul>
+    <p id="u0d2vj_605">
+     Configurations made at a lower level override similar settings at higher levels:
+    </p>
+    <ul class="list _bullet" id="u0d2vj_606">
+     <li class="list__item" id="u0d2vj_625">
+      <p>
+       Task-level compiler options override similar settings at the target or extension level.
+      </p>
+     </li>
+     <li class="list__item" id="u0d2vj_626">
+      <p>
+       Target-level compiler options override similar settings at the extension level.
+      </p>
+     </li>
+    </ul>
+    <p id="u0d2vj_607">
+     For the list of possible compiler options, see
+     <a data-tooltip="Here is a complete list of options for the Gradle compiler:" href="gradle-compiler-options.html#all-compiler-options" id="u0d2vj_627">
+      All compiler options
+     </a>
+     .
+    </p>
+    <section class="chapter">
+     <h3 data-toc="extension-level" id="extension-level">
+      Extension level
+     </h3>
+     <p id="u0d2vj_628">
+      To configure compiler options for all targets in your project, use the
+      <code class="code" id="u0d2vj_630">
+       compilerOptions {}
+      </code>
+      block at the top level:
+     </p>
+     <div class="tabs" data-anchors="[u0d2vj_631,u0d2vj_632]" data-group="build-script" id="u0d2vj_629">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_631">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {
+    // Configures all compilations of all targets
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_632">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {
+    // Configures all compilations of all targets:
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
+}
+       </div>
+      </div>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="target-level" id="target-level">
+      Target level
+     </h3>
+     <p id="u0d2vj_635">
+      To configure compiler options for a specific target in your project, use the
+      <code class="code" id="u0d2vj_637">
+       compilerOptions {}
+      </code>
+      block inside the target block:
+     </p>
+     <div class="tabs" data-anchors="[u0d2vj_638,u0d2vj_639]" data-group="build-script" id="u0d2vj_636">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_638">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {
+    jvm {
+        // Configures all compilations of the JVM target
+        compilerOptions {
+            allWarningsAsErrors.set(true)
+        }
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_639">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {
+    jvm {
+        // Configures all compilations of the JVM target
+        compilerOptions {
+            allWarningsAsErrors = true
+        }
+    }
+}
+       </div>
+      </div>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="compilation-unit-level" id="compilation-unit-level">
+      Compilation unit level
+     </h3>
+     <p id="u0d2vj_642">
+      To configure compiler options for a specific task, use the
+      <code class="code" id="u0d2vj_646">
+       compilerOptions {}
+      </code>
+      block inside the task:
+     </p>
+     <div class="tabs" data-anchors="[u0d2vj_647,u0d2vj_648]" data-group="build-script" id="u0d2vj_643">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_647">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        task.named&lt;KotlinJvmCompile&gt;("compileKotlinJvm") {
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_648">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        task.named&lt;KotlinJvmCompile&gt;("compileKotlinJvm") {
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
+}
+       </div>
+      </div>
+     </div>
+     <p id="u0d2vj_644">
+      To configure compiler options for a specific compilation, use the
+      <code class="code" id="u0d2vj_651">
+       compilerOptions {}
+      </code>
+      block within the compilation's task provider:
+     </p>
+     <div class="tabs" data-anchors="[u0d2vj_652,u0d2vj_653]" data-group="build-script" id="u0d2vj_645">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_652">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {
+    jvm {
+        compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME) {
+            compileTaskProvider.configure {
+                // Configures the 'main' compilation:
+                compilerOptions {
+                    allWarningsAsErrors.set(true)
+                }
+            }
+        }
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_653">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {
+    jvm {
+        compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME) {
+            compileTaskProvider.configure {
+                // Configures the 'main' compilation:
+                compilerOptions {
+                    allWarningsAsErrors = true
+                }
+            }
+        }
+    }
+}
+       </div>
+      </div>
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="dependencies" id="dependencies">
+     Dependencies
+    </h2>
+    <p id="u0d2vj_656">
+     The
+     <code class="code" id="u0d2vj_664">
+      dependencies {}
+     </code>
+     block of the source set declaration contains the dependencies of this source set.
+    </p>
+    <p id="u0d2vj_657">
+     Learn more about
+     <a data-tooltip="To build a Kotlin project with Gradle, you need to add the Kotlin Gradle plugin to your build script file build.gradle(.kts) and configure the project's dependencies there." href="gradle-configure-project.html" id="u0d2vj_665">
+      configuring dependencies
+     </a>
+     .
+    </p>
+    <p id="u0d2vj_658">
+     There are four types of dependencies:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="u0d2vj_659">
+      <thead>
+       <tr class="ijRowHead" id="u0d2vj_666">
+        <th id="u0d2vj_671">
+         <p>
+          <span class="control" id="u0d2vj_673">
+           Name
+          </span>
+         </p>
+        </th>
+        <th id="u0d2vj_672">
+         <p>
+          <span class="control" id="u0d2vj_674">
+           Description
+          </span>
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="u0d2vj_667">
+        <td id="u0d2vj_675">
+         <p>
+          <code class="code" id="u0d2vj_677">
+           api
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_676">
+         <p>
+          Dependencies used in the API of the current module.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_668">
+        <td id="u0d2vj_678">
+         <p>
+          <code class="code" id="u0d2vj_680">
+           implementation
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_679">
+         <p>
+          Dependencies used in the module but not exposed outside it.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_669">
+        <td id="u0d2vj_681">
+         <p>
+          <code class="code" id="u0d2vj_683">
+           compileOnly
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_682">
+         <p>
+          Dependencies used only for compilation of the current module.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_670">
+        <td id="u0d2vj_684">
+         <p>
+          <code class="code" id="u0d2vj_686">
+           runtimeOnly
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_685">
+         <p>
+          Dependencies available at runtime but not visible during compilation of any module.
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="tabs" data-anchors="[u0d2vj_687,u0d2vj_688]" data-group="build-script" id="u0d2vj_660">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_687">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api("com.example:foo-metadata:1.0")
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation("com.example:foo-jvm:1.0")
+            }
+        }
+    }
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_688">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                api 'com.example:foo-metadata:1.0'
+            }
+        }
+        jvmMain {
+            dependencies {
+                implementation 'com.example:foo-jvm:1.0'
+            }
+        }
+    }
+}
+      </div>
+     </div>
+    </div>
+    <p id="u0d2vj_661">
+     Additionally, source sets can depend on each other and form a hierarchy. In this case, the
+     <a data-tooltip="Configurations of source sets are stored inside the corresponding blocks of sourceSets {}. A source set has the following parameters:" href="#source-set-parameters" id="u0d2vj_691">
+      <code class="code" id="u0d2vj_692">
+       dependsOn()
+      </code>
+     </a>
+     relation is used.
+    </p>
+    <p id="u0d2vj_662">
+     Source set dependencies can also be declared in the top-level
+     <code class="code" id="u0d2vj_693">
+      dependencies {}
+     </code>
+     block of the build script. In this case, their declarations follow the pattern
+     <code class="code" id="u0d2vj_694">
+      &lt;sourceSetName&gt;&lt;DependencyKind&gt;
+     </code>
+     , for example,
+     <code class="code" id="u0d2vj_695">
+      commonMainApi
+     </code>
+     .
+    </p>
+    <div class="tabs" data-anchors="[u0d2vj_696,u0d2vj_697]" data-group="build-script" id="u0d2vj_663">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_696">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       dependencies {
+    "commonMainApi"("com.example:foo-common:1.0")
+    "jvm6MainApi"("com.example:foo-jvm6:1.0")
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_697">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       dependencies {
+    commonMainApi 'com.example:foo-common:1.0'
+    jvm6MainApi 'com.example:foo-jvm6:1.0'
+}
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="language-settings" id="language-settings">
+     Language settings
+    </h2>
+    <p id="u0d2vj_700">
+     The
+     <code class="code" id="u0d2vj_703">
+      languageSettings {}
+     </code>
+     block of a source set defines certain aspects of project analysis and build. The following language settings are available:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="u0d2vj_701">
+      <thead>
+       <tr class="ijRowHead" id="u0d2vj_704">
+        <th id="u0d2vj_710">
+         <p>
+          <span class="control" id="u0d2vj_712">
+           Name
+          </span>
+         </p>
+        </th>
+        <th id="u0d2vj_711">
+         <p>
+          <span class="control" id="u0d2vj_713">
+           Description
+          </span>
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="u0d2vj_705">
+        <td id="u0d2vj_714">
+         <p>
+          <code class="code" id="u0d2vj_716">
+           languageVersion
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_715">
+         <p>
+          Provides source compatibility with the specified version of Kotlin.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_706">
+        <td id="u0d2vj_717">
+         <p>
+          <code class="code" id="u0d2vj_719">
+           apiVersion
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_718">
+         <p>
+          Allows using declarations only from the specified version of Kotlin bundled libraries.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_707">
+        <td id="u0d2vj_720">
+         <p>
+          <code class="code" id="u0d2vj_722">
+           enableLanguageFeature
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_721">
+         <p>
+          Enables the specified language feature. The available values correspond to the language features that are currently experimental or have been introduced as such at some point.
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_708">
+        <td id="u0d2vj_723">
+         <p>
+          <code class="code" id="u0d2vj_725">
+           optIn
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_724">
+         <p>
+          Allows using the specified
+          <a data-tooltip="The Kotlin standard library provides a mechanism for requiring and giving explicit consent to use certain API elements. This mechanism allows library authors to inform users about specific conditions that require opt-in, such as when an API is in an experimental state and is likely…" href="opt-in-requirements.html" id="u0d2vj_726">
+           opt-in annotation
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="u0d2vj_709">
+        <td id="u0d2vj_727">
+         <p>
+          <code class="code" id="u0d2vj_729">
+           progressiveMode
+          </code>
+         </p>
+        </td>
+        <td id="u0d2vj_728">
+         <p>
+          Enables the
+          <a data-tooltip="Kotlin cares a lot about stability and backward compatibility of code: Kotlin compatibility policy says that breaking changes (e.g., a change which makes the code that used to compile fine, not compile anymore) can be introduced only in the major releases (1.2, 1.3, etc.)." href="whatsnew13.html#progressive-mode" id="u0d2vj_730">
+           progressive mode
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="tabs" data-anchors="[u0d2vj_731,u0d2vj_732]" data-group="build-script" id="u0d2vj_702">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="u0d2vj_731">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       kotlin {
+    sourceSets.all {
+        languageSettings.apply {
+            languageVersion = "2.1" // possible values: '1.8', '1.9', `2.0`, `2.1`
+            apiVersion = "2.1" // possible values: '1.8', '1.9', `2.0`, `2.1`
+            enableLanguageFeature("InlineClasses") // language feature name
+            optIn("kotlin.ExperimentalUnsignedTypes") // annotation FQ-name
+            progressiveMode = true // false by default
+        }
+    }
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="u0d2vj_732">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       kotlin {
+    sourceSets.all {
+        languageSettings {
+            languageVersion = '2.1' // possible values: '1.8', '1.9', `2.0`, `2.1`
+            apiVersion = '2.1' // possible values: '1.8', '1.9', `2.0`, `2.1`
+            enableLanguageFeature('InlineClasses') // language feature name
+            optIn('kotlin.ExperimentalUnsignedTypes') // annotation FQ-name
+            progressiveMode = true // false by default
+        }
+    }
+}
+      </div>
+     </div>
+    </div>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

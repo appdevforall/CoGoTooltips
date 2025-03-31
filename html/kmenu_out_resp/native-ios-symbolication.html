@@ -1,0 +1,141 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="native-ios-symbolication" id="native-ios-symbolication.md">
+    Symbolicating iOS crash reports
+   </h1>
+   <p id="z3yomlw_2">
+    Debugging an iOS application crash sometimes involves analyzing crash reports. More info about crash reports can be found in the
+    <a data-external="true" href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html" id="z3yomlw_6" rel="noopener noreferrer">
+     Apple documentation
+    </a>
+    .
+   </p>
+   <p id="z3yomlw_3">
+    Crash reports generally require symbolication to become properly readable: symbolication turns machine code addresses into human-readable source locations. The document below describes some specific details of symbolicating crash reports from iOS applications using Kotlin.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="producing-dsym-for-release-kotlin-binaries" id="producing-dsym-for-release-kotlin-binaries">
+     Producing .dSYM for release Kotlin binaries
+    </h2>
+    <p id="z3yomlw_7">
+     To symbolicate addresses in Kotlin code (e.g. for stack trace elements corresponding to Kotlin code)
+     <code class="code" id="z3yomlw_11">
+      .dSYM
+     </code>
+     bundle for Kotlin code is required.
+    </p>
+    <p id="z3yomlw_8">
+     By default, Kotlin/Native compiler produces
+     <code class="code" id="z3yomlw_12">
+      .dSYM
+     </code>
+     for release (i.e. optimized) binaries on Darwin platforms. This can be disabled with
+     <code class="code" id="z3yomlw_13">
+      -Xadd-light-debug=disable
+     </code>
+     compiler flag. At the same time, this option is disabled by default for other platforms. To enable it, use the
+     <code class="code" id="z3yomlw_14">
+      -Xadd-light-debug=enable
+     </code>
+     compiler option.
+    </p>
+    <div class="tabs" data-anchors="[z3yomlw_15,z3yomlw_16]" data-group="build-script" id="z3yomlw_9">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="z3yomlw_15">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       kotlin {
+    targets.withType&lt;org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget&gt; {
+        binaries.all {
+            freeCompilerArgs += "-Xadd-light-debug={enable|disable}"
+        }
+    }
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="z3yomlw_16">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       kotlin {
+    targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget) {
+        binaries.all {
+            freeCompilerArgs += "-Xadd-light-debug={enable|disable}"
+        }
+    }
+}
+      </div>
+     </div>
+    </div>
+    <p id="z3yomlw_10">
+     In projects created from IntelliJ IDEA or AppCode templates these
+     <code class="code" id="z3yomlw_19">
+      .dSYM
+     </code>
+     bundles are then discovered by Xcode automatically.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="make-frameworks-static-when-using-rebuild-from-bitcode" id="make-frameworks-static-when-using-rebuild-from-bitcode">
+     Make frameworks static when using rebuild from bitcode
+    </h2>
+    <p id="z3yomlw_20">
+     Rebuilding Kotlin-produced framework from bitcode invalidates the original
+     <code class="code" id="z3yomlw_23">
+      .dSYM
+     </code>
+     . If it is performed locally, make sure the updated
+     <code class="code" id="z3yomlw_24">
+      .dSYM
+     </code>
+     is used when symbolicating crash reports.
+    </p>
+    <p id="z3yomlw_21">
+     If rebuilding is performed on App Store side, then
+     <code class="code" id="z3yomlw_25">
+      .dSYM
+     </code>
+     of rebuilt
+     <span class="emphasis" id="z3yomlw_26">
+      dynamic
+     </span>
+     framework seems discarded and not downloadable from App Store Connect. In this case, it may be required to make the framework static.
+    </p>
+    <div class="tabs" data-anchors="[z3yomlw_27,z3yomlw_28]" data-group="build-script" id="z3yomlw_22">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="z3yomlw_27">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       kotlin {
+    targets.withType&lt;org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget&gt; {
+        binaries.withType&lt;org.jetbrains.kotlin.gradle.plugin.mpp.Framework&gt; {
+            isStatic = true
+        }
+    }
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="z3yomlw_28">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       kotlin {
+    targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget) {
+        binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework) {
+            isStatic = true
+        }
+    }
+}
+      </div>
+     </div>
+    </div>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

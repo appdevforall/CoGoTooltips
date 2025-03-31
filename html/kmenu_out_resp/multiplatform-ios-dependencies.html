@@ -1,0 +1,592 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="multiplatform-ios-dependencies" id="multiplatform-ios-dependencies.md">
+    Adding iOS dependencies
+   </h1>
+   <p id="coq2f_2">
+    Apple SDK dependencies (such as Foundation or Core Bluetooth) are available as a set of prebuilt libraries in Kotlin Multiplatform projects. They do not require any additional configuration.
+   </p>
+   <p id="coq2f_3">
+    You can also reuse other libraries and frameworks from the iOS ecosystem in your iOS source sets. Kotlin supports interoperability with Objective-C dependencies and Swift dependencies if their APIs are exported to Objective-C with the
+    <code class="code" id="coq2f_9">
+     @objc
+    </code>
+    attribute. Pure Swift dependencies are not yet supported.
+   </p>
+   <p id="coq2f_4">
+    Integration with the CocoaPods dependency manager is also supported with the same limitation – you cannot use pure Swift pods.
+   </p>
+   <p id="coq2f_5">
+    We recommend
+    <a data-tooltip="Perform initial CocoaPods integration setup." href="#with-cocoapods" id="coq2f_10">
+     using CocoaPods
+    </a>
+    to handle iOS dependencies in Kotlin Multiplatform projects.
+    <a data-tooltip="If you don't want to use CocoaPods, you can use the cinterop tool to create Kotlin bindings for Objective-C or Swift declarations. This will allow you to call them from the Kotlin code." href="#without-cocoapods" id="coq2f_11">
+     Manage dependencies manually
+    </a>
+    only if you want to tune the interop process specifically or if you have some other strong reason to do so.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="with-cocoapods" id="with-cocoapods">
+     With CocoaPods
+    </h2>
+    <ol class="list _decimal" id="coq2f_12" type="1">
+     <li class="list__item" id="coq2f_15">
+      <p id="coq2f_18">
+       Perform
+       <a data-tooltip="Install the CocoaPods dependency manager using the installation tool of your choice:" href="native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods" id="coq2f_19">
+        initial CocoaPods integration setup
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="coq2f_16">
+      <p id="coq2f_20">
+       Add a dependency on a Pod library from the CocoaPods repository that you want to use by including the
+       <code class="code" id="coq2f_24">
+        pod()
+       </code>
+       function call in
+       <code class="code" id="coq2f_25">
+        build.gradle(.kts)
+       </code>
+       of your project.
+      </p>
+      <div class="tabs" data-anchors="[coq2f_26,coq2f_27]" data-group="build-script" id="coq2f_21">
+       <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="coq2f_26">
+        <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+         kotlin {
+    cocoapods {
+        //..
+        pod("FirebaseAuth") {
+            version = "10.16.0"
+        }
+    }
+}
+        </div>
+       </div>
+       <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="coq2f_27">
+        <div class="code-block" data-lang="groovy" data-title="Groovy">
+         kotlin {
+    cocoapods {
+        //..
+        pod('FirebaseAuth') {
+            version = '10.16.0'
+        }
+    }
+}
+        </div>
+       </div>
+      </div>
+      <p id="coq2f_22">
+       You can add the following dependencies on a Pod library:
+      </p>
+      <ul class="list _bullet" id="coq2f_23">
+       <li class="list__item" id="coq2f_30">
+        <p>
+         <a data-tooltip="Specify the name of a Pod library in the pod() function." href="native-cocoapods-libraries.html#from-the-cocoapods-repository" id="coq2f_35">
+          From the CocoaPods repository
+         </a>
+        </p>
+       </li>
+       <li class="list__item" id="coq2f_31">
+        <p>
+         <a data-tooltip="Specify the name of a Pod library in the pod() function." href="native-cocoapods-libraries.html#on-a-locally-stored-library" id="coq2f_36">
+          On a locally stored library
+         </a>
+        </p>
+       </li>
+       <li class="list__item" id="coq2f_32">
+        <p>
+         <a data-tooltip="Specify the name of a Pod library in the pod() function." href="native-cocoapods-libraries.html#from-a-custom-git-repository" id="coq2f_37">
+          From a custom Git repository
+         </a>
+        </p>
+       </li>
+       <li class="list__item" id="coq2f_33">
+        <p>
+         <a data-tooltip="Specify the HTTP address to the custom Podspec repository using the url() inside the specRepos block." href="native-cocoapods-libraries.html#from-a-custom-podspec-repository" id="coq2f_38">
+          From a custom Podspec repository
+         </a>
+        </p>
+       </li>
+       <li class="list__item" id="coq2f_34">
+        <p>
+         <a data-tooltip="Specify the name of a Pod library in the pod() function." href="native-cocoapods-libraries.html#with-custom-cinterop-options" id="coq2f_39">
+          With custom cinterop options
+         </a>
+        </p>
+       </li>
+      </ul>
+     </li>
+     <li class="list__item" id="coq2f_17">
+      <p id="coq2f_40">
+       Run
+       <span class="control" id="coq2f_41">
+        Reload All Gradle Projects
+       </span>
+       in IntelliJ IDEA (or
+       <span class="control" id="coq2f_42">
+        Sync Project with Gradle Files
+       </span>
+       in Android Studio) to re-import the project.
+      </p>
+     </li>
+    </ol>
+    <p id="coq2f_13">
+     To use the dependency in your Kotlin code, import the package
+     <code class="code" id="coq2f_43">
+      cocoapods.&lt;library-name&gt;
+     </code>
+     . For the example above, it's:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import cocoapods.FirebaseAuth.*
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="without-cocoapods" id="without-cocoapods">
+     Without CocoaPods
+    </h2>
+    <p id="coq2f_44">
+     If you don't want to use CocoaPods, you can use the cinterop tool to create Kotlin bindings for Objective-C or Swift declarations. This will allow you to call them from the Kotlin code.
+    </p>
+    <p id="coq2f_45">
+     The steps differ a bit for
+     <a data-tooltip="Download the library source code and place it somewhere where you can reference it from your project." href="#add-a-library-without-cocoapods" id="coq2f_49">
+      libraries
+     </a>
+     and
+     <a data-tooltip="Download the framework source code and place it somewhere that you can reference it from your project." href="#add-a-framework-without-cocoapods" id="coq2f_50">
+      frameworks
+     </a>
+     , but the idea remains the same.
+    </p>
+    <ol class="list _decimal" id="coq2f_46" type="1">
+     <li class="list__item" id="coq2f_51">
+      <p>
+       Download your dependency.
+      </p>
+     </li>
+     <li class="list__item" id="coq2f_52">
+      <p>
+       Build it to get its binaries.
+      </p>
+     </li>
+     <li class="list__item" id="coq2f_53">
+      <p>
+       Create a special
+       <code class="code" id="coq2f_55">
+        .def
+       </code>
+       file that describes this dependency to cinterop.
+      </p>
+     </li>
+     <li class="list__item" id="coq2f_54">
+      <p>
+       Adjust your build script to generate bindings during the build.
+      </p>
+     </li>
+    </ol>
+    <section class="chapter">
+     <h3 data-toc="add-a-library-without-cocoapods" id="add-a-library-without-cocoapods">
+      Add a library without CocoaPods
+     </h3>
+     <ol class="list _decimal" id="coq2f_56" type="1">
+      <li class="list__item" id="coq2f_59">
+       <p id="coq2f_66">
+        Download the library source code and place it somewhere where you can reference it from your project.
+       </p>
+      </li>
+      <li class="list__item" id="coq2f_60">
+       <p id="coq2f_67">
+        Build a library (library authors usually provide a guide on how to do this) and get a path to the binaries.
+       </p>
+      </li>
+      <li class="list__item" id="coq2f_61">
+       <p id="coq2f_68">
+        In your project, create a
+        <code class="code" id="coq2f_69">
+         .def
+        </code>
+        file, for example
+        <code class="code" id="coq2f_70">
+         DateTools.def
+        </code>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="coq2f_62">
+       <p id="coq2f_71">
+        Add a first string to this file:
+        <code class="code" id="coq2f_72">
+         language = Objective-C
+        </code>
+        . If you want to use a pure C dependency, omit the language property.
+       </p>
+      </li>
+      <li class="list__item" id="coq2f_63">
+       <p id="coq2f_73">
+        Provide values for two mandatory properties:
+       </p>
+       <ul class="list _bullet" id="coq2f_74">
+        <li class="list__item" id="coq2f_77">
+         <p>
+          <code class="code" id="coq2f_79">
+           headers
+          </code>
+          describes which headers will be processed by cinterop.
+         </p>
+        </li>
+        <li class="list__item" id="coq2f_78">
+         <p>
+          <code class="code" id="coq2f_80">
+           package
+          </code>
+          sets the name of the package these declarations should be put into.
+         </p>
+        </li>
+       </ul>
+       <p id="coq2f_75">
+        For example:
+       </p>
+       <div class="code-block" data-lang="none">
+        headers = DateTools.h
+package = DateTools
+       </div>
+      </li>
+      <li class="list__item" id="coq2f_64">
+       <p id="coq2f_81">
+        Add information about interoperability with this library to the build script:
+       </p>
+       <ul class="list _bullet" id="coq2f_82">
+        <li class="list__item" id="coq2f_84">
+         <p>
+          Pass the path to the
+          <code class="code" id="coq2f_87">
+           .def
+          </code>
+          file. This path can be omitted if your
+          <code class="code" id="coq2f_88">
+           .def
+          </code>
+          file has the same name as cinterop and is placed in the
+          <code class="code" id="coq2f_89">
+           src/nativeInterop/cinterop/
+          </code>
+          directory.
+         </p>
+        </li>
+        <li class="list__item" id="coq2f_85">
+         <p>
+          Tell cinterop where to look for header files using the
+          <code class="code" id="coq2f_90">
+           includeDirs
+          </code>
+          option.
+         </p>
+        </li>
+        <li class="list__item" id="coq2f_86">
+         <p>
+          Configure linking to library binaries.
+         </p>
+        </li>
+       </ul>
+       <div class="tabs" data-anchors="[coq2f_91,coq2f_92]" data-group="build-script" id="coq2f_83">
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="coq2f_91">
+         <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+          kotlin {
+    iosArm64() {
+        compilations.getByName("main") {
+            val DateTools by cinterops.creating {
+                // Path to the .def file
+                definitionFile.set(project.file("src/nativeInterop/cinterop/DateTools.def"))
+
+                // Directories for header search (an analogue of the -I&lt;path&gt; compiler option)
+                includeDirs("include/this/directory", "path/to/another/directory")
+            }
+            val anotherInterop by cinterops.creating { /* ... */ }
+        }
+
+        binaries.all {
+            // Linker options required to link to the library.
+            linkerOpts("-L/path/to/library/binaries", "-lbinaryname")
+        }
+    }
+}
+         </div>
+        </div>
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="coq2f_92">
+         <div class="code-block" data-lang="groovy" data-title="Groovy">
+          kotlin {
+    iosArm64 {
+        compilations.main {
+            cinterops {
+                DateTools {
+                    // Path to the .def file
+                    definitionFile = project.file("src/nativeInterop/cinterop/DateTools.def")
+
+                    // Directories for header search (an analogue of the -I&lt;path&gt; compiler option)
+                    includeDirs("include/this/directory", "path/to/another/directory")
+                }
+                anotherInterop { /* ... */ }
+            }
+        }
+
+        binaries.all {
+            // Linker options required to link to the library.
+            linkerOpts "-L/path/to/library/binaries", "-lbinaryname"
+        }
+    }
+}
+         </div>
+        </div>
+       </div>
+      </li>
+      <li class="list__item" id="coq2f_65">
+       <p id="coq2f_95">
+        Build the project.
+       </p>
+      </li>
+     </ol>
+     <p id="coq2f_57">
+      Now you can use this dependency in your Kotlin code. To do that, import the package you've set up in the
+      <code class="code" id="coq2f_96">
+       package
+      </code>
+      property in the
+      <code class="code" id="coq2f_97">
+       .def
+      </code>
+      file. For the example above, this will be:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      import DateTools.*
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="add-a-framework-without-cocoapods" id="add-a-framework-without-cocoapods">
+      Add a framework without CocoaPods
+     </h3>
+     <ol class="list _decimal" id="coq2f_98" type="1">
+      <li class="list__item" id="coq2f_102">
+       <p id="coq2f_109">
+        Download the framework source code and place it somewhere that you can reference it from your project.
+       </p>
+      </li>
+      <li class="list__item" id="coq2f_103">
+       <p id="coq2f_110">
+        Build the framework (framework authors usually provide a guide on how to do this) and get a path to the binaries.
+       </p>
+      </li>
+      <li class="list__item" id="coq2f_104">
+       <p id="coq2f_111">
+        In your project, create a
+        <code class="code" id="coq2f_112">
+         .def
+        </code>
+        file, for example
+        <code class="code" id="coq2f_113">
+         MyFramework.def
+        </code>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="coq2f_105">
+       <p id="coq2f_114">
+        Add the first string to this file:
+        <code class="code" id="coq2f_115">
+         language = Objective-C
+        </code>
+        . If you want to use a pure C dependency, omit the language property.
+       </p>
+      </li>
+      <li class="list__item" id="coq2f_106">
+       <p id="coq2f_116">
+        Provide values for these two mandatory properties:
+       </p>
+       <ul class="list _bullet" id="coq2f_117">
+        <li class="list__item" id="coq2f_120">
+         <p>
+          <code class="code" id="coq2f_122">
+           modules
+          </code>
+          – the name of the framework that should be processed by the cinterop.
+         </p>
+        </li>
+        <li class="list__item" id="coq2f_121">
+         <p>
+          <code class="code" id="coq2f_123">
+           package
+          </code>
+          – the name of the package these declarations should be put into.
+         </p>
+        </li>
+       </ul>
+       <p id="coq2f_118">
+        For example:
+       </p>
+       <div class="code-block" data-lang="none">
+        modules = MyFramework
+package = MyFramework
+       </div>
+      </li>
+      <li class="list__item" id="coq2f_107">
+       <p id="coq2f_124">
+        Add information about interoperability with the framework to the build script:
+       </p>
+       <ul class="list _bullet" id="coq2f_125">
+        <li class="list__item" id="coq2f_127">
+         <p>
+          Pass the path to the .def file. This path can be omitted if your
+          <code class="code" id="coq2f_129">
+           .def
+          </code>
+          file has the same name as the cinterop and is placed in the
+          <code class="code" id="coq2f_130">
+           src/nativeInterop/cinterop/
+          </code>
+          directory.
+         </p>
+        </li>
+        <li class="list__item" id="coq2f_128">
+         <p>
+          Pass the framework name to the compiler and linker using the
+          <code class="code" id="coq2f_131">
+           -framework
+          </code>
+          option. Pass the path to the framework sources and binaries to the compiler and linker using the
+          <code class="code" id="coq2f_132">
+           -F
+          </code>
+          option.
+         </p>
+        </li>
+       </ul>
+       <div class="tabs" data-anchors="[coq2f_133,coq2f_134]" data-group="build-script" id="coq2f_126">
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="coq2f_133">
+         <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+          kotlin {
+    iosArm64() {
+        compilations.getByName("main") {
+            val DateTools by cinterops.creating {
+                // Path to the .def file
+                definitionFile.set(project.file("src/nativeInterop/cinterop/DateTools.def"))
+
+                compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
+            }
+            val anotherInterop by cinterops.creating { /* ... */ }
+        }
+
+        binaries.all {
+            // Tell the linker where the framework is located.
+            linkerOpts("-framework", "MyFramework", "-F/path/to/framework/")
+        }
+   }
+}
+         </div>
+        </div>
+        <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="coq2f_134">
+         <div class="code-block" data-lang="groovy" data-title="Groovy">
+          kotlin {
+    iosArm64 {
+        compilations.main {
+            cinterops {
+                DateTools {
+                    // Path to the .def file
+                    definitionFile = project.file("src/nativeInterop/cinterop/MyFramework.def")
+
+                    compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
+                }
+                anotherInterop { /* ... */ }
+            }
+        }
+
+        binaries.all {
+            // Tell the linker where the framework is located.
+            linkerOpts("-framework", "MyFramework", "-F/path/to/framework/")
+        }
+    }
+}
+         </div>
+        </div>
+       </div>
+      </li>
+      <li class="list__item" id="coq2f_108">
+       <p id="coq2f_137">
+        Build the project.
+       </p>
+      </li>
+     </ol>
+     <p id="coq2f_99">
+      Now you can use this dependency in your Kotlin code. To do this, import the package you've set up in the package property in the
+      <code class="code" id="coq2f_138">
+       .def
+      </code>
+      file. For the example above, this will be:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      import MyFramework.*
+     </div>
+     <p id="coq2f_101">
+      Learn more about
+      <a data-tooltip="The Objective-C libraries import is Experimental. All Kotlin declarations generated by the cinterop tool from Objective-C libraries should have the @ExperimentalForeignApi annotation." href="native-objc-interop.html" id="coq2f_139">
+       Objective-C and Swift interop
+      </a>
+      and
+      <a data-tooltip="cinterops is a collection of descriptions for interop with native libraries. To provide an interop with a library, add an entry to cinterops and define its parameters:" href="multiplatform-dsl-reference.html#cinterops" id="coq2f_140">
+       configuring cinterop from Gradle
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next?
+    </h2>
+    <p id="coq2f_141">
+     Check out other resources on adding dependencies in multiplatform projects and learn more about:
+    </p>
+    <ul class="list _bullet" id="coq2f_142">
+     <li class="list__item" id="coq2f_143">
+      <p>
+       <a data-tooltip="To share more native code without being limited by platform-specific dependencies, connect platform-specific libraries. Libraries shipped with Kotlin/Native (like Foundation, UIKit, and POSIX) are available in shared source sets by default." href="multiplatform-share-on-platforms.html#connect-platform-specific-libraries" id="coq2f_146">
+        Connecting platform-specific libraries
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="coq2f_144">
+      <p>
+       <a data-tooltip="Every program requires a set of libraries to operate successfully. A Kotlin Multiplatform project can depend on multiplatform libraries that work for all target platforms, platform-specific libraries, and other multiplatform projects." href="multiplatform-add-dependencies.html" id="coq2f_147">
+        Adding dependencies on multiplatform libraries or other multiplatform projects
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="coq2f_145">
+      <p>
+       <a data-tooltip="The workflow for adding Android-specific dependencies to a Kotlin Multiplatform module is the same as it is for pure Android projects: declare the dependency in your Gradle file and import the project. After that, you can use this dependency in your Kotlin code." href="multiplatform-android-dependencies.html" id="coq2f_148">
+        Adding Android dependencies
+       </a>
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,1662 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="gradle-compiler-options" id="gradle-compiler-options.md">
+    Compiler options in the Kotlin Gradle plugin
+   </h1>
+   <p id="-bb7j7x_2">
+    Each release of Kotlin includes compilers for the supported targets: JVM, JavaScript, and native binaries for
+    <a data-tooltip="Kotlin/Native supports the following platforms:" href="native-overview.html#target-platforms" id="-bb7j7x_12">
+     supported platforms
+    </a>
+    .
+   </p>
+   <p id="-bb7j7x_3">
+    These compilers are used by:
+   </p>
+   <ul class="list _bullet" id="-bb7j7x_4">
+    <li class="list__item" id="-bb7j7x_13">
+     <p>
+      The IDE, when you click the
+      <span class="control" id="-bb7j7x_16">
+       Compile
+      </span>
+      or
+      <span class="control" id="-bb7j7x_17">
+       Run
+      </span>
+      button for your Kotlin project.
+     </p>
+    </li>
+    <li class="list__item" id="-bb7j7x_14">
+     <p>
+      Gradle, when you call
+      <code class="code" id="-bb7j7x_18">
+       gradle build
+      </code>
+      in a console or in the IDE.
+     </p>
+    </li>
+    <li class="list__item" id="-bb7j7x_15">
+     <p>
+      Maven, when you call
+      <code class="code" id="-bb7j7x_19">
+       mvn compile
+      </code>
+      or
+      <code class="code" id="-bb7j7x_20">
+       mvn test-compile
+      </code>
+      in a console or in the IDE.
+     </p>
+    </li>
+   </ul>
+   <p id="-bb7j7x_5">
+    You can also run Kotlin compilers manually from the command line as described in the
+    <a data-tooltip="Every Kotlin release ships with a standalone version of the compiler. You can download the latest version manually or via a package manager." href="command-line.html" id="-bb7j7x_21">
+     Working with command-line compiler
+    </a>
+    tutorial.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="how-to-define-options" id="how-to-define-options">
+     How to define options
+    </h2>
+    <p id="-bb7j7x_22">
+     Kotlin compilers have a number of options for tailoring the compiling process.
+    </p>
+    <p id="-bb7j7x_23">
+     The Gradle DSL allows comprehensive configuration of compiler options. It is available for
+     <a data-tooltip="The Kotlin Multiplatform Gradle plugin is a tool for creating Kotlin Multiplatform projects. Here we provide a reference of its contents; use it as a reminder when writing Gradle build scripts for Kotlin Multiplatform projects. Learn the concepts of Kotlin Multiplatform projects,…" href="multiplatform-dsl-reference.html" id="-bb7j7x_36">
+      Kotlin Multiplatform
+     </a>
+     and
+     <a data-tooltip="As explained before, you can define compiler options for your JVM/Android projects at the extension, target, and compilation unit levels." href="#target-the-jvm" id="-bb7j7x_37">
+      JVM/Android
+     </a>
+     projects.
+    </p>
+    <p id="-bb7j7x_24">
+     With the Gradle DSL, you can configure compiler options within the build script at three levels:
+    </p>
+    <ul class="list _bullet" id="-bb7j7x_25">
+     <li class="list__item" id="-bb7j7x_38">
+      <p>
+       <span class="control" id="-bb7j7x_41">
+        Extension level
+       </span>
+       , in the
+       <code class="code" id="-bb7j7x_42">
+        kotlin {}
+       </code>
+       block for all targets and shared source sets.
+      </p>
+     </li>
+     <li class="list__item" id="-bb7j7x_39">
+      <p>
+       <span class="control" id="-bb7j7x_43">
+        Target level
+       </span>
+       , in the block for a specific target.
+      </p>
+     </li>
+     <li class="list__item" id="-bb7j7x_40">
+      <p>
+       <span class="control" id="-bb7j7x_44">
+        Compilation unit level,
+       </span>
+       usually in a specific compilation task.
+      </p>
+     </li>
+    </ul>
+    <figure id="-bb7j7x_26">
+     <img alt="Kotlin compiler options levels" height="440" src="images/compiler-options-levels.svg" title="Kotlin compiler options levels" width="700"/>
+    </figure>
+    <p id="-bb7j7x_27">
+     The settings at a higher level are used as a convention (default) for a lower level:
+    </p>
+    <ul class="list _bullet" id="-bb7j7x_28">
+     <li class="list__item" id="-bb7j7x_45">
+      <p>
+       Compiler options set at the extension level are the default for target-level options, including shared source sets like
+       <code class="code" id="-bb7j7x_47">
+        commonMain
+       </code>
+       ,
+       <code class="code" id="-bb7j7x_48">
+        nativeMain
+       </code>
+       , and
+       <code class="code" id="-bb7j7x_49">
+        commonTest
+       </code>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-bb7j7x_46">
+      <p>
+       Compiler options set at the target level are the default for options at the compilation unit (task) level, like
+       <code class="code" id="-bb7j7x_50">
+        compileKotlinJvm
+       </code>
+       and
+       <code class="code" id="-bb7j7x_51">
+        compileTestKotlinJvm
+       </code>
+       tasks.
+      </p>
+     </li>
+    </ul>
+    <p id="-bb7j7x_29">
+     In turn, configurations made at a lower level override related settings at a higher level:
+    </p>
+    <ul class="list _bullet" id="-bb7j7x_30">
+     <li class="list__item" id="-bb7j7x_52">
+      <p>
+       Task-level compiler options override related configurations at the target or the extension level.
+      </p>
+     </li>
+     <li class="list__item" id="-bb7j7x_53">
+      <p>
+       Target-level compiler options override related configurations at the extension level.
+      </p>
+     </li>
+    </ul>
+    <p id="-bb7j7x_31">
+     To find out which level of compiler arguments is applied to the compilation, use the
+     <code class="code" id="-bb7j7x_54">
+      DEBUG
+     </code>
+     level of Gradle
+     <a data-external="true" href="https://docs.gradle.org/current/userguide/logging.html" id="-bb7j7x_55" rel="noopener noreferrer">
+      logging
+     </a>
+     . For JVM and JS/WASM tasks, search for the
+     <code class="code" id="-bb7j7x_56">
+      "Kotlin compiler args:"
+     </code>
+     string within the logs; for Native tasks, search for the
+     <code class="code" id="-bb7j7x_57">
+      "Arguments ="
+     </code>
+     string.
+    </p>
+    <aside class="prompt" data-title="" data-type="tip" id="-bb7j7x_32">
+     <p id="-bb7j7x_58">
+      If you're a third-party plugin author, it's best to apply your configuration on the project level to avoid overriding issues. You can use the new
+      <a data-tooltip="Kotlin 2.1.0 introduces a new API to make it easier to create your own plugins for configuring the Kotlin Gradle plugin. This change deprecates the KotlinTopLevelExtension and KotlinTopLevelExtensionConfig interfaces and introduces the following interfaces for plugin authors:" href="whatsnew21.html#new-api-for-kotlin-gradle-plugin-extensions" id="-bb7j7x_59">
+       Kotlin plugin DSL extension types
+      </a>
+      for this. It's recommended that you document this configuration on your side explicitly.
+     </p>
+    </aside>
+    <section class="chapter">
+     <h3 data-toc="extension-level" id="extension-level">
+      Extension level
+     </h3>
+     <p id="-bb7j7x_60">
+      You can configure common compiler options for all the targets and shared source sets in the
+      <code class="code" id="-bb7j7x_62">
+       compilerOptions {}
+      </code>
+      block at the top level:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    compilerOptions {
+        optIn.add("kotlin.RequiresOptIn")
+    }
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="target-level" id="target-level">
+      Target level
+     </h3>
+     <p id="-bb7j7x_63">
+      You can configure compiler options for the JVM/Android target in the
+      <code class="code" id="-bb7j7x_66">
+       compilerOptions {}
+      </code>
+      block inside the
+      <code class="code" id="-bb7j7x_67">
+       target {}
+      </code>
+      block:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    target { 
+        compilerOptions {
+            optIn.add("kotlin.RequiresOptIn")
+        }
+    }
+}
+     </div>
+     <p id="-bb7j7x_65">
+      In Kotlin Multiplatform projects, you can configure compiler options inside the specific target. For example,
+      <code class="code" id="-bb7j7x_68">
+       jvm { compilerOptions {}}
+      </code>
+      . For more information, see
+      <a data-tooltip="The Kotlin Multiplatform Gradle plugin is a tool for creating Kotlin Multiplatform projects. Here we provide a reference of its contents; use it as a reminder when writing Gradle build scripts for Kotlin Multiplatform projects. Learn the concepts of Kotlin Multiplatform projects,…" href="multiplatform-dsl-reference.html" id="-bb7j7x_69">
+       Multiplatform Gradle DSL reference
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="compilation-unit-level" id="compilation-unit-level">
+      Compilation unit level
+     </h3>
+     <p id="-bb7j7x_70">
+      You can configure compiler options for a specific compilation unit or task in a
+      <code class="code" id="-bb7j7x_76">
+       compilerOptions {}
+      </code>
+      block inside the task configuration:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      tasks.named&lt;KotlinJvmCompile&gt;("compileKotlin"){
+    compilerOptions {
+        optIn.add("kotlin.RequiresOptIn")
+    }
+}
+     </div>
+     <p id="-bb7j7x_72">
+      You can also access and configure compiler options at a compilation unit level via
+      <code class="code" id="-bb7j7x_77">
+       KotlinCompilation
+      </code>
+      :
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    target {
+        val main by compilations.getting {
+            compileTaskProvider.configure {
+                compilerOptions {
+
+                }
+            }
+        }
+    }
+}
+     </div>
+     <p id="-bb7j7x_74">
+      If you want to configure a plugin of a target different from JVM/Android and
+      <a data-tooltip="The Kotlin Multiplatform Gradle plugin is a tool for creating Kotlin Multiplatform projects. Here we provide a reference of its contents; use it as a reminder when writing Gradle build scripts for Kotlin Multiplatform projects. Learn the concepts of Kotlin Multiplatform projects,…" href="multiplatform-dsl-reference.html" id="-bb7j7x_78">
+       Kotlin Multiplatform
+      </a>
+      , use the
+      <code class="code" id="-bb7j7x_79">
+       compilerOptions {}
+      </code>
+      property of the corresponding Kotlin compilation task. The following examples show how to set this configuration up in both Kotlin and Groovy DSLs:
+     </p>
+     <div class="tabs" data-anchors="[-bb7j7x_80,-bb7j7x_81]" data-group="build-script" id="-bb7j7x_75">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="-bb7j7x_80">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask::class.java) {
+    compilerOptions {
+        apiVersion.set("1.8")
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="-bb7j7x_81">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        tasks.named('compileKotlin', org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class) {
+    compilerOptions {
+        apiVersion.set("1.8")
+    }
+}
+       </div>
+      </div>
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="target-the-jvm" id="target-the-jvm">
+     Target the JVM
+    </h2>
+    <p id="-bb7j7x_84">
+     As explained before, you can define compiler options for your JVM/Android projects at the extension, target, and compilation unit levels.
+    </p>
+    <p id="-bb7j7x_85">
+     Default JVM compilation tasks are called
+     <code class="code" id="-bb7j7x_89">
+      compileKotlin
+     </code>
+     for production code and
+     <code class="code" id="-bb7j7x_90">
+      compileTestKotlin
+     </code>
+     for test code. The tasks for custom source sets are named according to their
+     <code class="code" id="-bb7j7x_91">
+      compile&lt;Name&gt;Kotlin
+     </code>
+     patterns.
+    </p>
+    <p id="-bb7j7x_86">
+     You can see the list of Android compilation tasks by running the
+     <code class="code" id="-bb7j7x_92">
+      gradlew tasks --all
+     </code>
+     command in the terminal and searching for
+     <code class="code" id="-bb7j7x_93">
+      compile*Kotlin
+     </code>
+     task names in the
+     <code class="code" id="-bb7j7x_94">
+      Other tasks
+     </code>
+     group.
+    </p>
+    <p id="-bb7j7x_87">
+     Some important details to be aware of:
+    </p>
+    <ul class="list _bullet" id="-bb7j7x_88">
+     <li class="list__item" id="-bb7j7x_95">
+      <p>
+       The
+       <code class="code" id="-bb7j7x_98">
+        android.kotlinOptions
+       </code>
+       and
+       <code class="code" id="-bb7j7x_99">
+        kotlin.compilerOptions
+       </code>
+       configuration blocks override each other. The last (lowest) block takes effect.
+      </p>
+     </li>
+     <li class="list__item" id="-bb7j7x_96">
+      <p>
+       <code class="code" id="-bb7j7x_100">
+        kotlin.compilerOptions
+       </code>
+       configures every Kotlin compilation task in the project.
+      </p>
+     </li>
+     <li class="list__item" id="-bb7j7x_97">
+      <p>
+       You can override the configuration applied by
+       <code class="code" id="-bb7j7x_101">
+        kotlin.compilerOptions
+       </code>
+       DSL using the
+       <code class="code" id="-bb7j7x_102">
+        tasks.named&lt;KotlinJvmCompile&gt;("compileKotlin") { }
+       </code>
+       (or
+       <code class="code" id="-bb7j7x_103">
+        tasks.withType&lt;KotlinJvmCompile&gt;().configureEach { }
+       </code>
+       ) approach.
+      </p>
+     </li>
+    </ul>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="target-javascript" id="target-javascript">
+     Target JavaScript
+    </h2>
+    <p id="-bb7j7x_104">
+     JavaScript compilation tasks are called
+     <code class="code" id="-bb7j7x_109">
+      compileKotlinJs
+     </code>
+     for production code,
+     <code class="code" id="-bb7j7x_110">
+      compileTestKotlinJs
+     </code>
+     for test code, and
+     <code class="code" id="-bb7j7x_111">
+      compile&lt;Name&gt;KotlinJs
+     </code>
+     for custom source sets.
+    </p>
+    <p id="-bb7j7x_105">
+     To configure a single task, use its name:
+    </p>
+    <div class="tabs" data-anchors="[-bb7j7x_112,-bb7j7x_113]" data-group="build-script" id="-bb7j7x_106">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="-bb7j7x_112">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+val compileKotlin: KotlinCompilationTask&lt;*&gt; by tasks
+
+compileKotlin.compilerOptions.suppressWarnings.set(true)
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="-bb7j7x_113">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+tasks.named('compileKotlin', KotlinCompilationTask) {
+    compilerOptions {
+        suppressWarnings = true
+    }
+}
+      </div>
+     </div>
+    </div>
+    <p id="-bb7j7x_107">
+     Note that with the Gradle Kotlin DSL, you should get the task from the project's
+     <code class="code" id="-bb7j7x_116">
+      tasks
+     </code>
+     first.
+    </p>
+    <p id="-bb7j7x_108">
+     Use the
+     <code class="code" id="-bb7j7x_117">
+      Kotlin2JsCompile
+     </code>
+     and
+     <code class="code" id="-bb7j7x_118">
+      KotlinCompileCommon
+     </code>
+     types for JS and common targets, respectively.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="all-kotlin-compilation-tasks" id="all-kotlin-compilation-tasks">
+     All Kotlin compilation tasks
+    </h2>
+    <p id="-bb7j7x_119">
+     It is also possible to configure all the Kotlin compilation tasks in the project:
+    </p>
+    <div class="tabs" data-anchors="[-bb7j7x_121,-bb7j7x_122]" data-group="build-script" id="-bb7j7x_120">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="-bb7j7x_121">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+tasks.named&lt;KotlinCompilationTask&lt;*&gt;&gt;("compileKotlin").configure {
+    compilerOptions { /*...*/ }
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="-bb7j7x_122">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+tasks.named('compileKotlin', KotlinCompilationTask) {
+    compilerOptions { /*...*/ }
+}
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="all-compiler-options" id="all-compiler-options">
+     All compiler options
+    </h2>
+    <p id="-bb7j7x_125">
+     Here is a complete list of options for the Gradle compiler:
+    </p>
+    <section class="chapter">
+     <h3 data-toc="common-attributes" id="common-attributes">
+      Common attributes
+     </h3>
+     <div class="table-wrapper">
+      <table class="wide" id="-bb7j7x_131">
+       <thead>
+        <tr class="ijRowHead" id="-bb7j7x_132">
+         <th id="-bb7j7x_136">
+          <p>
+           Name
+          </p>
+         </th>
+         <th id="-bb7j7x_137">
+          <p>
+           Description
+          </p>
+         </th>
+         <th id="-bb7j7x_138">
+          <p>
+           Possible values
+          </p>
+         </th>
+         <th id="-bb7j7x_139">
+          <p>
+           Default value
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="-bb7j7x_133">
+         <td id="-bb7j7x_140">
+          <p>
+           <code class="code" id="-bb7j7x_144">
+            optIn
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_141">
+          <p>
+           A property for configuring a list of
+           <a data-tooltip="The Kotlin standard library provides a mechanism for requiring and giving explicit consent to use certain API elements. This mechanism allows library authors to inform users about specific conditions that require opt-in, such as when an API is in an experimental state and is likely…" href="opt-in-requirements.html" id="-bb7j7x_145">
+            opt-in compiler arguments
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_142">
+          <p>
+           <code class="code" id="-bb7j7x_146">
+            listOf( /* opt-ins */ )
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_143">
+          <p>
+           <code class="code" id="-bb7j7x_147">
+            emptyList()
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_134">
+         <td id="-bb7j7x_148">
+          <p>
+           <code class="code" id="-bb7j7x_152">
+            progressiveMode
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_149">
+          <p>
+           Enables the
+           <a data-tooltip="Kotlin cares a lot about stability and backward compatibility of code: Kotlin compatibility policy says that breaking changes (e.g., a change which makes the code that used to compile fine, not compile anymore) can be introduced only in the major releases (1.2, 1.3, etc.)." href="whatsnew13.html#progressive-mode" id="-bb7j7x_153">
+            progressive compiler mode
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_150">
+          <p>
+           <code class="code" id="-bb7j7x_154">
+            true
+           </code>
+           ,
+           <code class="code" id="-bb7j7x_155">
+            false
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_151">
+          <p>
+           <code class="code" id="-bb7j7x_156">
+            false
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_135">
+         <td id="-bb7j7x_157">
+          <p>
+           <code class="code" id="-bb7j7x_161">
+            extraWarnings
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_158">
+          <p>
+           Enables
+           <a data-tooltip="With Kotlin 2.1.0, you can now enable additional checks in the K2 compiler. These are extra declaration, expression, and type checks that are usually not crucial for compilation but can still be useful if you want to validate the following cases:" href="whatsnew21.html#extra-compiler-checks" id="-bb7j7x_162">
+            additional declaration, expression, and type compiler checks
+           </a>
+           that emit warnings if true
+          </p>
+         </td>
+         <td id="-bb7j7x_159">
+          <p>
+           <code class="code" id="-bb7j7x_163">
+            true
+           </code>
+           ,
+           <code class="code" id="-bb7j7x_164">
+            false
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_160">
+          <p>
+           <code class="code" id="-bb7j7x_165">
+            false
+           </code>
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="attributes-specific-to-jvm" id="attributes-specific-to-jvm">
+      Attributes specific to JVM
+     </h3>
+     <div class="table-wrapper">
+      <table class="wide" id="-bb7j7x_166">
+       <thead>
+        <tr class="ijRowHead" id="-bb7j7x_167">
+         <th id="-bb7j7x_172">
+          <p>
+           Name
+          </p>
+         </th>
+         <th id="-bb7j7x_173">
+          <p>
+           Description
+          </p>
+         </th>
+         <th id="-bb7j7x_174">
+          <p>
+           Possible values
+          </p>
+         </th>
+         <th id="-bb7j7x_175">
+          <p>
+           Default value
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="-bb7j7x_168">
+         <td id="-bb7j7x_176">
+          <p>
+           <code class="code" id="-bb7j7x_180">
+            javaParameters
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_177">
+          <p>
+           Generate metadata for Java 1.8 reflection on method parameters
+          </p>
+         </td>
+         <td id="-bb7j7x_178">
+         </td>
+         <td id="-bb7j7x_179">
+          <p>
+           false
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_169">
+         <td id="-bb7j7x_181">
+          <p>
+           <code class="code" id="-bb7j7x_185">
+            jvmTarget
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_182">
+          <p>
+           Target version of the generated JVM bytecode
+          </p>
+         </td>
+         <td id="-bb7j7x_183">
+          <p>
+           "1.8", "9", "10", ..., "22", "23". Also, see
+           <a data-tooltip="Some of the compilerOptions use the new types instead of the String type:" href="#types-for-compiler-options" id="-bb7j7x_186">
+            Types for compiler options
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_184">
+          <p>
+           "1.8"
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_170">
+         <td id="-bb7j7x_187">
+          <p>
+           <code class="code" id="-bb7j7x_191">
+            noJdk
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_188">
+          <p>
+           Don't automatically include the Java runtime into the classpath
+          </p>
+         </td>
+         <td id="-bb7j7x_189">
+         </td>
+         <td id="-bb7j7x_190">
+          <p>
+           false
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_171">
+         <td id="-bb7j7x_192">
+          <p>
+           <code class="code" id="-bb7j7x_196">
+            jvmTargetValidationMode
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_193">
+          <ul class="list _bullet" id="-bb7j7x_197">
+           <li class="list__item" id="-bb7j7x_198">
+            <p>
+             Validation of the
+             <a data-tooltip="In the build module, you may have related compile tasks, for example:" href="gradle-configure-project.html#check-for-jvm-target-compatibility-of-related-compile-tasks" id="-bb7j7x_200">
+              JVM target compatibility
+             </a>
+             between Kotlin and Java
+            </p>
+           </li>
+           <li class="list__item" id="-bb7j7x_199">
+            <p>
+             A property for tasks of the
+             <code class="code" id="-bb7j7x_201">
+              KotlinCompile
+             </code>
+             type.
+            </p>
+           </li>
+          </ul>
+         </td>
+         <td id="-bb7j7x_194">
+          <p>
+           <code class="code" id="-bb7j7x_202">
+            WARNING
+           </code>
+           ,
+           <code class="code" id="-bb7j7x_203">
+            ERROR
+           </code>
+           ,
+           <code class="code" id="-bb7j7x_204">
+            INFO
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_195">
+          <p>
+           <code class="code" id="-bb7j7x_205">
+            ERROR
+           </code>
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="attributes-common-to-jvm-and-javascript" id="attributes-common-to-jvm-and-javascript">
+      Attributes common to JVM and JavaScript
+     </h3>
+     <div class="table-wrapper">
+      <table class="wide" id="-bb7j7x_206">
+       <thead>
+        <tr class="ijRowHead" id="-bb7j7x_210">
+         <th id="-bb7j7x_217">
+          <p>
+           Name
+          </p>
+         </th>
+         <th id="-bb7j7x_218">
+          <p>
+           Description
+          </p>
+         </th>
+         <th id="-bb7j7x_219">
+          <p>
+           Possible values
+          </p>
+         </th>
+         <th id="-bb7j7x_220">
+          <p>
+           Default value
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="-bb7j7x_211">
+         <td id="-bb7j7x_221">
+          <p>
+           <code class="code" id="-bb7j7x_225">
+            allWarningsAsErrors
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_222">
+          <p>
+           Report an error if there are any warnings
+          </p>
+         </td>
+         <td id="-bb7j7x_223">
+         </td>
+         <td id="-bb7j7x_224">
+          <p>
+           false
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_212">
+         <td id="-bb7j7x_226">
+          <p>
+           <code class="code" id="-bb7j7x_230">
+            suppressWarnings
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_227">
+          <p>
+           Don't generate warnings
+          </p>
+         </td>
+         <td id="-bb7j7x_228">
+         </td>
+         <td id="-bb7j7x_229">
+          <p>
+           false
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_213">
+         <td id="-bb7j7x_231">
+          <p>
+           <code class="code" id="-bb7j7x_235">
+            verbose
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_232">
+          <p>
+           Enable verbose logging output. Works only when the
+           <a data-external="true" href="https://docs.gradle.org/current/userguide/logging.html" id="-bb7j7x_236" rel="noopener noreferrer">
+            Gradle debug log level enabled
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_233">
+         </td>
+         <td id="-bb7j7x_234">
+          <p>
+           false
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_214">
+         <td id="-bb7j7x_237">
+          <p>
+           <code class="code" id="-bb7j7x_241">
+            freeCompilerArgs
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_238">
+          <p>
+           A list of additional compiler arguments. You can use experimental
+           <code class="code" id="-bb7j7x_242">
+            -X
+           </code>
+           arguments here too. See an
+           <a data-tooltip="Use the freeCompilerArgs attribute to supply additional (including experimental) compiler arguments. You can add a single argument to this attribute or a list of arguments:" href="#example-of-additional-arguments-usage-via-freecompilerargs" id="-bb7j7x_243">
+            example
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_239">
+         </td>
+         <td id="-bb7j7x_240">
+          <p>
+           []
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_215">
+         <td id="-bb7j7x_244">
+          <p>
+           <code class="code" id="-bb7j7x_248">
+            apiVersion
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_245">
+          <p>
+           Restrict the use of declarations to those from the specified version of bundled libraries
+          </p>
+         </td>
+         <td id="-bb7j7x_246">
+          <p>
+           "1.8", "1.9", "2.0", "2.1", "2.2" (EXPERIMENTAL)
+          </p>
+         </td>
+         <td id="-bb7j7x_247">
+         </td>
+        </tr>
+        <tr id="-bb7j7x_216">
+         <td id="-bb7j7x_249">
+          <p>
+           <code class="code" id="-bb7j7x_253">
+            languageVersion
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_250">
+          <p>
+           Provide source compatibility with the specified version of Kotlin
+          </p>
+         </td>
+         <td id="-bb7j7x_251">
+          <p>
+           "1.8", "1.9", "2.0", "2.1", "2.2" (EXPERIMENTAL)
+          </p>
+         </td>
+         <td id="-bb7j7x_252">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <aside class="prompt" data-title="" data-type="warning" id="-bb7j7x_207">
+      <p id="-bb7j7x_254">
+       We are going to deprecate the attribute
+       <code class="code" id="-bb7j7x_255">
+        freeCompilerArgs
+       </code>
+       in future releases. If you miss some option in the Kotlin Gradle DSL, please,
+       <a data-external="true" href="https://youtrack.jetbrains.com/newissue?project=kt" id="-bb7j7x_256" rel="noopener noreferrer">
+        file an issue
+       </a>
+       .
+      </p>
+     </aside>
+     <section class="chapter">
+      <div class="collapse">
+       <div class="collapse__title">
+        <h4 data-toc="example-of-additional-arguments-usage-via-freecompilerargs" id="example-of-additional-arguments-usage-via-freecompilerargs">
+         Example of additional arguments usage via freeCompilerArgs
+        </h4>
+       </div>
+       <div class="collapse__content">
+        <p id="-bb7j7x_257">
+         Use the
+         <code class="code" id="-bb7j7x_260">
+          freeCompilerArgs
+         </code>
+         attribute to supply additional (including experimental) compiler arguments. You can add a single argument to this attribute or a list of arguments:
+        </p>
+        <div class="tabs" data-anchors="[-bb7j7x_261,-bb7j7x_262]" data-group="build-script" id="-bb7j7x_258">
+         <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="-bb7j7x_261">
+          <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+           import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+kotlin {
+    compilerOptions {
+        // Specifies the version of the Kotlin API and the JVM target
+        apiVersion.set(KotlinVersion.KOTLIN_2_1)
+        jvmTarget.set(JvmTarget.JVM_1_8)
+        
+        // Single experimental argument
+        freeCompilerArgs.add("-Xexport-kdoc")
+
+        // Single additional argument
+        freeCompilerArgs.add("-Xno-param-assertions")
+
+        // List of arguments
+        freeCompilerArgs.addAll(
+            listOf(
+                "-Xno-receiver-assertions",
+                "-Xno-call-assertions"
+            )
+        ) 
+    }
+}
+          </div>
+         </div>
+         <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="-bb7j7x_262">
+          <div class="code-block" data-lang="groovy" data-title="Groovy">
+           import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+tasks.named('compileKotlin', KotlinCompilationTask) {
+    compilerOptions {
+        // Specifies the version of the Kotlin API and the JVM target
+        apiVersion = KotlinVersion.KOTLIN_2_1
+        jvmTarget = JvmTarget.JVM_1_8
+        
+        // Single experimental argument
+        freeCompilerArgs.add("-Xexport-kdoc")
+        
+        // Single additional argument, can be a key-value pair
+        freeCompilerArgs.add("-Xno-param-assertions")
+        
+        // List of arguments
+        freeCompilerArgs.addAll(["-Xno-receiver-assertions", "-Xno-call-assertions"])
+    }
+}
+          </div>
+         </div>
+        </div>
+        <aside class="prompt" data-title="" data-type="tip" id="-bb7j7x_259">
+         <p id="-bb7j7x_265">
+          The
+          <code class="code" id="-bb7j7x_266">
+           freeCompilerArgs
+          </code>
+          attribute is available at the
+          <a data-tooltip="You can configure common compiler options for all the targets and shared source sets in the compilerOptions {} block at the top level:" href="#extension-level" id="-bb7j7x_267">
+           extension
+          </a>
+          ,
+          <a data-tooltip="You can configure compiler options for the JVM/Android target in the compilerOptions {} block inside the target {} block:" href="#target-level" id="-bb7j7x_268">
+           target
+          </a>
+          , and
+          <a data-tooltip="You can configure compiler options for a specific compilation unit or task in a compilerOptions {} block inside the task configuration:" href="#compilation-unit-level" id="-bb7j7x_269">
+           compilation unit (task)
+          </a>
+          levels.
+         </p>
+        </aside>
+       </div>
+      </div>
+     </section>
+     <section class="chapter">
+      <div class="collapse">
+       <div class="collapse__title">
+        <h4 data-toc="example-of-setting-languageversion" id="example-of-setting-languageversion">
+         Example of setting languageVersion
+        </h4>
+       </div>
+       <div class="collapse__content">
+        <p id="-bb7j7x_270">
+         To set a language version, use the following syntax:
+        </p>
+        <div class="tabs" data-anchors="[-bb7j7x_273,-bb7j7x_274]" data-group="build-script" id="-bb7j7x_271">
+         <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="-bb7j7x_273">
+          <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+           kotlin {
+    compilerOptions {
+        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
+    }
+}
+          </div>
+         </div>
+         <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="-bb7j7x_274">
+          <div class="code-block" data-lang="groovy" data-title="Groovy">
+           tasks
+    .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
+    .configureEach {
+        compilerOptions.languageVersion =
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
+    }
+          </div>
+         </div>
+        </div>
+        <p id="-bb7j7x_272">
+         Also, see
+         <a data-tooltip="Some of the compilerOptions use the new types instead of the String type:" href="#types-for-compiler-options" id="-bb7j7x_277">
+          Types for compiler options
+         </a>
+         .
+        </p>
+       </div>
+      </div>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="attributes-specific-to-javascript" id="attributes-specific-to-javascript">
+      Attributes specific to JavaScript
+     </h3>
+     <div class="table-wrapper">
+      <table class="wide" id="-bb7j7x_278">
+       <thead>
+        <tr class="ijRowHead" id="-bb7j7x_279">
+         <th id="-bb7j7x_291">
+          <p>
+           Name
+          </p>
+         </th>
+         <th id="-bb7j7x_292">
+          <p>
+           Description
+          </p>
+         </th>
+         <th id="-bb7j7x_293">
+          <p>
+           Possible values
+          </p>
+         </th>
+         <th id="-bb7j7x_294">
+          <p>
+           Default value
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="-bb7j7x_280">
+         <td id="-bb7j7x_295">
+          <p>
+           <code class="code" id="-bb7j7x_299">
+            friendModulesDisabled
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_296">
+          <p>
+           Disable internal declaration export
+          </p>
+         </td>
+         <td id="-bb7j7x_297">
+         </td>
+         <td id="-bb7j7x_298">
+          <p>
+           false
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_281">
+         <td id="-bb7j7x_300">
+          <p>
+           <code class="code" id="-bb7j7x_304">
+            main
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_301">
+          <p>
+           Define whether the
+           <code class="code" id="-bb7j7x_305">
+            main
+           </code>
+           function should be called upon execution
+          </p>
+         </td>
+         <td id="-bb7j7x_302">
+          <p>
+           "call", "noCall". Also, see
+           <a data-tooltip="Some of the compilerOptions use the new types instead of the String type:" href="#types-for-compiler-options" id="-bb7j7x_306">
+            Types for compiler options
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_303">
+          <p>
+           "call"
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_282">
+         <td id="-bb7j7x_307">
+          <p>
+           <code class="code" id="-bb7j7x_311">
+            metaInfo
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_308">
+          <p>
+           Generate .meta.js and .kjsm files with metadata. Use to create a library
+          </p>
+         </td>
+         <td id="-bb7j7x_309">
+         </td>
+         <td id="-bb7j7x_310">
+          <p>
+           true
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_283">
+         <td id="-bb7j7x_312">
+          <p>
+           <code class="code" id="-bb7j7x_316">
+            moduleKind
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_313">
+          <p>
+           The kind of JS module generated by the compiler
+          </p>
+         </td>
+         <td id="-bb7j7x_314">
+          <p>
+           "umd", "commonjs", "amd", "plain", "es". Also, see
+           <a data-tooltip="Some of the compilerOptions use the new types instead of the String type:" href="#types-for-compiler-options" id="-bb7j7x_317">
+            Types for compiler options
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_315">
+          <p>
+           "umd"
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_284">
+         <td id="-bb7j7x_318">
+          <p>
+           <code class="code" id="-bb7j7x_322">
+            outputFile
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_319">
+          <p>
+           Destination *.js file for the compilation result
+          </p>
+         </td>
+         <td id="-bb7j7x_320">
+         </td>
+         <td id="-bb7j7x_321">
+          <p>
+           "&lt;buildDir&gt;/js/packages/&lt;project.name&gt;/kotlin/&lt;project.name&gt;.js"
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_285">
+         <td id="-bb7j7x_323">
+          <p>
+           <code class="code" id="-bb7j7x_327">
+            sourceMap
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_324">
+          <p>
+           Generate source map
+          </p>
+         </td>
+         <td id="-bb7j7x_325">
+         </td>
+         <td id="-bb7j7x_326">
+          <p>
+           true
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_286">
+         <td id="-bb7j7x_328">
+          <p>
+           <code class="code" id="-bb7j7x_332">
+            sourceMapEmbedSources
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_329">
+          <p>
+           Embed source files into the source map
+          </p>
+         </td>
+         <td id="-bb7j7x_330">
+          <p>
+           "never", "always", "inlining". Also, see
+           <a data-tooltip="Some of the compilerOptions use the new types instead of the String type:" href="#types-for-compiler-options" id="-bb7j7x_333">
+            Types for compiler options
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_331">
+         </td>
+        </tr>
+        <tr id="-bb7j7x_287">
+         <td id="-bb7j7x_334">
+          <p>
+           <code class="code" id="-bb7j7x_338">
+            sourceMapNamesPolicy
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_335">
+          <p>
+           Add variable and function names that you declared in Kotlin code into the source map. For more information on the behavior, see our
+           <a data-tooltip="Add variable and function names that you declared in Kotlin code into the source map." href="compiler-reference.html#source-map-names-policy-simple-names-fully-qualified-names-no" id="-bb7j7x_339">
+            compiler reference
+           </a>
+           .
+          </p>
+         </td>
+         <td id="-bb7j7x_336">
+          <p>
+           "simple-names", "fully-qualified-names", "no". Also, see
+           <a data-tooltip="Some of the compilerOptions use the new types instead of the String type:" href="#types-for-compiler-options" id="-bb7j7x_340">
+            Types for compiler options
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_337">
+          <p>
+           "simple-names"
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_288">
+         <td id="-bb7j7x_341">
+          <p>
+           <code class="code" id="-bb7j7x_345">
+            sourceMapPrefix
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_342">
+          <p>
+           Add the specified prefix to paths in the source map
+          </p>
+         </td>
+         <td id="-bb7j7x_343">
+         </td>
+         <td id="-bb7j7x_344">
+         </td>
+        </tr>
+        <tr id="-bb7j7x_289">
+         <td id="-bb7j7x_346">
+          <p>
+           <code class="code" id="-bb7j7x_350">
+            target
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_347">
+          <p>
+           Generate JS files for specific ECMA version
+          </p>
+         </td>
+         <td id="-bb7j7x_348">
+          <p>
+           "v5"
+          </p>
+         </td>
+         <td id="-bb7j7x_349">
+          <p>
+           "v5"
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_290">
+         <td id="-bb7j7x_351">
+          <p>
+           <code class="code" id="-bb7j7x_355">
+            typedArrays
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_352">
+          <p>
+           Translate primitive arrays to JS typed arrays
+          </p>
+         </td>
+         <td id="-bb7j7x_353">
+         </td>
+         <td id="-bb7j7x_354">
+          <p>
+           true
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="types-for-compiler-options" id="types-for-compiler-options">
+      Types for compiler options
+     </h3>
+     <p id="-bb7j7x_356">
+      Some of the
+      <code class="code" id="-bb7j7x_358">
+       compilerOptions
+      </code>
+      use the new types instead of the
+      <code class="code" id="-bb7j7x_359">
+       String
+      </code>
+      type:
+     </p>
+     <div class="table-wrapper">
+      <table class="wide" id="-bb7j7x_357">
+       <thead>
+        <tr class="ijRowHead" id="-bb7j7x_360">
+         <th id="-bb7j7x_367">
+          <p>
+           Option
+          </p>
+         </th>
+         <th id="-bb7j7x_368">
+          <p>
+           Type
+          </p>
+         </th>
+         <th id="-bb7j7x_369">
+          <p>
+           Example
+          </p>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr id="-bb7j7x_361">
+         <td id="-bb7j7x_370">
+          <p>
+           <code class="code" id="-bb7j7x_373">
+            jvmTarget
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_371">
+          <p>
+           <a data-external="true" href="https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JvmTarget.kt" id="-bb7j7x_374" rel="noopener noreferrer">
+            <code class="code" id="-bb7j7x_375">
+             JvmTarget
+            </code>
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_372">
+          <p>
+           <code class="code" id="-bb7j7x_376">
+            compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_362">
+         <td id="-bb7j7x_377">
+          <p>
+           <code class="code" id="-bb7j7x_380">
+            apiVersion
+           </code>
+           and
+           <code class="code" id="-bb7j7x_381">
+            languageVersion
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_378">
+          <p>
+           <a data-external="true" href="https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/KotlinVersion.kt" id="-bb7j7x_382" rel="noopener noreferrer">
+            <code class="code" id="-bb7j7x_383">
+             KotlinVersion
+            </code>
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_379">
+          <p>
+           <code class="code" id="-bb7j7x_384">
+            compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_2_1)
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_363">
+         <td id="-bb7j7x_385">
+          <p>
+           <code class="code" id="-bb7j7x_388">
+            main
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_386">
+          <p>
+           <a data-external="true" href="https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsMainFunctionExecutionMode.kt" id="-bb7j7x_389" rel="noopener noreferrer">
+            <code class="code" id="-bb7j7x_390">
+             JsMainFunctionExecutionMode
+            </code>
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_387">
+          <p>
+           <code class="code" id="-bb7j7x_391">
+            compilerOptions.main.set(JsMainFunctionExecutionMode.NO_CALL)
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_364">
+         <td id="-bb7j7x_392">
+          <p>
+           <code class="code" id="-bb7j7x_395">
+            moduleKind
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_393">
+          <p>
+           <a data-external="true" href="https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsModuleKind.kt" id="-bb7j7x_396" rel="noopener noreferrer">
+            <code class="code" id="-bb7j7x_397">
+             JsModuleKind
+            </code>
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_394">
+          <p>
+           <code class="code" id="-bb7j7x_398">
+            compilerOptions.moduleKind.set(JsModuleKind.MODULE_ES)
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_365">
+         <td id="-bb7j7x_399">
+          <p>
+           <code class="code" id="-bb7j7x_402">
+            sourceMapEmbedSources
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_400">
+          <p>
+           <a data-external="true" href="https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsSourceMapEmbedMode.kt" id="-bb7j7x_403" rel="noopener noreferrer">
+            <code class="code" id="-bb7j7x_404">
+             JsSourceMapEmbedMode
+            </code>
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_401">
+          <p>
+           <code class="code" id="-bb7j7x_405">
+            compilerOptions.sourceMapEmbedSources.set(JsSourceMapEmbedMode.SOURCE_MAP_SOURCE_CONTENT_INLINING)
+           </code>
+          </p>
+         </td>
+        </tr>
+        <tr id="-bb7j7x_366">
+         <td id="-bb7j7x_406">
+          <p>
+           <code class="code" id="-bb7j7x_409">
+            sourceMapNamesPolicy
+           </code>
+          </p>
+         </td>
+         <td id="-bb7j7x_407">
+          <p>
+           <a data-external="true" href="https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsSourceMapNamesPolicy.kt" id="-bb7j7x_410" rel="noopener noreferrer">
+            <code class="code" id="-bb7j7x_411">
+             JsSourceMapNamesPolicy
+            </code>
+           </a>
+          </p>
+         </td>
+         <td id="-bb7j7x_408">
+          <p>
+           <code class="code" id="-bb7j7x_412">
+            compilerOptions.sourceMapNamesPolicy.set(JsSourceMapNamesPolicy.SOURCE_MAP_NAMES_POLICY_FQ_NAMES)
+           </code>
+          </p>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next?
+    </h2>
+    <p id="-bb7j7x_413">
+     Learn more about:
+    </p>
+    <ul class="list _bullet" id="-bb7j7x_414">
+     <li class="list__item" id="-bb7j7x_415">
+      <p>
+       <a data-tooltip="The Kotlin Multiplatform Gradle plugin is a tool for creating Kotlin Multiplatform projects. Here we provide a reference of its contents; use it as a reminder when writing Gradle build scripts for Kotlin Multiplatform projects. Learn the concepts of Kotlin Multiplatform projects,…" href="multiplatform-dsl-reference.html" id="-bb7j7x_419">
+        Kotlin Multiplatform DSL reference
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-bb7j7x_416">
+      <p>
+       <a data-tooltip="On this page, you can learn about the following topics:" href="gradle-compilation-and-caches.html" id="-bb7j7x_420">
+        Incremental compilation, caches support, build reports, and the Kotlin daemon
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-bb7j7x_417">
+      <p>
+       <a data-external="true" href="https://docs.gradle.org/current/userguide/userguide.html" id="-bb7j7x_421" rel="noopener noreferrer">
+        Gradle basics and specifics
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="-bb7j7x_418">
+      <p>
+       <a data-tooltip="Gradle 7.0 introduced a new feature for Gradle plugin authors — plugins with variants. This feature makes it easier to add support for latest Gradle features while maintaining compatibility with older Gradle versions. Learn more about variant selection in Gradle." href="gradle-plugin-variants.html" id="-bb7j7x_422">
+        Support for Gradle plugin variants
+       </a>
+       .
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

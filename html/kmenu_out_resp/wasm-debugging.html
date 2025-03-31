@@ -1,0 +1,652 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="wasm-debugging" id="wasm-debugging.md">
+    Debug Kotlin/Wasm code
+   </h1>
+   <aside class="prompt" data-title="" data-type="note" id="f9fcos_2">
+    <p id="f9fcos_10">
+     Kotlin/Wasm is
+     <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="f9fcos_11">
+      Alpha
+     </a>
+     . It may be changed at any time.
+    </p>
+   </aside>
+   <p id="f9fcos_3">
+    This tutorial demonstrates how to use your browser to debug your
+    <a data-external="true" href="https://www.jetbrains.com/lp/compose-multiplatform/" id="f9fcos_12" rel="noopener noreferrer">
+     Compose Multiplatform
+    </a>
+    application built with Kotlin/Wasm.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="before-you-start" id="before-you-start">
+     Before you start
+    </h2>
+    <p id="f9fcos_13">
+     Create a project using the Kotlin Multiplatform wizard:
+    </p>
+    <ol class="list _decimal" id="f9fcos_14" type="1">
+     <li class="list__item" id="f9fcos_16">
+      <p id="f9fcos_20">
+       Open the
+       <a data-external="true" href="https://kmp.jetbrains.com/#newProject" id="f9fcos_21" rel="noopener noreferrer">
+        Kotlin Multiplatform wizard
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="f9fcos_17">
+      <p id="f9fcos_22">
+       On the
+       <span class="control" id="f9fcos_24">
+        New Project
+       </span>
+       tab, change the project name and ID to your preference. In this tutorial, we set the name to "WasmDemo" and the ID to "wasm.project.demo".
+      </p>
+      <aside class="prompt" data-title="" data-type="tip" id="f9fcos_23">
+       <p id="f9fcos_25">
+        These are the name and ID of the project directory. You can also leave them as they are.
+       </p>
+      </aside>
+     </li>
+     <li class="list__item" id="f9fcos_18">
+      <p id="f9fcos_26">
+       Select the
+       <span class="control" id="f9fcos_27">
+        Web
+       </span>
+       option. Make sure that no other options are selected.
+      </p>
+     </li>
+     <li class="list__item" id="f9fcos_19">
+      <p id="f9fcos_28">
+       Click the
+       <span class="control" id="f9fcos_29">
+        Download
+       </span>
+       button and unpack the resulting archive.
+      </p>
+     </li>
+    </ol>
+    <figure id="f9fcos_15">
+     <img alt="Kotlin Multiplatform wizard" height="581" src="images/wasm-compose-web-wizard.png" title="Kotlin Multiplatform wizard" width="400"/>
+    </figure>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="open-the-project-in-intellij-idea" id="open-the-project-in-intellij-idea">
+     Open the project in IntelliJ IDEA
+    </h2>
+    <ol class="list _decimal" id="f9fcos_30" type="1">
+     <li class="list__item" id="f9fcos_31">
+      <p>
+       Download and install the latest version of
+       <a data-external="true" href="https://www.jetbrains.com/idea/" id="f9fcos_34" rel="noopener noreferrer">
+        IntelliJ IDEA
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="f9fcos_32">
+      <p>
+       On the Welcome screen of IntelliJ IDEA, click
+       <span class="control" id="f9fcos_35">
+        Open
+       </span>
+       or select
+       <span class="control" id="f9fcos_36">
+        File | Open
+       </span>
+       in the menu bar.
+      </p>
+     </li>
+     <li class="list__item" id="f9fcos_33">
+      <p>
+       Navigate to the unpacked "WasmDemo" folder and click
+       <span class="control" id="f9fcos_37">
+        Open
+       </span>
+       .
+      </p>
+     </li>
+    </ol>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="run-the-application" id="run-the-application">
+     Run the application
+    </h2>
+    <ol class="list _decimal" id="f9fcos_38" type="1">
+     <li class="list__item" id="f9fcos_39">
+      <p id="f9fcos_42">
+       In IntelliJ IDEA, open the
+       <span class="control" id="f9fcos_44">
+        Gradle
+       </span>
+       tool window by selecting
+       <span class="control" id="f9fcos_45">
+        View
+       </span>
+       |
+       <span class="control" id="f9fcos_46">
+        Tool Windows
+       </span>
+       |
+       <span class="control" id="f9fcos_47">
+        Gradle
+       </span>
+       .
+      </p>
+      <aside class="prompt" data-title="" data-type="note" id="f9fcos_43">
+       <p id="f9fcos_48">
+        You need at least Java 11 as your Gradle JVM for the tasks to load successfully.
+       </p>
+      </aside>
+     </li>
+     <li class="list__item" id="f9fcos_40">
+      <p id="f9fcos_49">
+       In
+       <span class="control" id="f9fcos_53">
+        composeApp
+       </span>
+       |
+       <span class="control" id="f9fcos_54">
+        Tasks
+       </span>
+       |
+       <span class="control" id="f9fcos_55">
+        kotlin browser
+       </span>
+       , select and run the
+       <span class="control" id="f9fcos_56">
+        wasmJsBrowserRun
+       </span>
+       task.
+      </p>
+      <figure id="f9fcos_50">
+       <img alt="Run the Gradle task" height="475" src="images/wasm-gradle-task-window.png" title="Run the Gradle task" width="550"/>
+      </figure>
+      <p id="f9fcos_51">
+       Alternatively, you can run the following command in the terminal from the
+       <code class="code" id="f9fcos_57">
+        WasmDemo
+       </code>
+       root directory:
+      </p>
+      <div class="code-block" data-lang="bash">
+       ./gradlew wasmJsBrowserRun
+      </div>
+     </li>
+     <li class="list__item" id="f9fcos_41">
+      <p id="f9fcos_58">
+       Once the application starts, open the following URL in your browser:
+      </p>
+      <div class="code-block" data-lang="bash">
+       http://localhost:8080/
+      </div>
+      <aside class="prompt" data-title="" data-type="tip" id="f9fcos_60">
+       <p id="f9fcos_65">
+        The port number can vary because the 8080 port may be unavailable. You can find the actual port number printed in the Gradle build console.
+       </p>
+      </aside>
+      <p id="f9fcos_61">
+       You see a "Click me!" button. Click it:
+      </p>
+      <figure id="f9fcos_62">
+       <img alt="Click me" height="348" src="images/wasm-composeapp-browser-clickme.png" title="Click me" width="550"/>
+      </figure>
+      <p id="f9fcos_63">
+       Now you see the Compose Multiplatform logo:
+      </p>
+      <figure id="f9fcos_64">
+       <img alt="Compose app in browser" height="518" src="images/wasm-composeapp-browser.png" title="Compose app in browser" width="550"/>
+      </figure>
+     </li>
+    </ol>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="debug-in-your-browser" id="debug-in-your-browser">
+     Debug in your browser
+    </h2>
+    <aside class="prompt" data-title="" data-type="note" id="f9fcos_66">
+     <p id="f9fcos_71">
+      Currently, debugging is only available in your browser. In the future, you will be able to debug your code in
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-64683/Kotlin-Wasm-debugging-in-IntelliJ-IDEA" id="f9fcos_72" rel="noopener noreferrer">
+       IntelliJ IDEA
+      </a>
+      and
+      <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-64684" id="f9fcos_73" rel="noopener noreferrer">
+       Fleet
+      </a>
+      .
+     </p>
+    </aside>
+    <p id="f9fcos_67">
+     You can debug this Compose Multiplatform application in your browser out of the box, without additional configurations.
+    </p>
+    <p id="f9fcos_68">
+     However, for other projects, you may need to configure additional settings in your Gradle build file. For more information about how to configure your browser for debugging, expand the next section.
+    </p>
+    <section class="chapter">
+     <div class="collapse">
+      <div class="collapse__title">
+       <h3 data-toc="configure-your-browser-for-debugging" id="configure-your-browser-for-debugging">
+        Configure your browser for debugging
+       </h3>
+      </div>
+      <div class="collapse__content">
+       <section class="chapter">
+        <h4 data-toc="enable-access-to-project-s-sources" id="enable-access-to-project-s-sources">
+         Enable access to project's sources
+        </h4>
+        <p id="f9fcos_76">
+         By default, browsers can't access some of the project's sources necessary for debugging. To provide access, you can configure the Webpack DevServer to serve these sources. In the
+         <code class="code" id="f9fcos_84">
+          ComposeApp
+         </code>
+         directory, add the following code snippets to your
+         <code class="code" id="f9fcos_85">
+          build.gradle.kts
+         </code>
+         file.
+        </p>
+        <p id="f9fcos_77">
+         Add this import as a top-level declaration:
+        </p>
+        <div class="code-block" data-lang="kotlin">
+         import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+        </div>
+        <p id="f9fcos_79">
+         Add this code snippet inside the
+         <code class="code" id="f9fcos_86">
+          commonWebpackConfig{}
+         </code>
+         block, located in the
+         <code class="code" id="f9fcos_87">
+          wasmJs{}
+         </code>
+         target DSL and
+         <code class="code" id="f9fcos_88">
+          browser{}
+         </code>
+         platform DSL within
+         <code class="code" id="f9fcos_89">
+          kotlin{}
+         </code>
+         :
+        </p>
+        <div class="code-block" data-lang="kotlin">
+         devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+    static = (static ?: mutableListOf()).apply {
+        // Serve sources to debug inside browser
+        add(project.rootDir.path)
+        add(project.projectDir.path)
+    }
+}
+        </div>
+        <p id="f9fcos_81">
+         The resulting code block looks like this:
+        </p>
+        <div class="code-collapse" data-is-expanded="false" data-lang="kotlin" data-synopsis="kotlin {">
+         kotlin {
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply { 
+                        // Serve sources to debug inside browser
+                        add(project.rootDir.path)
+                        add(project.projectDir.path)
+                    }
+                } 
+            }
+        }
+    }
+}
+        </div>
+        <aside class="prompt" data-title="" data-type="note" id="f9fcos_83">
+         <p id="f9fcos_90">
+          Currently, you can't debug library sources.
+          <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-64685" id="f9fcos_91" rel="noopener noreferrer">
+           We will support this in the future
+          </a>
+          .
+         </p>
+        </aside>
+       </section>
+       <section class="chapter">
+        <h4 data-toc="enhance-your-debugging-with-custom-formatters" id="enhance-your-debugging-with-custom-formatters">
+         Enhance your debugging with custom formatters
+        </h4>
+        <p id="f9fcos_92">
+         In addition to the default debugging configuration, you can set up custom formatters to display and locate variable values in a more user-friendly and comprehensible manner.
+        </p>
+        <figure id="f9fcos_93">
+         <img alt="Kotlin/Wasm improved debugger" height="424" src="images/wasm-debugger-improved.png" title="Kotlin/Wasm improved debugger" width="600"/>
+        </figure>
+        <p id="f9fcos_94">
+         This implementation is supported across major browsers like Firefox and Chromium-based as it uses the
+         <a data-external="true" href="https://firefox-source-docs.mozilla.org/devtools-user/custom_formatters/index.html" id="f9fcos_98" rel="noopener noreferrer">
+          custom formatters API
+         </a>
+         .
+        </p>
+        <p id="f9fcos_95">
+         To set up custom formatters for an improved debugging experience:
+        </p>
+        <ol class="list _decimal" id="f9fcos_96" type="1">
+         <li class="list__item" id="f9fcos_99">
+          <p id="f9fcos_101">
+           Add the following compiler argument to the
+           <code class="code" id="f9fcos_103">
+            wasmJs
+           </code>
+           compiler options:
+          </p>
+          <div class="code-block" data-lang="kotlin">
+           kotlin {
+    wasmJs {
+        // ...
+        compilerOptions {
+            freeCompilerArgs.add("-Xwasm-debugger-custom-formatters")
+        }
+    }
+}
+          </div>
+         </li>
+         <li class="list__item" id="f9fcos_100">
+          <p id="f9fcos_104">
+           Enable the
+           <span class="control" id="f9fcos_109">
+            Custom formatters
+           </span>
+           feature in your browser:
+          </p>
+          <ul class="list _bullet" id="f9fcos_105">
+           <li class="list__item" id="f9fcos_110">
+            <p>
+             In the Chrome DevTools, it's placed in
+             <span class="control" id="f9fcos_111">
+              Settings | Preferences | Console
+             </span>
+             :
+            </p>
+           </li>
+          </ul>
+          <figure id="f9fcos_106">
+           <img alt="Enable custom formatters in Chrome" height="410" src="images/wasm-custom-formatters-chrome.png" title="Enable custom formatters in Chrome" width="400"/>
+          </figure>
+          <ul class="list _bullet" id="f9fcos_107">
+           <li class="list__item" id="f9fcos_112">
+            <p>
+             In the Firefox Developer Tools, it's placed in
+             <span class="control" id="f9fcos_113">
+              Settings | Advanced settings
+             </span>
+             :
+            </p>
+           </li>
+          </ul>
+          <figure id="f9fcos_108">
+           <img alt="Enable custom formatters in Firefox" height="309" src="images/wasm-custom-formatters-firefox.png" title="Enable custom formatters in Firefox" width="400"/>
+          </figure>
+         </li>
+        </ol>
+        <p id="f9fcos_97">
+         After setting up custom formatters, you can complete the debugging tutorial.
+        </p>
+       </section>
+      </div>
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="debug-your-kotlin-wasm-application" id="debug-your-kotlin-wasm-application">
+      Debug your Kotlin/Wasm application
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="f9fcos_114">
+      <p id="f9fcos_116">
+       This tutorial uses the Chrome browser, but you should be able to follow these steps with other browsers. For more information, see
+       <a data-tooltip="To run applications built with Kotlin/Wasm in a browser, you need a browser version supporting the new WebAssembly garbage collection (WasmGC) feature. Check if the browser version supports the new WasmGC by default or if you need to make changes to the environment." href="wasm-troubleshooting.html#browser-versions" id="f9fcos_117">
+        Browser versions
+       </a>
+       .
+      </p>
+     </aside>
+     <ol class="list _decimal" id="f9fcos_115" type="1">
+      <li class="list__item" id="f9fcos_118">
+       <p id="f9fcos_126">
+        In the browser window of the application, right-click and select the
+        <span class="control" id="f9fcos_127">
+         Inspect
+        </span>
+        action to access developer tools. Alternatively, you can use the
+        <span class="control" id="f9fcos_128">
+         F12
+        </span>
+        shortcut or select
+        <span class="control" id="f9fcos_129">
+         View
+        </span>
+        |
+        <span class="control" id="f9fcos_130">
+         Developer
+        </span>
+        |
+        <span class="control" id="f9fcos_131">
+         Developer Tools
+        </span>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="f9fcos_119">
+       <p id="f9fcos_132">
+        Switch to the
+        <span class="control" id="f9fcos_133">
+         Sources
+        </span>
+        tab and select the Kotlin file to debug. In this tutorial, we'll work with the
+        <code class="code" id="f9fcos_134">
+         Greeting.kt
+        </code>
+        file.
+       </p>
+      </li>
+      <li class="list__item" id="f9fcos_120">
+       <p id="f9fcos_135">
+        Click on the line numbers to set breakpoints on the code that you want to inspect. Only the lines with darker numbers can have breakpoints.
+       </p>
+       <figure id="f9fcos_136">
+        <img alt="Set breakpoints" height="226" src="images/wasm-breakpoints.png" title="Set breakpoints" width="600"/>
+       </figure>
+      </li>
+      <li class="list__item" id="f9fcos_121">
+       <p id="f9fcos_137">
+        Click on the
+        <span class="control" id="f9fcos_138">
+         Click me!
+        </span>
+        button to interact with the application. This action triggers the execution of the code, and the debugger pauses when the execution reaches a breakpoint.
+       </p>
+      </li>
+      <li class="list__item" id="f9fcos_122">
+       <p id="f9fcos_139">
+        In the debugging pane, use the debugging control buttons to inspect variables and code execution at the breakpoints:
+       </p>
+       <ul class="list _bullet" id="f9fcos_140">
+        <li class="list__item" id="f9fcos_142">
+         <p>
+          <img alt="Step into" class="inline-icon-" height="30" id="f9fcos_145" src="images/wasm-step-into.png" title="Step into" width="30"/>
+          Step into to investigate a function more deeply.
+         </p>
+        </li>
+        <li class="list__item" id="f9fcos_143">
+         <p>
+          <img alt="Step over" class="inline-icon-" height="30" id="f9fcos_146" src="images/wasm-step-over.png" title="Step over" width="30"/>
+          Step over to execute the current line and pause on the next line.
+         </p>
+        </li>
+        <li class="list__item" id="f9fcos_144">
+         <p>
+          <img alt="Step out" class="inline-icon-" height="29" id="f9fcos_147" src="images/wasm-step-out.png" title="Step out" width="30"/>
+          Step out to execute the code until it exits the current function.
+         </p>
+        </li>
+       </ul>
+       <figure id="f9fcos_141">
+        <img alt="Debug controls" height="349" src="images/wasm-debug-controls.png" title="Debug controls" width="600"/>
+       </figure>
+      </li>
+      <li class="list__item" id="f9fcos_123">
+       <p id="f9fcos_148">
+        Check the
+        <span class="control" id="f9fcos_151">
+         Call stack
+        </span>
+        and
+        <span class="control" id="f9fcos_152">
+         Scope
+        </span>
+        panes to trace the sequence of function calls and pinpoint the location of any errors.
+       </p>
+       <figure id="f9fcos_149">
+        <img alt="Check call stack" height="507" src="images/wasm-debug-scope.png" title="Check call stack" width="550"/>
+       </figure>
+       <p id="f9fcos_150">
+        For an improved visualization of the variable values, see
+        <a data-tooltip="In addition to the default debugging configuration, you can set up custom formatters to display and locate variable values in a more user-friendly and comprehensible manner." href="#enhance-your-debugging-with-custom-formatters" id="f9fcos_153">
+         Enhance your debugging with custom formatters
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="f9fcos_124">
+       <p id="f9fcos_154">
+        Make changes to your code and
+        <a data-tooltip="In IntelliJ IDEA, open the Gradle tool window by selecting View | Tool Windows | Gradle." href="#run-the-application" id="f9fcos_155">
+         run the application
+        </a>
+        again to verify that everything works as expected.
+       </p>
+      </li>
+      <li class="list__item" id="f9fcos_125">
+       <p id="f9fcos_156">
+        Click on the line numbers with breakpoints to remove the breakpoints.
+       </p>
+      </li>
+     </ol>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="leave-feedback" id="leave-feedback">
+     Leave feedback
+    </h2>
+    <p id="f9fcos_157">
+     We would appreciate any feedback you may have on your debugging experience!
+    </p>
+    <ul class="list _bullet" id="f9fcos_158">
+     <li class="list__item" id="f9fcos_159">
+      <p>
+       <img alt="Slack" class="inline-icon-" height="25" id="f9fcos_161" src="images/slack.svg" title="Slack" width="25"/>
+       Slack:
+       <a data-external="true" href="https://surveys.jetbrains.com/s3/kotlin-slack-sign-up" id="f9fcos_162" rel="noopener noreferrer">
+        get a Slack invite
+       </a>
+       and provide your feedback directly to the developers in our
+       <a data-external="true" href="https://kotlinlang.slack.com/archives/CDFP59223" id="f9fcos_163" rel="noopener noreferrer">
+        #webassembly
+       </a>
+       channel.
+      </p>
+     </li>
+     <li class="list__item" id="f9fcos_160">
+      <p>
+       Provide your feedback in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-56492" id="f9fcos_164" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </li>
+    </ul>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next?
+    </h2>
+    <ul class="list _bullet" id="f9fcos_165">
+     <li class="list__item" id="f9fcos_166">
+      <p>
+       See Kotlin/Wasm debugging in action in this
+       <a data-external="true" href="https://www.youtube.com/watch?v=t3FUWfJWrjU&amp;t=2703s" id="f9fcos_168" rel="noopener noreferrer">
+        YouTube video
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="f9fcos_167">
+      <p>
+       Try the Kotlin/Wasm examples from our
+       <code class="code" id="f9fcos_169">
+        kotlin-wasm-examples
+       </code>
+       repository:
+      </p>
+      <ul class="list _bullet" id="f9fcos_170">
+       <li class="list__item" id="f9fcos_171">
+        <p>
+         <a data-external="true" href="https://github.com/Kotlin/kotlin-wasm-examples/tree/main/compose-imageviewer" id="f9fcos_176" rel="noopener noreferrer">
+          Compose image viewer
+         </a>
+        </p>
+       </li>
+       <li class="list__item" id="f9fcos_172">
+        <p>
+         <a data-external="true" href="https://github.com/Kotlin/kotlin-wasm-examples/tree/main/compose-jetsnack" id="f9fcos_177" rel="noopener noreferrer">
+          Jetsnack application
+         </a>
+        </p>
+       </li>
+       <li class="list__item" id="f9fcos_173">
+        <p>
+         <a data-external="true" href="https://github.com/Kotlin/kotlin-wasm-examples/tree/main/nodejs-example" id="f9fcos_178" rel="noopener noreferrer">
+          Node.js example
+         </a>
+        </p>
+       </li>
+       <li class="list__item" id="f9fcos_174">
+        <p>
+         <a data-external="true" href="https://github.com/Kotlin/kotlin-wasm-examples/tree/main/wasi-example" id="f9fcos_179" rel="noopener noreferrer">
+          WASI example
+         </a>
+        </p>
+       </li>
+       <li class="list__item" id="f9fcos_175">
+        <p>
+         <a data-external="true" href="https://github.com/Kotlin/kotlin-wasm-examples/tree/main/compose-example" id="f9fcos_180" rel="noopener noreferrer">
+          Compose example
+         </a>
+        </p>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

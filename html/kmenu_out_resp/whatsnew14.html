@@ -1,0 +1,3831 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="whatsnew14" id="whatsnew14.md">
+    What's new in Kotlin 1.4.0
+   </h1>
+   <p id="pdxsbx_2">
+    <span class="emphasis" id="pdxsbx_16">
+     <a data-tooltip="The following table lists details of the latest Kotlin releases:" href="releases.html#release-details" id="pdxsbx_17">
+      Released: 17 August 2020
+     </a>
+    </span>
+   </p>
+   <p id="pdxsbx_3">
+    In Kotlin 1.4.0, we ship a number of improvements in all of its components, with the
+    <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/08/kotlin-1-4-released-with-a-focus-on-quality-and-performance/" id="pdxsbx_18" rel="noopener noreferrer">
+     focus on quality and performance
+    </a>
+    . Below you will find the list of the most important changes in Kotlin 1.4.0.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="language-features-and-improvements" id="language-features-and-improvements">
+     Language features and improvements
+    </h2>
+    <p id="pdxsbx_19">
+     Kotlin 1.4.0 comes with a variety of different language features and improvements. They include:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_20">
+     <li class="list__item" id="pdxsbx_27">
+      <p>
+       <a data-tooltip="Before Kotlin 1.4.0, you could apply SAM (Single Abstract Method) conversions only when working with Java methods and Java interfaces from Kotlin. From now on, you can use SAM conversions for Kotlin interfaces as well. To do so, mark a Kotlin interface explicitly as functional with…" href="#sam-conversions-for-kotlin-interfaces" id="pdxsbx_33">
+        SAM conversions for Kotlin interfaces
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_28">
+      <p>
+       <a data-tooltip="Kotlin compiler offers explicit API mode for library authors. In this mode, the compiler performs additional checks that help make the library's API clearer and more consistent. It adds the following requirements for declarations exposed to the library's public API:" href="#explicit-api-mode-for-library-authors" id="pdxsbx_34">
+        Explicit API mode for library authors
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_29">
+      <p>
+       <a data-tooltip="In Kotlin 1.3, when you called a function with named arguments, you had to place all the arguments without names (positional arguments) before the first named argument. For example, you could call f(1, y = 2), but you couldn't call f(x = 1, 2)." href="#mixing-named-and-positional-arguments" id="pdxsbx_35">
+        Mixing named and positional arguments
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_30">
+      <p>
+       <a data-tooltip="With Kotlin 1.4 you can now add a trailing comma in enumerations such as argument and parameter lists, when entries, and components of destructuring declarations. With a trailing comma, you can add new items and change their order without adding or removing commas." href="#trailing-comma" id="pdxsbx_36">
+        Trailing comma
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_31">
+      <p>
+       <a data-tooltip="Kotlin 1.4 supports more cases for using callable references:" href="#callable-reference-improvements" id="pdxsbx_37">
+        Callable reference improvements
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_32">
+      <p>
+       <a data-tooltip="In Kotlin 1.3, you could not use unqualified break and continue inside when expressions included in loops. The reason was that these keywords were reserved for possible fall-through behavior in when expressions." href="#using-break-and-continue-inside-when-expressions-included-in-loops" id="pdxsbx_38">
+        break and continue inside when included in loops
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="sam-conversions-for-kotlin-interfaces" id="sam-conversions-for-kotlin-interfaces">
+      SAM conversions for Kotlin interfaces
+     </h3>
+     <p id="pdxsbx_39">
+      Before Kotlin 1.4.0, you could apply SAM (Single Abstract Method) conversions only
+      <a data-tooltip="Kotlin supports SAM conversions for both Java and Kotlin interfaces. This support for Java means that Kotlin function literals can be automatically converted into implementations of Java interfaces with a single non-default method, as long as the parameter types of the interface…" href="java-interop.html#sam-conversions" id="pdxsbx_43">
+       when working with Java methods and Java interfaces from Kotlin
+      </a>
+      . From now on, you can use SAM conversions for Kotlin interfaces as well. To do so, mark a Kotlin interface explicitly as functional with the
+      <code class="code" id="pdxsbx_44">
+       fun
+      </code>
+      modifier.
+     </p>
+     <p id="pdxsbx_40">
+      SAM conversion applies if you pass a lambda as an argument when an interface with only one single abstract method is expected as a parameter. In this case, the compiler automatically converts the lambda to an instance of the class that implements the abstract member function.
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+      fun interface IntPredicate {
+    fun accept(i: Int): Boolean
+}
+
+val isEven = IntPredicate { it % 2 == 0 }
+
+fun main() { 
+    println("Is 7 even? - ${isEven.accept(7)}")
+}
+     </div>
+     <p id="pdxsbx_42">
+      <a data-tooltip="An interface with only one abstract member function is called a functional interface, or a Single Abstract Method (SAM) interface. The functional interface can have several non-abstract member functions but only one abstract member function." href="fun-interfaces.html" id="pdxsbx_45">
+       Learn more about Kotlin functional interfaces and SAM conversions
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="explicit-api-mode-for-library-authors" id="explicit-api-mode-for-library-authors">
+      Explicit API mode for library authors
+     </h3>
+     <p id="pdxsbx_46">
+      Kotlin compiler offers
+      <span class="emphasis" id="pdxsbx_56">
+       explicit API mode
+      </span>
+      for library authors. In this mode, the compiler performs additional checks that help make the library's API clearer and more consistent. It adds the following requirements for declarations exposed to the library's public API:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_47">
+      <li class="list__item" id="pdxsbx_57">
+       <p>
+        Visibility modifiers are required for declarations if the default visibility exposes them to the public API. This helps ensure that no declarations are exposed to the public API unintentionally.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_58">
+       <p>
+        Explicit type specifications are required for properties and functions that are exposed to the public API. This guarantees that API users are aware of the types of API members they use.
+       </p>
+      </li>
+     </ul>
+     <p id="pdxsbx_48">
+      Depending on your configuration, these explicit APIs can produce errors (
+      <span class="emphasis" id="pdxsbx_59">
+       strict
+      </span>
+      mode) or warnings (
+      <span class="emphasis" id="pdxsbx_60">
+       warning
+      </span>
+      mode). Certain kinds of declarations are excluded from such checks for the sake of readability and common sense:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_49">
+      <li class="list__item" id="pdxsbx_61">
+       <p>
+        primary constructors
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_62">
+       <p>
+        properties of data classes
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_63">
+       <p>
+        property getters and setters
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_64">
+       <p>
+        <code class="code" id="pdxsbx_65">
+         override
+        </code>
+        methods
+       </p>
+      </li>
+     </ul>
+     <p id="pdxsbx_50">
+      Explicit API mode analyzes only the production sources of a module.
+     </p>
+     <p id="pdxsbx_51">
+      To compile your module in the explicit API mode, add the following lines to your Gradle build script:
+     </p>
+     <div class="tabs" data-anchors="[pdxsbx_66,pdxsbx_67]" data-group="build-script" id="pdxsbx_52">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="pdxsbx_66">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {    
+    // for strict mode
+    explicitApi() 
+    // or
+    explicitApi = ExplicitApiMode.Strict
+    
+    // for warning mode
+    explicitApiWarning()
+    // or
+    explicitApi = ExplicitApiMode.Warning
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="pdxsbx_67">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {    
+    // for strict mode
+    explicitApi() 
+    // or
+    explicitApi = 'strict'
+    
+    // for warning mode
+    explicitApiWarning()
+    // or
+    explicitApi = 'warning'
+}
+       </div>
+      </div>
+     </div>
+     <p id="pdxsbx_53">
+      When using the command-line compiler, switch to explicit API mode by adding the
+      <code class="code" id="pdxsbx_70">
+       -Xexplicit-api
+      </code>
+      compiler option with the value
+      <code class="code" id="pdxsbx_71">
+       strict
+      </code>
+      or
+      <code class="code" id="pdxsbx_72">
+       warning
+      </code>
+      .
+     </p>
+     <div class="code-block" data-lang="bash">
+      -Xexplicit-api={strict|warning}
+     </div>
+     <p id="pdxsbx_55">
+      <a data-external="true" href="https://github.com/Kotlin/KEEP/blob/master/proposals/explicit-api-mode.md" id="pdxsbx_73" rel="noopener noreferrer">
+       Find more details about the explicit API mode in the KEEP
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="mixing-named-and-positional-arguments" id="mixing-named-and-positional-arguments">
+      Mixing named and positional arguments
+     </h3>
+     <p id="pdxsbx_74">
+      In Kotlin 1.3, when you called a function with
+      <a data-tooltip="You can name one or more of a function's arguments when calling it. This can be helpful when a function has many arguments and it's difficult to associate a value with an argument, especially if it's a boolean or null value." href="functions.html#named-arguments" id="pdxsbx_78">
+       named arguments
+      </a>
+      , you had to place all the arguments without names (positional arguments) before the first named argument. For example, you could call
+      <code class="code" id="pdxsbx_79">
+       f(1, y = 2)
+      </code>
+      , but you couldn't call
+      <code class="code" id="pdxsbx_80">
+       f(x = 1, 2)
+      </code>
+      .
+     </p>
+     <p id="pdxsbx_75">
+      It was really annoying when all the arguments were in their correct positions but you wanted to specify a name for one argument in the middle. It was especially helpful for making absolutely clear which attribute a boolean or
+      <code class="code" id="pdxsbx_81">
+       null
+      </code>
+      value belongs to.
+     </p>
+     <p id="pdxsbx_76">
+      In Kotlin 1.4, there is no such limitation – you can now specify a name for an argument in the middle of a set of positional arguments. Moreover, you can mix positional and named arguments any way you like, as long as they remain in the correct order.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun reformat(
+    str: String,
+    uppercaseFirstLetter: Boolean = true,
+    wordSeparator: Char = ' '
+) {
+    // ...
+}
+
+//Function call with a named argument in the middle
+reformat("This is a String!", uppercaseFirstLetter = false , '-')
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="trailing-comma" id="trailing-comma">
+      Trailing comma
+     </h3>
+     <p id="pdxsbx_82">
+      With Kotlin 1.4 you can now add a trailing comma in enumerations such as argument and parameter lists,
+      <code class="code" id="pdxsbx_86">
+       when
+      </code>
+      entries, and components of destructuring declarations. With a trailing comma, you can add new items and change their order without adding or removing commas.
+     </p>
+     <p id="pdxsbx_83">
+      This is especially helpful if you use multi-line syntax for parameters or values. After adding a trailing comma, you can then easily swap lines with parameters or values.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun reformat(
+    str: String,
+    uppercaseFirstLetter: Boolean = true,
+    wordSeparator: Character = ' ', //trailing comma
+) {
+    // ...
+}
+     </div>
+     <div class="code-block" data-lang="kotlin">
+      val colors = listOf(
+    "red",
+    "green",
+    "blue", //trailing comma
+)
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="callable-reference-improvements" id="callable-reference-improvements">
+      Callable reference improvements
+     </h3>
+     <p id="pdxsbx_87">
+      Kotlin 1.4 supports more cases for using callable references:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_88">
+      <li class="list__item" id="pdxsbx_93">
+       <p>
+        References to functions with default argument values
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_94">
+       <p>
+        Function references in
+        <code class="code" id="pdxsbx_97">
+         Unit
+        </code>
+        -returning functions
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_95">
+       <p>
+        References that adapt based on the number of arguments in a function
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_96">
+       <p>
+        Suspend conversion on callable references
+       </p>
+      </li>
+     </ul>
+     <section class="chapter">
+      <h4 data-toc="references-to-functions-with-default-argument-values" id="references-to-functions-with-default-argument-values">
+       References to functions with default argument values
+      </h4>
+      <p id="pdxsbx_98">
+       Now you can use callable references to functions with default argument values. If the callable reference to the function
+       <code class="code" id="pdxsbx_102">
+        foo
+       </code>
+       takes no arguments, the default value
+       <code class="code" id="pdxsbx_103">
+        0
+       </code>
+       is used.
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+       fun foo(i: Int = 0): String = "$i!"
+
+fun apply(func: () -&gt; String): String = func()
+
+fun main() {
+    println(apply(::foo))
+}
+      </div>
+      <p id="pdxsbx_100">
+       Previously, you had to write additional overloads for the function
+       <code class="code" id="pdxsbx_104">
+        apply
+       </code>
+       to use the default argument values.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       // some new overload
+fun applyInt(func: (Int) -&gt; String): String = func(0)
+      </div>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="function-references-in-unit-returning-functions" id="function-references-in-unit-returning-functions">
+       Function references in Unit-returning functions
+      </h4>
+      <p id="pdxsbx_105">
+       In Kotlin 1.4, you can use callable references to functions returning any type in
+       <code class="code" id="pdxsbx_107">
+        Unit
+       </code>
+       -returning functions. Before Kotlin 1.4, you could only use lambda arguments in this case. Now you can use both lambda arguments and callable references.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       fun foo(f: () -&gt; Unit) { }
+fun returnsInt(): Int = 42
+
+fun main() {
+    foo { returnsInt() } // this was the only way to do it  before 1.4
+    foo(::returnsInt) // starting from 1.4, this also works
+}
+      </div>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="references-that-adapt-based-on-the-number-of-arguments-in-a-function" id="references-that-adapt-based-on-the-number-of-arguments-in-a-function">
+       References that adapt based on the number of arguments in a function
+      </h4>
+      <p id="pdxsbx_108">
+       Now you can adapt callable references to functions when passing a variable number of arguments (
+       <code class="code" id="pdxsbx_110">
+        vararg
+       </code>
+       ) . You can pass any number of parameters of the same type at the end of the list of passed arguments.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       fun foo(x: Int, vararg y: String) {}
+
+fun use0(f: (Int) -&gt; Unit) {}
+fun use1(f: (Int, String) -&gt; Unit) {}
+fun use2(f: (Int, String, String) -&gt; Unit) {}
+
+fun test() {
+    use0(::foo) 
+    use1(::foo) 
+    use2(::foo) 
+}
+      </div>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="suspend-conversion-on-callable-references" id="suspend-conversion-on-callable-references">
+       Suspend conversion on callable references
+      </h4>
+      <p id="pdxsbx_111">
+       In addition to suspend conversion on lambdas, Kotlin now supports suspend conversion on callable references starting from version 1.4.0.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       fun call() {}
+fun takeSuspend(f: suspend () -&gt; Unit) {}
+
+fun test() {
+    takeSuspend { call() } // OK before 1.4
+    takeSuspend(::call) // In Kotlin 1.4, it also works
+}
+      </div>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="using-break-and-continue-inside-when-expressions-included-in-loops" id="using-break-and-continue-inside-when-expressions-included-in-loops">
+      Using break and continue inside when expressions included in loops
+     </h3>
+     <p id="pdxsbx_113">
+      In Kotlin 1.3, you could not use unqualified
+      <code class="code" id="pdxsbx_119">
+       break
+      </code>
+      and
+      <code class="code" id="pdxsbx_120">
+       continue
+      </code>
+      inside
+      <code class="code" id="pdxsbx_121">
+       when
+      </code>
+      expressions included in loops. The reason was that these keywords were reserved for possible
+      <a data-external="true" href="https://en.wikipedia.org/wiki/Switch_statement#Fallthrough" id="pdxsbx_122" rel="noopener noreferrer">
+       fall-through behavior
+      </a>
+      in
+      <code class="code" id="pdxsbx_123">
+       when
+      </code>
+      expressions.
+     </p>
+     <p id="pdxsbx_114">
+      That's why if you wanted to use
+      <code class="code" id="pdxsbx_124">
+       break
+      </code>
+      and
+      <code class="code" id="pdxsbx_125">
+       continue
+      </code>
+      inside
+      <code class="code" id="pdxsbx_126">
+       when
+      </code>
+      expressions in loops, you had to
+      <a data-tooltip="Any expression in Kotlin may be marked with a label. Labels have the form of an identifier followed by the @ sign, such as abc@ or fooBar@. To label an expression, just add a label in front of it." href="returns.html#break-and-continue-labels" id="pdxsbx_127">
+       label
+      </a>
+      them, which became rather cumbersome.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun test(xs: List&lt;Int&gt;) {
+    LOOP@for (x in xs) {
+        when (x) {
+            2 -&gt; continue@LOOP
+            17 -&gt; break@LOOP
+            else -&gt; println(x)
+        }
+    }
+}
+     </div>
+     <p id="pdxsbx_116">
+      In Kotlin 1.4, you can use
+      <code class="code" id="pdxsbx_128">
+       break
+      </code>
+      and
+      <code class="code" id="pdxsbx_129">
+       continue
+      </code>
+      without labels inside
+      <code class="code" id="pdxsbx_130">
+       when
+      </code>
+      expressions included in loops. They behave as expected by terminating the nearest enclosing loop or proceeding to its next step.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      fun test(xs: List&lt;Int&gt;) {
+    for (x in xs) {
+        when (x) {
+            2 -&gt; continue
+            17 -&gt; break
+            else -&gt; println(x)
+        }
+    }
+}
+     </div>
+     <p id="pdxsbx_118">
+      The fall-through behavior inside
+      <code class="code" id="pdxsbx_131">
+       when
+      </code>
+      is subject to further design.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="new-tools-in-the-ide" id="new-tools-in-the-ide">
+     New tools in the IDE
+    </h2>
+    <p id="pdxsbx_132">
+     With Kotlin 1.4, you can use the new tools in IntelliJ IDEA to simplify Kotlin development:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_133">
+     <li class="list__item" id="pdxsbx_136">
+      <p>
+       <a data-tooltip="With the flexible new Kotlin Project Wizard, you have a place to easily create and configure different types of Kotlin projects, including multiplatform projects, which can be difficult to configure without a UI." href="#new-flexible-project-wizard" id="pdxsbx_138">
+        New flexible Project Wizard
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_137">
+      <p>
+       <a data-tooltip="Many people already use coroutines for asynchronous programming. But when it came to debugging, working with coroutines before Kotlin 1.4, could be a real pain. Since coroutines jumped between threads, it was difficult to understand what a specific coroutine was doing and check its…" href="#coroutine-debugger" id="pdxsbx_139">
+        Coroutine Debugger
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="new-flexible-project-wizard" id="new-flexible-project-wizard">
+      New flexible Project Wizard
+     </h3>
+     <p id="pdxsbx_140">
+      With the flexible new Kotlin Project Wizard, you have a place to easily create and configure different types of Kotlin projects, including multiplatform projects, which can be difficult to configure without a UI.
+     </p>
+     <figure id="pdxsbx_141">
+      <img alt="Kotlin Project Wizard – Multiplatform project" height="1120" src="images/multiplatform-project-1-wn.png" title="Kotlin Project Wizard – Multiplatform project" width="2046"/>
+     </figure>
+     <p id="pdxsbx_142">
+      The new Kotlin Project Wizard is both simple and flexible:
+     </p>
+     <ol class="list _decimal" id="pdxsbx_143" type="1">
+      <li class="list__item" id="pdxsbx_150">
+       <p>
+        <span class="emphasis" id="pdxsbx_153">
+         Select the project template
+        </span>
+        , depending on what you're trying to do. More templates will be added in the future.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_151">
+       <p>
+        <span class="emphasis" id="pdxsbx_154">
+         Select the build system
+        </span>
+        – Gradle (Kotlin or Groovy DSL), Maven, or IntelliJ IDEA.
+       </p>
+       <br/>
+       <p>
+        The Kotlin Project Wizard will only show the build systems supported on the selected project template.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_152">
+       <p>
+        <span class="emphasis" id="pdxsbx_156">
+         Preview the project structure
+        </span>
+        directly on the main screen.
+       </p>
+      </li>
+     </ol>
+     <p id="pdxsbx_144">
+      Then you can finish creating your project or, optionally,
+      <span class="emphasis" id="pdxsbx_157">
+       configure the project
+      </span>
+      on the next screen:
+     </p>
+     <ol class="list _decimal" id="pdxsbx_145" start="4" type="1">
+      <li class="list__item" id="pdxsbx_158">
+       <p>
+        <span class="emphasis" id="pdxsbx_160">
+         Add/remove modules and targets
+        </span>
+        supported for this project template.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_159">
+       <p>
+        <span class="emphasis" id="pdxsbx_161">
+         Configure module and target settings
+        </span>
+        , for example, the target JVM version, target template, and test framework.
+       </p>
+      </li>
+     </ol>
+     <figure id="pdxsbx_146">
+      <img alt="Kotlin Project Wizard - Configure targets" height="1120" src="images/multiplatform-project-2-wn.png" title="Kotlin Project Wizard - Configure targets" width="2046"/>
+     </figure>
+     <p id="pdxsbx_147">
+      In the future, we are going to make the Kotlin Project Wizard even more flexible by adding more configuration options and templates.
+     </p>
+     <p id="pdxsbx_148">
+      You can try out the new Kotlin Project Wizard by working through these tutorials:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_149">
+      <li class="list__item" id="pdxsbx_162">
+       <p>
+        <a data-tooltip="This tutorial demonstrates how to use IntelliJ IDEA for creating a console application." href="jvm-get-started.html" id="pdxsbx_165">
+         Create a console application based on Kotlin/JVM
+        </a>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_163">
+       <p>
+        <a data-tooltip="This tutorial will teach you how to build a browser application with Kotlin/JS and the React framework. You will:" href="js-react.html" id="pdxsbx_166">
+         Create a Kotlin/JS application for React
+        </a>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_164">
+       <p>
+        <a data-tooltip="In this tutorial, you'll learn how to create a Kotlin/Native application. Choose the tool that works best for you and create your app using:" href="native-get-started.html" id="pdxsbx_167">
+         Create a Kotlin/Native application
+        </a>
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="coroutine-debugger" id="coroutine-debugger">
+      Coroutine Debugger
+     </h3>
+     <p id="pdxsbx_168">
+      Many people already use
+      <span id="pdxsbx_178">
+       coroutines
+      </span>
+      for asynchronous programming. But when it came to debugging, working with coroutines before Kotlin 1.4, could be a real pain. Since coroutines jumped between threads, it was difficult to understand what a specific coroutine was doing and check its context. In some cases, tracking steps over breakpoints simply didn't work. As a result, you had to rely on logging or mental effort to debug code that used coroutines.
+     </p>
+     <p id="pdxsbx_169">
+      In Kotlin 1.4, debugging coroutines is now much more convenient with the new functionality shipped with the Kotlin plugin.
+     </p>
+     <aside class="prompt" data-title="" data-type="note" id="pdxsbx_170">
+      <p id="pdxsbx_179">
+       Debugging works for versions 1.3.8 or later of
+       <code class="code" id="pdxsbx_180">
+        kotlinx-coroutines-core
+       </code>
+       .
+      </p>
+     </aside>
+     <p id="pdxsbx_171">
+      The
+      <span class="control" id="pdxsbx_181">
+       Debug Tool Window
+      </span>
+      now contains a new
+      <span class="control" id="pdxsbx_182">
+       Coroutines
+      </span>
+      tab. In this tab, you can find information about both currently running and suspended coroutines. The coroutines are grouped by the dispatcher they are running on.
+     </p>
+     <figure id="pdxsbx_172">
+      <img alt="Debugging coroutines" height="612" src="images/coroutine-debugger-wn.png" title="Debugging coroutines" width="2800"/>
+     </figure>
+     <p id="pdxsbx_173">
+      Now you can:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_174">
+      <li class="list__item" id="pdxsbx_183">
+       <p>
+        Easily check the state of each coroutine.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_184">
+       <p>
+        See the values of local and captured variables for both running and suspended coroutines.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_185">
+       <p>
+        See a full coroutine creation stack, as well as a call stack inside the coroutine. The stack includes all frames with variable values, even those that would be lost during standard debugging.
+       </p>
+      </li>
+     </ul>
+     <p id="pdxsbx_175">
+      If you need a full report containing the state of each coroutine and its stack, right-click inside the
+      <span class="control" id="pdxsbx_186">
+       Coroutines
+      </span>
+      tab, and then click
+      <span class="control" id="pdxsbx_187">
+       Get Coroutines Dump
+      </span>
+      . Currently, the coroutines dump is rather simple, but we're going to make it more readable and helpful in future versions of Kotlin.
+     </p>
+     <figure id="pdxsbx_176">
+      <img alt="Coroutines Dump" height="334" src="images/coroutines-dump-wn.png" title="Coroutines Dump" width="1158"/>
+     </figure>
+     <p id="pdxsbx_177">
+      Learn more about debugging coroutines in
+      <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-rc-debugging-coroutines/" id="pdxsbx_188" rel="noopener noreferrer">
+       this blog post
+      </a>
+      and
+      <a data-external="true" href="https://www.jetbrains.com/help/idea/debug-kotlin-coroutines.html" id="pdxsbx_189" rel="noopener noreferrer">
+       IntelliJ IDEA documentation
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="new-compiler" id="new-compiler">
+     New compiler
+    </h2>
+    <p id="pdxsbx_190">
+     The new Kotlin compiler is going to be really fast; it will unify all the supported platforms and provide an API for compiler extensions. It's a long-term project, and we've already completed several steps in Kotlin 1.4.0:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_191">
+     <li class="list__item" id="pdxsbx_194">
+      <p>
+       <a data-tooltip="Kotlin 1.4 uses a new, more powerful type inference algorithm. This new algorithm was already available to try in Kotlin 1.3 by specifying a compiler option, and now it's used by default. You can find the full list of issues fixed in the new algorithm in YouTrack. Here you can find…" href="#new-more-powerful-type-inference-algorithm" id="pdxsbx_196">
+        New, more powerful type inference algorithm
+       </a>
+       is enabled by default.
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_195">
+      <p>
+       <a data-tooltip="In Kotlin, we have three backends that generate executables: Kotlin/JVM, Kotlin/JS, and Kotlin/Native. Kotlin/JVM and Kotlin/JS don't share much code since they were developed independently of each other. Kotlin/Native is based on a new infrastructure built around an intermediate…" href="#unified-backends-and-extensibility" id="pdxsbx_197">
+        New JVM and JS IR backends
+       </a>
+       . They will become the default once we stabilize them.
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="new-more-powerful-type-inference-algorithm" id="new-more-powerful-type-inference-algorithm">
+      New more powerful type inference algorithm
+     </h3>
+     <p id="pdxsbx_198">
+      Kotlin 1.4 uses a new, more powerful type inference algorithm. This new algorithm was already available to try in Kotlin 1.3 by specifying a compiler option, and now it's used by default. You can find the full list of issues fixed in the new algorithm in
+      <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT?q=Tag:%20fixed-in-new-inference%20" id="pdxsbx_206" rel="noopener noreferrer">
+       YouTrack
+      </a>
+      . Here you can find some of the most noticeable improvements:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_199">
+      <li class="list__item" id="pdxsbx_207">
+       <p>
+        <a data-tooltip="The new inference algorithm infers types for many cases where the old algorithm required you to specify them explicitly. For instance, in the following example the type of the lambda parameter it is correctly inferred to String?:" href="#more-cases-where-type-is-inferred-automatically" id="pdxsbx_213">
+         More cases where type is inferred automatically
+        </a>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_208">
+       <p>
+        <a data-tooltip="In Kotlin 1.3, the last expression inside a lambda wasn't smart cast unless you specified the expected type. Thus, in the following example, Kotlin 1.3 infers String? as the type of the result variable:" href="#smart-casts-for-a-lambda-s-last-expression" id="pdxsbx_214">
+         Smart casts for a lambda's last expression
+        </a>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_209">
+       <p>
+        <a data-tooltip="In Kotlin 1.3, you couldn't access a member reference of a smart cast type. Now in Kotlin 1.4 you can:" href="#smart-casts-for-callable-references" id="pdxsbx_215">
+         Smart casts for callable references
+        </a>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_210">
+       <p>
+        <a data-tooltip="The type of a delegated property wasn't taken into account while analyzing the delegate expression which follows the by keyword. For instance, the following code didn't compile before, but now the compiler correctly infers the types of the old and new parameters as String?:" href="#better-inference-for-delegated-properties" id="pdxsbx_216">
+         Better inference for delegated properties
+        </a>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_211">
+       <p>
+        <a data-tooltip="Kotlin has supported SAM conversions for Java interfaces from the beginning, but there was one case that wasn't supported, which was sometimes annoying when working with existing Java libraries. If you called a Java method that took two SAM interfaces as parameters, both arguments…" href="#sam-conversion-for-java-interfaces-with-different-arguments" id="pdxsbx_217">
+         SAM conversion for Java interfaces with different arguments
+        </a>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_212">
+       <p>
+        <a data-tooltip="In Kotlin 1.4, you can use Java SAM interfaces in Kotlin and apply SAM conversions to them." href="#java-sam-interfaces-in-kotlin" id="pdxsbx_218">
+         Java SAM interfaces in Kotlin
+        </a>
+       </p>
+      </li>
+     </ul>
+     <section class="chapter">
+      <h4 data-toc="more-cases-where-type-is-inferred-automatically" id="more-cases-where-type-is-inferred-automatically">
+       More cases where type is inferred automatically
+      </h4>
+      <p id="pdxsbx_219">
+       The new inference algorithm infers types for many cases where the old algorithm required you to specify them explicitly. For instance, in the following example the type of the lambda parameter
+       <code class="code" id="pdxsbx_222">
+        it
+       </code>
+       is correctly inferred to
+       <code class="code" id="pdxsbx_223">
+        String?
+       </code>
+       :
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+       //sampleStart
+val rulesMap: Map&lt;String, (String?) -&gt; Boolean&gt; = mapOf(
+    "weak" to { it != null },
+    "medium" to { !it.isNullOrBlank() },
+    "strong" to { it != null &amp;&amp; "^[a-zA-Z0-9]+$".toRegex().matches(it) }
+)
+//sampleEnd
+
+fun main() {
+    println(rulesMap.getValue("weak")("abc!"))
+    println(rulesMap.getValue("strong")("abc"))
+    println(rulesMap.getValue("strong")("abc!"))
+}
+      </div>
+      <p id="pdxsbx_221">
+       In Kotlin 1.3, you needed to introduce an explicit lambda parameter or replace
+       <code class="code" id="pdxsbx_224">
+        to
+       </code>
+       with a
+       <code class="code" id="pdxsbx_225">
+        Pair
+       </code>
+       constructor with explicit generic arguments to make it work.
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="smart-casts-for-a-lambda-s-last-expression" id="smart-casts-for-a-lambda-s-last-expression">
+       Smart casts for a lambda's last expression
+      </h4>
+      <p id="pdxsbx_226">
+       In Kotlin 1.3, the last expression inside a lambda wasn't smart cast unless you specified the expected type. Thus, in the following example, Kotlin 1.3 infers
+       <code class="code" id="pdxsbx_230">
+        String?
+       </code>
+       as the type of the
+       <code class="code" id="pdxsbx_231">
+        result
+       </code>
+       variable:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       val result = run {
+    var str = currentValue()
+    if (str == null) {
+        str = "test"
+    }
+    str // the Kotlin compiler knows that str is not null here
+}
+// The type of 'result' is String? in Kotlin 1.3 and String in Kotlin 1.4
+      </div>
+      <p id="pdxsbx_228">
+       In Kotlin 1.4, thanks to the new inference algorithm, the last expression inside a lambda gets smart cast, and this new, more precise type is used to infer the resulting lambda type. Thus, the type of the
+       <code class="code" id="pdxsbx_232">
+        result
+       </code>
+       variable becomes
+       <code class="code" id="pdxsbx_233">
+        String
+       </code>
+       .
+      </p>
+      <p id="pdxsbx_229">
+       In Kotlin 1.3, you often needed to add explicit casts (either
+       <code class="code" id="pdxsbx_234">
+        !!
+       </code>
+       or type casts like
+       <code class="code" id="pdxsbx_235">
+        as String
+       </code>
+       ) to make such cases work, and now these casts have become unnecessary.
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="smart-casts-for-callable-references" id="smart-casts-for-callable-references">
+       Smart casts for callable references
+      </h4>
+      <p id="pdxsbx_236">
+       In Kotlin 1.3, you couldn't access a member reference of a smart cast type. Now in Kotlin 1.4 you can:
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+       import kotlin.reflect.KFunction
+
+sealed class Animal
+class Cat : Animal() {
+    fun meow() {
+        println("meow")
+    }
+}
+
+class Dog : Animal() {
+    fun woof() {
+        println("woof")
+    }
+}
+
+//sampleStart
+fun perform(animal: Animal) {
+    val kFunction: KFunction&lt;*&gt; = when (animal) {
+        is Cat -&gt; animal::meow
+        is Dog -&gt; animal::woof
+    }
+    kFunction.call()
+}
+//sampleEnd
+
+fun main() {
+    perform(Cat())
+}
+      </div>
+      <p id="pdxsbx_238">
+       You can use different member references
+       <code class="code" id="pdxsbx_239">
+        animal::meow
+       </code>
+       and
+       <code class="code" id="pdxsbx_240">
+        animal::woof
+       </code>
+       after the animal variable has been smart cast to specific types
+       <code class="code" id="pdxsbx_241">
+        Cat
+       </code>
+       and
+       <code class="code" id="pdxsbx_242">
+        Dog
+       </code>
+       . After type checks, you can access member references corresponding to subtypes.
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="better-inference-for-delegated-properties" id="better-inference-for-delegated-properties">
+       Better inference for delegated properties
+      </h4>
+      <p id="pdxsbx_243">
+       The type of a delegated property wasn't taken into account while analyzing the delegate expression which follows the
+       <code class="code" id="pdxsbx_245">
+        by
+       </code>
+       keyword. For instance, the following code didn't compile before, but now the compiler correctly infers the types of the
+       <code class="code" id="pdxsbx_246">
+        old
+       </code>
+       and
+       <code class="code" id="pdxsbx_247">
+        new
+       </code>
+       parameters as
+       <code class="code" id="pdxsbx_248">
+        String?
+       </code>
+       :
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+       import kotlin.properties.Delegates
+
+fun main() {
+    var prop: String? by Delegates.observable(null) { p, old, new -&gt;
+        println("$old → $new")
+    }
+    prop = "abc"
+    prop = "xyz"
+}
+      </div>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="sam-conversion-for-java-interfaces-with-different-arguments" id="sam-conversion-for-java-interfaces-with-different-arguments">
+       SAM conversion for Java interfaces with different arguments
+      </h4>
+      <p id="pdxsbx_249">
+       Kotlin has supported SAM conversions for Java interfaces from the beginning, but there was one case that wasn't supported, which was sometimes annoying when working with existing Java libraries. If you called a Java method that took two SAM interfaces as parameters, both arguments needed to be either lambdas or regular objects. You couldn't pass one argument as a lambda and another as an object.
+      </p>
+      <p id="pdxsbx_250">
+       The new algorithm fixes this issue, and you can pass a lambda instead of a SAM interface in any case, which is the way you'd naturally expect it to work.
+      </p>
+      <div class="code-block" data-lang="java">
+       // FILE: A.java
+public class A {
+    public static void foo(Runnable r1, Runnable r2) {}
+}
+      </div>
+      <div class="code-block" data-lang="kotlin">
+       // FILE: test.kt
+fun test(r1: Runnable) {
+    A.foo(r1) {}  // Works in Kotlin 1.4
+}
+      </div>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="java-sam-interfaces-in-kotlin" id="java-sam-interfaces-in-kotlin">
+       Java SAM interfaces in Kotlin
+      </h4>
+      <p id="pdxsbx_253">
+       In Kotlin 1.4, you can use Java SAM interfaces in Kotlin and apply SAM conversions to them.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       import java.lang.Runnable
+
+fun foo(r: Runnable) {}
+
+fun test() { 
+    foo { } // OK
+}
+      </div>
+      <p id="pdxsbx_255">
+       In Kotlin 1.3, you would have had to declare the function
+       <code class="code" id="pdxsbx_256">
+        foo
+       </code>
+       above in Java code to perform a SAM conversion.
+      </p>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="unified-backends-and-extensibility" id="unified-backends-and-extensibility">
+      Unified backends and extensibility
+     </h3>
+     <p id="pdxsbx_257">
+      In Kotlin, we have three backends that generate executables: Kotlin/JVM, Kotlin/JS, and Kotlin/Native. Kotlin/JVM and Kotlin/JS don't share much code since they were developed independently of each other. Kotlin/Native is based on a new infrastructure built around an intermediate representation (IR) for Kotlin code.
+     </p>
+     <p id="pdxsbx_258">
+      We are now migrating Kotlin/JVM and Kotlin/JS to the same IR. As a result, all three backends share a lot of logic and have a unified pipeline. This allows us to implement most features, optimizations, and bug fixes only once for all platforms. Both new IR-based back-ends are in
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdxsbx_261">
+       Alpha
+      </a>
+      .
+     </p>
+     <p id="pdxsbx_259">
+      A common backend infrastructure also opens the door for multiplatform compiler extensions. You will be able to plug into the pipeline and add custom processing and transformations that will automatically work for all platforms.
+     </p>
+     <p id="pdxsbx_260">
+      We encourage you to use our new
+      <a data-tooltip="Along with Kotlin/JS, we are migrating Kotlin/JVM to the unified IR backend, which allows us to implement most features and bug fixes once for all platforms. You will also be able to benefit from this by creating multiplatform extensions that will work for all platforms." href="#new-jvm-ir-backend" id="pdxsbx_262">
+       JVM IR
+      </a>
+      and
+      <a data-tooltip="The IR backend for Kotlin/JS, which currently has Alpha stability, provides some new functionality specific to the Kotlin/JS target which is focused around the generated code size through dead code elimination, and improved interoperation with JavaScript and TypeScript, among others." href="#new-js-ir-backend" id="pdxsbx_263">
+       JS IR
+      </a>
+      backends, which are currently in Alpha, and share your feedback with us.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-jvm" id="kotlin-jvm">
+     Kotlin/JVM
+    </h2>
+    <p id="pdxsbx_264">
+     Kotlin 1.4.0 includes a number of JVM-specific improvements, such as:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_265">
+     <li class="list__item" id="pdxsbx_270">
+      <p>
+       <a data-tooltip="Along with Kotlin/JS, we are migrating Kotlin/JVM to the unified IR backend, which allows us to implement most features and bug fixes once for all platforms. You will also be able to benefit from this by creating multiplatform extensions that will work for all platforms." href="#new-jvm-ir-backend" id="pdxsbx_274">
+        New JVM IR backend
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_271">
+      <p>
+       <a data-tooltip="When compiling Kotlin code to targets JVM 1.8 and above, you could compile non-abstract methods of Kotlin interfaces into Java's default methods. For this purpose, there was a mechanism that includes the @JvmDefault annotation for marking such methods and the -Xjvm-default compiler…" href="#new-modes-for-generating-default-methods" id="pdxsbx_275">
+        New modes for generating default methods in interfaces
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_272">
+      <p>
+       <a data-tooltip="Starting from Kotlin 1.4.0, all runtime null checks will throw a java.lang.NullPointerException instead of KotlinNullPointerException, IllegalStateException, IllegalArgumentException, and TypeCastException. This applies to: the !! operator, parameter null checks in the method…" href="#unified-exception-type-for-null-checks" id="pdxsbx_276">
+        Unified exception type for null checks
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_273">
+      <p>
+       <a data-tooltip="Kotlin can now generate type annotations in the JVM bytecode (target version 1.8+), so that they become available in Java reflection at runtime. To emit the type annotation in the bytecode, follow these steps:" href="#type-annotations-in-the-jvm-bytecode" id="pdxsbx_277">
+        Type annotations in the JVM bytecode
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="new-jvm-ir-backend" id="new-jvm-ir-backend">
+      New JVM IR backend
+     </h3>
+     <p id="pdxsbx_278">
+      Along with Kotlin/JS, we are migrating Kotlin/JVM to the
+      <a data-tooltip="In Kotlin, we have three backends that generate executables: Kotlin/JVM, Kotlin/JS, and Kotlin/Native. Kotlin/JVM and Kotlin/JS don't share much code since they were developed independently of each other. Kotlin/Native is based on a new infrastructure built around an intermediate…" href="#unified-backends-and-extensibility" id="pdxsbx_286">
+       unified IR backend
+      </a>
+      , which allows us to implement most features and bug fixes once for all platforms. You will also be able to benefit from this by creating multiplatform extensions that will work for all platforms.
+     </p>
+     <p id="pdxsbx_279">
+      Kotlin 1.4.0 does not provide a public API for such extensions yet, but we are working closely with our partners, including
+      <a data-external="true" href="https://developer.android.com/jetpack/compose" id="pdxsbx_287" rel="noopener noreferrer">
+       Jetpack Compose
+      </a>
+      , who are already building their compiler plugins using our new backend.
+     </p>
+     <p id="pdxsbx_280">
+      We encourage you to try out the new Kotlin/JVM backend, which is currently in Alpha, and to file any issues and feature requests to our
+      <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="pdxsbx_288" rel="noopener noreferrer">
+       issue tracker
+      </a>
+      . This will help us to unify the compiler pipelines and bring compiler extensions like Jetpack Compose to the Kotlin community more quickly.
+     </p>
+     <p id="pdxsbx_281">
+      To enable the new JVM IR backend, specify an additional compiler option in your Gradle build script:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlinOptions.useIR = true
+     </div>
+     <aside class="prompt" data-title="" data-type="note" id="pdxsbx_283">
+      <p id="pdxsbx_289">
+       If you
+       <a data-external="true" href="https://developer.android.com/jetpack/compose/setup?hl=en" id="pdxsbx_290" rel="noopener noreferrer">
+        enable Jetpack Compose
+       </a>
+       , you will automatically be opted in to the new JVM backend without needing to specify the compiler option in
+       <code class="code" id="pdxsbx_291">
+        kotlinOptions
+       </code>
+       .
+      </p>
+     </aside>
+     <p id="pdxsbx_284">
+      When using the command-line compiler, add the compiler option
+      <code class="code" id="pdxsbx_292">
+       -Xuse-ir
+      </code>
+      .
+     </p>
+     <aside class="prompt" data-title="" data-type="note" id="pdxsbx_285">
+      <p id="pdxsbx_293">
+       You can use code compiled by the new JVM IR backend only if you've enabled the new backend. Otherwise, you will get an error. Considering this, we don't recommend that library authors switch to the new backend in production.
+      </p>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="new-modes-for-generating-default-methods" id="new-modes-for-generating-default-methods">
+      New modes for generating default methods
+     </h3>
+     <p id="pdxsbx_294">
+      When compiling Kotlin code to targets JVM 1.8 and above, you could compile non-abstract methods of Kotlin interfaces into Java's
+      <code class="code" id="pdxsbx_297">
+       default
+      </code>
+      methods. For this purpose, there was a mechanism that includes the
+      <code class="code" id="pdxsbx_298">
+       @JvmDefault
+      </code>
+      annotation for marking such methods and the
+      <code class="code" id="pdxsbx_299">
+       -Xjvm-default
+      </code>
+      compiler option that enables processing of this annotation.
+     </p>
+     <p id="pdxsbx_295">
+      In 1.4.0, we've added a new mode for generating default methods:
+      <code class="code" id="pdxsbx_300">
+       -Xjvm-default=all
+      </code>
+      compiles
+      <span class="emphasis" id="pdxsbx_301">
+       all
+      </span>
+      non-abstract methods of Kotlin interfaces to
+      <code class="code" id="pdxsbx_302">
+       default
+      </code>
+      Java methods. For compatibility with the code that uses the interfaces compiled without
+      <code class="code" id="pdxsbx_303">
+       default
+      </code>
+      , we also added
+      <code class="code" id="pdxsbx_304">
+       all-compatibility
+      </code>
+      mode.
+     </p>
+     <p id="pdxsbx_296">
+      For more information about default methods in the Java interop, see the
+      <a data-tooltip="Default methods are available only for targets JVM 1.8 and above." href="java-to-kotlin-interop.html#default-methods-in-interfaces" id="pdxsbx_305">
+       interoperability documentation
+      </a>
+      and
+      <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/" id="pdxsbx_306" rel="noopener noreferrer">
+       this blog post
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="unified-exception-type-for-null-checks" id="unified-exception-type-for-null-checks">
+      Unified exception type for null checks
+     </h3>
+     <p id="pdxsbx_307">
+      Starting from Kotlin 1.4.0, all runtime null checks will throw a
+      <code class="code" id="pdxsbx_310">
+       java.lang.NullPointerException
+      </code>
+      instead of
+      <code class="code" id="pdxsbx_311">
+       KotlinNullPointerException
+      </code>
+      ,
+      <code class="code" id="pdxsbx_312">
+       IllegalStateException
+      </code>
+      ,
+      <code class="code" id="pdxsbx_313">
+       IllegalArgumentException
+      </code>
+      , and
+      <code class="code" id="pdxsbx_314">
+       TypeCastException
+      </code>
+      . This applies to: the
+      <code class="code" id="pdxsbx_315">
+       !!
+      </code>
+      operator, parameter null checks in the method preamble, platform-typed expression null checks, and the
+      <code class="code" id="pdxsbx_316">
+       as
+      </code>
+      operator with a non-nullable type. This doesn't apply to
+      <code class="code" id="pdxsbx_317">
+       lateinit
+      </code>
+      null checks and explicit library function calls like
+      <code class="code" id="pdxsbx_318">
+       checkNotNull
+      </code>
+      or
+      <code class="code" id="pdxsbx_319">
+       requireNotNull
+      </code>
+      .
+     </p>
+     <p id="pdxsbx_308">
+      This change increases the number of possible null check optimizations that can be performed either by the Kotlin compiler or by various kinds of bytecode processing tools, such as the Android
+      <a data-external="true" href="https://developer.android.com/studio/build/shrink-code" id="pdxsbx_320" rel="noopener noreferrer">
+       R8 optimizer
+      </a>
+      .
+     </p>
+     <p id="pdxsbx_309">
+      Note that from a developer's perspective, things won't change that much: the Kotlin code will throw exceptions with the same error messages as before. The type of exception changes, but the information passed stays the same.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="type-annotations-in-the-jvm-bytecode" id="type-annotations-in-the-jvm-bytecode">
+      Type annotations in the JVM bytecode
+     </h3>
+     <p id="pdxsbx_321">
+      Kotlin can now generate type annotations in the JVM bytecode (target version 1.8+), so that they become available in Java reflection at runtime. To emit the type annotation in the bytecode, follow these steps:
+     </p>
+     <ol class="list _decimal" id="pdxsbx_322" type="1">
+      <li class="list__item" id="pdxsbx_328">
+       <p>
+        Make sure that your declared annotation has a proper annotation target (Java's
+        <code class="code" id="pdxsbx_331">
+         ElementType.TYPE_USE
+        </code>
+        or Kotlin's
+        <code class="code" id="pdxsbx_332">
+         AnnotationTarget.TYPE
+        </code>
+        ) and retention (
+        <code class="code" id="pdxsbx_333">
+         AnnotationRetention.RUNTIME
+        </code>
+        ).
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_329">
+       <p>
+        Compile the annotation class declaration to JVM bytecode target version 1.8+. You can specify it with
+        <code class="code" id="pdxsbx_334">
+         -jvm-target=1.8
+        </code>
+        compiler option.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_330">
+       <p>
+        Compile the code that uses the annotation to JVM bytecode target version 1.8+ (
+        <code class="code" id="pdxsbx_335">
+         -jvm-target=1.8
+        </code>
+        ) and add the
+        <code class="code" id="pdxsbx_336">
+         -Xemit-jvm-type-annotations
+        </code>
+        compiler option.
+       </p>
+      </li>
+     </ol>
+     <p id="pdxsbx_323">
+      Note that the type annotations from the standard library aren't emitted in the bytecode for now because the standard library is compiled with the target version 1.6.
+     </p>
+     <p id="pdxsbx_324">
+      So far, only the basic cases are supported:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_325">
+      <li class="list__item" id="pdxsbx_337">
+       <p>
+        Type annotations on method parameters, method return types and property types;
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_338">
+       <p>
+        Invariant projections of type arguments, such as
+        <code class="code" id="pdxsbx_339">
+         Smth&lt;@Ann Foo&gt;
+        </code>
+        ,
+        <code class="code" id="pdxsbx_340">
+         Array&lt;@Ann Foo&gt;
+        </code>
+        .
+       </p>
+      </li>
+     </ul>
+     <p id="pdxsbx_326">
+      In the following example, the
+      <code class="code" id="pdxsbx_341">
+       @Foo
+      </code>
+      annotation on the
+      <code class="code" id="pdxsbx_342">
+       String
+      </code>
+      type can be emitted to the bytecode and then used by the library code:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      @Target(AnnotationTarget.TYPE)
+annotation class Foo
+
+class A {
+    fun foo(): @Foo String = "OK"
+}
+     </div>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-js" id="kotlin-js">
+     Kotlin/JS
+    </h2>
+    <p id="pdxsbx_343">
+     On the JS platform, Kotlin 1.4.0 provides the following improvements:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_344">
+     <li class="list__item" id="pdxsbx_347">
+      <p>
+       <a data-tooltip="The kotlin.js Gradle plugin comes with an adjusted Gradle DSL, which provides a number of new configuration options and is more closely aligned to the DSL used by the kotlin-multiplatform plugin. Some of the most impactful changes include:" href="#new-gradle-dsl" id="pdxsbx_349">
+        New Gradle DSL
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_348">
+      <p>
+       <a data-tooltip="The IR backend for Kotlin/JS, which currently has Alpha stability, provides some new functionality specific to the Kotlin/JS target which is focused around the generated code size through dead code elimination, and improved interoperation with JavaScript and TypeScript, among others." href="#new-js-ir-backend" id="pdxsbx_350">
+        New JS IR backend
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="new-gradle-dsl" id="new-gradle-dsl">
+      New Gradle DSL
+     </h3>
+     <p id="pdxsbx_351">
+      The
+      <code class="code" id="pdxsbx_353">
+       kotlin.js
+      </code>
+      Gradle plugin comes with an adjusted Gradle DSL, which provides a number of new configuration options and is more closely aligned to the DSL used by the
+      <code class="code" id="pdxsbx_354">
+       kotlin-multiplatform
+      </code>
+      plugin. Some of the most impactful changes include:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_352">
+      <li class="list__item" id="pdxsbx_355">
+       <p>
+        Explicit toggles for the creation of executable files via
+        <code class="code" id="pdxsbx_359">
+         binaries.executable()
+        </code>
+        . Read more about the
+        <a data-tooltip="Kotlin/JS projects can target two different execution environments:" href="js-project-setup.html#execution-environments" id="pdxsbx_360">
+         executing Kotlin/JS and its environment here
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_356">
+       <p>
+        Configuration of webpack's CSS and style loaders from within the Gradle configuration via
+        <code class="code" id="pdxsbx_361">
+         cssSupport
+        </code>
+        . Read more about
+        <a data-tooltip="The Kotlin Multiplatform Gradle plugin also provides support for webpack's CSS and style loaders. While all options can be changed by directly modifying the webpack configuration files that are used to build your project, the most commonly used settings are available directly from…" href="js-project-setup.html#css" id="pdxsbx_362">
+         using CSS and style loaders here
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_357">
+       <p>
+        Improved management for npm dependencies, with mandatory version numbers or
+        <a data-external="true" href="https://docs.npmjs.com/about-semantic-versioning" id="pdxsbx_363" rel="noopener noreferrer">
+         semver
+        </a>
+        version ranges, as well as support for
+        <span class="emphasis" id="pdxsbx_364">
+         development
+        </span>
+        ,
+        <span class="emphasis" id="pdxsbx_365">
+         peer
+        </span>
+        , and
+        <span class="emphasis" id="pdxsbx_366">
+         optional
+        </span>
+        npm dependencies using
+        <code class="code" id="pdxsbx_367">
+         devNpm
+        </code>
+        ,
+        <code class="code" id="pdxsbx_368">
+         optionalNpm
+        </code>
+        and
+        <code class="code" id="pdxsbx_369">
+         peerNpm
+        </code>
+        .
+        <a data-tooltip="In the JavaScript world, the most common way to manage dependencies is npm. It offers the biggest public repository of JavaScript modules." href="js-project-setup.html#npm-dependencies" id="pdxsbx_370">
+         Read more about dependency management for npm packages directly from Gradle here
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_358">
+       <p>
+        Stronger integrations for
+        <a data-external="true" href="https://github.com/Kotlin/dukat" id="pdxsbx_371" rel="noopener noreferrer">
+         Dukat
+        </a>
+        , the generator for Kotlin external declarations. External declarations can now be generated at build time, or can be manually generated via a Gradle task.
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="new-js-ir-backend" id="new-js-ir-backend">
+      New JS IR backend
+     </h3>
+     <p id="pdxsbx_372">
+      The
+      <a data-tooltip="The Kotlin/JS IR compiler backend is the main focus of innovation around Kotlin/JS, and paves the way forward for the technology." href="js-ir-compiler.html" id="pdxsbx_378">
+       IR backend for Kotlin/JS
+      </a>
+      , which currently has
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdxsbx_379">
+       Alpha
+      </a>
+      stability, provides some new functionality specific to the Kotlin/JS target which is focused around the generated code size through dead code elimination, and improved interoperation with JavaScript and TypeScript, among others.
+     </p>
+     <p id="pdxsbx_373">
+      To enable the Kotlin/JS IR backend, set the key
+      <code class="code" id="pdxsbx_380">
+       kotlin.js.compiler=ir
+      </code>
+      in your
+      <code class="code" id="pdxsbx_381">
+       gradle.properties
+      </code>
+      , or pass the
+      <code class="code" id="pdxsbx_382">
+       IR
+      </code>
+      compiler type to the
+      <code class="code" id="pdxsbx_383">
+       js
+      </code>
+      function of your Gradle build script:
+     </p>
+     <div class="code-block" data-lang="groovy">
+      kotlin {
+    js(IR) { // or: LEGACY, BOTH
+        // ...
+    }
+    binaries.executable()
+}
+     </div>
+     <p id="pdxsbx_375">
+      For more detailed information about how to configure the new backend, check out the
+      <a data-tooltip="The Kotlin/JS IR compiler backend is the main focus of innovation around Kotlin/JS, and paves the way forward for the technology." href="js-ir-compiler.html" id="pdxsbx_384">
+       Kotlin/JS IR compiler documentation
+      </a>
+      .
+     </p>
+     <p id="pdxsbx_376">
+      With the new
+      <a data-tooltip="This feature is Experimental. Its design may change in future versions." href="js-to-kotlin-interop.html#jsexport-annotation" id="pdxsbx_385">
+       @JsExport
+      </a>
+      annotation and the ability to
+      <span class="control" id="pdxsbx_386">
+       <a data-tooltip="The generation of TypeScript declaration files (d.ts) is Experimental. It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes. We would appreciate your feedback on it in YouTrack." href="js-ir-compiler.html#preview-generation-of-typescript-declaration-files-d-ts" id="pdxsbx_388">
+        generate TypeScript definitions
+       </a>
+       from Kotlin code
+      </span>
+      , the Kotlin/JS IR compiler backend improves JavaScript &amp; TypeScript interoperability. This also makes it easier to integrate Kotlin/JS code with existing tooling, to create
+      <span class="control" id="pdxsbx_387">
+       hybrid applications
+      </span>
+      and leverage code-sharing functionality in multiplatform projects.
+     </p>
+     <p id="pdxsbx_377">
+      <a data-tooltip="The Kotlin/JS IR compiler backend is the main focus of innovation around Kotlin/JS, and paves the way forward for the technology." href="js-ir-compiler.html" id="pdxsbx_389">
+       Learn more about the available features in the Kotlin/JS IR compiler backend
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-native" id="kotlin-native">
+     Kotlin/Native
+    </h2>
+    <p id="pdxsbx_390">
+     In 1.4.0, Kotlin/Native got a significant number of new features and improvements, including:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_391">
+     <li class="list__item" id="pdxsbx_398">
+      <p>
+       <a data-tooltip="In 1.4.0, we add the basic support for suspending functions in Swift and Objective-C. Now, when you compile a Kotlin module into an Apple framework, suspending functions are available in it as functions with callbacks (completionHandler in the Swift/Objective-C terminology). When…" href="#support-for-kotlin-s-suspending-functions-in-swift-and-objective-c" id="pdxsbx_404">
+        Support for suspending functions in Swift and Objective-C
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_399">
+      <p>
+       <a data-tooltip="Previous versions of Kotlin provided experimental support for generics in Objective-C interop. Since 1.4.0, Kotlin/Native generates Apple frameworks with generics from Kotlin code by default. In some cases, this may break existing Objective-C or Swift code calling Kotlin frameworks.…" href="#objective-c-generics-support-by-default" id="pdxsbx_405">
+        Objective-C generics support by default
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_400">
+      <p>
+       <a data-tooltip="In 1.4.0, we slightly change the Swift API generated from Kotlin with respect to the way exceptions are translated. There is a fundamental difference in error handling between Kotlin and Swift. All Kotlin exceptions are unchecked, while Swift has only checked errors. Thus, to make…" href="#exception-handling-in-objective-c-swift-interop" id="pdxsbx_406">
+        Exception handling in Objective-C/Swift interop
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_401">
+      <p>
+       <a data-tooltip="Starting with 1.4.0, the Kotlin/Native compiler produces debug symbol files (.dSYMs) for release binaries on Darwin platforms by default. This can be disabled with the -Xadd-light-debug=disable compiler option. On other platforms, this option is disabled by default. To toggle this…" href="#generate-release-dsyms-on-apple-targets-by-default" id="pdxsbx_407">
+        Generate release .dSYMs on Apple targets by default
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_402">
+      <p>
+       <a data-tooltip="Kotlin/Native has received a number of performance improvements that speed up both the development process and execution. Here are some examples:" href="#performance-improvements" id="pdxsbx_408">
+        Performance improvements
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_403">
+      <p>
+       <a data-tooltip="Previously, once you integrated your project with the dependency manager CocoaPods, you could build an iOS, macOS, watchOS, or tvOS part of your project only in Xcode, separate from other parts of your multiplatform project. These other parts could be built in IntelliJ IDEA." href="#simplified-management-of-cocoapods-dependencies" id="pdxsbx_409">
+        Simplified management of CocoaPods dependencies
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="support-for-kotlin-s-suspending-functions-in-swift-and-objective-c" id="support-for-kotlin-s-suspending-functions-in-swift-and-objective-c">
+      Support for Kotlin's suspending functions in Swift and Objective-C
+     </h3>
+     <p id="pdxsbx_410">
+      In 1.4.0, we add the basic support for suspending functions in Swift and Objective-C. Now, when you compile a Kotlin module into an Apple framework, suspending functions are available in it as functions with callbacks (
+      <code class="code" id="pdxsbx_416">
+       completionHandler
+      </code>
+      in the Swift/Objective-C terminology). When you have such functions in the generated framework's header, you can call them from your Swift or Objective-C code and even override them.
+     </p>
+     <p id="pdxsbx_411">
+      For example, if you write this Kotlin function:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      suspend fun queryData(id: Int): String = ...
+     </div>
+     <p id="pdxsbx_413">
+      ...then you can call it from Swift like so:
+     </p>
+     <div class="code-block" data-lang="swift">
+      queryData(id: 17) { result, error in
+   if let e = error {
+       print("ERROR: \(e)")
+   } else {
+       print(result!)
+   }
+}
+     </div>
+     <p id="pdxsbx_415">
+      <a data-tooltip="The Objective-C libraries import is Experimental. All Kotlin declarations generated by the cinterop tool from Objective-C libraries should have the @ExperimentalForeignApi annotation." href="native-objc-interop.html" id="pdxsbx_417">
+       Learn more about using suspending functions in Swift and Objective-C
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="objective-c-generics-support-by-default" id="objective-c-generics-support-by-default">
+      Objective-C generics support by default
+     </h3>
+     <p id="pdxsbx_418">
+      Previous versions of Kotlin provided experimental support for generics in Objective-C interop. Since 1.4.0, Kotlin/Native generates Apple frameworks with generics from Kotlin code by default. In some cases, this may break existing Objective-C or Swift code calling Kotlin frameworks. To have the framework header written without generics, add the
+      <code class="code" id="pdxsbx_421">
+       -Xno-objc-generics
+      </code>
+      compiler option.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    targets.withType&lt;org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget&gt; {
+        binaries.all {
+            freeCompilerArgs += "-Xno-objc-generics"
+        }
+    }
+}
+     </div>
+     <p id="pdxsbx_420">
+      Please note that all specifics and limitations listed in the
+      <a data-tooltip='Objective-C supports "lightweight generics" defined on classes, with a relatively limited feature set. Swift can import generics defined on classes to help provide additional type information to the compiler.' href="native-objc-interop.html#generics" id="pdxsbx_422">
+       documentation on interoperability with Objective-C
+      </a>
+      are still valid.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="exception-handling-in-objective-c-swift-interop" id="exception-handling-in-objective-c-swift-interop">
+      Exception handling in Objective-C/Swift interop
+     </h3>
+     <p id="pdxsbx_423">
+      In 1.4.0, we slightly change the Swift API generated from Kotlin with respect to the way exceptions are translated. There is a fundamental difference in error handling between Kotlin and Swift. All Kotlin exceptions are unchecked, while Swift has only checked errors. Thus, to make Swift code aware of expected exceptions, Kotlin functions should be marked with a
+      <code class="code" id="pdxsbx_426">
+       @Throws
+      </code>
+      annotation specifying a list of potential exception classes.
+     </p>
+     <p id="pdxsbx_424">
+      When compiling to Swift or the Objective-C framework, functions that have or are inheriting
+      <code class="code" id="pdxsbx_427">
+       @Throws
+      </code>
+      annotation are represented as
+      <code class="code" id="pdxsbx_428">
+       NSError*
+      </code>
+      -producing methods in Objective-C and as
+      <code class="code" id="pdxsbx_429">
+       throws
+      </code>
+      methods in Swift.
+     </p>
+     <p id="pdxsbx_425">
+      Previously, any exceptions other than
+      <code class="code" id="pdxsbx_430">
+       RuntimeException
+      </code>
+      and
+      <code class="code" id="pdxsbx_431">
+       Error
+      </code>
+      were propagated as
+      <code class="code" id="pdxsbx_432">
+       NSError
+      </code>
+      . Now this behavior changes: now
+      <code class="code" id="pdxsbx_433">
+       NSError
+      </code>
+      is thrown only for exceptions that are instances of classes specified as parameters of
+      <code class="code" id="pdxsbx_434">
+       @Throws
+      </code>
+      annotation (or their subclasses). Other Kotlin exceptions that reach Swift/Objective-C are considered unhandled and cause program termination.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="generate-release-dsyms-on-apple-targets-by-default" id="generate-release-dsyms-on-apple-targets-by-default">
+      Generate release .dSYMs on Apple targets by default
+     </h3>
+     <p id="pdxsbx_435">
+      Starting with 1.4.0, the Kotlin/Native compiler produces
+      <a data-external="true" href="https://developer.apple.com/documentation/xcode/building_your_app_to_include_debugging_information" id="pdxsbx_438" rel="noopener noreferrer">
+       debug symbol files
+      </a>
+      (
+      <code class="code" id="pdxsbx_439">
+       .dSYM
+      </code>
+      s) for release binaries on Darwin platforms by default. This can be disabled with the
+      <code class="code" id="pdxsbx_440">
+       -Xadd-light-debug=disable
+      </code>
+      compiler option. On other platforms, this option is disabled by default. To toggle this option in Gradle, use:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    targets.withType&lt;org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget&gt; {
+        binaries.all {
+            freeCompilerArgs += "-Xadd-light-debug={enable|disable}"
+        }
+    }
+}
+     </div>
+     <p id="pdxsbx_437">
+      <a data-tooltip="Debugging an iOS application crash sometimes involves analyzing crash reports. More info about crash reports can be found in the Apple documentation." href="native-ios-symbolication.html" id="pdxsbx_441">
+       Learn more about crash report symbolication
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="performance-improvements" id="performance-improvements">
+      Performance improvements
+     </h3>
+     <p id="pdxsbx_442">
+      Kotlin/Native has received a number of performance improvements that speed up both the development process and execution. Here are some examples:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_443">
+      <li class="list__item" id="pdxsbx_444">
+       <p id="pdxsbx_448">
+        To improve the speed of object allocation, we now offer the
+        <a data-external="true" href="https://github.com/microsoft/mimalloc" id="pdxsbx_449" rel="noopener noreferrer">
+         mimalloc
+        </a>
+        memory allocator as an alternative to the system allocator. mimalloc works up to two times faster on some benchmarks. Currently, the usage of mimalloc in Kotlin/Native is experimental; you can switch to it using the
+        <code class="code" id="pdxsbx_450">
+         -Xallocator=mimalloc
+        </code>
+        compiler option.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_445">
+       <p id="pdxsbx_451">
+        We've reworked how C interop libraries are built. With the new tooling, Kotlin/Native produces interop libraries up to 4 times as fast as before, and artifacts are 25% to 30% the size they used to be.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_446">
+       <p id="pdxsbx_452">
+        Overall runtime performance has improved because of optimizations in GC. This improvement will be especially apparent in projects with a large number of long-lived objects.
+        <code class="code" id="pdxsbx_453">
+         HashMap
+        </code>
+        and
+        <code class="code" id="pdxsbx_454">
+         HashSet
+        </code>
+        collections now work faster by escaping redundant boxing.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_447">
+       <p id="pdxsbx_455">
+        In 1.3.70 we introduced two new features for improving the performance of Kotlin/Native compilation:
+        <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/03/kotlin-1-3-70-released/#kotlin-native" id="pdxsbx_456" rel="noopener noreferrer">
+         caching project dependencies and running the compiler from the Gradle daemon
+        </a>
+        . Since that time, we've managed to fix numerous issues and improve the overall stability of these features.
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="simplified-management-of-cocoapods-dependencies" id="simplified-management-of-cocoapods-dependencies">
+      Simplified management of CocoaPods dependencies
+     </h3>
+     <p id="pdxsbx_457">
+      Previously, once you integrated your project with the dependency manager CocoaPods, you could build an iOS, macOS, watchOS, or tvOS part of your project only in Xcode, separate from other parts of your multiplatform project. These other parts could be built in IntelliJ IDEA.
+     </p>
+     <p id="pdxsbx_458">
+      Moreover, every time you added a dependency on an Objective-C library stored in CocoaPods (Pod library), you had to switch from IntelliJ IDEA to Xcode, call
+      <code class="code" id="pdxsbx_465">
+       pod install
+      </code>
+      , and run the Xcode build there.
+     </p>
+     <p id="pdxsbx_459">
+      Now you can manage Pod dependencies right in IntelliJ IDEA while enjoying the benefits it provides for working with code, such as code highlighting and completion. You can also build the whole Kotlin project with Gradle, without having to switch to Xcode. This means you only have to go to Xcode when you need to write Swift/Objective-C code or run your application on a simulator or device.
+     </p>
+     <p id="pdxsbx_460">
+      Now you can also work with Pod libraries stored locally.
+     </p>
+     <p id="pdxsbx_461">
+      Depending on your needs, you can add dependencies between:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_462">
+      <li class="list__item" id="pdxsbx_466">
+       <p>
+        A Kotlin project and Pod libraries stored remotely in the CocoaPods repository or stored locally on your machine.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_467">
+       <p>
+        A Kotlin Pod (Kotlin project used as a CocoaPods dependency) and an Xcode project with one or more targets.
+       </p>
+      </li>
+     </ul>
+     <p id="pdxsbx_463">
+      Complete the initial configuration, and when you add a new dependency to
+      <code class="code" id="pdxsbx_468">
+       cocoapods
+      </code>
+      , just re-import the project in IntelliJ IDEA. The new dependency will be added automatically. No additional steps are required.
+     </p>
+     <p id="pdxsbx_464">
+      <a data-tooltip="To add dependencies between a Kotlin project and a Pod library, complete the initial configuration. You can then add dependencies on different types of Pod libraries." href="native-cocoapods-libraries.html" id="pdxsbx_469">
+       Learn how to add dependencies
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-multiplatform" id="kotlin-multiplatform">
+     Kotlin Multiplatform
+    </h2>
+    <aside class="prompt" data-title="" data-type="warning" id="pdxsbx_470">
+     <p id="pdxsbx_477">
+      Support for multiplatform projects is in
+      <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="pdxsbx_478">
+       Alpha
+      </a>
+      . It may change incompatibly and require manual migration in the future. We appreciate your feedback on it in
+      <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="pdxsbx_479" rel="noopener noreferrer">
+       YouTrack
+      </a>
+      .
+     </p>
+    </aside>
+    <p id="pdxsbx_471">
+     <a data-tooltip="Support for multiplatform programming is one of Kotlin's key benefits. It reduces time spent writing and maintaining the same code for different platforms while retaining the flexibility and benefits of native programming." href="multiplatform-intro.html" id="pdxsbx_480">
+      Kotlin Multiplatform
+     </a>
+     reduces time spent writing and maintaining the same code for
+     <a data-tooltip="A target is a part of the build responsible for compiling, testing, and packaging a piece of software aimed at one of the supported platforms. Kotlin provides targets for each platform, so you can instruct Kotlin to compile code for that specific target. Learn more about setting up…" href="multiplatform-dsl-reference.html#targets" id="pdxsbx_481">
+      different platforms
+     </a>
+     while retaining the flexibility and benefits of native programming. We continue investing our effort in multiplatform features and improvements:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_472">
+     <li class="list__item" id="pdxsbx_482">
+      <p>
+       <a data-tooltip="With the new hierarchical project structure support, you can share code among several platforms in a multiplatform project." href="#sharing-code-in-several-targets-with-the-hierarchical-project-structure" id="pdxsbx_485">
+        Sharing code in several targets with the hierarchical project structure
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_483">
+      <p>
+       <a data-tooltip="You can use platform-dependent libraries, such as Foundation, UIKit, and POSIX, in source sets shared among several native targets. This can help you share more native code without being limited by platform-specific dependencies." href="#leveraging-native-libs-in-the-hierarchical-structure" id="pdxsbx_486">
+        Leveraging native libs in the hierarchical structure
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_484">
+      <p>
+       <a data-tooltip="From now on, instead of specifying dependencies on different variants of the same library in shared and platform-specific source sets where it is used, you should specify a dependency only once in the shared source set." href="#specifying-dependencies-only-once" id="pdxsbx_487">
+        Specifying kotlinx dependencies only once
+       </a>
+      </p>
+     </li>
+    </ul>
+    <aside class="prompt" data-title="" data-type="note" id="pdxsbx_473">
+     <p id="pdxsbx_488">
+      Multiplatform projects require Gradle 6.0 or later.
+     </p>
+    </aside>
+    <section class="chapter">
+     <h3 data-toc="sharing-code-in-several-targets-with-the-hierarchical-project-structure" id="sharing-code-in-several-targets-with-the-hierarchical-project-structure">
+      Sharing code in several targets with the hierarchical project structure
+     </h3>
+     <p id="pdxsbx_489">
+      With the new hierarchical project structure support, you can share code among
+      <a data-tooltip="A target is a part of the build responsible for compiling, testing, and packaging a piece of software aimed at one of the supported platforms. Kotlin provides targets for each platform, so you can instruct Kotlin to compile code for that specific target. Learn more about setting up…" href="multiplatform-dsl-reference.html#targets" id="pdxsbx_502">
+       several platforms
+      </a>
+      in a
+      <a data-tooltip="With Kotlin Multiplatform, you can share code among different platforms. This article explains the constraints of the shared code, how to distinguish between shared and platform-specific parts of your code, and how to specify the platforms on which this shared code works." href="multiplatform-discover-project.html" id="pdxsbx_503">
+       multiplatform project
+      </a>
+      .
+     </p>
+     <p id="pdxsbx_490">
+      Previously, any code added to a multiplatform project could be placed either in a platform-specific source set, which is limited to one target and can't be reused by any other platform, or in a common source set, like
+      <code class="code" id="pdxsbx_504">
+       commonMain
+      </code>
+      or
+      <code class="code" id="pdxsbx_505">
+       commonTest
+      </code>
+      , which is shared across all the platforms in the project. In the common source set, you could only call a platform-specific API by using an
+      <a data-tooltip="Expected and actual declarations allow you to access platform-specific APIs from Kotlin Multiplatform modules. You can provide platform-agnostic APIs in the common code." href="multiplatform-expect-actual.html" id="pdxsbx_506">
+       <code class="code" id="pdxsbx_507">
+        expect
+       </code>
+       declaration that needs platform-specific
+       <code class="code" id="pdxsbx_508">
+        actual
+       </code>
+       implementations
+      </a>
+      .
+     </p>
+     <p id="pdxsbx_491">
+      This made it easy to
+      <a data-tooltip="If you have business logic that is common for all platforms, you don't need to write the same code for each platform – just share it in the common source set." href="multiplatform-share-on-platforms.html#share-code-on-all-platforms" id="pdxsbx_509">
+       share code on all platforms
+      </a>
+      , but it was not so easy to
+      <a data-tooltip="You often need to create several native targets that could potentially reuse a lot of the common logic and third-party APIs." href="multiplatform-share-on-platforms.html#share-code-on-similar-platforms" id="pdxsbx_510">
+       share between only some of the targets
+      </a>
+      , especially similar ones that could potentially reuse a lot of the common logic and third-party APIs.
+     </p>
+     <p id="pdxsbx_492">
+      For example, in a typical multiplatform project targeting iOS, there are two iOS-related targets: one for iOS ARM64 devices, and the other for the x64 simulator. They have separate platform-specific source sets, but in practice, there is rarely a need for different code for the device and simulator, and their dependencies are much alike. So iOS-specific code could be shared between them.
+     </p>
+     <p id="pdxsbx_493">
+      Apparently, in this setup, it would be desirable to have a
+      <span class="emphasis" id="pdxsbx_511">
+       shared source set for two iOS targets
+      </span>
+      , with Kotlin/Native code that could still directly call any of the APIs that are common to both the iOS device and the simulator.
+     </p>
+     <figure id="pdxsbx_494">
+      <img alt="Code shared for iOS targets" height="120" src="images/iosmain-hierarchy.png" title="Code shared for iOS targets" width="300"/>
+     </figure>
+     <p id="pdxsbx_495">
+      Now you can do this with the
+      <a data-tooltip="You often need to create several native targets that could potentially reuse a lot of the common logic and third-party APIs." href="multiplatform-share-on-platforms.html#share-code-on-similar-platforms" id="pdxsbx_512">
+       hierarchical project structure support
+      </a>
+      , which infers and adapts the API and language features available in each source set based on which targets consume them.
+     </p>
+     <p id="pdxsbx_496">
+      For common combinations of targets, you can create a hierarchical structure with target shortcuts. For example, create two iOS targets and the shared source set shown above with the
+      <code class="code" id="pdxsbx_513">
+       ios()
+      </code>
+      shortcut:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      kotlin {
+    ios() // iOS device and simulator targets; iosMain and iosTest source sets
+}
+     </div>
+     <p id="pdxsbx_498">
+      For other combinations of targets,
+      <a data-tooltip="You can manually introduce an intermediate source in the source set structure. It will hold the shared code for several targets." href="multiplatform-hierarchy.html#manual-configuration" id="pdxsbx_514">
+       create a hierarchy manually
+      </a>
+      by connecting the source sets with the
+      <code class="code" id="pdxsbx_515">
+       dependsOn
+      </code>
+      relation.
+     </p>
+     <figure id="pdxsbx_499">
+      <img alt="Hierarchical structure" height="349" src="images/manual-hierarchical-structure.svg" title="Hierarchical structure" width="706"/>
+     </figure>
+     <div class="tabs" data-anchors="[pdxsbx_516,pdxsbx_517]" data-group="build-script" id="pdxsbx_500">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="pdxsbx_516">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin{
+    sourceSets {
+        val desktopMain by creating {
+            dependsOn(commonMain)
+        }
+        val linuxX64Main by getting {
+            dependsOn(desktopMain)
+        }
+        val mingwX64Main by getting {
+            dependsOn(desktopMain)
+        }
+        val macosX64Main by getting {
+            dependsOn(desktopMain)
+        }
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="pdxsbx_517">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {
+    sourceSets {
+        desktopMain {
+            dependsOn(commonMain)
+        }
+        linuxX64Main {
+            dependsOn(desktopMain)
+        }
+        mingwX64Main {
+            dependsOn(desktopMain)
+        }
+        macosX64Main {
+            dependsOn(desktopMain)
+        }
+    }
+}
+       </div>
+      </div>
+     </div>
+     <p id="pdxsbx_501">
+      Thanks to the hierarchical project structure, libraries can also provide common APIs for a subset of targets. Learn more about
+      <a data-tooltip="Thanks to the hierarchical project structure, libraries can also provide common APIs for a subset of targets. When a library is published, the API of its intermediate source sets is embedded into the library artifacts along with information about the project structure. When you use…" href="multiplatform-share-on-platforms.html#share-code-in-libraries" id="pdxsbx_520">
+       sharing code in libraries
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="leveraging-native-libs-in-the-hierarchical-structure" id="leveraging-native-libs-in-the-hierarchical-structure">
+      Leveraging native libs in the hierarchical structure
+     </h3>
+     <p id="pdxsbx_521">
+      You can use platform-dependent libraries, such as Foundation, UIKit, and POSIX, in source sets shared among several native targets. This can help you share more native code without being limited by platform-specific dependencies.
+     </p>
+     <p id="pdxsbx_522">
+      No additional steps are required – everything is done automatically. IntelliJ IDEA will help you detect common declarations that you can use in the shared code.
+     </p>
+     <p id="pdxsbx_523">
+      <a data-tooltip="To share more native code without being limited by platform-specific dependencies, connect platform-specific libraries. Libraries shipped with Kotlin/Native (like Foundation, UIKit, and POSIX) are available in shared source sets by default." href="multiplatform-share-on-platforms.html#connect-platform-specific-libraries" id="pdxsbx_524">
+       Learn more about usage of platform-dependent libraries
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="specifying-dependencies-only-once" id="specifying-dependencies-only-once">
+      Specifying dependencies only once
+     </h3>
+     <p id="pdxsbx_525">
+      From now on, instead of specifying dependencies on different variants of the same library in shared and platform-specific source sets where it is used, you should specify a dependency only once in the shared source set.
+     </p>
+     <div class="tabs" data-anchors="[pdxsbx_532,pdxsbx_533]" data-group="build-script" id="pdxsbx_526">
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="pdxsbx_532">
+       <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+        kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+            }
+        }
+    }
+}
+       </div>
+      </div>
+      <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="pdxsbx_533">
+       <div class="code-block" data-lang="groovy" data-title="Groovy">
+        kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0'
+            }
+        }
+    }
+}
+       </div>
+      </div>
+     </div>
+     <p id="pdxsbx_527">
+      Don't use kotlinx library artifact names with suffixes specifying the platform, such as
+      <code class="code" id="pdxsbx_536">
+       -common
+      </code>
+      ,
+      <code class="code" id="pdxsbx_537">
+       -native
+      </code>
+      , or similar, as they are NOT supported anymore. Instead, use the library base artifact name, which in the example above is
+      <code class="code" id="pdxsbx_538">
+       kotlinx-coroutines-core
+      </code>
+      .
+     </p>
+     <p id="pdxsbx_528">
+      However, the change doesn't currently affect:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_529">
+      <li class="list__item" id="pdxsbx_539">
+       <p>
+        The
+        <code class="code" id="pdxsbx_541">
+         stdlib
+        </code>
+        library – starting from Kotlin 1.4.0,
+        <a data-tooltip="You no longer need to declare a dependency on the stdlib library in any Kotlin Gradle project, including a multiplatform one. The dependency is added by default." href="#dependency-on-the-standard-library-added-by-default" id="pdxsbx_542">
+         the stdlib dependency is added automatically
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_540">
+       <p>
+        The
+        <code class="code" id="pdxsbx_543">
+         kotlin.test
+        </code>
+        library – you should still use
+        <code class="code" id="pdxsbx_544">
+         test-common
+        </code>
+        and
+        <code class="code" id="pdxsbx_545">
+         test-annotations-common
+        </code>
+        . These dependencies will be addressed later.
+       </p>
+      </li>
+     </ul>
+     <p id="pdxsbx_530">
+      If you need a dependency only for a specific platform, you can still use platform-specific variants of standard and kotlinx libraries with such suffixes as
+      <code class="code" id="pdxsbx_546">
+       -jvm
+      </code>
+      or
+      <code class="code" id="pdxsbx_547">
+       -js
+      </code>
+      , for example
+      <code class="code" id="pdxsbx_548">
+       kotlinx-coroutines-core-jvm
+      </code>
+      .
+     </p>
+     <p id="pdxsbx_531">
+      <a data-tooltip="To add a dependency on a library, set the dependency of the required type (for example, implementation) in the dependencies{} block of the source sets DSL." href="gradle-configure-project.html#configure-dependencies" id="pdxsbx_549">
+       Learn more about configuring dependencies
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="gradle-project-improvements" id="gradle-project-improvements">
+     Gradle project improvements
+    </h2>
+    <p id="pdxsbx_550">
+     Besides Gradle project features and improvements that are specific to
+     <a data-tooltip="Support for multiplatform projects is in Alpha. It may change incompatibly and require manual migration in the future. We appreciate your feedback on it in YouTrack." href="#kotlin-multiplatform" id="pdxsbx_555">
+      Kotlin Multiplatform
+     </a>
+     ,
+     <a data-tooltip="Kotlin 1.4.0 includes a number of JVM-specific improvements, such as:" href="#kotlin-jvm" id="pdxsbx_556">
+      Kotlin/JVM
+     </a>
+     ,
+     <a data-tooltip="In 1.4.0, Kotlin/Native got a significant number of new features and improvements, including:" href="#kotlin-native" id="pdxsbx_557">
+      Kotlin/Native
+     </a>
+     , and
+     <a data-tooltip="On the JS platform, Kotlin 1.4.0 provides the following improvements:" href="#kotlin-js" id="pdxsbx_558">
+      Kotlin/JS
+     </a>
+     , there are several changes applicable to all Kotlin Gradle projects:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_551">
+     <li class="list__item" id="pdxsbx_559">
+      <p>
+       <a data-tooltip="You no longer need to declare a dependency on the stdlib library in any Kotlin Gradle project, including a multiplatform one. The dependency is added by default." href="#dependency-on-the-standard-library-added-by-default" id="pdxsbx_562">
+        Dependency on the standard library is now added by default
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_560">
+      <p>
+       <a data-tooltip="To enjoy the new features in your Kotlin projects, update Gradle to the latest version. Multiplatform projects require Gradle 6.0 or later, while other Kotlin projects work with Gradle 5.4 or later." href="#minimum-gradle-version-for-kotlin-projects" id="pdxsbx_563">
+        Kotlin projects require a recent version of Gradle
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_561">
+      <p>
+       <a data-tooltip="In 1.4.0, we continued improving the IDE support for Gradle Kotlin DSL scripts (*.gradle.kts files). Here is what the new version brings:" href="#improved-gradle-kts-support-in-the-ide" id="pdxsbx_564">
+        Improved support for Kotlin Gradle DSL in the IDE
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="dependency-on-the-standard-library-added-by-default" id="dependency-on-the-standard-library-added-by-default">
+      Dependency on the standard library added by default
+     </h3>
+     <p id="pdxsbx_565">
+      You no longer need to declare a dependency on the
+      <code class="code" id="pdxsbx_569">
+       stdlib
+      </code>
+      library in any Kotlin Gradle project, including a multiplatform one. The dependency is added by default.
+     </p>
+     <p id="pdxsbx_566">
+      The automatically added standard library will be the same version of the Kotlin Gradle plugin, since they have the same versioning.
+     </p>
+     <p id="pdxsbx_567">
+      For platform-specific source sets, the corresponding platform-specific variant of the library is used, while a common standard library is added to the rest. The Kotlin Gradle plugin will select the appropriate JVM standard library depending on the
+      <code class="code" id="pdxsbx_570">
+       kotlinOptions.jvmTarget
+      </code>
+      <a data-tooltip="Each release of Kotlin includes compilers for the supported targets: JVM, JavaScript, and native binaries for supported platforms." href="gradle-compiler-options.html" id="pdxsbx_571">
+       compiler option
+      </a>
+      of your Gradle build script.
+     </p>
+     <p id="pdxsbx_568">
+      <a data-tooltip="A dependency on the standard library (stdlib) is added automatically to each source set. The version of the standard library used is the same as the version of the Kotlin Gradle plugin." href="gradle-configure-project.html#dependency-on-the-standard-library" id="pdxsbx_572">
+       Learn how to change the default behavior
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="minimum-gradle-version-for-kotlin-projects" id="minimum-gradle-version-for-kotlin-projects">
+      Minimum Gradle version for Kotlin projects
+     </h3>
+     <p id="pdxsbx_573">
+      To enjoy the new features in your Kotlin projects, update Gradle to the
+      <a data-external="true" href="https://gradle.org/releases/" id="pdxsbx_574" rel="noopener noreferrer">
+       latest version
+      </a>
+      . Multiplatform projects require Gradle 6.0 or later, while other Kotlin projects work with Gradle 5.4 or later.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="improved-gradle-kts-support-in-the-ide" id="improved-gradle-kts-support-in-the-ide">
+      Improved *.gradle.kts support in the IDE
+     </h3>
+     <p id="pdxsbx_575">
+      In 1.4.0, we continued improving the IDE support for Gradle Kotlin DSL scripts (
+      <code class="code" id="pdxsbx_577">
+       *.gradle.kts
+      </code>
+      files). Here is what the new version brings:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_576">
+      <li class="list__item" id="pdxsbx_578">
+       <p id="pdxsbx_580">
+        <span class="emphasis" id="pdxsbx_590">
+         Explicit loading of script configurations
+        </span>
+        for better performance. Previously, the changes you make to the build script were loaded automatically in the background. To improve the performance, we've disabled the automatic loading of build script configuration in 1.4.0. Now the IDE loads the changes only when you explicitly apply them.
+       </p>
+       <p id="pdxsbx_581">
+        In Gradle versions earlier than 6.0, you need to manually load the script configuration by clicking
+        <span class="control" id="pdxsbx_591">
+         Load Configuration
+        </span>
+        in the editor.
+       </p>
+       <figure id="pdxsbx_582">
+        <img alt="*.gradle.kts – Load Configuration" height="276" src="images/gradle-kts-load-config.png" title="*.gradle.kts – Load Configuration" width="1565"/>
+       </figure>
+       <p id="pdxsbx_583">
+        In Gradle 6.0 and above, you can explicitly apply changes by clicking
+        <span class="control" id="pdxsbx_592">
+         Load Gradle Changes
+        </span>
+        or by reimporting the Gradle project.
+       </p>
+       <p id="pdxsbx_584">
+        We've added one more action in IntelliJ IDEA 2020.1 with Gradle 6.0 and above –
+        <span class="control" id="pdxsbx_593">
+         Load Script Configurations
+        </span>
+        , which loads changes to the script configurations without updating the whole project. This takes much less time than reimporting the whole project.
+       </p>
+       <figure id="pdxsbx_585">
+        <img alt="*.gradle.kts – Load Script Changes and Load Gradle Changes" height="299" src="images/gradle-kts.png" title="*.gradle.kts – Load Script Changes and Load Gradle Changes" width="1154"/>
+       </figure>
+       <p id="pdxsbx_586">
+        You should also
+        <span class="control" id="pdxsbx_594">
+         Load Script Configurations
+        </span>
+        for newly created scripts or when you open a project with new Kotlin plugin for the first time.
+       </p>
+       <p id="pdxsbx_587">
+        With Gradle 6.0 and above, you are now able to load all scripts at once as opposed to the previous implementation where they were loaded individually. Since each request requires the Gradle configuration phase to be executed, this could be resource-intensive for large Gradle projects.
+       </p>
+       <p id="pdxsbx_588">
+        Currently, such loading is limited to
+        <code class="code" id="pdxsbx_595">
+         build.gradle.kts
+        </code>
+        and
+        <code class="code" id="pdxsbx_596">
+         settings.gradle.kts
+        </code>
+        files (please vote for the related
+        <a data-external="true" href="https://github.com/gradle/gradle/issues/12640" id="pdxsbx_597" rel="noopener noreferrer">
+         issue
+        </a>
+        ). To enable highlighting for
+        <code class="code" id="pdxsbx_598">
+         init.gradle.kts
+        </code>
+        or applied
+        <a data-external="true" href="https://docs.gradle.org/current/userguide/plugins.html#sec:script_plugins" id="pdxsbx_599" rel="noopener noreferrer">
+         script plugins
+        </a>
+        , use the old mechanism – adding them to standalone scripts. Configuration for that scripts will be loaded separately when you need it. You can also enable auto-reload for such scripts.
+       </p>
+       <figure id="pdxsbx_589">
+        <img alt="*.gradle.kts – Add to standalone scripts" height="319" src="images/gradle-kts-standalone.png" title="*.gradle.kts – Add to standalone scripts" width="1585"/>
+       </figure>
+      </li>
+      <li class="list__item" id="pdxsbx_579">
+       <p id="pdxsbx_600">
+        <span class="emphasis" id="pdxsbx_601">
+         Better error reporting
+        </span>
+        . Previously you could only see errors from the Gradle Daemon in separate log files. Now the Gradle Daemon returns all the information about errors directly and shows it in the Build tool window. This saves you both time and effort.
+       </p>
+      </li>
+     </ul>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="standard-library" id="standard-library">
+     Standard library
+    </h2>
+    <p id="pdxsbx_602">
+     Here is the list of the most significant changes to the Kotlin standard library in 1.4.0:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_603">
+     <li class="list__item" id="pdxsbx_615">
+      <p>
+       <a data-tooltip="The following API elements have been moved to the common library:" href="#common-exception-processing-api" id="pdxsbx_626">
+        Common exception processing API
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_616">
+      <p>
+       <a data-tooltip="In 1.4.0, the standard library includes a number of useful functions for working with collections:" href="#new-functions-for-arrays-and-collections" id="pdxsbx_627">
+        New functions for arrays and collections
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_617">
+      <p>
+       <a data-tooltip="The standard library in 1.4.0 includes a number of improvements in the API for string manipulation:" href="#functions-for-string-manipulations" id="pdxsbx_628">
+        Functions for string manipulations
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_618">
+      <p>
+       <a data-tooltip="New functions for bit manipulations:" href="#bit-operations" id="pdxsbx_629">
+        Bit operations
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_619">
+      <p>
+       <a data-tooltip="In 1.4.0, we have added new features to improve your experience with delegated properties in Kotlin:" href="#delegated-properties-improvements" id="pdxsbx_630">
+        Delegated properties improvements
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_620">
+      <p>
+       <a data-tooltip="A new extension property KType.javaType (currently experimental) in the stdlib helps you obtain a java.lang.reflect.Type from a Kotlin type without using the whole kotlin-reflect dependency." href="#converting-from-ktype-to-java-type" id="pdxsbx_631">
+        Converting from KType to Java Type
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_621">
+      <p>
+       <a data-tooltip="Starting from 1.4.0, we have embedded Proguard/R8 configurations for Kotlin Reflection in kotlin-reflect.jar. With this in place, most Android projects using R8 or Proguard should work with kotlin-reflect without needing any additional configuration. You no longer need to copy-paste…" href="#proguard-configurations-for-kotlin-reflection" id="pdxsbx_632">
+        Proguard configurations for Kotlin reflection
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_622">
+      <p>
+       <a data-tooltip="Several functions now work on null receivers, for example:" href="#improving-the-existing-api" id="pdxsbx_633">
+        Improving the existing API
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_623">
+      <p>
+       <a data-tooltip="Kotlin 1.4.0 adds module-info.java module information to default standard library artifacts. This lets you use them with jlink tool, which generates custom Java runtime images containing only the platform modules that are required for your app. You could already use jlink with…" href="#module-info-descriptors-for-stdlib-artifacts" id="pdxsbx_634">
+        module-info descriptors for stdlib artifacts
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_624">
+      <p>
+       <a data-tooltip="We've deprecated the functions toShort() and toByte() on Double and Float because they could lead to unexpected results because of the narrow value range and smaller variable size." href="#deprecations" id="pdxsbx_635">
+        Deprecations
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_625">
+      <p>
+       <a data-tooltip="The kotlin.coroutines.experimental API was deprecated in favor of kotlin.coroutines in 1.3.0. In 1.4.0, we're completing the deprecation cycle for kotlin.coroutines.experimental by removing it from the standard library. For those who still use it on the JVM, we've provided a…" href="#exclusion-of-the-deprecated-experimental-coroutines" id="pdxsbx_636">
+        Exclusion of the deprecated experimental coroutines
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="common-exception-processing-api" id="common-exception-processing-api">
+      Common exception processing API
+     </h3>
+     <p id="pdxsbx_637">
+      The following API elements have been moved to the common library:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_638">
+      <li class="list__item" id="pdxsbx_639">
+       <p>
+        <code class="code" id="pdxsbx_642">
+         Throwable.stackTraceToString()
+        </code>
+        extension function, which returns the detailed description of this throwable with its stack trace, and
+        <code class="code" id="pdxsbx_643">
+         Throwable.printStackTrace()
+        </code>
+        , which prints this description to the standard error output.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_640">
+       <p>
+        <code class="code" id="pdxsbx_644">
+         Throwable.addSuppressed()
+        </code>
+        function, which lets you specify the exceptions that were suppressed in order to deliver the exception, and the
+        <code class="code" id="pdxsbx_645">
+         Throwable.suppressedExceptions
+        </code>
+        property, which returns a list of all the suppressed exceptions.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_641">
+       <p>
+        <code class="code" id="pdxsbx_646">
+         @Throws
+        </code>
+        annotation, which lists exception types that will be checked when the function is compiled to a platform method (on JVM or native platforms).
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="new-functions-for-arrays-and-collections" id="new-functions-for-arrays-and-collections">
+      New functions for arrays and collections
+     </h3>
+     <section class="chapter">
+      <h4 data-toc="collections" id="collections">
+       Collections
+      </h4>
+      <p id="pdxsbx_650">
+       In 1.4.0, the standard library includes a number of useful functions for working with
+       <span class="control" id="pdxsbx_652">
+        collections
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="pdxsbx_651">
+       <li class="list__item" id="pdxsbx_653">
+        <p id="pdxsbx_663">
+         <code class="code" id="pdxsbx_665">
+          setOfNotNull()
+         </code>
+         , which makes a set consisting of all the non-null items among the provided arguments.
+        </p>
+        <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+         fun main() {
+//sampleStart
+    val set = setOfNotNull(null, 1, 2, 0, null)
+    println(set)
+//sampleEnd
+}
+        </div>
+       </li>
+       <li class="list__item" id="pdxsbx_654">
+        <p id="pdxsbx_666">
+         <code class="code" id="pdxsbx_668">
+          shuffled()
+         </code>
+         for sequences.
+        </p>
+        <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+         fun main() {
+//sampleStart
+    val numbers = (0 until 50).asSequence()
+    val result = numbers.map { it * 2 }.shuffled().take(5)
+    println(result.toList()) //five random even numbers below 100
+//sampleEnd
+}
+        </div>
+       </li>
+       <li class="list__item" id="pdxsbx_655">
+        <p id="pdxsbx_669">
+         <code class="code" id="pdxsbx_671">
+          *Indexed()
+         </code>
+         counterparts for
+         <code class="code" id="pdxsbx_672">
+          onEach()
+         </code>
+         and
+         <code class="code" id="pdxsbx_673">
+          flatMap()
+         </code>
+         . The operation that they apply to the collection elements has the element index as a parameter.
+        </p>
+        <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+         fun main() {
+//sampleStart
+    listOf("a", "b", "c", "d").onEachIndexed {
+        index, item -&gt; println(index.toString() + ":" + item)
+    }
+
+   val list = listOf("hello", "kot", "lin", "world")
+          val kotlin = list.flatMapIndexed { index, item -&gt;
+              if (index in 1..2) item.toList() else emptyList() 
+          }
+//sampleEnd
+          println(kotlin)
+}
+        </div>
+       </li>
+       <li class="list__item" id="pdxsbx_656">
+        <p id="pdxsbx_674">
+         <code class="code" id="pdxsbx_676">
+          *OrNull()
+         </code>
+         counterparts
+         <code class="code" id="pdxsbx_677">
+          randomOrNull()
+         </code>
+         ,
+         <code class="code" id="pdxsbx_678">
+          reduceOrNull()
+         </code>
+         , and
+         <code class="code" id="pdxsbx_679">
+          reduceIndexedOrNull()
+         </code>
+         . They return
+         <code class="code" id="pdxsbx_680">
+          null
+         </code>
+         on empty collections.
+        </p>
+        <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+         fun main() {
+//sampleStart
+     val empty = emptyList&lt;Int&gt;()
+     empty.reduceOrNull { a, b -&gt; a + b }
+     //empty.reduce { a, b -&gt; a + b } // Exception: Empty collection can't be reduced.
+//sampleEnd
+}
+        </div>
+       </li>
+       <li class="list__item" id="pdxsbx_657">
+        <p id="pdxsbx_681">
+         <code class="code" id="pdxsbx_683">
+          runningFold()
+         </code>
+         , its synonym
+         <code class="code" id="pdxsbx_684">
+          scan()
+         </code>
+         , and
+         <code class="code" id="pdxsbx_685">
+          runningReduce()
+         </code>
+         apply the given operation to the collection elements sequentially, similarly to
+         <code class="code" id="pdxsbx_686">
+          fold()
+         </code>
+         and
+         <code class="code" id="pdxsbx_687">
+          reduce()
+         </code>
+         ; the difference is that these new functions return the whole sequence of intermediate results.
+        </p>
+        <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+         fun main() {
+//sampleStart
+    val numbers = mutableListOf(0, 1, 2, 3, 4, 5)
+    val runningReduceSum = numbers.runningReduce { sum, item -&gt; sum + item }
+    val runningFoldSum = numbers.runningFold(10) { sum, item -&gt; sum + item }
+//sampleEnd
+    println(runningReduceSum.toString())
+    println(runningFoldSum.toString())
+}
+        </div>
+       </li>
+       <li class="list__item" id="pdxsbx_658">
+        <p id="pdxsbx_688">
+         <code class="code" id="pdxsbx_690">
+          sumOf()
+         </code>
+         takes a selector function and returns a sum of its values for all elements of a collection.
+         <code class="code" id="pdxsbx_691">
+          sumOf()
+         </code>
+         can produce sums of the types
+         <code class="code" id="pdxsbx_692">
+          Int
+         </code>
+         ,
+         <code class="code" id="pdxsbx_693">
+          Long
+         </code>
+         ,
+         <code class="code" id="pdxsbx_694">
+          Double
+         </code>
+         ,
+         <code class="code" id="pdxsbx_695">
+          UInt
+         </code>
+         , and
+         <code class="code" id="pdxsbx_696">
+          ULong
+         </code>
+         . On the JVM,
+         <code class="code" id="pdxsbx_697">
+          BigInteger
+         </code>
+         and
+         <code class="code" id="pdxsbx_698">
+          BigDecimal
+         </code>
+         are also available.
+        </p>
+        <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+         data class OrderItem(val name: String, val price: Double, val count: Int)
+
+fun main() {
+//sampleStart
+    val order = listOf&lt;OrderItem&gt;(
+        OrderItem("Cake", price = 10.0, count = 1),
+        OrderItem("Coffee", price = 2.5, count = 3),
+        OrderItem("Tea", price = 1.5, count = 2))
+
+    val total = order.sumOf { it.price * it.count } // Double
+    val count = order.sumOf { it.count } // Int
+//sampleEnd
+    println("You've ordered $count items that cost $total in total")
+}
+        </div>
+       </li>
+       <li class="list__item" id="pdxsbx_659">
+        <p id="pdxsbx_699">
+         The
+         <code class="code" id="pdxsbx_700">
+          min()
+         </code>
+         and
+         <code class="code" id="pdxsbx_701">
+          max()
+         </code>
+         functions have been renamed to
+         <code class="code" id="pdxsbx_702">
+          minOrNull()
+         </code>
+         and
+         <code class="code" id="pdxsbx_703">
+          maxOrNull()
+         </code>
+         to comply with the naming convention used across the Kotlin collections API. An
+         <code class="code" id="pdxsbx_704">
+          *OrNull
+         </code>
+         suffix in the function name means that it returns
+         <code class="code" id="pdxsbx_705">
+          null
+         </code>
+         if the receiver collection is empty. The same applies to
+         <code class="code" id="pdxsbx_706">
+          minBy()
+         </code>
+         ,
+         <code class="code" id="pdxsbx_707">
+          maxBy()
+         </code>
+         ,
+         <code class="code" id="pdxsbx_708">
+          minWith()
+         </code>
+         ,
+         <code class="code" id="pdxsbx_709">
+          maxWith()
+         </code>
+         – in 1.4, they have
+         <code class="code" id="pdxsbx_710">
+          *OrNull()
+         </code>
+         synonyms.
+        </p>
+       </li>
+       <li class="list__item" id="pdxsbx_660">
+        <p id="pdxsbx_711">
+         The new
+         <code class="code" id="pdxsbx_714">
+          minOf()
+         </code>
+         and
+         <code class="code" id="pdxsbx_715">
+          maxOf()
+         </code>
+         extension functions return the minimum and the maximum value of the given selector function on the collection items.
+        </p>
+        <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+         data class OrderItem(val name: String, val price: Double, val count: Int)
+
+fun main() {
+//sampleStart
+    val order = listOf&lt;OrderItem&gt;(
+        OrderItem("Cake", price = 10.0, count = 1),
+        OrderItem("Coffee", price = 2.5, count = 3),
+        OrderItem("Tea", price = 1.5, count = 2))
+    val highestPrice = order.maxOf { it.price }
+//sampleEnd
+    println("The most expensive item in the order costs $highestPrice")
+}
+        </div>
+        <p id="pdxsbx_713">
+         There are also
+         <code class="code" id="pdxsbx_716">
+          minOfWith()
+         </code>
+         and
+         <code class="code" id="pdxsbx_717">
+          maxOfWith()
+         </code>
+         , which take a
+         <code class="code" id="pdxsbx_718">
+          Comparator
+         </code>
+         as an argument, and
+         <code class="code" id="pdxsbx_719">
+          *OrNull()
+         </code>
+         versions of all four functions that return
+         <code class="code" id="pdxsbx_720">
+          null
+         </code>
+         on empty collections.
+        </p>
+       </li>
+       <li class="list__item" id="pdxsbx_661">
+        <p id="pdxsbx_721">
+         New overloads for
+         <code class="code" id="pdxsbx_724">
+          flatMap
+         </code>
+         and
+         <code class="code" id="pdxsbx_725">
+          flatMapTo
+         </code>
+         let you use transformations with return types that don't match the receiver type, namely:
+        </p>
+        <ul class="list _bullet" id="pdxsbx_722">
+         <li class="list__item" id="pdxsbx_726">
+          <p>
+           Transformations to
+           <code class="code" id="pdxsbx_728">
+            Sequence
+           </code>
+           on
+           <code class="code" id="pdxsbx_729">
+            Iterable
+           </code>
+           ,
+           <code class="code" id="pdxsbx_730">
+            Array
+           </code>
+           , and
+           <code class="code" id="pdxsbx_731">
+            Map
+           </code>
+          </p>
+         </li>
+         <li class="list__item" id="pdxsbx_727">
+          <p>
+           Transformations to
+           <code class="code" id="pdxsbx_732">
+            Iterable
+           </code>
+           on
+           <code class="code" id="pdxsbx_733">
+            Sequence
+           </code>
+          </p>
+         </li>
+        </ul>
+        <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+         fun main() {
+//sampleStart
+    val list = listOf("kot", "lin")
+    val lettersList = list.flatMap { it.asSequence() }
+    val lettersSeq = list.asSequence().flatMap { it.toList() }    
+//sampleEnd
+    println(lettersList)
+    println(lettersSeq.toList())
+}
+        </div>
+       </li>
+       <li class="list__item" id="pdxsbx_662">
+        <p id="pdxsbx_734">
+         <code class="code" id="pdxsbx_735">
+          removeFirst()
+         </code>
+         and
+         <code class="code" id="pdxsbx_736">
+          removeLast()
+         </code>
+         shortcuts for removing elements from mutable lists, and
+         <code class="code" id="pdxsbx_737">
+          *orNull()
+         </code>
+         counterparts of these functions.
+        </p>
+       </li>
+      </ul>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="arrays" id="arrays">
+       Arrays
+      </h4>
+      <p id="pdxsbx_738">
+       To provide a consistent experience when working with different container types, we've also added new functions for
+       <span class="control" id="pdxsbx_744">
+        arrays
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="pdxsbx_739">
+       <li class="list__item" id="pdxsbx_745">
+        <p>
+         <code class="code" id="pdxsbx_751">
+          shuffle()
+         </code>
+         puts the array elements in a random order.
+        </p>
+       </li>
+       <li class="list__item" id="pdxsbx_746">
+        <p>
+         <code class="code" id="pdxsbx_752">
+          onEach()
+         </code>
+         performs the given action on each array element and returns the array itself.
+        </p>
+       </li>
+       <li class="list__item" id="pdxsbx_747">
+        <p>
+         <code class="code" id="pdxsbx_753">
+          associateWith()
+         </code>
+         and
+         <code class="code" id="pdxsbx_754">
+          associateWithTo()
+         </code>
+         build maps with the array elements as keys.
+        </p>
+       </li>
+       <li class="list__item" id="pdxsbx_748">
+        <p>
+         <code class="code" id="pdxsbx_755">
+          reverse()
+         </code>
+         for array subranges reverses the order of the elements in the subrange.
+        </p>
+       </li>
+       <li class="list__item" id="pdxsbx_749">
+        <p>
+         <code class="code" id="pdxsbx_756">
+          sortDescending()
+         </code>
+         for array subranges sorts the elements in the subrange in descending order.
+        </p>
+       </li>
+       <li class="list__item" id="pdxsbx_750">
+        <p>
+         <code class="code" id="pdxsbx_757">
+          sort()
+         </code>
+         and
+         <code class="code" id="pdxsbx_758">
+          sortWith()
+         </code>
+         for array subranges are now available in the common library.
+        </p>
+       </li>
+      </ul>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+       fun main() {
+//sampleStart
+    var language = ""
+    val letters = arrayOf("k", "o", "t", "l", "i", "n")
+    val fileExt = letters.onEach { language += it }
+       .filterNot { it in "aeuio" }.take(2)
+       .joinToString(prefix = ".", separator = "")
+    println(language) // "kotlin"
+    println(fileExt) // ".kt"
+
+    letters.shuffle()
+    letters.reverse(0, 3)
+    letters.sortDescending(2, 5)
+    println(letters.contentToString()) // [k, o, t, l, i, n]
+//sampleEnd
+}
+      </div>
+      <p id="pdxsbx_741">
+       Additionally, there are new functions for conversions between
+       <code class="code" id="pdxsbx_759">
+        CharArray
+       </code>
+       /
+       <code class="code" id="pdxsbx_760">
+        ByteArray
+       </code>
+       and
+       <code class="code" id="pdxsbx_761">
+        String
+       </code>
+       :
+      </p>
+      <ul class="list _bullet" id="pdxsbx_742">
+       <li class="list__item" id="pdxsbx_762">
+        <p>
+         <code class="code" id="pdxsbx_764">
+          ByteArray.decodeToString()
+         </code>
+         and
+         <code class="code" id="pdxsbx_765">
+          String.encodeToByteArray()
+         </code>
+        </p>
+       </li>
+       <li class="list__item" id="pdxsbx_763">
+        <p>
+         <code class="code" id="pdxsbx_766">
+          CharArray.concatToString()
+         </code>
+         and
+         <code class="code" id="pdxsbx_767">
+          String.toCharArray()
+         </code>
+        </p>
+       </li>
+      </ul>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+       fun main() {
+//sampleStart
+	val str = "kotlin"
+    val array = str.toCharArray()
+    println(array.concatToString())
+//sampleEnd
+}
+      </div>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="arraydeque" id="arraydeque">
+       ArrayDeque
+      </h4>
+      <p id="pdxsbx_768">
+       We've also added the
+       <code class="code" id="pdxsbx_771">
+        ArrayDeque
+       </code>
+       class – an implementation of a double-ended queue. A double-ended queue lets you add or remove elements both at the beginning or end of the queue in an amortized constant time. You can use a double-ended queue by default when you need a queue or a stack in your code.
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+       fun main() {
+    val deque = ArrayDeque(listOf(1, 2, 3))
+
+    deque.addFirst(0)
+    deque.addLast(4)
+    println(deque) // [0, 1, 2, 3, 4]
+
+    println(deque.first()) // 0
+    println(deque.last()) // 4
+
+    deque.removeFirst()
+    deque.removeLast()
+    println(deque) // [1, 2, 3]
+}
+      </div>
+      <p id="pdxsbx_770">
+       The
+       <code class="code" id="pdxsbx_772">
+        ArrayDeque
+       </code>
+       implementation uses a resizable array underneath: it stores the contents in a circular buffer, an
+       <code class="code" id="pdxsbx_773">
+        Array
+       </code>
+       , and resizes this
+       <code class="code" id="pdxsbx_774">
+        Array
+       </code>
+       only when it becomes full.
+      </p>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="functions-for-string-manipulations" id="functions-for-string-manipulations">
+      Functions for string manipulations
+     </h3>
+     <p id="pdxsbx_775">
+      The standard library in 1.4.0 includes a number of improvements in the API for string manipulation:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_776">
+      <li class="list__item" id="pdxsbx_777">
+       <p id="pdxsbx_780">
+        <code class="code" id="pdxsbx_782">
+         StringBuilder
+        </code>
+        has useful new extension functions:
+        <code class="code" id="pdxsbx_783">
+         set()
+        </code>
+        ,
+        <code class="code" id="pdxsbx_784">
+         setRange()
+        </code>
+        ,
+        <code class="code" id="pdxsbx_785">
+         deleteAt()
+        </code>
+        ,
+        <code class="code" id="pdxsbx_786">
+         deleteRange()
+        </code>
+        ,
+        <code class="code" id="pdxsbx_787">
+         appendRange()
+        </code>
+        , and others.
+       </p>
+       <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+        fun main() {
+    //sampleStart
+        val sb = StringBuilder("Bye Kotlin 1.3.72")
+        sb.deleteRange(0, 3)
+        sb.insertRange(0, "Hello", 0 ,5)
+        sb.set(15, '4')
+        sb.setRange(17, 19, "0")
+        print(sb.toString())
+    //sampleEnd
+    }
+       </div>
+      </li>
+      <li class="list__item" id="pdxsbx_778">
+       <p id="pdxsbx_788">
+        Some existing functions of
+        <code class="code" id="pdxsbx_789">
+         StringBuilder
+        </code>
+        are available in the common library. Among them are
+        <code class="code" id="pdxsbx_790">
+         append()
+        </code>
+        ,
+        <code class="code" id="pdxsbx_791">
+         insert()
+        </code>
+        ,
+        <code class="code" id="pdxsbx_792">
+         substring()
+        </code>
+        ,
+        <code class="code" id="pdxsbx_793">
+         setLength()
+        </code>
+        , and more.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_779">
+       <p id="pdxsbx_794">
+        New functions
+        <code class="code" id="pdxsbx_796">
+         Appendable.appendLine()
+        </code>
+        and
+        <code class="code" id="pdxsbx_797">
+         StringBuilder.appendLine()
+        </code>
+        have been added to the common library. They replace the JVM-only
+        <code class="code" id="pdxsbx_798">
+         appendln()
+        </code>
+        functions of these classes.
+       </p>
+       <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+        fun main() {
+//sampleStart
+    println(buildString {
+        appendLine("Hello,")
+        appendLine("world")
+    })
+//sampleEnd
+}
+       </div>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="bit-operations" id="bit-operations">
+      Bit operations
+     </h3>
+     <p id="pdxsbx_799">
+      New functions for bit manipulations:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_800">
+      <li class="list__item" id="pdxsbx_802">
+       <p>
+        <code class="code" id="pdxsbx_808">
+         countOneBits()
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_803">
+       <p>
+        <code class="code" id="pdxsbx_809">
+         countLeadingZeroBits()
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_804">
+       <p>
+        <code class="code" id="pdxsbx_810">
+         countTrailingZeroBits()
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_805">
+       <p>
+        <code class="code" id="pdxsbx_811">
+         takeHighestOneBit()
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_806">
+       <p>
+        <code class="code" id="pdxsbx_812">
+         takeLowestOneBit()
+        </code>
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_807">
+       <p>
+        <code class="code" id="pdxsbx_813">
+         rotateLeft()
+        </code>
+        and
+        <code class="code" id="pdxsbx_814">
+         rotateRight()
+        </code>
+        (experimental)
+       </p>
+      </li>
+     </ul>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+      fun main() {
+//sampleStart
+    val number = "1010000".toInt(radix = 2)
+    println(number.countOneBits())
+    println(number.countTrailingZeroBits())
+    println(number.takeHighestOneBit().toString(2))
+//sampleEnd
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="delegated-properties-improvements" id="delegated-properties-improvements">
+      Delegated properties improvements
+     </h3>
+     <p id="pdxsbx_815">
+      In 1.4.0, we have added new features to improve your experience with delegated properties in Kotlin:
+     </p>
+     <ul class="list _bullet" id="pdxsbx_816">
+      <li class="list__item" id="pdxsbx_819">
+       <p>
+        Now a property can be delegated to another property.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_820">
+       <p>
+        A new interface
+        <code class="code" id="pdxsbx_822">
+         PropertyDelegateProvider
+        </code>
+        helps create delegate providers in a single declaration.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_821">
+       <p>
+        <code class="code" id="pdxsbx_823">
+         ReadWriteProperty
+        </code>
+        now extends
+        <code class="code" id="pdxsbx_824">
+         ReadOnlyProperty
+        </code>
+        so you can use both of them for read-only properties.
+       </p>
+      </li>
+     </ul>
+     <p id="pdxsbx_817">
+      Aside from the new API, we've made some optimizations that reduce the resulting bytecode size. These optimizations are described in
+      <a data-external="true" href="https://blog.jetbrains.com/kotlin/2019/12/what-to-expect-in-kotlin-1-4-and-beyond/#delegated-properties" id="pdxsbx_825" rel="noopener noreferrer">
+       this blog post
+      </a>
+      .
+     </p>
+     <p id="pdxsbx_818">
+      <a data-tooltip="With some common kinds of properties, even though you can implement them manually every time you need them, it is more helpful to implement them once, add them to a library, and reuse them later. For example:" href="delegated-properties.html" id="pdxsbx_826">
+       Learn more about delegated properties
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="converting-from-ktype-to-java-type" id="converting-from-ktype-to-java-type">
+      Converting from KType to Java Type
+     </h3>
+     <p id="pdxsbx_827">
+      A new extension property
+      <code class="code" id="pdxsbx_829">
+       KType.javaType
+      </code>
+      (currently experimental) in the stdlib helps you obtain a
+      <code class="code" id="pdxsbx_830">
+       java.lang.reflect.Type
+      </code>
+      from a Kotlin type without using the whole
+      <code class="code" id="pdxsbx_831">
+       kotlin-reflect
+      </code>
+      dependency.
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.4" data-runnable="true">
+      import kotlin.reflect.javaType
+import kotlin.reflect.typeOf
+
+@OptIn(ExperimentalStdlibApi::class)
+inline fun &lt;reified T&gt; accessReifiedTypeArg() {
+   val kType = typeOf&lt;T&gt;()
+   println("Kotlin type: $kType")
+   println("Java type: ${kType.javaType}")
+}
+
+@OptIn(ExperimentalStdlibApi::class)
+fun main() {
+   accessReifiedTypeArg&lt;String&gt;()
+   // Kotlin type: kotlin.String
+   // Java type: class java.lang.String
+  
+   accessReifiedTypeArg&lt;List&lt;String&gt;&gt;()
+   // Kotlin type: kotlin.collections.List&lt;kotlin.String&gt;
+   // Java type: java.util.List&lt;java.lang.String&gt;
+}
+     </div>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="proguard-configurations-for-kotlin-reflection" id="proguard-configurations-for-kotlin-reflection">
+      Proguard configurations for Kotlin reflection
+     </h3>
+     <p id="pdxsbx_832">
+      Starting from 1.4.0, we have embedded Proguard/R8 configurations for Kotlin Reflection in
+      <code class="code" id="pdxsbx_833">
+       kotlin-reflect.jar
+      </code>
+      . With this in place, most Android projects using R8 or Proguard should work with kotlin-reflect without needing any additional configuration. You no longer need to copy-paste the Proguard rules for kotlin-reflect internals. But note that you still need to explicitly list all the APIs you're going to reflect on.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="improving-the-existing-api" id="improving-the-existing-api">
+      Improving the existing API
+     </h3>
+     <ul class="list _bullet" id="pdxsbx_834">
+      <li class="list__item" id="pdxsbx_835">
+       <p id="pdxsbx_839">
+        Several functions now work on null receivers, for example:
+       </p>
+       <ul class="list _bullet" id="pdxsbx_840">
+        <li class="list__item" id="pdxsbx_841">
+         <p>
+          <code class="code" id="pdxsbx_843">
+           toBoolean()
+          </code>
+          on strings
+         </p>
+        </li>
+        <li class="list__item" id="pdxsbx_842">
+         <p>
+          <code class="code" id="pdxsbx_844">
+           contentEquals()
+          </code>
+          ,
+          <code class="code" id="pdxsbx_845">
+           contentHashcode()
+          </code>
+          ,
+          <code class="code" id="pdxsbx_846">
+           contentToString()
+          </code>
+          on arrays
+         </p>
+        </li>
+       </ul>
+      </li>
+      <li class="list__item" id="pdxsbx_836">
+       <p id="pdxsbx_847">
+        <code class="code" id="pdxsbx_848">
+         NaN
+        </code>
+        ,
+        <code class="code" id="pdxsbx_849">
+         NEGATIVE_INFINITY
+        </code>
+        , and
+        <code class="code" id="pdxsbx_850">
+         POSITIVE_INFINITY
+        </code>
+        in
+        <code class="code" id="pdxsbx_851">
+         Double
+        </code>
+        and
+        <code class="code" id="pdxsbx_852">
+         Float
+        </code>
+        are now defined as
+        <code class="code" id="pdxsbx_853">
+         const
+        </code>
+        , so you can use them as annotation arguments.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_837">
+       <p id="pdxsbx_854">
+        New constants
+        <code class="code" id="pdxsbx_855">
+         SIZE_BITS
+        </code>
+        and
+        <code class="code" id="pdxsbx_856">
+         SIZE_BYTES
+        </code>
+        in
+        <code class="code" id="pdxsbx_857">
+         Double
+        </code>
+        and
+        <code class="code" id="pdxsbx_858">
+         Float
+        </code>
+        contain the number of bits and bytes used to represent an instance of the type in binary form.
+       </p>
+      </li>
+      <li class="list__item" id="pdxsbx_838">
+       <p id="pdxsbx_859">
+        The
+        <code class="code" id="pdxsbx_860">
+         maxOf()
+        </code>
+        and
+        <code class="code" id="pdxsbx_861">
+         minOf()
+        </code>
+        top-level functions can accept a variable number of arguments (
+        <code class="code" id="pdxsbx_862">
+         vararg
+        </code>
+        ).
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="module-info-descriptors-for-stdlib-artifacts" id="module-info-descriptors-for-stdlib-artifacts">
+      module-info descriptors for stdlib artifacts
+     </h3>
+     <p id="pdxsbx_863">
+      Kotlin 1.4.0 adds
+      <code class="code" id="pdxsbx_864">
+       module-info.java
+      </code>
+      module information to default standard library artifacts. This lets you use them with
+      <a data-external="true" href="https://docs.oracle.com/en/java/javase/11/tools/jlink.html" id="pdxsbx_865" rel="noopener noreferrer">
+       jlink tool
+      </a>
+      , which generates custom Java runtime images containing only the platform modules that are required for your app. You could already use jlink with Kotlin standard library artifacts, but you had to use separate artifacts to do so – the ones with the "modular" classifier – and the whole setup wasn't straightforward.
+      <br/>
+      In Android, make sure you use the Android Gradle plugin version 3.2 or higher, which can correctly process jar files with module-info.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecations" id="deprecations">
+      Deprecations
+     </h3>
+     <section class="chapter">
+      <h4 data-toc="toshort-and-tobyte-of-double-and-float" id="toshort-and-tobyte-of-double-and-float">
+       toShort() and toByte() of Double and Float
+      </h4>
+      <p id="pdxsbx_870">
+       We've deprecated the functions
+       <code class="code" id="pdxsbx_872">
+        toShort()
+       </code>
+       and
+       <code class="code" id="pdxsbx_873">
+        toByte()
+       </code>
+       on
+       <code class="code" id="pdxsbx_874">
+        Double
+       </code>
+       and
+       <code class="code" id="pdxsbx_875">
+        Float
+       </code>
+       because they could lead to unexpected results because of the narrow value range and smaller variable size.
+      </p>
+      <p id="pdxsbx_871">
+       To convert floating-point numbers to
+       <code class="code" id="pdxsbx_876">
+        Byte
+       </code>
+       or
+       <code class="code" id="pdxsbx_877">
+        Short
+       </code>
+       , use the two-step conversion: first, convert them to
+       <code class="code" id="pdxsbx_878">
+        Int
+       </code>
+       , and then convert them again to the target type.
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="contains-indexof-and-lastindexof-on-floating-point-arrays" id="contains-indexof-and-lastindexof-on-floating-point-arrays">
+       contains(), indexOf(), and lastIndexOf() on floating-point arrays
+      </h4>
+      <p id="pdxsbx_879">
+       We've deprecated the
+       <code class="code" id="pdxsbx_880">
+        contains()
+       </code>
+       ,
+       <code class="code" id="pdxsbx_881">
+        indexOf()
+       </code>
+       , and
+       <code class="code" id="pdxsbx_882">
+        lastIndexOf()
+       </code>
+       extension functions of
+       <code class="code" id="pdxsbx_883">
+        FloatArray
+       </code>
+       and
+       <code class="code" id="pdxsbx_884">
+        DoubleArray
+       </code>
+       because they use the
+       <a data-external="true" href="https://en.wikipedia.org/wiki/IEEE_754" id="pdxsbx_885" rel="noopener noreferrer">
+        IEEE 754
+       </a>
+       standard equality, which contradicts the total order equality in some corner cases. See
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-28753" id="pdxsbx_886" rel="noopener noreferrer">
+        this issue
+       </a>
+       for details.
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="min-and-max-collection-functions" id="min-and-max-collection-functions">
+       min() and max() collection functions
+      </h4>
+      <p id="pdxsbx_887">
+       We've deprecated the
+       <code class="code" id="pdxsbx_888">
+        min()
+       </code>
+       and
+       <code class="code" id="pdxsbx_889">
+        max()
+       </code>
+       collection functions in favor of
+       <code class="code" id="pdxsbx_890">
+        minOrNull()
+       </code>
+       and
+       <code class="code" id="pdxsbx_891">
+        maxOrNull()
+       </code>
+       , which more properly reflect their behavior – returning
+       <code class="code" id="pdxsbx_892">
+        null
+       </code>
+       on empty collections. See
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-38854" id="pdxsbx_893" rel="noopener noreferrer">
+        this issue
+       </a>
+       for details.
+      </p>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="exclusion-of-the-deprecated-experimental-coroutines" id="exclusion-of-the-deprecated-experimental-coroutines">
+      Exclusion of the deprecated experimental coroutines
+     </h3>
+     <p id="pdxsbx_894">
+      The
+      <code class="code" id="pdxsbx_895">
+       kotlin.coroutines.experimental
+      </code>
+      API was deprecated in favor of kotlin.coroutines in 1.3.0. In 1.4.0, we're completing the deprecation cycle for
+      <code class="code" id="pdxsbx_896">
+       kotlin.coroutines.experimental
+      </code>
+      by removing it from the standard library. For those who still use it on the JVM, we've provided a compatibility artifact
+      <code class="code" id="pdxsbx_897">
+       kotlin-coroutines-experimental-compat.jar
+      </code>
+      with all the experimental coroutines APIs. We've published it to Maven, and we include it in the Kotlin distribution alongside the standard library.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="stable-json-serialization" id="stable-json-serialization">
+     Stable JSON serialization
+    </h2>
+    <p id="pdxsbx_898">
+     With Kotlin 1.4.0, we are shipping the first stable version of
+     <a data-external="true" href="https://github.com/Kotlin/kotlinx.serialization" id="pdxsbx_901" rel="noopener noreferrer">
+      kotlinx.serialization
+     </a>
+     - 1.0.0-RC. Now we are pleased to declare the JSON serialization API in
+     <code class="code" id="pdxsbx_902">
+      kotlinx-serialization-core
+     </code>
+     (previously known as
+     <code class="code" id="pdxsbx_903">
+      kotlinx-serialization-runtime
+     </code>
+     ) stable. Libraries for other serialization formats remain experimental, along with some advanced parts of the core library.
+    </p>
+    <p id="pdxsbx_899">
+     We have significantly reworked the API for JSON serialization to make it more consistent and easier to use. From now on, we'll continue developing the JSON serialization API in a backward-compatible manner. However, if you have used previous versions of it, you'll need to rewrite some of your code when migrating to 1.0.0-RC. To help you with this, we also offer the
+     <span class="control" id="pdxsbx_904">
+      <a data-external="true" href="https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/serialization-guide.md" id="pdxsbx_906" rel="noopener noreferrer">
+       Kotlin Serialization Guide
+      </a>
+     </span>
+     – the complete set of documentation for
+     <code class="code" id="pdxsbx_905">
+      kotlinx.serialization
+     </code>
+     . It will guide you through the process of using the most important features and it can help you address any issues that you might face.
+    </p>
+    <aside class="prompt" data-title="" data-type="note" id="pdxsbx_900">
+     <p id="pdxsbx_907">
+      <span class="control" id="pdxsbx_908">
+       Note
+      </span>
+      :
+      <code class="code" id="pdxsbx_909">
+       kotlinx-serialization
+      </code>
+      1.0.0-RC only works with Kotlin compiler 1.4. Earlier compiler versions are not compatible.
+     </p>
+    </aside>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="scripting-and-repl" id="scripting-and-repl">
+     Scripting and REPL
+    </h2>
+    <p id="pdxsbx_910">
+     In 1.4.0, scripting in Kotlin benefits from a number of functional and performance improvements along with other updates. Here are some of the key changes:
+    </p>
+    <ul class="list _bullet" id="pdxsbx_911">
+     <li class="list__item" id="pdxsbx_917">
+      <p>
+       <a data-tooltip="In 1.4.0, we've introduced a new API for resolving external dependencies (such as Maven artifacts), along with implementations for it. This API is published in the new artifacts kotlin-scripting-dependencies and kotlin-scripting-dependencies-maven. The previous dependency resolution…" href="#new-dependencies-resolution-api" id="pdxsbx_921">
+        New dependencies resolution API
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_918">
+      <p>
+       <a data-tooltip="The new experimental REPL API is now a part of the Kotlin Scripting API. There are also several implementations of it in the published artifacts, and some have advanced functionality, such as code completion. We use this API in the Kotlin Jupyter kernel and now you can try it in…" href="#new-repl-api" id="pdxsbx_922">
+        New REPL API
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_919">
+      <p>
+       <a data-tooltip="The Kotlin Scripting API now provides the ability to implement a compiled scripts cache, significantly speeding up subsequent executions of unchanged scripts. Our default advanced script implementation kotlin-main-kts already has its own cache." href="#compiled-scripts-cache" id="pdxsbx_923">
+        Compiled scripts cache
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="pdxsbx_920">
+      <p>
+       <a data-tooltip="In order to avoid confusion about artifact names, we've renamed kotlin-scripting-jsr223-embeddable and kotlin-scripting-jvm-host-embeddable to just kotlin-scripting-jsr223 and kotlin-scripting-jvm-host. These artifacts depend on the kotlin-compiler-embeddable artifact, which shades…" href="#artifacts-renaming" id="pdxsbx_924">
+        Artifacts renaming
+       </a>
+      </p>
+     </li>
+    </ul>
+    <p id="pdxsbx_912">
+     To help you become more familiar with scripting in Kotlin, we've prepared a
+     <a data-external="true" href="https://github.com/Kotlin/kotlin-script-examples" id="pdxsbx_925" rel="noopener noreferrer">
+      project with examples
+     </a>
+     . It contains examples of the standard scripts (
+     <code class="code" id="pdxsbx_926">
+      *.main.kts
+     </code>
+     ) and examples of uses of the Kotlin Scripting API and custom script definitions. Please give it a try and share your feedback using our
+     <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="pdxsbx_927" rel="noopener noreferrer">
+      issue tracker
+     </a>
+     .
+    </p>
+    <section class="chapter">
+     <h3 data-toc="new-dependencies-resolution-api" id="new-dependencies-resolution-api">
+      New dependencies resolution API
+     </h3>
+     <p id="pdxsbx_928">
+      In 1.4.0, we've introduced a new API for resolving external dependencies (such as Maven artifacts), along with implementations for it. This API is published in the new artifacts
+      <code class="code" id="pdxsbx_929">
+       kotlin-scripting-dependencies
+      </code>
+      and
+      <code class="code" id="pdxsbx_930">
+       kotlin-scripting-dependencies-maven
+      </code>
+      . The previous dependency resolution functionality in
+      <code class="code" id="pdxsbx_931">
+       kotlin-script-util
+      </code>
+      library is now deprecated.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="new-repl-api" id="new-repl-api">
+      New REPL API
+     </h3>
+     <p id="pdxsbx_932">
+      The new experimental REPL API is now a part of the Kotlin Scripting API. There are also several implementations of it in the published artifacts, and some have advanced functionality, such as code completion. We use this API in the
+      <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/05/kotlin-kernel-for-jupyter-notebook-v0-8/" id="pdxsbx_933" rel="noopener noreferrer">
+       Kotlin Jupyter kernel
+      </a>
+      and now you can try it in your own custom shells and REPLs.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="compiled-scripts-cache" id="compiled-scripts-cache">
+      Compiled scripts cache
+     </h3>
+     <p id="pdxsbx_934">
+      The Kotlin Scripting API now provides the ability to implement a compiled scripts cache, significantly speeding up subsequent executions of unchanged scripts. Our default advanced script implementation
+      <code class="code" id="pdxsbx_935">
+       kotlin-main-kts
+      </code>
+      already has its own cache.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="artifacts-renaming" id="artifacts-renaming">
+      Artifacts renaming
+     </h3>
+     <p id="pdxsbx_936">
+      In order to avoid confusion about artifact names, we've renamed
+      <code class="code" id="pdxsbx_937">
+       kotlin-scripting-jsr223-embeddable
+      </code>
+      and
+      <code class="code" id="pdxsbx_938">
+       kotlin-scripting-jvm-host-embeddable
+      </code>
+      to just
+      <code class="code" id="pdxsbx_939">
+       kotlin-scripting-jsr223
+      </code>
+      and
+      <code class="code" id="pdxsbx_940">
+       kotlin-scripting-jvm-host
+      </code>
+      . These artifacts depend on the
+      <code class="code" id="pdxsbx_941">
+       kotlin-compiler-embeddable
+      </code>
+      artifact, which shades the bundled third-party libraries to avoid usage conflicts. With this renaming, we're making the usage of
+      <code class="code" id="pdxsbx_942">
+       kotlin-compiler-embeddable
+      </code>
+      (which is safer in general) the default for scripting artifacts. If, for some reason, you need artifacts that depend on the unshaded
+      <code class="code" id="pdxsbx_943">
+       kotlin-compiler
+      </code>
+      , use the artifact versions with the
+      <code class="code" id="pdxsbx_944">
+       -unshaded
+      </code>
+      suffix, such as
+      <code class="code" id="pdxsbx_945">
+       kotlin-scripting-jsr223-unshaded
+      </code>
+      . Note that this renaming affects only the scripting artifacts that are supposed to be used directly; names of other artifacts remain unchanged.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="migrating-to-kotlin-1-4-0" id="migrating-to-kotlin-1-4-0">
+     Migrating to Kotlin 1.4.0
+    </h2>
+    <p id="pdxsbx_946">
+     The Kotlin plugin's migration tools help you migrate your projects from earlier versions of Kotlin to 1.4.0.
+    </p>
+    <p id="pdxsbx_947">
+     Just change the Kotlin version to
+     <code class="code" id="pdxsbx_953">
+      1.4.0
+     </code>
+     and re-import your Gradle or Maven project. The IDE will then ask you about migration.
+    </p>
+    <p id="pdxsbx_948">
+     If you agree, it will run migration code inspections that will check your code and suggest corrections for anything that doesn't work or that is not recommended in 1.4.0.
+    </p>
+    <figure id="pdxsbx_949">
+     <img alt="Run migration" height="60" src="images/run-migration-wn.png" title="Run migration" width="300"/>
+    </figure>
+    <p id="pdxsbx_950">
+     Code inspections have different
+     <a data-external="true" href="https://www.jetbrains.com/help/idea/configuring-inspection-severities.html" id="pdxsbx_954" rel="noopener noreferrer">
+      severity levels
+     </a>
+     , to help you decide which suggestions to accept and which to ignore.
+    </p>
+    <figure id="pdxsbx_951">
+     <img alt="Migration inspections" height="544" src="images/migration-inspection-wn.png" title="Migration inspections" width="1902"/>
+    </figure>
+    <p id="pdxsbx_952">
+     Kotlin 1.4.0 is a
+     <a data-tooltip="Stable releases with versions, such as 2.0.0, are usually considered to be language releases bringing major changes in the language. Normally, we publish tooling releases, numbered x.x.20 in between language releases." href="kotlin-evolution-principles.html#language-and-tooling-releases" id="pdxsbx_955">
+      feature release
+     </a>
+     and therefore can bring incompatible changes to the language. Find the detailed list of such changes in the
+     <span class="control" id="pdxsbx_956">
+      <a data-tooltip="Keeping the Language Modern and Comfortable Updates are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to…" href="compatibility-guide-14.html" id="pdxsbx_957">
+       Compatibility Guide for Kotlin 1.4
+      </a>
+     </span>
+     .
+    </p>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

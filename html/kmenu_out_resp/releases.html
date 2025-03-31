@@ -1,0 +1,1927 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="releases" id="releases.md">
+    Kotlin releases
+   </h1>
+   <p id="jj6x5h_2">
+    Since Kotlin 2.0.0, we ship the following types of releases:
+   </p>
+   <ul class="list _bullet" id="jj6x5h_3">
+    <li class="list__item" id="jj6x5h_10">
+     <p>
+      <span class="emphasis" id="jj6x5h_13">
+       Language releases
+      </span>
+      (2.
+      <span class="emphasis" id="jj6x5h_14">
+       x
+      </span>
+      .
+      <span class="emphasis" id="jj6x5h_15">
+       0
+      </span>
+      ) that bring major changes in the language and include tooling updates. Released once in 6 months.
+     </p>
+    </li>
+    <li class="list__item" id="jj6x5h_11">
+     <p>
+      <span class="emphasis" id="jj6x5h_16">
+       Tooling releases
+      </span>
+      (2.
+      <span class="emphasis" id="jj6x5h_17">
+       x
+      </span>
+      .
+      <span class="emphasis" id="jj6x5h_18">
+       20
+      </span>
+      ) that are shipped between language releases and include updates in the tooling, performance improvements, and bug fixes. Released in 3 months after corresponding
+      <span class="emphasis" id="jj6x5h_19">
+       language release
+      </span>
+      .
+     </p>
+    </li>
+    <li class="list__item" id="jj6x5h_12">
+     <p>
+      <span class="emphasis" id="jj6x5h_20">
+       Bug fix releases
+      </span>
+      (2.
+      <span class="emphasis" id="jj6x5h_21">
+       x
+      </span>
+      .
+      <span class="emphasis" id="jj6x5h_22">
+       yz
+      </span>
+      ) that include bug fixes for
+      <span class="emphasis" id="jj6x5h_23">
+       tooling releases
+      </span>
+      . There is no exact release schedule for these releases.
+     </p>
+    </li>
+   </ul>
+   <p id="jj6x5h_4">
+    For each language and tooling release, we also ship several preview (
+    <span class="emphasis" id="jj6x5h_24">
+     EAP
+    </span>
+    ) versions for you to try new features before they are released. See
+    <a data-tooltip="You can participate in the Kotlin Early Access Preview (EAP) to try out the latest Kotlin features before they are released." href="eap.html" id="jj6x5h_25">
+     Early Access Preview
+    </a>
+    for details.
+   </p>
+   <aside class="prompt" data-title="" data-type="note" id="jj6x5h_5">
+    <p id="jj6x5h_26">
+     If you want to be notified about new Kotlin releases, subscribe to the
+     <a data-external="true" href="https://lp.jetbrains.com/subscribe-to-kotlin-news/" id="jj6x5h_27" rel="noopener noreferrer">
+      Kotlin newsletter
+     </a>
+     , follow
+     <a data-external="true" href="https://x.com/kotlin" id="jj6x5h_28" rel="noopener noreferrer">
+      Kotlin on X
+     </a>
+     , or enable the
+     <span class="control" id="jj6x5h_29">
+      Watch | Custom | Releases
+     </span>
+     option on the
+     <a data-external="true" href="https://github.com/JetBrains/kotlin" id="jj6x5h_30" rel="noopener noreferrer">
+      Kotlin GitHub repository
+     </a>
+     .
+    </p>
+   </aside>
+   <section class="chapter">
+    <h2 data-toc="update-to-a-new-kotlin-version" id="update-to-a-new-kotlin-version">
+     Update to a new Kotlin version
+    </h2>
+    <p id="jj6x5h_31">
+     To upgrade your project to a new release, you need to update your build script file. For example, to update to Kotlin 2.1.0, change the version of the Kotlin Gradle plugin in your
+     <code class="code" id="jj6x5h_35">
+      build.gradle(.kts)
+     </code>
+     file:
+    </p>
+    <div class="tabs" data-anchors="[jj6x5h_36,jj6x5h_37]" data-group="build-script" id="jj6x5h_32">
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="kotlin" data-title="Kotlin" id="jj6x5h_36">
+      <div class="code-block" data-lang="kotlin" data-title="Kotlin">
+       plugins {
+    // Replace `&lt;...&gt;` with the plugin name appropriate for your target environment
+    kotlin("&lt;...&gt;") version "2.1.0"
+    // For example, if your target environment is JVM:
+    // kotlin("jvm") version "2.1.0"
+    // If your target is Kotlin Multiplatform:
+    // kotlin("multiplatform") version "2.1.0"
+}
+      </div>
+     </div>
+     <div class="tabs__content" data-gtm="tab" data-sync-tabs="groovy" data-title="Groovy" id="jj6x5h_37">
+      <div class="code-block" data-lang="groovy" data-title="Groovy">
+       plugins {
+    // Replace `&lt;...&gt;` with the plugin name appropriate for your target environment
+    id 'org.jetbrains.kotlin.&lt;...&gt;' version '2.1.0'
+    // For example, if your target environment is JVM: 
+    // id 'org.jetbrains.kotlin.jvm' version '2.1.0'
+    // If your target is Kotlin Multiplatform:
+    // id 'org.jetbrains.kotlin.multiplatform' version '2.1.0'
+}
+      </div>
+     </div>
+    </div>
+    <p id="jj6x5h_33">
+     If you have projects created with earlier Kotlin versions, change the Kotlin version in your projects and update kotlinx libraries if necessary.
+    </p>
+    <p id="jj6x5h_34">
+     If you are migrating to the new language release, Kotlin plugin's migration tools will help you with the migration.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="ide-support" id="ide-support">
+     IDE support
+    </h2>
+    <p id="jj6x5h_40">
+     Even with the release of the K2 compiler, IntelliJ IDEA and Android Studio still use the previous compiler by default for code analysis, code completion, highlighting, and other IDE-related features.
+    </p>
+    <p id="jj6x5h_41">
+     Starting from 2024.1, IntelliJ IDEA can use the new K2 compiler to analyze your code with its K2 mode. To enable it, go to
+     <span class="control" id="jj6x5h_44">
+      Settings
+     </span>
+     |
+     <span class="control" id="jj6x5h_45">
+      Languages &amp; Frameworks
+     </span>
+     |
+     <span class="control" id="jj6x5h_46">
+      Kotlin
+     </span>
+     and select the
+     <span class="control" id="jj6x5h_47">
+      Enable K2 mode
+     </span>
+     option.
+    </p>
+    <figure id="jj6x5h_42">
+     <img alt="Enable K2 mode" height="57" src="images/k2-mode.png" title="Enable K2 mode" width="200"/>
+    </figure>
+    <p id="jj6x5h_43">
+     After enabling K2 mode, you may notice differences in IDE analysis due to changes in compiler behavior. Learn how the new K2 compiler differs from the previous one in the
+     <a data-tooltip="As the Kotlin language and ecosystem have continued to evolve, so has the Kotlin compiler. The first step was the introduction of the new JVM and JS IR (Intermediate Representation) backends that share logic, simplifying code generation for targets on different platforms. Now, the…" href="k2-compiler-migration-guide.html" id="jj6x5h_48">
+      migration guide
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-release-compatibility" id="kotlin-release-compatibility">
+     Kotlin release compatibility
+    </h2>
+    <p id="jj6x5h_49">
+     Learn more about
+     <a data-tooltip="Stable releases with versions, such as 2.0.0, are usually considered to be language releases bringing major changes in the language. Normally, we publish tooling releases, numbered x.x.20 in between language releases." href="kotlin-evolution-principles.html#language-and-tooling-releases" id="jj6x5h_50">
+      types of Kotlin releases and their compatibility
+     </a>
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="release-details" id="release-details">
+     Release details
+    </h2>
+    <p id="jj6x5h_51">
+     The following table lists details of the latest Kotlin releases:
+    </p>
+    <aside class="prompt" data-title="" data-type="tip" id="jj6x5h_52">
+     <p id="jj6x5h_54">
+      You can also try
+      <a data-tooltip="No preview versions are currently available." href="eap.html#build-details" id="jj6x5h_55">
+       Early Access Preview (EAP) versions of Kotlin
+      </a>
+      .
+     </p>
+    </aside>
+    <div class="table-wrapper">
+     <table class="wide" id="jj6x5h_53">
+      <thead>
+       <tr class="ijRowHead" id="jj6x5h_56">
+        <th id="jj6x5h_98">
+         <p>
+          Build info
+         </p>
+        </th>
+        <th id="jj6x5h_99">
+         <p>
+          Build highlights
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="jj6x5h_57">
+        <td id="jj6x5h_100">
+         <p>
+          <b id="jj6x5h_102">
+           2.1.0
+          </b>
+         </p>
+         <p id="jj6x5h_103">
+          Released:
+          <b id="jj6x5h_105">
+           November 27, 2024
+          </b>
+         </p>
+         <p id="jj6x5h_104">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.0" id="jj6x5h_106" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_101">
+         <p id="jj6x5h_107">
+          A language release introducing new language features.
+         </p>
+         <p id="jj6x5h_108">
+          Learn more about Kotlin 2.1.0 in
+          <a data-tooltip="Released: November 27, 2024" href="whatsnew21.html" id="jj6x5h_109">
+           What's new in Kotlin 2.1.0
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_58">
+        <td id="jj6x5h_110">
+         <p>
+          <b id="jj6x5h_112">
+           2.0.21
+          </b>
+         </p>
+         <p id="jj6x5h_113">
+          Released:
+          <b id="jj6x5h_115">
+           October 10, 2024
+          </b>
+         </p>
+         <p id="jj6x5h_114">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.21" id="jj6x5h_116" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_111">
+         <p id="jj6x5h_117">
+          A bug fix release for Kotlin 2.0.20
+         </p>
+         <p id="jj6x5h_118">
+          For more details, please refer to the
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.21" id="jj6x5h_119" rel="noopener noreferrer">
+           changelog
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_59">
+        <td id="jj6x5h_120">
+         <p>
+          <b id="jj6x5h_122">
+           2.0.20
+          </b>
+         </p>
+         <p id="jj6x5h_123">
+          Released:
+          <b id="jj6x5h_125">
+           August 22, 2024
+          </b>
+         </p>
+         <p id="jj6x5h_124">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.20" id="jj6x5h_126" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_121">
+         <p id="jj6x5h_127">
+          A tooling release for Kotlin 2.0.0 containing performance improvements and bug fixes. Features also include concurrent marking in Kotlin/Native's garbage collector, UUID support in Kotlin common standard library, Compose compiler updates, and support up to Gradle 8.8.
+         </p>
+         <p id="jj6x5h_128">
+          Learn more about Kotlin 2.0.20 in
+          <a data-tooltip="Released: August 22, 2024" href="whatsnew2020.html" id="jj6x5h_129">
+           What's new in Kotlin 2.0.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_60">
+        <td id="jj6x5h_130">
+         <p>
+          <b id="jj6x5h_132">
+           2.0.10
+          </b>
+         </p>
+         <p id="jj6x5h_133">
+          Released:
+          <b id="jj6x5h_135">
+           August 6, 2024
+          </b>
+         </p>
+         <p id="jj6x5h_134">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.10" id="jj6x5h_136" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_131">
+         <p id="jj6x5h_137">
+          A bug fix release for Kotlin 2.0.0.
+         </p>
+         <p id="jj6x5h_138">
+          Learn more about Kotlin 2.0.0 in
+          <a data-tooltip="Released: May 21, 2024" href="whatsnew20.html" id="jj6x5h_139">
+           What's new in Kotlin 2.0.0
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_61">
+        <td id="jj6x5h_140">
+         <p>
+          <b id="jj6x5h_142">
+           2.0.0
+          </b>
+         </p>
+         <p id="jj6x5h_143">
+          Released:
+          <b id="jj6x5h_145">
+           May 21, 2024
+          </b>
+         </p>
+         <p id="jj6x5h_144">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.0" id="jj6x5h_146" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_141">
+         <p id="jj6x5h_147">
+          A language release with the Stable Kotlin K2 compiler.
+         </p>
+         <p id="jj6x5h_148">
+          Learn more about Kotlin 2.0.0 in
+          <a data-tooltip="Released: May 21, 2024" href="whatsnew20.html" id="jj6x5h_149">
+           What's new in Kotlin 2.0.0
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_62">
+        <td id="jj6x5h_150">
+         <p>
+          <b id="jj6x5h_152">
+           1.9.25
+          </b>
+         </p>
+         <p id="jj6x5h_153">
+          Released:
+          <b id="jj6x5h_155">
+           July 19, 2024
+          </b>
+         </p>
+         <p id="jj6x5h_154">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.25" id="jj6x5h_156" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_151">
+         <p id="jj6x5h_157">
+          A bug fix release for Kotlin 1.9.20, 1.9.21, 1.9.22, 1.9.23, and 1.9.24.
+         </p>
+         <p id="jj6x5h_158">
+          Learn more about Kotlin 1.9.20 in
+          <a data-tooltip="Released: November 1, 2023" href="whatsnew1920.html" id="jj6x5h_159">
+           What's new in Kotlin 1.9.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_63">
+        <td id="jj6x5h_160">
+         <p>
+          <b id="jj6x5h_162">
+           1.9.24
+          </b>
+         </p>
+         <p id="jj6x5h_163">
+          Released:
+          <b id="jj6x5h_165">
+           May 7, 2024
+          </b>
+         </p>
+         <p id="jj6x5h_164">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.24" id="jj6x5h_166" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_161">
+         <p id="jj6x5h_167">
+          A bug fix release for Kotlin 1.9.20, 1.9.21, 1.9.22, and 1.9.23.
+         </p>
+         <p id="jj6x5h_168">
+          Learn more about Kotlin 1.9.20 in
+          <a data-tooltip="Released: November 1, 2023" href="whatsnew1920.html" id="jj6x5h_169">
+           What's new in Kotlin 1.9.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_64">
+        <td id="jj6x5h_170">
+         <p>
+          <b id="jj6x5h_172">
+           1.9.23
+          </b>
+         </p>
+         <p id="jj6x5h_173">
+          Released:
+          <b id="jj6x5h_175">
+           March 7, 2024
+          </b>
+         </p>
+         <p id="jj6x5h_174">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.23" id="jj6x5h_176" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_171">
+         <p id="jj6x5h_177">
+          A bug fix release for Kotlin 1.9.20, 1.9.21, and 1.9.22.
+         </p>
+         <p id="jj6x5h_178">
+          Learn more about Kotlin 1.9.20 in
+          <a data-tooltip="Released: November 1, 2023" href="whatsnew1920.html" id="jj6x5h_179">
+           What's new in Kotlin 1.9.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_65">
+        <td id="jj6x5h_180">
+         <p>
+          <b id="jj6x5h_182">
+           1.9.22
+          </b>
+         </p>
+         <p id="jj6x5h_183">
+          Released:
+          <b id="jj6x5h_185">
+           December 21, 2023
+          </b>
+         </p>
+         <p id="jj6x5h_184">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.22" id="jj6x5h_186" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_181">
+         <p id="jj6x5h_187">
+          A bug fix release for Kotlin 1.9.20 and 1.9.21.
+         </p>
+         <p id="jj6x5h_188">
+          Learn more about Kotlin 1.9.20 in
+          <a data-tooltip="Released: November 1, 2023" href="whatsnew1920.html" id="jj6x5h_189">
+           What's new in Kotlin 1.9.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_66">
+        <td id="jj6x5h_190">
+         <p>
+          <b id="jj6x5h_192">
+           1.9.21
+          </b>
+         </p>
+         <p id="jj6x5h_193">
+          Released:
+          <b id="jj6x5h_195">
+           November 23, 2023
+          </b>
+         </p>
+         <p id="jj6x5h_194">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.21" id="jj6x5h_196" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_191">
+         <p id="jj6x5h_197">
+          A bug fix release for Kotlin 1.9.20.
+         </p>
+         <p id="jj6x5h_198">
+          Learn more about Kotlin 1.9.20 in
+          <a data-tooltip="Released: November 1, 2023" href="whatsnew1920.html" id="jj6x5h_199">
+           What's new in Kotlin 1.9.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_67">
+        <td id="jj6x5h_200">
+         <p>
+          <b id="jj6x5h_202">
+           1.9.20
+          </b>
+         </p>
+         <p id="jj6x5h_203">
+          Released:
+          <b id="jj6x5h_205">
+           November 1, 2023
+          </b>
+         </p>
+         <p id="jj6x5h_204">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.20" id="jj6x5h_206" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_201">
+         <p id="jj6x5h_207">
+          A feature release with Kotlin K2 compiler in Beta and Stable Kotlin Multiplatform.
+         </p>
+         <p id="jj6x5h_208">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_209">
+          <li class="list__item" id="jj6x5h_210">
+           <p>
+            <a data-tooltip="Released: November 1, 2023" href="whatsnew1920.html" id="jj6x5h_211">
+             What's new in Kotlin 1.9.20
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_68">
+        <td id="jj6x5h_212">
+         <p>
+          <b id="jj6x5h_214">
+           1.9.10
+          </b>
+         </p>
+         <p id="jj6x5h_215">
+          Released:
+          <b id="jj6x5h_217">
+           August 23, 2023
+          </b>
+         </p>
+         <p id="jj6x5h_216">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.10" id="jj6x5h_218" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_213">
+         <p id="jj6x5h_219">
+          A bug fix release for Kotlin 1.9.0.
+         </p>
+         <p id="jj6x5h_220">
+          Learn more about Kotlin 1.9.0 in
+          <a data-tooltip="Release date: July 6, 2023" href="whatsnew19.html" id="jj6x5h_222">
+           What's new in Kotlin 1.9.0
+          </a>
+          .
+         </p>
+         <aside class="prompt" data-title="" data-type="note" id="jj6x5h_221">
+          <p>
+           For Android Studio Giraffe and Hedgehog, the Kotlin plugin 1.9.10 will be delivered with upcoming Android Studios updates.
+          </p>
+         </aside>
+        </td>
+       </tr>
+       <tr id="jj6x5h_69">
+        <td id="jj6x5h_223">
+         <p>
+          <b id="jj6x5h_225">
+           1.9.0
+          </b>
+         </p>
+         <p id="jj6x5h_226">
+          Released:
+          <b id="jj6x5h_228">
+           July 6, 2023
+          </b>
+         </p>
+         <p id="jj6x5h_227">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.0" id="jj6x5h_229" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_224">
+         <p id="jj6x5h_230">
+          A feature release with Kotlin K2 compiler updates, new enum class values function, new operator for open-ended ranges, preview of Gradle configuration cache in Kotlin Multiplatform, changes to Android target support in Kotlin Multiplatform, preview of custom memory allocator in Kotlin/Native.
+         </p>
+         <p id="jj6x5h_231">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_232">
+          <li class="list__item" id="jj6x5h_233">
+           <p>
+            <a data-tooltip="Release date: July 6, 2023" href="whatsnew19.html" id="jj6x5h_235">
+             What's new in Kotlin 1.9.0
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_234">
+           <p>
+            <a data-external="true" href="https://www.youtube.com/embed/fvwTZc-dxsM" id="jj6x5h_236" rel="noopener noreferrer">
+             What's new in Kotlin YouTube video
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_70">
+        <td id="jj6x5h_237">
+         <p>
+          <b id="jj6x5h_239">
+           1.8.22
+          </b>
+         </p>
+         <p id="jj6x5h_240">
+          Released:
+          <b id="jj6x5h_242">
+           June 8, 2023
+          </b>
+         </p>
+         <p id="jj6x5h_241">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.22" id="jj6x5h_243" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_238">
+         <p id="jj6x5h_244">
+          A bug fix release for Kotlin 1.8.20.
+         </p>
+         <p id="jj6x5h_245">
+          Learn more about Kotlin 1.8.20 in
+          <a data-tooltip="Released: 25 April 2023" href="whatsnew1820.html" id="jj6x5h_246">
+           What's new in Kotlin 1.8.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_71">
+        <td id="jj6x5h_247">
+         <p>
+          <b id="jj6x5h_249">
+           1.8.21
+          </b>
+         </p>
+         <p id="jj6x5h_250">
+          Released:
+          <b id="jj6x5h_252">
+           April 25, 2023
+          </b>
+         </p>
+         <p id="jj6x5h_251">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.21" id="jj6x5h_253" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_248">
+         <p id="jj6x5h_254">
+          A bug fix release for Kotlin 1.8.20.
+         </p>
+         <p id="jj6x5h_255">
+          Learn more about Kotlin 1.8.20 in
+          <a data-tooltip="Released: 25 April 2023" href="whatsnew1820.html" id="jj6x5h_257">
+           What's new in Kotlin 1.8.20
+          </a>
+          .
+         </p>
+         <aside class="prompt" data-title="" data-type="note" id="jj6x5h_256">
+          <p>
+           For Android Studio Flamingo and Giraffe, the Kotlin plugin 1.8.21 will be delivered with upcoming Android Studios updates.
+          </p>
+         </aside>
+        </td>
+       </tr>
+       <tr id="jj6x5h_72">
+        <td id="jj6x5h_258">
+         <p>
+          <b id="jj6x5h_260">
+           1.8.20
+          </b>
+         </p>
+         <p id="jj6x5h_261">
+          Released:
+          <b id="jj6x5h_263">
+           April 3, 2023
+          </b>
+         </p>
+         <p id="jj6x5h_262">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.20" id="jj6x5h_264" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_259">
+         <p id="jj6x5h_265">
+          A feature release with Kotlin K2 compiler updates, AutoCloseable interface and Base64 encoding in stdlib, new JVM incremental compilation enabled by default, new Kotlin/Wasm compiler backend.
+         </p>
+         <p id="jj6x5h_266">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_267">
+          <li class="list__item" id="jj6x5h_268">
+           <p>
+            <a data-tooltip="Released: 25 April 2023" href="whatsnew1820.html" id="jj6x5h_270">
+             What's new in Kotlin 1.8.20
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_269">
+           <p>
+            <a data-external="true" href="https://youtu.be/R1JpkpPzyBU" id="jj6x5h_271" rel="noopener noreferrer">
+             What's new in Kotlin YouTube video
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_73">
+        <td id="jj6x5h_272">
+         <p>
+          <b id="jj6x5h_274">
+           1.8.10
+          </b>
+         </p>
+         <p id="jj6x5h_275">
+          Released:
+          <b id="jj6x5h_277">
+           February 2, 2023
+          </b>
+         </p>
+         <p id="jj6x5h_276">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.10" id="jj6x5h_278" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_273">
+         <p id="jj6x5h_279">
+          A bug fix release for Kotlin 1.8.0.
+         </p>
+         <p id="jj6x5h_280">
+          Learn more about
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.0" id="jj6x5h_282" rel="noopener noreferrer">
+           Kotlin 1.8.0
+          </a>
+          .
+         </p>
+         <aside class="prompt" data-title="" data-type="note" id="jj6x5h_281">
+          <p>
+           For Android Studio Electric Eel and Flamingo, the Kotlin plugin 1.8.10 will be delivered with upcoming Android Studios updates.
+          </p>
+         </aside>
+        </td>
+       </tr>
+       <tr id="jj6x5h_74">
+        <td id="jj6x5h_283">
+         <p>
+          <b id="jj6x5h_285">
+           1.8.0
+          </b>
+         </p>
+         <p id="jj6x5h_286">
+          Released:
+          <b id="jj6x5h_288">
+           December 28, 2022
+          </b>
+         </p>
+         <p id="jj6x5h_287">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.0" id="jj6x5h_289" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_284">
+         <p id="jj6x5h_290">
+          A feature release with improved kotlin-reflect performance, new recursively copy or delete directory content experimental functions for JVM, improved Objective-C/Swift interoperability.
+         </p>
+         <p id="jj6x5h_291">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_292">
+          <li class="list__item" id="jj6x5h_293">
+           <p>
+            <a data-tooltip="Released: 28 December 2022" href="whatsnew18.html" id="jj6x5h_295">
+             What's new in Kotlin 1.8.0
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_294">
+           <p>
+            <a data-tooltip="Keeping the Language Modern and Comfortable Updates are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to…" href="compatibility-guide-18.html" id="jj6x5h_296">
+             Compatibility guide for Kotlin 1.8.0
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_75">
+        <td id="jj6x5h_297">
+         <p>
+          <b id="jj6x5h_299">
+           1.7.21
+          </b>
+         </p>
+         <p id="jj6x5h_300">
+          Released:
+          <b id="jj6x5h_302">
+           November 9, 2022
+          </b>
+         </p>
+         <p id="jj6x5h_301">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.21" id="jj6x5h_303" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_298">
+         <p id="jj6x5h_304">
+          A bug fix release for Kotlin 1.7.20.
+         </p>
+         <p id="jj6x5h_305">
+          Learn more about Kotlin 1.7.20 in
+          <a data-tooltip="The IDE support for Kotlin 1.7.20 is available for IntelliJ IDEA 2021.3, 2022.1, and 2022.2." href="whatsnew1720.html" id="jj6x5h_307">
+           What's new in Kotlin 1.7.20
+          </a>
+          .
+         </p>
+         <aside class="prompt" data-title="" data-type="note" id="jj6x5h_306">
+          <p>
+           For Android Studio Dolphin, Electric Eel, and Flamingo, the Kotlin plugin 1.7.21 will be delivered with upcoming Android Studios updates.
+          </p>
+         </aside>
+        </td>
+       </tr>
+       <tr id="jj6x5h_76">
+        <td id="jj6x5h_308">
+         <p>
+          <b id="jj6x5h_310">
+           1.7.20
+          </b>
+         </p>
+         <p id="jj6x5h_311">
+          Released:
+          <b id="jj6x5h_313">
+           September 29, 2022
+          </b>
+         </p>
+         <p id="jj6x5h_312">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.20" id="jj6x5h_314" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_309">
+         <p id="jj6x5h_315">
+          An incremental release with new language features, the support for several compiler plugins in the Kotlin K2 compiler, the new Kotlin/Native memory manager enabled by default, and the support for Gradle 7.1.
+         </p>
+         <p id="jj6x5h_316">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_317">
+          <li class="list__item" id="jj6x5h_319">
+           <p>
+            <a data-tooltip="The IDE support for Kotlin 1.7.20 is available for IntelliJ IDEA 2021.3, 2022.1, and 2022.2." href="whatsnew1720.html" id="jj6x5h_322">
+             What's new in Kotlin 1.7.20
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_320">
+           <p>
+            <a data-external="true" href="https://youtu.be/OG9npowJgE8" id="jj6x5h_323" rel="noopener noreferrer">
+             What's new in Kotlin YouTube video
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_321">
+           <p>
+            <a data-tooltip="Keeping the Language Modern and Comfortable Updates are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to…" href="compatibility-guide-1720.html" id="jj6x5h_324">
+             Compatibility guide for Kotlin 1.7.20
+            </a>
+           </p>
+          </li>
+         </ul>
+         <p id="jj6x5h_318">
+          Learn more about
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.20" id="jj6x5h_325" rel="noopener noreferrer">
+           Kotlin 1.7.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_77">
+        <td id="jj6x5h_326">
+         <p>
+          <b id="jj6x5h_328">
+           1.7.10
+          </b>
+         </p>
+         <p id="jj6x5h_329">
+          Released:
+          <b id="jj6x5h_331">
+           July 7, 2022
+          </b>
+         </p>
+         <p id="jj6x5h_330">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.10" id="jj6x5h_332" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_327">
+         <p id="jj6x5h_333">
+          A bug fix release for Kotlin 1.7.0.
+         </p>
+         <p id="jj6x5h_334">
+          Learn more about
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.0" id="jj6x5h_336" rel="noopener noreferrer">
+           Kotlin 1.7.0
+          </a>
+          .
+         </p>
+         <aside class="prompt" data-title="" data-type="note" id="jj6x5h_335">
+          <p>
+           For Android Studio Dolphin (213) and Android Studio Electric Eel (221), the Kotlin plugin 1.7.10 will be delivered with upcoming Android Studios updates.
+          </p>
+         </aside>
+        </td>
+       </tr>
+       <tr id="jj6x5h_78">
+        <td id="jj6x5h_337">
+         <p>
+          <b id="jj6x5h_339">
+           1.7.0
+          </b>
+         </p>
+         <p id="jj6x5h_340">
+          Released:
+          <b id="jj6x5h_342">
+           June 9, 2022
+          </b>
+         </p>
+         <p id="jj6x5h_341">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.0" id="jj6x5h_343" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_338">
+         <p id="jj6x5h_344">
+          A feature release with Kotlin K2 compiler in Alpha for JVM, stabilized language features, performance improvements, and evolutionary changes such as stabilizing experimental APIs.
+         </p>
+         <p id="jj6x5h_345">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_346">
+          <li class="list__item" id="jj6x5h_347">
+           <p>
+            <a data-tooltip="The IDE support for Kotlin 1.7.0 is available for IntelliJ IDEA 2021.2, 2021.3, and 2022.1." href="whatsnew17.html" id="jj6x5h_350">
+             What's new in Kotlin 1.7.0
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_348">
+           <p>
+            <a data-external="true" href="https://youtu.be/54WEfLKtCGk" id="jj6x5h_351" rel="noopener noreferrer">
+             What's new in Kotlin YouTube video
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_349">
+           <p>
+            <a data-tooltip="Keeping the Language Modern and Comfortable Updates are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to…" href="compatibility-guide-17.html" id="jj6x5h_352">
+             Compatibility guide for Kotlin 1.7.0
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_79">
+        <td id="jj6x5h_353">
+         <p>
+          <b id="jj6x5h_355">
+           1.6.21
+          </b>
+         </p>
+         <p id="jj6x5h_356">
+          Released:
+          <b id="jj6x5h_358">
+           April 20, 2022
+          </b>
+         </p>
+         <p id="jj6x5h_357">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.6.21" id="jj6x5h_359" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_354">
+         <p id="jj6x5h_360">
+          A bug fix release for Kotlin 1.6.20.
+         </p>
+         <p id="jj6x5h_361">
+          Learn more about
+          <a data-tooltip="Released: 4 April 2022" href="whatsnew1620.html" id="jj6x5h_362">
+           Kotlin 1.6.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_80">
+        <td id="jj6x5h_363">
+         <p>
+          <b id="jj6x5h_365">
+           1.6.20
+          </b>
+         </p>
+         <p id="jj6x5h_366">
+          Released:
+          <b id="jj6x5h_368">
+           April 4, 2022
+          </b>
+         </p>
+         <p id="jj6x5h_367">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.6.20" id="jj6x5h_369" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_364">
+         <p id="jj6x5h_370">
+          An incremental release with various improvements such as:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_371">
+          <li class="list__item" id="jj6x5h_373">
+           <p>
+            Prototype of context receivers
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_374">
+           <p>
+            Callable references to functional interface constructors
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_375">
+           <p>
+            Kotlin/Native: performance improvements for the new memory manager
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_376">
+           <p>
+            Multiplatform: hierarchical project structure by default
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_377">
+           <p>
+            Kotlin/JS: IR compiler improvements
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_378">
+           <p>
+            Gradle: compiler execution strategies
+           </p>
+          </li>
+         </ul>
+         <p id="jj6x5h_372">
+          Learn more about
+          <a data-tooltip="Released: 4 April 2022" href="whatsnew1620.html" id="jj6x5h_379">
+           Kotlin 1.6.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_81">
+        <td id="jj6x5h_380">
+         <p>
+          <b id="jj6x5h_382">
+           1.6.10
+          </b>
+         </p>
+         <p id="jj6x5h_383">
+          Released:
+          <b id="jj6x5h_385">
+           December 14, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_384">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.6.10" id="jj6x5h_386" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_381">
+         <p id="jj6x5h_387">
+          A bug fix release for Kotlin 1.6.0.
+         </p>
+         <p id="jj6x5h_388">
+          Learn more about
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.6.0" id="jj6x5h_389" rel="noopener noreferrer">
+           Kotlin 1.6.0
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_82">
+        <td id="jj6x5h_390">
+         <p>
+          <b id="jj6x5h_392">
+           1.6.0
+          </b>
+         </p>
+         <p id="jj6x5h_393">
+          Released:
+          <b id="jj6x5h_395">
+           November 16, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_394">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.6.0" id="jj6x5h_396" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_391">
+         <p id="jj6x5h_397">
+          A feature release with new language features, performance improvements, and evolutionary changes such as stabilizing experimental APIs.
+         </p>
+         <p id="jj6x5h_398">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_399">
+          <li class="list__item" id="jj6x5h_400">
+           <p>
+            <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-6-0-is-released/" id="jj6x5h_403" rel="noopener noreferrer">
+             Release blog post
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_401">
+           <p>
+            <a data-tooltip="Released: 16 November 2021" href="whatsnew16.html" id="jj6x5h_404">
+             What's new in Kotlin 1.6.0
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_402">
+           <p>
+            <a data-tooltip="Keeping the Language Modern and Comfortable Updates are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to…" href="compatibility-guide-16.html" id="jj6x5h_405">
+             Compatibility guide
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_83">
+        <td id="jj6x5h_406">
+         <p>
+          <b id="jj6x5h_408">
+           1.5.32
+          </b>
+         </p>
+         <p id="jj6x5h_409">
+          Released:
+          <b id="jj6x5h_411">
+           November 29, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_410">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.5.32" id="jj6x5h_412" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_407">
+         <p id="jj6x5h_413">
+          A bug fix release for Kotlin 1.5.31.
+         </p>
+         <p id="jj6x5h_414">
+          Learn more about
+          <a data-tooltip="Released: 24 August 2021" href="whatsnew1530.html" id="jj6x5h_415">
+           Kotlin 1.5.30
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_84">
+        <td id="jj6x5h_416">
+         <p>
+          <b id="jj6x5h_418">
+           1.5.31
+          </b>
+         </p>
+         <p id="jj6x5h_419">
+          Released:
+          <b id="jj6x5h_421">
+           September 20, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_420">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.5.31" id="jj6x5h_422" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_417">
+         <p id="jj6x5h_423">
+          A bug fix release for Kotlin 1.5.30.
+         </p>
+         <p id="jj6x5h_424">
+          Learn more about
+          <a data-tooltip="Released: 24 August 2021" href="whatsnew1530.html" id="jj6x5h_425">
+           Kotlin 1.5.30
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_85">
+        <td id="jj6x5h_426">
+         <p>
+          <b id="jj6x5h_428">
+           1.5.30
+          </b>
+         </p>
+         <p id="jj6x5h_429">
+          Released:
+          <b id="jj6x5h_431">
+           August 23, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_430">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.5.30" id="jj6x5h_432" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_427">
+         <p id="jj6x5h_433">
+          An incremental release with various improvements such as:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_434">
+          <li class="list__item" id="jj6x5h_437">
+           <p>
+            Instantiation of annotation classes on JVM
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_438">
+           <p>
+            Improved opt-in requirement mechanism and type inference
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_439">
+           <p>
+            Kotlin/JS IR backend in Beta
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_440">
+           <p>
+            Support for Apple Silicon targets
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_441">
+           <p>
+            Improved CocoaPods support
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_442">
+           <p>
+            Gradle: Java toolchain support and improved daemon configuration
+           </p>
+          </li>
+         </ul>
+         <p id="jj6x5h_435">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_436">
+          <li class="list__item" id="jj6x5h_443">
+           <p>
+            <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/08/kotlin-1-5-30-released/" id="jj6x5h_445" rel="noopener noreferrer">
+             Release blog post
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_444">
+           <p>
+            <a data-tooltip="Released: 24 August 2021" href="whatsnew1530.html" id="jj6x5h_446">
+             What's new in Kotlin 1.5.30
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_86">
+        <td id="jj6x5h_447">
+         <p>
+          <b id="jj6x5h_449">
+           1.5.21
+          </b>
+         </p>
+         <p id="jj6x5h_450">
+          Released:
+          <b id="jj6x5h_452">
+           July 13, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_451">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.5.21" id="jj6x5h_453" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_448">
+         <p id="jj6x5h_454">
+          A bug fix release for Kotlin 1.5.20.
+         </p>
+         <p id="jj6x5h_455">
+          Learn more about
+          <a data-tooltip="Released: 24 June 2021" href="whatsnew1520.html" id="jj6x5h_456">
+           Kotlin 1.5.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_87">
+        <td id="jj6x5h_457">
+         <p>
+          <b id="jj6x5h_459">
+           1.5.20
+          </b>
+         </p>
+         <p id="jj6x5h_460">
+          Released:
+          <b id="jj6x5h_462">
+           June 24, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_461">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.5.20" id="jj6x5h_463" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_458">
+         <p id="jj6x5h_464">
+          An incremental release with various improvements such as:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_465">
+          <li class="list__item" id="jj6x5h_468">
+           <p>
+            String concatenation via
+            <code class="code" id="jj6x5h_473">
+             invokedynamic
+            </code>
+            on JVM by default
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_469">
+           <p>
+            Improved support for Lombok and support for JSpecify
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_470">
+           <p>
+            Kotlin/Native: KDoc export to Objective-C headers and faster
+            <code class="code" id="jj6x5h_474">
+             Array.copyInto()
+            </code>
+            inside one array
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_471">
+           <p>
+            Gradle: caching of annotation processors' classloaders and support for the
+            <code class="code" id="jj6x5h_475">
+             --parallel
+            </code>
+            Gradle property
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_472">
+           <p>
+            Aligned behavior of stdlib functions across platforms
+           </p>
+          </li>
+         </ul>
+         <p id="jj6x5h_466">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_467">
+          <li class="list__item" id="jj6x5h_476">
+           <p>
+            <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/06/kotlin-1-5-20-released/" id="jj6x5h_478" rel="noopener noreferrer">
+             Release blog post
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_477">
+           <p>
+            <a data-tooltip="Released: 24 June 2021" href="whatsnew1520.html" id="jj6x5h_479">
+             What's new in Kotlin 1.5.20
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_88">
+        <td id="jj6x5h_480">
+         <p>
+          <b id="jj6x5h_482">
+           1.5.10
+          </b>
+         </p>
+         <p id="jj6x5h_483">
+          Released:
+          <b id="jj6x5h_485">
+           May 24, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_484">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.5.10" id="jj6x5h_486" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_481">
+         <p id="jj6x5h_487">
+          A bug fix release for Kotlin 1.5.0.
+         </p>
+         <p id="jj6x5h_488">
+          Learn more about
+          <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/04/kotlin-1-5-0-released/" id="jj6x5h_489" rel="noopener noreferrer">
+           Kotlin 1.5.0
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_89">
+        <td id="jj6x5h_490">
+         <p>
+          <b id="jj6x5h_492">
+           1.5.0
+          </b>
+         </p>
+         <p id="jj6x5h_493">
+          Released:
+          <b id="jj6x5h_495">
+           May 5, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_494">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.5.0" id="jj6x5h_496" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_491">
+         <p id="jj6x5h_497">
+          A feature release with new language features, performance improvements, and evolutionary changes such as stabilizing experimental APIs.
+         </p>
+         <p id="jj6x5h_498">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_499">
+          <li class="list__item" id="jj6x5h_500">
+           <p>
+            <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/04/kotlin-1-5-0-released/" id="jj6x5h_503" rel="noopener noreferrer">
+             Release blog post
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_501">
+           <p>
+            <a data-tooltip="Released: 5 May 2021" href="whatsnew15.html" id="jj6x5h_504">
+             What's new in Kotlin 1.5.0
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_502">
+           <p>
+            <a data-tooltip="Keeping the Language Modern and Comfortable Updates are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to…" href="compatibility-guide-15.html" id="jj6x5h_505">
+             Compatibility guide
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_90">
+        <td id="jj6x5h_506">
+         <p>
+          <b id="jj6x5h_508">
+           1.4.32
+          </b>
+         </p>
+         <p id="jj6x5h_509">
+          Released:
+          <b id="jj6x5h_511">
+           March 22, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_510">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.4.32" id="jj6x5h_512" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_507">
+         <p id="jj6x5h_513">
+          A bug fix release for Kotlin 1.4.30.
+         </p>
+         <p id="jj6x5h_514">
+          Learn more about
+          <a data-tooltip="Released: 3 February 2021" href="whatsnew1430.html" id="jj6x5h_515">
+           Kotlin 1.4.30
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_91">
+        <td id="jj6x5h_516">
+         <p>
+          <b id="jj6x5h_518">
+           1.4.31
+          </b>
+         </p>
+         <p id="jj6x5h_519">
+          Released:
+          <b id="jj6x5h_521">
+           February 25, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_520">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.4.31" id="jj6x5h_522" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_517">
+         <p id="jj6x5h_523">
+          A bug fix release for Kotlin 1.4.30
+         </p>
+         <p id="jj6x5h_524">
+          Learn more about
+          <a data-tooltip="Released: 3 February 2021" href="whatsnew1430.html" id="jj6x5h_525">
+           Kotlin 1.4.30
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_92">
+        <td id="jj6x5h_526">
+         <p>
+          <b id="jj6x5h_528">
+           1.4.30
+          </b>
+         </p>
+         <p id="jj6x5h_529">
+          Released:
+          <b id="jj6x5h_531">
+           February 3, 2021
+          </b>
+         </p>
+         <p id="jj6x5h_530">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.4.30" id="jj6x5h_532" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_527">
+         <p id="jj6x5h_533">
+          An incremental release with various improvements such as:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_534">
+          <li class="list__item" id="jj6x5h_537">
+           <p>
+            New JVM backend, now in Beta
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_538">
+           <p>
+            Preview of new language features
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_539">
+           <p>
+            Improved Kotlin/Native performance
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_540">
+           <p>
+            Standard library API improvements
+           </p>
+          </li>
+         </ul>
+         <p id="jj6x5h_535">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_536">
+          <li class="list__item" id="jj6x5h_541">
+           <p>
+            <a data-external="true" href="https://blog.jetbrains.com/kotlin/2021/01/kotlin-1-4-30-released/" id="jj6x5h_543" rel="noopener noreferrer">
+             Release blog post
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_542">
+           <p>
+            <a data-tooltip="Released: 3 February 2021" href="whatsnew1430.html" id="jj6x5h_544">
+             What's new in Kotlin 1.4.30
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_93">
+        <td id="jj6x5h_545">
+         <p>
+          <b id="jj6x5h_547">
+           1.4.21
+          </b>
+         </p>
+         <p id="jj6x5h_548">
+          Released:
+          <b id="jj6x5h_550">
+           December 7, 2020
+          </b>
+         </p>
+         <p id="jj6x5h_549">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.4.21" id="jj6x5h_551" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_546">
+         <p id="jj6x5h_552">
+          A bug fix release for Kotlin 1.4.20
+         </p>
+         <p id="jj6x5h_553">
+          Learn more about
+          <a data-tooltip="Released: 23 November 2020" href="whatsnew1420.html" id="jj6x5h_554">
+           Kotlin 1.4.20
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_94">
+        <td id="jj6x5h_555">
+         <p>
+          <b id="jj6x5h_557">
+           1.4.20
+          </b>
+         </p>
+         <p id="jj6x5h_558">
+          Released:
+          <b id="jj6x5h_560">
+           November 23, 2020
+          </b>
+         </p>
+         <p id="jj6x5h_559">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.4.20" id="jj6x5h_561" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_556">
+         <p id="jj6x5h_562">
+          An incremental release with various improvements such as:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_563">
+          <li class="list__item" id="jj6x5h_566">
+           <p>
+            Supporting new JVM features, like string concatenation via
+            <code class="code" id="jj6x5h_569">
+             invokedynamic
+            </code>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_567">
+           <p>
+            Improved performance and exception handling for Kotlin Multiplatform Mobile projects
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_568">
+           <p>
+            Extensions for JDK Path:
+            <code class="code" id="jj6x5h_570">
+             Path("dir") / "file.txt"
+            </code>
+           </p>
+          </li>
+         </ul>
+         <p id="jj6x5h_564">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_565">
+          <li class="list__item" id="jj6x5h_571">
+           <p>
+            <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/11/kotlin-1-4-20-released/" id="jj6x5h_573" rel="noopener noreferrer">
+             Release blog post
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_572">
+           <p>
+            <a data-tooltip="Released: 23 November 2020" href="whatsnew1420.html" id="jj6x5h_574">
+             What's new in Kotlin 1.4.20
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_95">
+        <td id="jj6x5h_575">
+         <p>
+          <b id="jj6x5h_577">
+           1.4.10
+          </b>
+         </p>
+         <p id="jj6x5h_578">
+          Released:
+          <b id="jj6x5h_580">
+           September 7, 2020
+          </b>
+         </p>
+         <p id="jj6x5h_579">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.4.10" id="jj6x5h_581" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_576">
+         <p id="jj6x5h_582">
+          A bug fix release for Kotlin 1.4.0.
+         </p>
+         <p id="jj6x5h_583">
+          Learn more about
+          <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/08/kotlin-1-4-released-with-a-focus-on-quality-and-performance/" id="jj6x5h_584" rel="noopener noreferrer">
+           Kotlin 1.4.0
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+       <tr id="jj6x5h_96">
+        <td id="jj6x5h_585">
+         <p>
+          <b id="jj6x5h_587">
+           1.4.0
+          </b>
+         </p>
+         <p id="jj6x5h_588">
+          Released:
+          <b id="jj6x5h_590">
+           August 17, 2020
+          </b>
+         </p>
+         <p id="jj6x5h_589">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.4.0" id="jj6x5h_591" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_586">
+         <p id="jj6x5h_592">
+          A feature release with many features and improvements that mostly focus on quality and performance.
+         </p>
+         <p id="jj6x5h_593">
+          Learn more in:
+         </p>
+         <ul class="list _bullet" id="jj6x5h_594">
+          <li class="list__item" id="jj6x5h_595">
+           <p>
+            <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/08/kotlin-1-4-released-with-a-focus-on-quality-and-performance/" id="jj6x5h_599" rel="noopener noreferrer">
+             Release blog post
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_596">
+           <p>
+            <a data-tooltip="Released: 17 August 2020" href="whatsnew14.html" id="jj6x5h_600">
+             What's new in Kotlin 1.4.0
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_597">
+           <p>
+            <a data-tooltip="Keeping the Language Modern and Comfortable Updates are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to…" href="compatibility-guide-14.html" id="jj6x5h_601">
+             Compatibility guide
+            </a>
+           </p>
+          </li>
+          <li class="list__item" id="jj6x5h_598">
+           <p>
+            <a data-tooltip="The Kotlin plugin's migration tools help you migrate your projects from earlier versions of Kotlin to 1.4.0." href="whatsnew14.html#migrating-to-kotlin-1-4-0" id="jj6x5h_602">
+             Migrating to Kotlin 1.4.0
+            </a>
+           </p>
+          </li>
+         </ul>
+        </td>
+       </tr>
+       <tr id="jj6x5h_97">
+        <td id="jj6x5h_603">
+         <p>
+          <b id="jj6x5h_605">
+           1.3.72
+          </b>
+         </p>
+         <p id="jj6x5h_606">
+          Released:
+          <b id="jj6x5h_608">
+           April 15, 2020
+          </b>
+         </p>
+         <p id="jj6x5h_607">
+          <a data-external="true" href="https://github.com/JetBrains/kotlin/releases/tag/v1.3.72" id="jj6x5h_609" rel="noopener noreferrer">
+           Release on GitHub
+          </a>
+         </p>
+        </td>
+        <td id="jj6x5h_604">
+         <p id="jj6x5h_610">
+          A bug fix release for Kotlin 1.3.70.
+         </p>
+         <p id="jj6x5h_611">
+          Learn more about
+          <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/03/kotlin-1-3-70-released/" id="jj6x5h_612" rel="noopener noreferrer">
+           Kotlin 1.3.70
+          </a>
+          .
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

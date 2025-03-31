@@ -1,0 +1,1127 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="whatsnew1420" id="whatsnew1420.md">
+    What's new in Kotlin 1.4.20
+   </h1>
+   <p id="xidne7_2">
+    <span class="emphasis" id="xidne7_11">
+     <a data-tooltip="The following table lists details of the latest Kotlin releases:" href="releases.html#release-details" id="xidne7_12">
+      Released: 23 November 2020
+     </a>
+    </span>
+   </p>
+   <p id="xidne7_3">
+    Kotlin 1.4.20 offers a number of new experimental features and provides fixes and improvements for existing features, including those added in 1.4.0.
+   </p>
+   <p id="xidne7_4">
+    You can also learn about new features with more examples in
+    <a data-external="true" href="https://blog.jetbrains.com/kotlin/2020/11/kotlin-1-4-20-released/" id="xidne7_13" rel="noopener noreferrer">
+     this blog post
+    </a>
+    .
+   </p>
+   <section class="chapter">
+    <h2 data-toc="kotlin-jvm" id="kotlin-jvm">
+     Kotlin/JVM
+    </h2>
+    <p id="xidne7_14">
+     Improvements of Kotlin/JVM are intended to keep it up with the features of modern Java versions:
+    </p>
+    <ul class="list _bullet" id="xidne7_15">
+     <li class="list__item" id="xidne7_18">
+      <p>
+       <a data-tooltip="Now Java 15 is available as a Kotlin/JVM target." href="#java-15-target" id="xidne7_20">
+        Java 15 target
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xidne7_19">
+      <p>
+       <a data-tooltip="invokedynamic string concatenation is Experimental. It may be dropped or changed at any time. Opt-in is required (see details below). Use it only for evaluation purposes. We appreciate your feedback on it in YouTrack." href="#invokedynamic-string-concatenation" id="xidne7_21">
+        invokedynamic string concatenation
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="java-15-target" id="java-15-target">
+      Java 15 target
+     </h3>
+     <p id="xidne7_22">
+      Now Java 15 is available as a Kotlin/JVM target.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="invokedynamic-string-concatenation" id="invokedynamic-string-concatenation">
+      invokedynamic string concatenation
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xidne7_23">
+      <p id="xidne7_29">
+       <code class="code" id="xidne7_30">
+        invokedynamic
+       </code>
+       string concatenation is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xidne7_31">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Opt-in is required (see details below). Use it only for evaluation purposes. We appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="xidne7_32" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xidne7_24">
+      Kotlin 1.4.20 can compile string concatenations into
+      <a data-external="true" href="https://docs.oracle.com/javase/7/docs/technotes/guides/vm/multiple-language-support.html#invokedynamic" id="xidne7_33" rel="noopener noreferrer">
+       dynamic invocations
+      </a>
+      on JVM 9+ targets, therefore improving the performance.
+     </p>
+     <p id="xidne7_25">
+      Currently, this feature is experimental and covers the following cases:
+     </p>
+     <ul class="list _bullet" id="xidne7_26">
+      <li class="list__item" id="xidne7_34">
+       <p>
+        <code class="code" id="xidne7_37">
+         String.plus
+        </code>
+        in the operator (
+        <code class="code" id="xidne7_38">
+         a + b
+        </code>
+        ), explicit (
+        <code class="code" id="xidne7_39">
+         a.plus(b)
+        </code>
+        ), and reference (
+        <code class="code" id="xidne7_40">
+         (a::plus)(b)
+        </code>
+        ) form.
+       </p>
+      </li>
+      <li class="list__item" id="xidne7_35">
+       <p>
+        <code class="code" id="xidne7_41">
+         toString
+        </code>
+        on inline and data classes.
+       </p>
+      </li>
+      <li class="list__item" id="xidne7_36">
+       <p>
+        string templates except for ones with a single non-constant argument (see
+        <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-42457" id="xidne7_42" rel="noopener noreferrer">
+         KT-42457
+        </a>
+        ).
+       </p>
+      </li>
+     </ul>
+     <p id="xidne7_27">
+      To enable
+      <code class="code" id="xidne7_43">
+       invokedynamic
+      </code>
+      string concatenation, add the
+      <code class="code" id="xidne7_44">
+       -Xstring-concat
+      </code>
+      compiler option with one of the following values:
+     </p>
+     <ul class="list _bullet" id="xidne7_28">
+      <li class="list__item" id="xidne7_45">
+       <p>
+        <code class="code" id="xidne7_48">
+         indy-with-constants
+        </code>
+        to perform
+        <code class="code" id="xidne7_49">
+         invokedynamic
+        </code>
+        concatenation on strings with
+        <a data-external="true" href="https://docs.oracle.com/javase/9/docs/api/java/lang/invoke/StringConcatFactory.html#makeConcatWithConstants-java.lang.invoke.MethodHandles.Lookup-java.lang.String-java.lang.invoke.MethodType-java.lang.String-java.lang.Object...-" id="xidne7_50" rel="noopener noreferrer">
+         StringConcatFactory.makeConcatWithConstants()
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="xidne7_46">
+       <p>
+        <code class="code" id="xidne7_51">
+         indy
+        </code>
+        to perform
+        <code class="code" id="xidne7_52">
+         invokedynamic
+        </code>
+        concatenation on strings with
+        <a data-external="true" href="https://docs.oracle.com/javase/9/docs/api/java/lang/invoke/StringConcatFactory.html#makeConcat-java.lang.invoke.MethodHandles.Lookup-java.lang.String-java.lang.invoke.MethodType-" id="xidne7_53" rel="noopener noreferrer">
+         StringConcatFactory.makeConcat()
+        </a>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="xidne7_47">
+       <p>
+        <code class="code" id="xidne7_54">
+         inline
+        </code>
+        to switch back to the classic concatenation via
+        <code class="code" id="xidne7_55">
+         StringBuilder.append()
+        </code>
+        .
+       </p>
+      </li>
+     </ul>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-js" id="kotlin-js">
+     Kotlin/JS
+    </h2>
+    <p id="xidne7_56">
+     Kotlin/JS keeps evolving fast, and in 1.4.20 you can find a number experimental features and improvements:
+    </p>
+    <ul class="list _bullet" id="xidne7_57">
+     <li class="list__item" id="xidne7_61">
+      <p>
+       <a data-tooltip="The Gradle DSL for Kotlin/JS receives a number of updates which simplify project setup and customization. This includes webpack configuration adjustments, modifications to the auto-generated package.json file, and improved control over transitive dependencies." href="#gradle-dsl-changes" id="xidne7_64">
+        Gradle DSL changes
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xidne7_62">
+      <p>
+       <a data-tooltip="To give you more convenient ways to customize your project during creation, the project wizard for Kotlin comes with new templates for Kotlin/JS applications:" href="#new-wizard-templates" id="xidne7_65">
+        New Wizard templates
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xidne7_63">
+      <p>
+       <a data-tooltip="Ignore compilation errors mode is Experimental. It may be dropped or changed at any time. Opt-in is required (see details below). Use it only for evaluation purposes. We appreciate your feedback on it in YouTrack." href="#ignoring-compilation-errors-with-ir-compiler" id="xidne7_66">
+        Ignoring compilation errors with IR compiler
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="gradle-dsl-changes" id="gradle-dsl-changes">
+      Gradle DSL changes
+     </h3>
+     <p id="xidne7_67">
+      The Gradle DSL for Kotlin/JS receives a number of updates which simplify project setup and customization. This includes webpack configuration adjustments, modifications to the auto-generated
+      <code class="code" id="xidne7_72">
+       package.json
+      </code>
+      file, and improved control over transitive dependencies.
+     </p>
+     <section class="chapter">
+      <h4 data-toc="single-point-for-webpack-configuration" id="single-point-for-webpack-configuration">
+       Single point for webpack configuration
+      </h4>
+      <p id="xidne7_73">
+       A new configuration block
+       <code class="code" id="xidne7_77">
+        commonWebpackConfig
+       </code>
+       is available for the browser target. Inside it, you can adjust common settings from a single point, instead of having to duplicate configurations for the
+       <code class="code" id="xidne7_78">
+        webpackTask
+       </code>
+       ,
+       <code class="code" id="xidne7_79">
+        runTask
+       </code>
+       , and
+       <code class="code" id="xidne7_80">
+        testTask
+       </code>
+       .
+      </p>
+      <p id="xidne7_74">
+       To enable CSS support by default for all three tasks, add the following snippet in the
+       <code class="code" id="xidne7_81">
+        build.gradle(.kts)
+       </code>
+       of your project:
+      </p>
+      <div class="code-block" data-lang="groovy">
+       browser {
+    commonWebpackConfig {
+        cssSupport.enabled = true
+    }
+    binaries.executable()
+}
+      </div>
+      <p id="xidne7_76">
+       Learn more about
+       <a data-tooltip="For browser targets, the Kotlin Multiplatform Gradle plugin uses the widely known webpack module bundler." href="js-project-setup.html#webpack-bundling" id="xidne7_82">
+        configuring webpack bundling
+       </a>
+       .
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="package-json-customization-from-gradle" id="package-json-customization-from-gradle">
+       package.json customization from Gradle
+      </h4>
+      <p id="xidne7_83">
+       For more control over your Kotlin/JS package management and distribution, you can now add properties to the project file
+       <a data-external="true" href="https://nodejs.dev/learn/the-package-json-guide" id="xidne7_87" rel="noopener noreferrer">
+        <code class="code" id="xidne7_88">
+         package.json
+        </code>
+       </a>
+       via the Gradle DSL.
+      </p>
+      <p id="xidne7_84">
+       To add custom fields to your
+       <code class="code" id="xidne7_89">
+        package.json
+       </code>
+       , use the
+       <code class="code" id="xidne7_90">
+        customField
+       </code>
+       function in the compilation's
+       <code class="code" id="xidne7_91">
+        packageJson
+       </code>
+       block:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    js(BOTH) {
+        compilations["main"].packageJson {
+            customField("hello", mapOf("one" to 1, "two" to 2))
+        }
+    }
+}
+      </div>
+      <p id="xidne7_86">
+       Learn more about
+       <a data-tooltip="The package.json file holds the metadata of a JavaScript package. Popular package registries such as npm require all published packages to have such a file. They use it to track and manage package publications." href="js-project-setup.html#package-json-customization" id="xidne7_92">
+        <code class="code" id="xidne7_93">
+         package.json
+        </code>
+        customization
+       </a>
+       .
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="selective-yarn-dependency-resolutions" id="selective-yarn-dependency-resolutions">
+       Selective yarn dependency resolutions
+      </h4>
+      <aside class="prompt" data-title="" data-type="warning" id="xidne7_94">
+       <p id="xidne7_99">
+        Support for selective yarn dependency resolutions is
+        <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xidne7_100">
+         Experimental
+        </a>
+        . It may be dropped or changed at any time. Use it only for evaluation purposes. We appreciate your feedback on it in
+        <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="xidne7_101" rel="noopener noreferrer">
+         YouTrack
+        </a>
+        .
+       </p>
+      </aside>
+      <p id="xidne7_95">
+       Kotlin 1.4.20 provides a way of configuring Yarn's
+       <a data-external="true" href="https://classic.yarnpkg.com/en/docs/selective-version-resolutions/" id="xidne7_102" rel="noopener noreferrer">
+        selective dependency resolutions
+       </a>
+       - the mechanism for overriding dependencies of the packages you depend on.
+      </p>
+      <p id="xidne7_96">
+       You can use it through the
+       <code class="code" id="xidne7_103">
+        YarnRootExtension
+       </code>
+       inside the
+       <code class="code" id="xidne7_104">
+        YarnPlugin
+       </code>
+       in Gradle. To affect the resolved version of a package for your project, use the
+       <code class="code" id="xidne7_105">
+        resolution
+       </code>
+       function passing in the package name selector (as specified by Yarn) and the version to which it should resolve.
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       rootProject.plugins.withType&lt;YarnPlugin&gt; {
+    rootProject.the&lt;YarnRootExtension&gt;().apply {
+        resolution("react", "16.0.0")
+        resolution("processor/decamelize", "3.0.0")
+    }
+}
+      </div>
+      <p id="xidne7_98">
+       Here,
+       <span class="emphasis" id="xidne7_106">
+        all
+       </span>
+       of your npm dependencies which require
+       <code class="code" id="xidne7_107">
+        react
+       </code>
+       will receive version
+       <code class="code" id="xidne7_108">
+        16.0.0
+       </code>
+       , and
+       <code class="code" id="xidne7_109">
+        processor
+       </code>
+       will receive its dependency
+       <code class="code" id="xidne7_110">
+        decamelize
+       </code>
+       as version
+       <code class="code" id="xidne7_111">
+        3.0.0
+       </code>
+       .
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="disabling-granular-workspaces" id="disabling-granular-workspaces">
+       Disabling granular workspaces
+      </h4>
+      <aside class="prompt" data-title="" data-type="warning" id="xidne7_112">
+       <p id="xidne7_116">
+        Disabling granular workspaces is
+        <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xidne7_117">
+         Experimental
+        </a>
+        . It may be dropped or changed at any time. Use it only for evaluation purposes. We appreciate your feedback on it in
+        <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="xidne7_118" rel="noopener noreferrer">
+         YouTrack
+        </a>
+        .
+       </p>
+      </aside>
+      <p id="xidne7_113">
+       To speed up build times, the Kotlin/JS Gradle plugin only installs the dependencies which are required for a particular Gradle task. For example, the
+       <code class="code" id="xidne7_119">
+        webpack-dev-server
+       </code>
+       package is only installed when you execute one of the
+       <code class="code" id="xidne7_120">
+        *Run
+       </code>
+       tasks, and not when you execute the assemble task. Such behavior can potentially bring problems when you run multiple Gradle processes in parallel. When the dependency requirements clash, the two installations of npm packages can cause errors.
+      </p>
+      <p id="xidne7_114">
+       To resolve this issue, Kotlin 1.4.20 includes an option to disable these so-called
+       <span class="emphasis" id="xidne7_121">
+        granular workspaces
+       </span>
+       . This feature is currently available through the
+       <code class="code" id="xidne7_122">
+        YarnRootExtension
+       </code>
+       inside the
+       <code class="code" id="xidne7_123">
+        YarnPlugin
+       </code>
+       in Gradle. To use it, add the following snippet to your
+       <code class="code" id="xidne7_124">
+        build.gradle.kts
+       </code>
+       file:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       rootProject.plugins.withType&lt;YarnPlugin&gt; {
+    rootProject.the&lt;YarnRootExtension&gt;().disableGranularWorkspaces()
+}
+      </div>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="new-wizard-templates" id="new-wizard-templates">
+      New Wizard templates
+     </h3>
+     <p id="xidne7_125">
+      To give you more convenient ways to customize your project during creation, the project wizard for Kotlin comes with new templates for Kotlin/JS applications:
+     </p>
+     <ul class="list _bullet" id="xidne7_126">
+      <li class="list__item" id="xidne7_127">
+       <p>
+        <span class="control" id="xidne7_130">
+         Browser Application
+        </span>
+        - a minimal Kotlin/JS Gradle project that runs in the browser.
+       </p>
+      </li>
+      <li class="list__item" id="xidne7_128">
+       <p>
+        <span class="control" id="xidne7_131">
+         React Application
+        </span>
+        - a React app that uses the appropriate
+        <code class="code" id="xidne7_132">
+         kotlin-wrappers
+        </code>
+        . It provides options to enable integrations for style-sheets, navigational components, or state containers.
+       </p>
+      </li>
+      <li class="list__item" id="xidne7_129">
+       <p>
+        <span class="control" id="xidne7_133">
+         Node.js Application
+        </span>
+        - a minimal project for running in a Node.js runtime. It comes with the option to directly include the experimental
+        <code class="code" id="xidne7_134">
+         kotlinx-nodejs
+        </code>
+        package.
+       </p>
+      </li>
+     </ul>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="ignoring-compilation-errors-with-ir-compiler" id="ignoring-compilation-errors-with-ir-compiler">
+      Ignoring compilation errors with IR compiler
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xidne7_135">
+      <p id="xidne7_141">
+       <span class="emphasis" id="xidne7_142">
+        Ignore compilation errors
+       </span>
+       mode is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xidne7_143">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Opt-in is required (see details below). Use it only for evaluation purposes. We appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="xidne7_144" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xidne7_136">
+      The
+      <a data-tooltip="The Kotlin/JS IR compiler backend is the main focus of innovation around Kotlin/JS, and paves the way forward for the technology." href="js-ir-compiler.html" id="xidne7_145">
+       IR compiler
+      </a>
+      for Kotlin/JS comes with a new experimental mode -
+      <span class="emphasis" id="xidne7_146">
+       compilation with errors
+      </span>
+      . In this mode, you can run you code even if it contains errors, for example, if you want to try certain things it when the whole application is not ready yet.
+     </p>
+     <p id="xidne7_137">
+      There are two tolerance policies for this mode:
+     </p>
+     <ul class="list _bullet" id="xidne7_138">
+      <li class="list__item" id="xidne7_147">
+       <p id="xidne7_149">
+        <code class="code" id="xidne7_150">
+         SEMANTIC
+        </code>
+        : the compiler will accept code which is syntactically correct, but doesn't make sense semantically, such as
+        <code class="code" id="xidne7_151">
+         val x: String = 3
+        </code>
+        .
+       </p>
+      </li>
+      <li class="list__item" id="xidne7_148">
+       <p id="xidne7_152">
+        <code class="code" id="xidne7_153">
+         SYNTAX
+        </code>
+        : the compiler will accept any code, even if it contains syntax errors.
+       </p>
+      </li>
+     </ul>
+     <p id="xidne7_139">
+      To allow compilation with errors, add the
+      <code class="code" id="xidne7_154">
+       -Xerror-tolerance-policy=
+      </code>
+      compiler option with one of the values listed above.
+     </p>
+     <p id="xidne7_140">
+      <a data-tooltip="The Kotlin/JS IR compiler backend is the main focus of innovation around Kotlin/JS, and paves the way forward for the technology." href="js-ir-compiler.html" id="xidne7_155">
+       Learn more about Kotlin/JS IR compiler
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-native" id="kotlin-native">
+     Kotlin/Native
+    </h2>
+    <p id="xidne7_156">
+     Kotlin/Native's priorities in 1.4.20 are performance and polishing existing features. These are the notable improvements:
+    </p>
+    <ul class="list _bullet" id="xidne7_157">
+     <li class="list__item" id="xidne7_163">
+      <p>
+       <a data-tooltip="The escape analysis mechanism is Experimental. It may be dropped or changed at any time. Use it only for evaluation purposes. We appreciate your feedback on it in YouTrack." href="#escape-analysis" id="xidne7_168">
+        Escape analysis
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xidne7_164">
+      <p>
+       <a data-tooltip="Kotlin/Native receives performance improvements and bug fixes in various components, including the ones added in 1.4.0, for example, the code sharing mechanism." href="#performance-improvements-and-bug-fixes" id="xidne7_169">
+        Performance improvements and bug fixes
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xidne7_165">
+      <p>
+       <a data-tooltip="The Objective-C exception wrapping mechanism is Experimental. It may be dropped or changed at any time. Opt-in is required (see details below). Use it only for evaluation purposes. We appreciate your feedback on it in YouTrack." href="#opt-in-wrapping-of-objective-c-exceptions" id="xidne7_170">
+        Opt-in wrapping of Objective-C exceptions
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xidne7_166">
+      <p>
+       <a data-tooltip="Kotlin 1.4.20 continues the set of improvements in CocoaPods integration. Namely, you can try the following new features:" href="#cocoapods-plugin-improvements" id="xidne7_171">
+        CocoaPods plugin improvements
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xidne7_167">
+      <p>
+       <a data-tooltip="We have added support for new libraries delivered with Xcode 12. Now you can use them from the Kotlin code." href="#support-for-xcode-12-libraries" id="xidne7_172">
+        Support for Xcode 12 libraries
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="escape-analysis" id="escape-analysis">
+      Escape analysis
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xidne7_173">
+      <p id="xidne7_177">
+       The escape analysis mechanism is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xidne7_178">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Use it only for evaluation purposes. We appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="xidne7_179" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xidne7_174">
+      Kotlin/Native receives a prototype of the new
+      <a data-external="true" href="https://en.wikipedia.org/wiki/Escape_analysis" id="xidne7_180" rel="noopener noreferrer">
+       escape analysis
+      </a>
+      mechanism. It improves the runtime performance by allocating certain objects on the stack instead of the heap. This mechanism shows a 10% average performance increase on our benchmarks, and we continue improving it so that it speeds up the program even more.
+     </p>
+     <p id="xidne7_175">
+      The escape analysis runs in a separate compilation phase for the release builds (with the
+      <code class="code" id="xidne7_181">
+       -opt
+      </code>
+      compiler option).
+     </p>
+     <p id="xidne7_176">
+      If you want to disable the escape analysis phase, use the
+      <code class="code" id="xidne7_182">
+       -Xdisable-phases=EscapeAnalysis
+      </code>
+      compiler option.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="performance-improvements-and-bug-fixes" id="performance-improvements-and-bug-fixes">
+      Performance improvements and bug fixes
+     </h3>
+     <p id="xidne7_183">
+      Kotlin/Native receives performance improvements and bug fixes in various components, including the ones added in 1.4.0, for example, the
+      <a data-tooltip="You often need to create several native targets that could potentially reuse a lot of the common logic and third-party APIs." href="multiplatform-share-on-platforms.html#share-code-on-similar-platforms" id="xidne7_184">
+       code sharing mechanism
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="opt-in-wrapping-of-objective-c-exceptions" id="opt-in-wrapping-of-objective-c-exceptions">
+      Opt-in wrapping of Objective-C exceptions
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xidne7_185">
+      <p id="xidne7_191">
+       The Objective-C exception wrapping mechanism is
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xidne7_192">
+        Experimental
+       </a>
+       . It may be dropped or changed at any time. Opt-in is required (see details below). Use it only for evaluation purposes. We appreciate your feedback on it in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="xidne7_193" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xidne7_186">
+      Kotlin/Native now can handle exceptions thrown from Objective-C code in runtime to avoid program crashes.
+     </p>
+     <p id="xidne7_187">
+      You can opt in to wrap
+      <code class="code" id="xidne7_194">
+       NSException
+      </code>
+      's into Kotlin exceptions of type
+      <code class="code" id="xidne7_195">
+       ForeignException
+      </code>
+      . They hold the references to the original
+      <code class="code" id="xidne7_196">
+       NSException
+      </code>
+      's. This lets you get the information about the root cause and handle it properly.
+     </p>
+     <p id="xidne7_188">
+      To enable wrapping of Objective-C exceptions, specify the
+      <code class="code" id="xidne7_197">
+       -Xforeign-exception-mode objc-wrap
+      </code>
+      option in the
+      <code class="code" id="xidne7_198">
+       cinterop
+      </code>
+      call or add
+      <code class="code" id="xidne7_199">
+       foreignExceptionMode = objc-wrap
+      </code>
+      property to
+      <code class="code" id="xidne7_200">
+       .def
+      </code>
+      file. If you use
+      <a data-tooltip="Choose the integration method that suits you best" href="native-cocoapods.html" id="xidne7_201">
+       CocoaPods integration
+      </a>
+      , specify the option in the
+      <code class="code" id="xidne7_202">
+       pod {}
+      </code>
+      build script block of a dependency like this:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      pod("foo") {
+    extraOpts = listOf("-Xforeign-exception-mode", "objc-wrap")
+}
+     </div>
+     <p id="xidne7_190">
+      The default behavior remains unchanged: the program terminates when an exception is thrown from the Objective-C code.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="cocoapods-plugin-improvements" id="cocoapods-plugin-improvements">
+      CocoaPods plugin improvements
+     </h3>
+     <p id="xidne7_203">
+      Kotlin 1.4.20 continues the set of improvements in CocoaPods integration. Namely, you can try the following new features:
+     </p>
+     <ul class="list _bullet" id="xidne7_204">
+      <li class="list__item" id="xidne7_208">
+       <p>
+        <a data-tooltip="CocoaPods plugin gets an improved task execution flow. For example, if you add a new CocoaPods dependency, existing dependencies are not rebuilt. Adding an extra target also doesn't affect rebuilding dependencies for existing ones." href="#improved-task-execution" id="xidne7_211">
+         Improved task execution
+        </a>
+       </p>
+      </li>
+      <li class="list__item" id="xidne7_209">
+       <p>
+        <a data-tooltip="The DSL of adding CocoaPods dependencies to your Kotlin project receives new capabilites." href="#extended-dsl" id="xidne7_212">
+         Extended DSL
+        </a>
+       </p>
+      </li>
+      <li class="list__item" id="xidne7_210">
+       <p>
+        <a data-tooltip="To work correctly with Xcode, Kotlin requires some Podfile changes:" href="#updated-integration-with-xcode" id="xidne7_213">
+         Updated integration with Xcode
+        </a>
+       </p>
+      </li>
+     </ul>
+     <section class="chapter">
+      <h4 data-toc="improved-task-execution" id="improved-task-execution">
+       Improved task execution
+      </h4>
+      <p id="xidne7_214">
+       CocoaPods plugin gets an improved task execution flow. For example, if you add a new CocoaPods dependency, existing dependencies are not rebuilt. Adding an extra target also doesn't affect rebuilding dependencies for existing ones.
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="extended-dsl" id="extended-dsl">
+       Extended DSL
+      </h4>
+      <p id="xidne7_215">
+       The DSL of adding
+       <a data-tooltip="Choose the integration method that suits you best" href="native-cocoapods.html" id="xidne7_219">
+        CocoaPods
+       </a>
+       dependencies to your Kotlin project receives new capabilites.
+      </p>
+      <p id="xidne7_216">
+       In addition to local Pods and Pods from the CocoaPods repository, you can add dependencies on the following types of libraries:
+      </p>
+      <ul class="list _bullet" id="xidne7_217">
+       <li class="list__item" id="xidne7_220">
+        <p>
+         A library from a custom spec repository.
+        </p>
+       </li>
+       <li class="list__item" id="xidne7_221">
+        <p>
+         A remote library from a Git repository.
+        </p>
+       </li>
+       <li class="list__item" id="xidne7_222">
+        <p>
+         A library from an archive (also available by arbitrary HTTP address).
+        </p>
+       </li>
+       <li class="list__item" id="xidne7_223">
+        <p>
+         A static library.
+        </p>
+       </li>
+       <li class="list__item" id="xidne7_224">
+        <p>
+         A library with custom cinterop options.
+        </p>
+       </li>
+      </ul>
+      <p id="xidne7_218">
+       Learn more about
+       <a data-tooltip="To add dependencies between a Kotlin project and a Pod library, complete the initial configuration. You can then add dependencies on different types of Pod libraries." href="native-cocoapods-libraries.html" id="xidne7_225">
+        adding CocoaPods dependencies
+       </a>
+       in Kotlin projects. Find examples in the
+       <a data-external="true" href="https://github.com/Kotlin/kmm-with-cocoapods-sample" id="xidne7_226" rel="noopener noreferrer">
+        Kotlin with CocoaPods sample
+       </a>
+       .
+      </p>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="updated-integration-with-xcode" id="updated-integration-with-xcode">
+       Updated integration with Xcode
+      </h4>
+      <p id="xidne7_227">
+       To work correctly with Xcode, Kotlin requires some Podfile changes:
+      </p>
+      <ul class="list _bullet" id="xidne7_228">
+       <li class="list__item" id="xidne7_231">
+        <p>
+         If your Kotlin Pod has any Git, HTTP, or specRepo Pod dependency, you should also specify it in the Podfile.
+        </p>
+       </li>
+       <li class="list__item" id="xidne7_232">
+        <p>
+         When you add a library from the custom spec, you also should specify the
+         <a data-external="true" href="https://guides.cocoapods.org/syntax/podfile.html#source" id="xidne7_233" rel="noopener noreferrer">
+          location
+         </a>
+         of specs at the beginning of your Podfile.
+        </p>
+       </li>
+      </ul>
+      <p id="xidne7_229">
+       Now integration errors have a detailed description in IDEA. So if you have problems with your Podfile, you will immediately know how to fix them.
+      </p>
+      <p id="xidne7_230">
+       Learn more about
+       <a data-tooltip="To use a Kotlin Multiplatform project with native targets as a CocoaPods dependency, complete the initial configuration. You can include such a dependency in the Podfile of the Xcode project by its name and path to the project directory containing the generated Podspec." href="native-cocoapods-xcode.html" id="xidne7_234">
+        creating Kotlin pods
+       </a>
+       .
+      </p>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="support-for-xcode-12-libraries" id="support-for-xcode-12-libraries">
+      Support for Xcode 12 libraries
+     </h3>
+     <p id="xidne7_235">
+      We have added support for new libraries delivered with Xcode 12. Now you can use them from the Kotlin code.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-multiplatform" id="kotlin-multiplatform">
+     Kotlin Multiplatform
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="updated-structure-of-multiplatform-library-publications" id="updated-structure-of-multiplatform-library-publications">
+      Updated structure of multiplatform library publications
+     </h3>
+     <p id="xidne7_237">
+      Starting from Kotlin 1.4.20, there is no longer a separate metadata publication. Metadata artifacts are now included in the
+      <span class="emphasis" id="xidne7_240">
+       root
+      </span>
+      publication which stands for the whole library and is automatically resolved to the appropriate platform-specific artifacts when added as a dependency to the common source set.
+     </p>
+     <p id="xidne7_238">
+      Learn more about
+      <a data-tooltip="You can publish a multiplatform library to a local Maven repository with the maven-publish Gradle plugin. In the shared/build.gradle.kts file, specify the group, version, and the repositories where the library should be published. The plugin creates publications automatically." href="multiplatform-publish-lib.html" id="xidne7_241">
+       publishing a multiplatform library
+      </a>
+      .
+     </p>
+     <section class="chapter">
+      <h4 data-toc="compatibility-with-earlier-versions" id="compatibility-with-earlier-versions">
+       Compatibility with earlier versions
+      </h4>
+      <p id="xidne7_242">
+       This change of structure breaks the compatibility between projects with
+       <a data-tooltip="You often need to create several native targets that could potentially reuse a lot of the common logic and third-party APIs." href="multiplatform-share-on-platforms.html#share-code-on-similar-platforms" id="xidne7_244">
+        hierarchical project structure
+       </a>
+       . If a multiplatform project and a library it depends on both have the hierarchical project structure, then you need to update them to Kotlin 1.4.20 or higher simultaneously. Libraries published with Kotlin 1.4.20 are not available for using from project published with earlier versions.
+      </p>
+      <p id="xidne7_243">
+       Projects and libraries without the hierarchical project structure remain compatible.
+      </p>
+     </section>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="standard-library" id="standard-library">
+     Standard library
+    </h2>
+    <p id="xidne7_245">
+     The standard library of Kotlin 1.4.20 offers new extensions for working with files and a better performance.
+    </p>
+    <ul class="list _bullet" id="xidne7_246">
+     <li class="list__item" id="xidne7_249">
+      <p>
+       <a data-tooltip="Extensions for java.nio.file.Path are Experimental. They may be dropped or changed at any time. Opt-in is required (see details below). Use them only for evaluation purposes. We appreciate your feedback on them in YouTrack." href="#extensions-for-java-nio-file-path" id="xidne7_251">
+        Extensions for java.nio.file.Path
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xidne7_250">
+      <p>
+       <a data-tooltip="The new implementation of String.replace() speeds up the function execution. The case-sensitive variant uses a manual replacement loop based on indexOf, while the case-insensitive one uses regular expression matching." href="#improved-string-replace-function-performance" id="xidne7_252">
+        Improved String.replace function performance
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="extensions-for-java-nio-file-path" id="extensions-for-java-nio-file-path">
+      Extensions for java.nio.file.Path
+     </h3>
+     <aside class="prompt" data-title="" data-type="warning" id="xidne7_253">
+      <p id="xidne7_257">
+       Extensions for
+       <code class="code" id="xidne7_258">
+        java.nio.file.Path
+       </code>
+       are
+       <a data-tooltip="The Kotlin language and toolset are divided into many components such as the compilers for the JVM, JS and Native targets, the Standard Library, various accompanying tools and so on. Many of these components were officially released as Stable, which means that they were evolved in a…" href="components-stability.html" id="xidne7_259">
+        Experimental
+       </a>
+       . They may be dropped or changed at any time. Opt-in is required (see details below). Use them only for evaluation purposes. We appreciate your feedback on them in
+       <a data-external="true" href="https://youtrack.jetbrains.com/issues/KT" id="xidne7_260" rel="noopener noreferrer">
+        YouTrack
+       </a>
+       .
+      </p>
+     </aside>
+     <p id="xidne7_254">
+      Now the standard library provides experimental extensions for
+      <code class="code" id="xidne7_261">
+       java.nio.file.Path
+      </code>
+      . Working with the modern JVM file API in an idiomatic Kotlin way is now similar to working with
+      <code class="code" id="xidne7_262">
+       java.io.File
+      </code>
+      extensions from the
+      <code class="code" id="xidne7_263">
+       kotlin.io
+      </code>
+      package.
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      // construct path with the div (/) operator
+val baseDir = Path("/base")
+val subDir = baseDir / "subdirectory" 
+
+// list files in a directory
+val kotlinFiles: List&lt;Path&gt; = Path("/home/user").listDirectoryEntries("*.kt")
+     </div>
+     <p id="xidne7_256">
+      The extensions are available in the
+      <code class="code" id="xidne7_264">
+       kotlin.io.path
+      </code>
+      package in the
+      <code class="code" id="xidne7_265">
+       kotlin-stdlib-jdk7
+      </code>
+      module. To use the extensions,
+      <a data-tooltip="The Kotlin standard library provides a mechanism for requiring and giving explicit consent to use certain API elements. This mechanism allows library authors to inform users about specific conditions that require opt-in, such as when an API is in an experimental state and is likely…" href="opt-in-requirements.html" id="xidne7_266">
+       opt-in
+      </a>
+      to the experimental annotation
+      <code class="code" id="xidne7_267">
+       @ExperimentalPathApi
+      </code>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="improved-string-replace-function-performance" id="improved-string-replace-function-performance">
+      Improved String.replace function performance
+     </h3>
+     <p id="xidne7_268">
+      The new implementation of
+      <code class="code" id="xidne7_269">
+       String.replace()
+      </code>
+      speeds up the function execution. The case-sensitive variant uses a manual replacement loop based on
+      <code class="code" id="xidne7_270">
+       indexOf
+      </code>
+      , while the case-insensitive one uses regular expression matching.
+     </p>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-android-extensions" id="kotlin-android-extensions">
+     Kotlin Android Extensions
+    </h2>
+    <p id="xidne7_271">
+     In 1.4.20 the Kotlin Android Extensions plugin becomes deprecated and
+     <code class="code" id="xidne7_275">
+      Parcelable
+     </code>
+     implementation generator moves to a separate plugin.
+    </p>
+    <ul class="list _bullet" id="xidne7_272">
+     <li class="list__item" id="xidne7_276">
+      <p>
+       <a data-tooltip="Synthetic views were presented in the Kotlin Android Extensions plugin a while ago to simplify the interaction with UI elements and reduce boilerplate. Now Google offers a native mechanism that does the same - Android Jetpack's view bindings, and we're deprecating synthetic views in…" href="#deprecation-of-synthetic-views" id="xidne7_278">
+        Deprecation of synthetic views
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="xidne7_277">
+      <p>
+       <a data-tooltip="The Parcelable implementation generator is now available in the new kotlin-parcelize plugin. Apply this plugin instead of kotlin-android-extensions." href="#new-plugin-for-parcelable-implementation-generator" id="xidne7_279">
+        New plugin for Parcelable implementation generator
+       </a>
+      </p>
+     </li>
+    </ul>
+    <section class="chapter">
+     <h3 data-toc="deprecation-of-synthetic-views" id="deprecation-of-synthetic-views">
+      Deprecation of synthetic views
+     </h3>
+     <p id="xidne7_280">
+      <span class="emphasis" id="xidne7_282">
+       Synthetic views
+      </span>
+      were presented in the Kotlin Android Extensions plugin a while ago to simplify the interaction with UI elements and reduce boilerplate. Now Google offers a native mechanism that does the same - Android Jetpack's
+      <a data-external="true" href="https://developer.android.com/topic/libraries/view-binding" id="xidne7_283" rel="noopener noreferrer">
+       view bindings
+      </a>
+      , and we're deprecating synthetic views in favor of those.
+     </p>
+     <p id="xidne7_281">
+      We extract the Parcelable implementations generator from
+      <code class="code" id="xidne7_284">
+       kotlin-android-extensions
+      </code>
+      and start the deprecation cycle for the rest of it - synthetic views. For now, they will keep working with a deprecation warning. In the future, you'll need to switch your project to another solution. Here are the
+      <a data-external="true" href="https://goo.gle/kotlin-android-extensions-deprecation" id="xidne7_285" rel="noopener noreferrer">
+       guidelines
+      </a>
+      that will help you migrate your Android project from synthetics to view bindings.
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="new-plugin-for-parcelable-implementation-generator" id="new-plugin-for-parcelable-implementation-generator">
+      New plugin for Parcelable implementation generator
+     </h3>
+     <p id="xidne7_286">
+      The
+      <code class="code" id="xidne7_290">
+       Parcelable
+      </code>
+      implementation generator is now available in the new
+      <code class="code" id="xidne7_291">
+       kotlin-parcelize
+      </code>
+      plugin. Apply this plugin instead of
+      <code class="code" id="xidne7_292">
+       kotlin-android-extensions
+      </code>
+      .
+     </p>
+     <aside class="prompt" data-title="" data-type="note" id="xidne7_287">
+      <p id="xidne7_293">
+       <code class="code" id="xidne7_294">
+        kotlin-parcelize
+       </code>
+       and
+       <code class="code" id="xidne7_295">
+        kotlin-android-extensions
+       </code>
+       can't be applied together in one module.
+      </p>
+     </aside>
+     <p id="xidne7_288">
+      The
+      <code class="code" id="xidne7_296">
+       @Parcelize
+      </code>
+      annotation is moved to the
+      <code class="code" id="xidne7_297">
+       kotlinx.parcelize
+      </code>
+      package.
+     </p>
+     <p id="xidne7_289">
+      Learn more about
+      <code class="code" id="xidne7_298">
+       Parcelable
+      </code>
+      implementation generator in the
+      <a data-external="true" href="https://developer.android.com/kotlin/parcelize" id="xidne7_299" rel="noopener noreferrer">
+       Android documentation
+      </a>
+      .
+     </p>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

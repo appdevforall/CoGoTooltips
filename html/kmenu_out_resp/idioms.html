@@ -1,0 +1,640 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="idioms" id="idioms.md">
+    Idioms
+   </h1>
+   <p id="ysxyoq_2">
+    A collection of random and frequently used idioms in Kotlin. If you have a favorite idiom, contribute it by sending a pull request.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="create-dtos-pojos-pocos" id="create-dtos-pojos-pocos">
+     Create DTOs (POJOs/POCOs)
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     data class Customer(val name: String, val email: String)
+    </div>
+    <p id="ysxyoq_39">
+     provides a
+     <code class="code" id="ysxyoq_41">
+      Customer
+     </code>
+     class with the following functionality:
+    </p>
+    <ul class="list _bullet" id="ysxyoq_40">
+     <li class="list__item" id="ysxyoq_42">
+      <p>
+       getters (and setters in case of
+       <code class="code" id="ysxyoq_48">
+        var
+       </code>
+       s) for all properties
+      </p>
+     </li>
+     <li class="list__item" id="ysxyoq_43">
+      <p>
+       <code class="code" id="ysxyoq_49">
+        equals()
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="ysxyoq_44">
+      <p>
+       <code class="code" id="ysxyoq_50">
+        hashCode()
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="ysxyoq_45">
+      <p>
+       <code class="code" id="ysxyoq_51">
+        toString()
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="ysxyoq_46">
+      <p>
+       <code class="code" id="ysxyoq_52">
+        copy()
+       </code>
+      </p>
+     </li>
+     <li class="list__item" id="ysxyoq_47">
+      <p>
+       <code class="code" id="ysxyoq_53">
+        component1()
+       </code>
+       ,
+       <code class="code" id="ysxyoq_54">
+        component2()
+       </code>
+       , ..., for all properties (see
+       <a data-tooltip="Data classes in Kotlin are primarily used to hold data. For each data class, the compiler automatically generates additional member functions that allow you to print an instance to readable output, compare instances, copy instances, and more. Data classes are marked with data:" href="data-classes.html" id="ysxyoq_55">
+        Data classes
+       </a>
+       )
+      </p>
+     </li>
+    </ul>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="default-values-for-function-parameters" id="default-values-for-function-parameters">
+     Default values for function parameters
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     fun foo(a: Int = 0, b: String = "") { ... }
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="filter-a-list" id="filter-a-list">
+     Filter a list
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val positives = list.filter { x -&gt; x &gt; 0 }
+    </div>
+    <p id="ysxyoq_58">
+     Or alternatively, even shorter:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     val positives = list.filter { it &gt; 0 }
+    </div>
+    <p id="ysxyoq_60">
+     Learn the difference between
+     <a data-tooltip="In Java, to filter elements from a collection, you need to use the Stream API. The Stream API has intermediate and terminal operations. filter() is an intermediate operation, which returns a stream. To receive a collection as the output, you need to use a terminal operation, like…" href="java-to-kotlin-collections-guide.html#filter-elements" id="ysxyoq_61">
+      Java and Kotlin filtering
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="check-the-presence-of-an-element-in-a-collection" id="check-the-presence-of-an-element-in-a-collection">
+     Check the presence of an element in a collection
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     if ("john@example.com" in emailsList) { ... }
+
+if ("jane@example.com" !in emailsList) { ... }
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="string-interpolation" id="string-interpolation">
+     String interpolation
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     println("Name $name")
+    </div>
+    <p id="ysxyoq_64">
+     Learn the difference between
+     <a data-tooltip="In Java, you can do this in the following way:" href="java-to-kotlin-idioms-strings.html#concatenate-strings" id="ysxyoq_65">
+      Java and Kotlin string concatenation
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="read-standard-input-safely" id="read-standard-input-safely">
+     Read standard input safely
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     // Reads a string and returns null if the input can't be converted into an integer. For example: Hi there!
+val wrongInt = readln().toIntOrNull()
+println(wrongInt)
+// null
+
+// Reads a string that can be converted into an integer and returns an integer. For example: 13
+val correctInt = readln().toIntOrNull()
+println(correctInt)
+// 13
+    </div>
+    <p id="ysxyoq_67">
+     For more information, see
+     <a data-tooltip="Use the readln() function to read data from the standard input. It reads the whole line as a string:" href="read-standard-input.html" id="ysxyoq_68">
+      Read standard input.
+     </a>
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="instance-checks" id="instance-checks">
+     Instance checks
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     when (x) {
+    is Foo -&gt; ...
+    is Bar -&gt; ...
+    else   -&gt; ...
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="read-only-list" id="read-only-list">
+     Read-only list
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val list = listOf("a", "b", "c")
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="read-only-map" id="read-only-map">
+     Read-only map
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val map = mapOf("a" to 1, "b" to 2, "c" to 3)
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="access-a-map-entry" id="access-a-map-entry">
+     Access a map entry
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     println(map["key"])
+map["key"] = value
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="traverse-a-map-or-a-list-of-pairs" id="traverse-a-map-or-a-list-of-pairs">
+     Traverse a map or a list of pairs
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     for ((k, v) in map) {
+    println("$k -&gt; $v")
+}
+    </div>
+    <p id="ysxyoq_74">
+     <code class="code" id="ysxyoq_75">
+      k
+     </code>
+     and
+     <code class="code" id="ysxyoq_76">
+      v
+     </code>
+     can be any convenient names, such as
+     <code class="code" id="ysxyoq_77">
+      name
+     </code>
+     and
+     <code class="code" id="ysxyoq_78">
+      age
+     </code>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="iterate-over-a-range" id="iterate-over-a-range">
+     Iterate over a range
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     for (i in 1..100) { ... }  // closed-ended range: includes 100
+for (i in 1..&lt;100) { ... } // open-ended range: does not include 100
+for (x in 2..10 step 2) { ... }
+for (x in 10 downTo 1) { ... }
+(1..10).forEach { ... }
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="lazy-property" id="lazy-property">
+     Lazy property
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val p: String by lazy { // the value is computed only on first access
+    // compute the string
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="extension-functions" id="extension-functions">
+     Extension functions
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     fun String.spaceToCamelCase() { ... }
+
+"Convert this to camelcase".spaceToCamelCase()
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="create-a-singleton" id="create-a-singleton">
+     Create a singleton
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     object Resource {
+    val name = "Name"
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="use-inline-value-classes-for-type-safe-values" id="use-inline-value-classes-for-type-safe-values">
+     Use inline value classes for type-safe values
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     @JvmInline
+value class EmployeeId(private val id: String)
+
+@JvmInline
+value class CustomerId(private val id: String)
+    </div>
+    <p id="ysxyoq_84">
+     If you accidentally mix up
+     <code class="code" id="ysxyoq_86">
+      EmployeeId
+     </code>
+     and
+     <code class="code" id="ysxyoq_87">
+      CustomerId
+     </code>
+     , a compilation error is triggered.
+    </p>
+    <aside class="prompt" data-title="" data-type="note" id="ysxyoq_85">
+     <p id="ysxyoq_88">
+      The
+      <code class="code" id="ysxyoq_89">
+       @JvmInline
+      </code>
+      annotation is only needed for JVM backends.
+     </p>
+    </aside>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="instantiate-an-abstract-class" id="instantiate-an-abstract-class">
+     Instantiate an abstract class
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     abstract class MyAbstractClass {
+    abstract fun doSomething()
+    abstract fun sleep()
+}
+
+fun main() {
+    val myObject = object : MyAbstractClass() {
+        override fun doSomething() {
+            // ...
+        }
+
+        override fun sleep() { // ...
+        }
+    }
+    myObject.doSomething()
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="if-not-null-shorthand" id="if-not-null-shorthand">
+     If-not-null shorthand
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val files = File("Test").listFiles()
+
+println(files?.size) // size is printed if files is not null
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="if-not-null-else-shorthand" id="if-not-null-else-shorthand">
+     If-not-null-else shorthand
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val files = File("Test").listFiles()
+
+// For simple fallback values:
+println(files?.size ?: "empty") // if files is null, this prints "empty"
+
+// To calculate a more complicated fallback value in a code block, use `run`
+val filesSize = files?.size ?: run { 
+    val someSize = getSomeSize()
+    someSize * 2
+}
+println(filesSize)
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="execute-a-statement-if-null" id="execute-a-statement-if-null">
+     Execute a statement if null
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val values = ...
+val email = values["email"] ?: throw IllegalStateException("Email is missing!")
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="get-first-item-of-a-possibly-empty-collection" id="get-first-item-of-a-possibly-empty-collection">
+     Get first item of a possibly empty collection
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val emails = ... // might be empty
+val mainEmail = emails.firstOrNull() ?: ""
+    </div>
+    <p id="ysxyoq_95">
+     Learn the difference between
+     <a data-tooltip="In Java, you can safely get the first and the last items by checking the size of the collection and using indices:" href="java-to-kotlin-collections-guide.html#get-the-first-and-the-last-items-of-a-possibly-empty-collection" id="ysxyoq_96">
+      Java and Kotlin first item getting
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="execute-if-not-null" id="execute-if-not-null">
+     Execute if not null
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val value = ...
+
+value?.let {
+    ... // execute this block if not null
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="map-nullable-value-if-not-null" id="map-nullable-value-if-not-null">
+     Map nullable value if not null
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val value = ...
+
+val mapped = value?.let { transformValue(it) } ?: defaultValue 
+// defaultValue is returned if the value or the transform result is null.
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="return-on-when-statement" id="return-on-when-statement">
+     Return on when statement
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     fun transform(color: String): Int {
+    return when (color) {
+        "Red" -&gt; 0
+        "Green" -&gt; 1
+        "Blue" -&gt; 2
+        else -&gt; throw IllegalArgumentException("Invalid color param value")
+    }
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="try-catch-expression" id="try-catch-expression">
+     try-catch expression
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     fun test() {
+    val result = try {
+        count()
+    } catch (e: ArithmeticException) {
+        throw IllegalStateException(e)
+    }
+
+    // Working with result
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="if-expression" id="if-expression">
+     if expression
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val y = if (x == 1) {
+    "one"
+} else if (x == 2) {
+    "two"
+} else {
+    "other"
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="builder-style-usage-of-methods-that-return-unit" id="builder-style-usage-of-methods-that-return-unit">
+     Builder-style usage of methods that return Unit
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     fun arrayOfMinusOnes(size: Int): IntArray {
+    return IntArray(size).apply { fill(-1) }
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="single-expression-functions" id="single-expression-functions">
+     Single-expression functions
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     fun theAnswer() = 42
+    </div>
+    <p id="ysxyoq_104">
+     This is equivalent to
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     fun theAnswer(): Int {
+    return 42
+}
+    </div>
+    <p id="ysxyoq_106">
+     This can be effectively combined with other idioms, leading to shorter code. For example, with the
+     <code class="code" id="ysxyoq_108">
+      when
+     </code>
+     expression:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     fun transform(color: String): Int = when (color) {
+    "Red" -&gt; 0
+    "Green" -&gt; 1
+    "Blue" -&gt; 2
+    else -&gt; throw IllegalArgumentException("Invalid color param value")
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="call-multiple-methods-on-an-object-instance-with" id="call-multiple-methods-on-an-object-instance-with">
+     Call multiple methods on an object instance (with)
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     class Turtle {
+    fun penDown()
+    fun penUp()
+    fun turn(degrees: Double)
+    fun forward(pixels: Double)
+}
+
+val myTurtle = Turtle()
+with(myTurtle) { //draw a 100 pix square
+    penDown()
+    for (i in 1..4) {
+        forward(100.0)
+        turn(90.0)
+    }
+    penUp()
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="configure-properties-of-an-object-apply" id="configure-properties-of-an-object-apply">
+     Configure properties of an object (apply)
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val myRectangle = Rectangle().apply {
+    length = 4
+    breadth = 5
+    color = 0xFAFAFA
+}
+    </div>
+    <p id="ysxyoq_111">
+     This is useful for configuring properties that aren't present in the object constructor.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="java-7-s-try-with-resources" id="java-7-s-try-with-resources">
+     Java 7's try-with-resources
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     val stream = Files.newInputStream(Paths.get("/some/file.txt"))
+stream.buffered().reader().use { reader -&gt;
+    println(reader.readText())
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="generic-function-that-requires-the-generic-type-information" id="generic-function-that-requires-the-generic-type-information">
+     Generic function that requires the generic type information
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     //  public final class Gson {
+//     ...
+//     public &lt;T&gt; T fromJson(JsonElement json, Class&lt;T&gt; classOfT) throws JsonSyntaxException {
+//     ...
+
+inline fun &lt;reified T: Any&gt; Gson.fromJson(json: JsonElement): T = this.fromJson(json, T::class.java)
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="swap-two-variables" id="swap-two-variables">
+     Swap two variables
+    </h2>
+    <div class="code-block" data-lang="kotlin">
+     var a = 1
+var b = 2
+a = b.also { b = a }
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="mark-code-as-incomplete-todo" id="mark-code-as-incomplete-todo">
+     Mark code as incomplete (TODO)
+    </h2>
+    <p id="ysxyoq_115">
+     Kotlin's standard library has a
+     <code class="code" id="ysxyoq_118">
+      TODO()
+     </code>
+     function that will always throw a
+     <code class="code" id="ysxyoq_119">
+      NotImplementedError
+     </code>
+     . Its return type is
+     <code class="code" id="ysxyoq_120">
+      Nothing
+     </code>
+     so it can be used regardless of expected type. There's also an overload that accepts a reason parameter:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     fun calcTaxes(): BigDecimal = TODO("Waiting for feedback from accounting")
+    </div>
+    <p id="ysxyoq_117">
+     IntelliJ IDEA's kotlin plugin understands the semantics of
+     <code class="code" id="ysxyoq_121">
+      TODO()
+     </code>
+     and automatically adds a code pointer in the TODO tool window.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next?
+    </h2>
+    <ul class="list _bullet" id="ysxyoq_122">
+     <li class="list__item" id="ysxyoq_123">
+      <p>
+       Solve
+       <a data-tooltip="Advent of Code is an annual December event, where holiday-themed puzzles are published every day from December 1 to December 25. With the permission of Eric Wastl, creator of Advent of Code, we'll show how to solve these puzzles using the idiomatic Kotlin style:" href="advent-of-code.html" id="ysxyoq_127">
+        Advent of Code puzzles
+       </a>
+       using the idiomatic Kotlin style.
+      </p>
+     </li>
+     <li class="list__item" id="ysxyoq_124">
+      <p>
+       Learn how to perform
+       <a data-tooltip="This guide contains examples of how to perform typical tasks with strings in Java and Kotlin. It will help you migrate from Java to Kotlin and write your code in the authentically Kotlin way." href="java-to-kotlin-idioms-strings.html" id="ysxyoq_128">
+        typical tasks with strings in Java and Kotlin
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="ysxyoq_125">
+      <p>
+       Learn how to perform
+       <a data-tooltip="Collections are groups of a variable number of items (possibly zero) that are significant to the problem being solved and are commonly operated on. This guide explains and compares collection concepts and operations in Java and Kotlin. It will help you migrate from Java to Kotlin…" href="java-to-kotlin-collections-guide.html" id="ysxyoq_129">
+        typical tasks with collections in Java and Kotlin
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="ysxyoq_126">
+      <p>
+       Learn how to
+       <a data-tooltip="Nullability is the ability of a variable to hold a null value. When a variable contains null, an attempt to dereference the variable leads to a NullPointerException. There are many ways to write code in order to minimize the probability of receiving null pointer exceptions." href="java-to-kotlin-nullability-guide.html" id="ysxyoq_130">
+        handle nullability in Java and Kotlin
+       </a>
+       .
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

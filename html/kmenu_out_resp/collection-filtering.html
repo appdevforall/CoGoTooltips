@@ -1,0 +1,360 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="collection-filtering" id="collection-filtering.md">
+    Filtering collections
+   </h1>
+   <p id="r282fa_2">
+    Filtering is one of the most popular tasks in collection processing. In Kotlin, filtering conditions are defined by
+    <span class="emphasis" id="r282fa_7">
+     predicates
+    </span>
+    – lambda functions that take a collection element and return a boolean value:
+    <code class="code" id="r282fa_8">
+     true
+    </code>
+    means that the given element matches the predicate,
+    <code class="code" id="r282fa_9">
+     false
+    </code>
+    means the opposite.
+   </p>
+   <p id="r282fa_3">
+    The standard library contains a group of extension functions that let you filter collections in a single call. These functions leave the original collection unchanged, so they are available for both
+    <a data-tooltip="The Kotlin Standard Library provides implementations for basic collection types: sets, lists, and maps. A pair of interfaces represent each collection type:" href="collections-overview.html#collection-types" id="r282fa_10">
+     mutable and read-only
+    </a>
+    collections. To operate the filtering result, you should assign it to a variable or chain the functions after filtering.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="filter-by-predicate" id="filter-by-predicate">
+     Filter by predicate
+    </h2>
+    <p id="r282fa_11">
+     The basic filtering function is
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html" id="r282fa_18" rel="noopener noreferrer">
+      <code class="code" id="r282fa_25">
+       filter()
+      </code>
+     </a>
+     . When called with a predicate,
+     <code class="code" id="r282fa_19">
+      filter()
+     </code>
+     returns the collection elements that match it. For both
+     <code class="code" id="r282fa_20">
+      List
+     </code>
+     and
+     <code class="code" id="r282fa_21">
+      Set
+     </code>
+     , the resulting collection is a
+     <code class="code" id="r282fa_22">
+      List
+     </code>
+     , for
+     <code class="code" id="r282fa_23">
+      Map
+     </code>
+     it's a
+     <code class="code" id="r282fa_24">
+      Map
+     </code>
+     as well.
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+     fun main() {
+//sampleStart
+    val numbers = listOf("one", "two", "three", "four")  
+    val longerThan3 = numbers.filter { it.length &gt; 3 }
+    println(longerThan3)
+
+    val numbersMap = mapOf("key1" to 1, "key2" to 2, "key3" to 3, "key11" to 11)
+    val filteredMap = numbersMap.filter { (key, value) -&gt; key.endsWith("1") &amp;&amp; value &gt; 10}
+    println(filteredMap)
+//sampleEnd
+}
+    </div>
+    <p id="r282fa_13">
+     The predicates in
+     <code class="code" id="r282fa_26">
+      filter()
+     </code>
+     can only check the values of the elements. If you want to use element positions in the filter, use
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-indexed.html" id="r282fa_27" rel="noopener noreferrer">
+      <code class="code" id="r282fa_28">
+       filterIndexed()
+      </code>
+     </a>
+     . It takes a predicate with two arguments: the index and the value of an element.
+    </p>
+    <p id="r282fa_14">
+     To filter collections by negative conditions, use
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-not.html" id="r282fa_29" rel="noopener noreferrer">
+      <code class="code" id="r282fa_31">
+       filterNot()
+      </code>
+     </a>
+     . It returns a list of elements for which the predicate yields
+     <code class="code" id="r282fa_30">
+      false
+     </code>
+     .
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+     fun main() {
+//sampleStart
+    val numbers = listOf("one", "two", "three", "four")
+    
+    val filteredIdx = numbers.filterIndexed { index, s -&gt; (index != 0) &amp;&amp; (s.length &lt; 5)  }
+    val filteredNot = numbers.filterNot { it.length &lt;= 3 }
+
+    println(filteredIdx)
+    println(filteredNot)
+//sampleEnd
+}
+    </div>
+    <p id="r282fa_16">
+     There are also functions that narrow the element type by filtering elements of a given type:
+    </p>
+    <ul class="list _bullet" id="r282fa_17">
+     <li class="list__item" id="r282fa_32">
+      <p id="r282fa_34">
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-is-instance.html" id="r282fa_36" rel="noopener noreferrer">
+        <code class="code" id="r282fa_41">
+         filterIsInstance()
+        </code>
+       </a>
+       returns collection elements of a given type. Being called on a
+       <code class="code" id="r282fa_37">
+        List&lt;Any&gt;
+       </code>
+       ,
+       <code class="code" id="r282fa_38">
+        filterIsInstance&lt;T&gt;()
+       </code>
+       returns a
+       <code class="code" id="r282fa_39">
+        List&lt;T&gt;
+       </code>
+       , thus allowing you to call functions of the
+       <code class="code" id="r282fa_40">
+        T
+       </code>
+       type on its items.
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+       fun main() {
+//sampleStart
+    val numbers = listOf(null, 1, "two", 3.0, "four")
+    println("All String elements in upper case:")
+    numbers.filterIsInstance&lt;String&gt;().forEach {
+        println(it.uppercase())
+    }
+//sampleEnd
+}
+      </div>
+     </li>
+     <li class="list__item" id="r282fa_33">
+      <p id="r282fa_42">
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-not-null.html" id="r282fa_44" rel="noopener noreferrer">
+        <code class="code" id="r282fa_48">
+         filterNotNull()
+        </code>
+       </a>
+       returns all non-nullable elements. Being called on a
+       <code class="code" id="r282fa_45">
+        List&lt;T?&gt;
+       </code>
+       ,
+       <code class="code" id="r282fa_46">
+        filterNotNull()
+       </code>
+       returns a
+       <code class="code" id="r282fa_47">
+        List&lt;T: Any&gt;
+       </code>
+       , thus allowing you to treat the elements as non-nullable objects.
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+       fun main() {
+//sampleStart
+    val numbers = listOf(null, "one", "two", null)
+    numbers.filterNotNull().forEach {
+        println(it.length)   // length is unavailable for nullable Strings
+    }
+//sampleEnd
+}
+      </div>
+     </li>
+    </ul>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="partition" id="partition">
+     Partition
+    </h2>
+    <p id="r282fa_49">
+     Another filtering function –
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/partition.html" id="r282fa_51" rel="noopener noreferrer">
+      <code class="code" id="r282fa_54">
+       partition()
+      </code>
+     </a>
+     – filters a collection by a predicate and keeps the elements that don't match it in a separate list. So, you have a
+     <code class="code" id="r282fa_52">
+      Pair
+     </code>
+     of
+     <code class="code" id="r282fa_53">
+      List
+     </code>
+     s as a return value: the first list containing elements that match the predicate and the second one containing everything else from the original collection.
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+     fun main() {
+//sampleStart
+    val numbers = listOf("one", "two", "three", "four")
+    val (match, rest) = numbers.partition { it.length &gt; 3 }
+
+    println(match)
+    println(rest)
+//sampleEnd
+}
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="test-predicates" id="test-predicates">
+     Test predicates
+    </h2>
+    <p id="r282fa_55">
+     Finally, there are functions that simply test a predicate against collection elements:
+    </p>
+    <ul class="list _bullet" id="r282fa_56">
+     <li class="list__item" id="r282fa_60">
+      <p>
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/any.html" id="r282fa_63" rel="noopener noreferrer">
+        <code class="code" id="r282fa_65">
+         any()
+        </code>
+       </a>
+       returns
+       <code class="code" id="r282fa_64">
+        true
+       </code>
+       if at least one element matches the given predicate.
+      </p>
+     </li>
+     <li class="list__item" id="r282fa_61">
+      <p>
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/none.html" id="r282fa_66" rel="noopener noreferrer">
+        <code class="code" id="r282fa_68">
+         none()
+        </code>
+       </a>
+       returns
+       <code class="code" id="r282fa_67">
+        true
+       </code>
+       if none of the elements match the given predicate.
+      </p>
+     </li>
+     <li class="list__item" id="r282fa_62">
+      <p>
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/all.html" id="r282fa_69" rel="noopener noreferrer">
+        <code class="code" id="r282fa_74">
+         all()
+        </code>
+       </a>
+       returns
+       <code class="code" id="r282fa_70">
+        true
+       </code>
+       if all elements match the given predicate. Note that
+       <code class="code" id="r282fa_71">
+        all()
+       </code>
+       returns
+       <code class="code" id="r282fa_72">
+        true
+       </code>
+       when called with any valid predicate on an empty collection. Such behavior is known in logic as
+       <span class="emphasis" id="r282fa_73">
+        <a data-external="true" href="https://en.wikipedia.org/wiki/Vacuous_truth" id="r282fa_75" rel="noopener noreferrer">
+         vacuous truth
+        </a>
+       </span>
+       .
+      </p>
+     </li>
+    </ul>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+     fun main() {
+//sampleStart
+    val numbers = listOf("one", "two", "three", "four")
+
+    println(numbers.any { it.endsWith("e") })
+    println(numbers.none { it.endsWith("a") })
+    println(numbers.all { it.endsWith("e") })
+
+    println(emptyList&lt;Int&gt;().all { it &gt; 5 })   // vacuous truth
+//sampleEnd
+}
+    </div>
+    <p id="r282fa_58">
+     <code class="code" id="r282fa_76">
+      any()
+     </code>
+     and
+     <code class="code" id="r282fa_77">
+      none()
+     </code>
+     can also be used without a predicate: in this case they just check the collection emptiness.
+     <code class="code" id="r282fa_78">
+      any()
+     </code>
+     returns
+     <code class="code" id="r282fa_79">
+      true
+     </code>
+     if there are elements and
+     <code class="code" id="r282fa_80">
+      false
+     </code>
+     if there aren't;
+     <code class="code" id="r282fa_81">
+      none()
+     </code>
+     does the opposite.
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true">
+     fun main() {
+//sampleStart
+    val numbers = listOf("one", "two", "three", "four")
+    val empty = emptyList&lt;String&gt;()
+
+    println(numbers.any())
+    println(empty.any())
+    
+    println(numbers.none())
+    println(empty.none())
+//sampleEnd
+}
+    </div>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

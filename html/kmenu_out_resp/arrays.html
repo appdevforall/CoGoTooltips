@@ -1,0 +1,905 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="arrays" id="arrays.md">
+    Arrays
+   </h1>
+   <p id="lrvjqf_2">
+    An array is a data structure that holds a fixed number of values of the same type or its subtypes. The most common type of array in Kotlin is the object-type array, represented by the
+    <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/" id="lrvjqf_10" rel="noopener noreferrer">
+     <code class="code" id="lrvjqf_11">
+      Array
+     </code>
+    </a>
+    class.
+   </p>
+   <aside class="prompt" data-title="" data-type="note" id="lrvjqf_3">
+    <p id="lrvjqf_12">
+     If you use primitives in an object-type array, this has a performance impact because your primitives are
+     <a data-external="true" href="https://docs.oracle.com/javase/tutorial/java/data/autoboxing.html" id="lrvjqf_13" rel="noopener noreferrer">
+      boxed
+     </a>
+     into objects. To avoid boxing overhead, use
+     <a data-tooltip="If you use the Array class with primitive values, these values are boxed into objects. As an alternative, you can use primitive-type arrays, which allow you to store primitives in an array without the side effect of boxing overhead:" href="#primitive-type-arrays" id="lrvjqf_14">
+      primitive-type arrays
+     </a>
+     instead.
+    </p>
+   </aside>
+   <section class="chapter">
+    <h2 data-toc="when-to-use-arrays" id="when-to-use-arrays">
+     When to use arrays
+    </h2>
+    <p id="lrvjqf_15">
+     Use arrays in Kotlin when you have specialized low-level requirements that you need to meet. For example, if you have performance requirements beyond what is needed for regular applications, or you need to build custom data structures. If you don't have these sorts of restrictions, use
+     <a data-tooltip="The Kotlin Standard Library provides a comprehensive set of tools for managing collections – groups of a variable number of items (possibly zero) that are significant to the problem being solved and are commonly operated on." href="collections-overview.html" id="lrvjqf_19">
+      collections
+     </a>
+     instead.
+    </p>
+    <p id="lrvjqf_16">
+     Collections have the following benefits compared to arrays:
+    </p>
+    <ul class="list _bullet" id="lrvjqf_17">
+     <li class="list__item" id="lrvjqf_20">
+      <p id="lrvjqf_23">
+       Collections can be read-only, which gives you more control and allows you to write robust code that has a clear intent.
+      </p>
+     </li>
+     <li class="list__item" id="lrvjqf_21">
+      <p id="lrvjqf_24">
+       It is easy to add or remove elements from collections. In comparison, arrays are fixed in size. The only way to add or remove elements from an array is to create a new array each time, which is very inefficient:
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-rivers-array-kotlin">
+       fun main() {
+//sampleStart
+    var riversArray = arrayOf("Nile", "Amazon", "Yangtze")
+
+    // Using the += assignment operation creates a new riversArray,
+    // copies over the original elements and adds "Mississippi"
+    riversArray += "Mississippi"
+    println(riversArray.joinToString())
+    // Nile, Amazon, Yangtze, Mississippi
+//sampleEnd
+}
+      </div>
+     </li>
+     <li class="list__item" id="lrvjqf_22">
+      <p id="lrvjqf_26">
+       You can use the equality operator (
+       <code class="code" id="lrvjqf_27">
+        ==
+       </code>
+       ) to check if collections are structurally equal. You can't use this operator for arrays. Instead, you have to use a special function, which you can read more about in
+       <a data-tooltip="To compare whether two arrays have the same elements in the same order, use the .contentEquals() and .contentDeepEquals() functions:" href="#compare-arrays" id="lrvjqf_28">
+        Compare arrays
+       </a>
+       .
+      </p>
+     </li>
+    </ul>
+    <p id="lrvjqf_18">
+     For more information about collections, see
+     <a data-tooltip="The Kotlin Standard Library provides a comprehensive set of tools for managing collections – groups of a variable number of items (possibly zero) that are significant to the problem being solved and are commonly operated on." href="collections-overview.html" id="lrvjqf_29">
+      Collections overview
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="create-arrays" id="create-arrays">
+     Create arrays
+    </h2>
+    <p id="lrvjqf_30">
+     To create arrays in Kotlin, you can use:
+    </p>
+    <ul class="list _bullet" id="lrvjqf_31">
+     <li class="list__item" id="lrvjqf_43">
+      <p>
+       functions, such as
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/array-of.html" id="lrvjqf_45" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_48">
+         arrayOf()
+        </code>
+       </a>
+       ,
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/array-of-nulls.html#kotlin$arrayOfNulls(kotlin.Int)" id="lrvjqf_46" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_49">
+         arrayOfNulls()
+        </code>
+       </a>
+       or
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/empty-array.html" id="lrvjqf_47" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_50">
+         emptyArray()
+        </code>
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="lrvjqf_44">
+      <p>
+       the
+       <code class="code" id="lrvjqf_51">
+        Array
+       </code>
+       constructor.
+      </p>
+     </li>
+    </ul>
+    <p id="lrvjqf_32">
+     This example uses the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/array-of.html" id="lrvjqf_52" rel="noopener noreferrer">
+      <code class="code" id="lrvjqf_53">
+       arrayOf()
+      </code>
+     </a>
+     function and passes item values to it:
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-simple-array-kotlin">
+     fun main() {
+//sampleStart
+    // Creates an array with values [1, 2, 3]
+    val simpleArray = arrayOf(1, 2, 3)
+    println(simpleArray.joinToString())
+    // 1, 2, 3
+//sampleEnd
+}
+    </div>
+    <p id="lrvjqf_34">
+     This example uses the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/array-of-nulls.html#kotlin$arrayOfNulls(kotlin.Int)" id="lrvjqf_54" rel="noopener noreferrer">
+      <code class="code" id="lrvjqf_56">
+       arrayOfNulls()
+      </code>
+     </a>
+     function to create an array of a given size filled with
+     <code class="code" id="lrvjqf_55">
+      null
+     </code>
+     elements:
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-null-array-kotlin">
+     fun main() {
+//sampleStart
+    // Creates an array with values [null, null, null]
+    val nullArray: Array&lt;Int?&gt; = arrayOfNulls(3)
+    println(nullArray.joinToString())
+    // null, null, null
+//sampleEnd
+}
+    </div>
+    <p id="lrvjqf_36">
+     This example uses the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/empty-array.html" id="lrvjqf_57" rel="noopener noreferrer">
+      <code class="code" id="lrvjqf_58">
+       emptyArray()
+      </code>
+     </a>
+     function to create an empty array :
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     var exampleArray = emptyArray&lt;String&gt;()
+    </div>
+    <aside class="prompt" data-title="" data-type="note" id="lrvjqf_38">
+     <p id="lrvjqf_59">
+      You can specify the type of the empty array on the left-hand or right-hand side of the assignment due to Kotlin's type inference.
+     </p>
+     <p id="lrvjqf_60">
+      For example:
+     </p>
+     <div class="code-block" data-lang="kotlin">
+      var exampleArray = emptyArray&lt;String&gt;()
+
+var exampleArray: Array&lt;String&gt; = emptyArray()
+     </div>
+    </aside>
+    <p id="lrvjqf_39">
+     The
+     <code class="code" id="lrvjqf_62">
+      Array
+     </code>
+     constructor takes the array size and a function that returns values for array elements given its index:
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-array-constructor-kotlin">
+     fun main() {
+//sampleStart
+    // Creates an Array&lt;Int&gt; that initializes with zeros [0, 0, 0]
+    val initArray = Array&lt;Int&gt;(3) { 0 }
+    println(initArray.joinToString())
+    // 0, 0, 0
+
+    // Creates an Array&lt;String&gt; with values ["0", "1", "4", "9", "16"]
+    val asc = Array(5) { i -&gt; (i * i).toString() }
+    asc.forEach { print(it) }
+    // 014916
+//sampleEnd
+}
+    </div>
+    <aside class="prompt" data-title="" data-type="note" id="lrvjqf_41">
+     <p id="lrvjqf_63">
+      Like in most programming languages, indices start from 0 in Kotlin.
+     </p>
+    </aside>
+    <section class="chapter">
+     <h3 data-toc="nested-arrays" id="nested-arrays">
+      Nested arrays
+     </h3>
+     <p id="lrvjqf_64">
+      Arrays can be nested within each other to create multidimensional arrays:
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-multidimensional-array-kotlin">
+      fun main() {
+//sampleStart
+    // Creates a two-dimensional array
+    val twoDArray = Array(2) { Array&lt;Int&gt;(2) { 0 } }
+    println(twoDArray.contentDeepToString())
+    // [[0, 0], [0, 0]]
+
+    // Creates a three-dimensional array
+    val threeDArray = Array(3) { Array(3) { Array&lt;Int&gt;(3) { 0 } } }
+    println(threeDArray.contentDeepToString())
+    // [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
+//sampleEnd
+}
+     </div>
+     <aside class="prompt" data-title="" data-type="note" id="lrvjqf_66">
+      <p id="lrvjqf_67">
+       Nested arrays don't have to be the same type or the same size.
+      </p>
+     </aside>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="access-and-modify-elements" id="access-and-modify-elements">
+     Access and modify elements
+    </h2>
+    <p id="lrvjqf_68">
+     Arrays are always mutable. To access and modify elements in an array, use the
+     <a data-tooltip="Square brackets are translated to calls to get and set with appropriate numbers of arguments." href="operator-overloading.html#indexed-access-operator" id="lrvjqf_71">
+      indexed access operator
+     </a>
+     <code class="code" id="lrvjqf_72">
+      []
+     </code>
+     :
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-access-array-kotlin">
+     fun main() {
+//sampleStart
+    val simpleArray = arrayOf(1, 2, 3)
+    val twoDArray = Array(2) { Array&lt;Int&gt;(2) { 0 } }
+
+    // Accesses the element and modifies it
+    simpleArray[0] = 10
+    twoDArray[0][0] = 2
+
+    // Prints the modified element
+    println(simpleArray[0].toString()) // 10
+    println(twoDArray[0][0].toString()) // 2
+//sampleEnd
+}
+    </div>
+    <p id="lrvjqf_70">
+     Arrays in Kotlin are
+     <span class="emphasis" id="lrvjqf_73">
+      invariant
+     </span>
+     . This means that Kotlin doesn't allow you to assign an
+     <code class="code" id="lrvjqf_74">
+      Array&lt;String&gt;
+     </code>
+     to an
+     <code class="code" id="lrvjqf_75">
+      Array&lt;Any&gt;
+     </code>
+     to prevent a possible runtime failure. Instead, you can use
+     <code class="code" id="lrvjqf_76">
+      Array&lt;out Any&gt;
+     </code>
+     . For more information, see
+     <a data-tooltip="It is very easy to declare a type parameter T as out and avoid trouble with subtyping on the use site, but some classes can't actually be restricted to only return T's! A good example of this is Array:" href="generics.html#type-projections" id="lrvjqf_77">
+      Type Projections
+     </a>
+     .
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="work-with-arrays" id="work-with-arrays">
+     Work with arrays
+    </h2>
+    <p id="lrvjqf_78">
+     In Kotlin, you can work with arrays by using them to pass a variable number of arguments to a function or perform operations on the arrays themselves. For example, comparing arrays, transforming their contents or converting them to collections.
+    </p>
+    <section class="chapter">
+     <h3 data-toc="pass-variable-number-of-arguments-to-a-function" id="pass-variable-number-of-arguments-to-a-function">
+      Pass variable number of arguments to a function
+     </h3>
+     <p id="lrvjqf_83">
+      In Kotlin, you can pass a variable number of arguments to a function via the
+      <a data-tooltip="You can mark a parameter of a function (usually the last one) with the vararg modifier:" href="functions.html#variable-number-of-arguments-varargs" id="lrvjqf_87">
+       <code class="code" id="lrvjqf_88">
+        vararg
+       </code>
+      </a>
+      parameter. This is useful when you don't know the number of arguments in advance, like when formatting a message or creating an SQL query.
+     </p>
+     <p id="lrvjqf_84">
+      To pass an array containing a variable number of arguments to a function, use the
+      <span class="emphasis" id="lrvjqf_89">
+       spread
+      </span>
+      operator (
+      <code class="code" id="lrvjqf_90">
+       *
+      </code>
+      ). The spread operator passes each element of the array as individual arguments to your chosen function:
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-vararg-array-kotlin">
+      fun main() {
+    val lettersArray = arrayOf("c", "d")
+    printAllStrings("a", "b", *lettersArray)
+    // abcd
+}
+
+fun printAllStrings(vararg strings: String) {
+    for (string in strings) {
+        print(string)
+    }
+}
+     </div>
+     <p id="lrvjqf_86">
+      For more information, see
+      <a data-tooltip="You can mark a parameter of a function (usually the last one) with the vararg modifier:" href="functions.html#variable-number-of-arguments-varargs" id="lrvjqf_91">
+       Variable number of arguments (varargs)
+      </a>
+      .
+     </p>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="compare-arrays" id="compare-arrays">
+      Compare arrays
+     </h3>
+     <p id="lrvjqf_92">
+      To compare whether two arrays have the same elements in the same order, use the
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/content-equals.html" id="lrvjqf_95" rel="noopener noreferrer">
+       <code class="code" id="lrvjqf_97">
+        .contentEquals()
+       </code>
+      </a>
+      and
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/content-deep-equals.html" id="lrvjqf_96" rel="noopener noreferrer">
+       <code class="code" id="lrvjqf_98">
+        .contentDeepEquals()
+       </code>
+      </a>
+      functions:
+     </p>
+     <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-compare-array-kotlin">
+      fun main() {
+//sampleStart
+    val simpleArray = arrayOf(1, 2, 3)
+    val anotherArray = arrayOf(1, 2, 3)
+
+    // Compares contents of arrays
+    println(simpleArray.contentEquals(anotherArray))
+    // true
+
+    // Using infix notation, compares contents of arrays after an element 
+    // is changed
+    simpleArray[0] = 10
+    println(simpleArray contentEquals anotherArray)
+    // false
+//sampleEnd
+}
+     </div>
+     <aside class="prompt" data-title="" data-type="warning" id="lrvjqf_94">
+      <p id="lrvjqf_99">
+       Don't use equality (
+       <code class="code" id="lrvjqf_101">
+        ==
+       </code>
+       ) and inequality (
+       <code class="code" id="lrvjqf_102">
+        !=
+       </code>
+       )
+       <a data-tooltip="Structural equality verifies if two objects have the same content or structure. Structural equality is checked by the == operation and its negated counterpart !=. By convention, an expression like a == b is translated to:" href="equality.html#structural-equality" id="lrvjqf_103">
+        operators
+       </a>
+       to compare the contents of arrays. These operators check whether the assigned variables point to the same object.
+      </p>
+      <p id="lrvjqf_100">
+       To learn more about why arrays in Kotlin behave this way, see our
+       <a data-external="true" href="https://blog.jetbrains.com/kotlin/2015/09/feedback-request-limitations-on-data-classes/#Appendix.Comparingarrays" id="lrvjqf_104" rel="noopener noreferrer">
+        blog post
+       </a>
+       .
+      </p>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="transform-arrays" id="transform-arrays">
+      Transform arrays
+     </h3>
+     <p id="lrvjqf_105">
+      Kotlin has many useful functions to transform arrays. This document highlights a few but this isn't an exhaustive list. For the full list of functions, see our
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/" id="lrvjqf_108" rel="noopener noreferrer">
+       API reference
+      </a>
+      .
+     </p>
+     <section class="chapter">
+      <h4 data-toc="sum" id="sum">
+       Sum
+      </h4>
+      <p id="lrvjqf_109">
+       To return the sum of all elements in an array, use the
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sum.html" id="lrvjqf_112" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_113">
+         .sum()
+        </code>
+       </a>
+       function:
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-sum-array-kotlin">
+       fun main() {
+//sampleStart
+    val sumArray = arrayOf(1, 2, 3)
+
+    // Sums array elements
+    println(sumArray.sum())
+    // 6
+//sampleEnd
+}
+      </div>
+      <aside class="prompt" data-title="" data-type="note" id="lrvjqf_111">
+       <p id="lrvjqf_114">
+        The
+        <code class="code" id="lrvjqf_115">
+         .sum()
+        </code>
+        function can only be used with arrays of
+        <a data-tooltip="Kotlin provides a set of built-in types that represent numbers.For integer numbers, there are four types with different sizes and, hence, value ranges:" href="numbers.html" id="lrvjqf_116">
+         numeric data types
+        </a>
+        , such as
+        <code class="code" id="lrvjqf_117">
+         Int
+        </code>
+        .
+       </p>
+      </aside>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="shuffle" id="shuffle">
+       Shuffle
+      </h4>
+      <p id="lrvjqf_118">
+       To randomly shuffle the elements in an array, use the
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/shuffle.html" id="lrvjqf_120" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_121">
+         .shuffle()
+        </code>
+       </a>
+       function:
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-shuffle-array-kotlin">
+       fun main() {
+//sampleStart
+    val simpleArray = arrayOf(1, 2, 3)
+
+    // Shuffles elements [3, 2, 1]
+    simpleArray.shuffle()
+    println(simpleArray.joinToString())
+
+    // Shuffles elements again [2, 3, 1]
+    simpleArray.shuffle()
+    println(simpleArray.joinToString())
+//sampleEnd
+}
+      </div>
+     </section>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="convert-arrays-to-collections" id="convert-arrays-to-collections">
+      Convert arrays to collections
+     </h3>
+     <p id="lrvjqf_122">
+      If you work with different APIs where some use arrays and some use collections, then you can convert your arrays to
+      <a data-tooltip="The Kotlin Standard Library provides a comprehensive set of tools for managing collections – groups of a variable number of items (possibly zero) that are significant to the problem being solved and are commonly operated on." href="collections-overview.html" id="lrvjqf_125">
+       collections
+      </a>
+      and vice versa.
+     </p>
+     <section class="chapter">
+      <h4 data-toc="convert-to-list-or-set" id="convert-to-list-or-set">
+       Convert to List or Set
+      </h4>
+      <p id="lrvjqf_126">
+       To convert an array to a
+       <code class="code" id="lrvjqf_128">
+        List
+       </code>
+       or
+       <code class="code" id="lrvjqf_129">
+        Set
+       </code>
+       , use the
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-list.html" id="lrvjqf_130" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_132">
+         .toList()
+        </code>
+       </a>
+       and
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-set.html" id="lrvjqf_131" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_133">
+         .toSet()
+        </code>
+       </a>
+       functions.
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-convert-list-set-kotlin">
+       fun main() {
+//sampleStart
+    val simpleArray = arrayOf("a", "b", "c", "c")
+
+    // Converts to a Set
+    println(simpleArray.toSet())
+    // [a, b, c]
+
+    // Converts to a List
+    println(simpleArray.toList())
+    // [a, b, c, c]
+//sampleEnd
+}
+      </div>
+     </section>
+     <section class="chapter">
+      <h4 data-toc="convert-to-map" id="convert-to-map">
+       Convert to Map
+      </h4>
+      <p id="lrvjqf_134">
+       To convert an array to a
+       <code class="code" id="lrvjqf_137">
+        Map
+       </code>
+       , use the
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-map.html" id="lrvjqf_138" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_139">
+         .toMap()
+        </code>
+       </a>
+       function.
+      </p>
+      <p id="lrvjqf_135">
+       Only an array of
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/" id="lrvjqf_140" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_146">
+         Pair&lt;K,V&gt;
+        </code>
+       </a>
+       can be converted to a
+       <code class="code" id="lrvjqf_141">
+        Map
+       </code>
+       . The first value of a
+       <code class="code" id="lrvjqf_142">
+        Pair
+       </code>
+       instance becomes a key, and the second becomes a value. This example uses the
+       <a data-tooltip="Functions marked with the infix keyword can also be called using the infix notation (omitting the dot and the parentheses for the call). Infix functions must meet the following requirements:" href="functions.html#infix-notation" id="lrvjqf_143">
+        infix notation
+       </a>
+       to call the
+       <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/to.html" id="lrvjqf_144" rel="noopener noreferrer">
+        <code class="code" id="lrvjqf_147">
+         to
+        </code>
+       </a>
+       function to create tuples of
+       <code class="code" id="lrvjqf_145">
+        Pair
+       </code>
+       :
+      </p>
+      <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-convert-map-kotlin">
+       fun main() {
+//sampleStart
+    val pairArray = arrayOf("apple" to 120, "banana" to 150, "cherry" to 90, "apple" to 140)
+
+    // Converts to a Map
+    // The keys are fruits and the values are their number of calories
+    // Note how keys must be unique, so the latest value of "apple"
+    // overwrites the first
+    println(pairArray.toMap())
+    // {apple=140, banana=150, cherry=90}
+
+//sampleEnd
+}
+      </div>
+     </section>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="primitive-type-arrays" id="primitive-type-arrays">
+     Primitive-type arrays
+    </h2>
+    <p id="lrvjqf_148">
+     If you use the
+     <code class="code" id="lrvjqf_154">
+      Array
+     </code>
+     class with primitive values, these values are boxed into objects. As an alternative, you can use primitive-type arrays, which allow you to store primitives in an array without the side effect of boxing overhead:
+    </p>
+    <div class="table-wrapper">
+     <table class="wide" id="lrvjqf_149">
+      <thead>
+       <tr class="ijRowHead" id="lrvjqf_155">
+        <th id="lrvjqf_164">
+         <p>
+          Primitive-type array
+         </p>
+        </th>
+        <th id="lrvjqf_165">
+         <p>
+          Equivalent in Java
+         </p>
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr id="lrvjqf_156">
+        <td id="lrvjqf_166">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean-array/" id="lrvjqf_168" rel="noopener noreferrer">
+           <code class="code" id="lrvjqf_169">
+            BooleanArray
+           </code>
+          </a>
+         </p>
+        </td>
+        <td id="lrvjqf_167">
+         <p>
+          <code class="code" id="lrvjqf_170">
+           boolean[]
+          </code>
+         </p>
+        </td>
+       </tr>
+       <tr id="lrvjqf_157">
+        <td id="lrvjqf_171">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/" id="lrvjqf_173" rel="noopener noreferrer">
+           <code class="code" id="lrvjqf_174">
+            ByteArray
+           </code>
+          </a>
+         </p>
+        </td>
+        <td id="lrvjqf_172">
+         <p>
+          <code class="code" id="lrvjqf_175">
+           byte[]
+          </code>
+         </p>
+        </td>
+       </tr>
+       <tr id="lrvjqf_158">
+        <td id="lrvjqf_176">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char-array/" id="lrvjqf_178" rel="noopener noreferrer">
+           <code class="code" id="lrvjqf_179">
+            CharArray
+           </code>
+          </a>
+         </p>
+        </td>
+        <td id="lrvjqf_177">
+         <p>
+          <code class="code" id="lrvjqf_180">
+           char[]
+          </code>
+         </p>
+        </td>
+       </tr>
+       <tr id="lrvjqf_159">
+        <td id="lrvjqf_181">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double-array/" id="lrvjqf_183" rel="noopener noreferrer">
+           <code class="code" id="lrvjqf_184">
+            DoubleArray
+           </code>
+          </a>
+         </p>
+        </td>
+        <td id="lrvjqf_182">
+         <p>
+          <code class="code" id="lrvjqf_185">
+           double[]
+          </code>
+         </p>
+        </td>
+       </tr>
+       <tr id="lrvjqf_160">
+        <td id="lrvjqf_186">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float-array/" id="lrvjqf_188" rel="noopener noreferrer">
+           <code class="code" id="lrvjqf_189">
+            FloatArray
+           </code>
+          </a>
+         </p>
+        </td>
+        <td id="lrvjqf_187">
+         <p>
+          <code class="code" id="lrvjqf_190">
+           float[]
+          </code>
+         </p>
+        </td>
+       </tr>
+       <tr id="lrvjqf_161">
+        <td id="lrvjqf_191">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int-array/" id="lrvjqf_193" rel="noopener noreferrer">
+           <code class="code" id="lrvjqf_194">
+            IntArray
+           </code>
+          </a>
+         </p>
+        </td>
+        <td id="lrvjqf_192">
+         <p>
+          <code class="code" id="lrvjqf_195">
+           int[]
+          </code>
+         </p>
+        </td>
+       </tr>
+       <tr id="lrvjqf_162">
+        <td id="lrvjqf_196">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long-array/" id="lrvjqf_198" rel="noopener noreferrer">
+           <code class="code" id="lrvjqf_199">
+            LongArray
+           </code>
+          </a>
+         </p>
+        </td>
+        <td id="lrvjqf_197">
+         <p>
+          <code class="code" id="lrvjqf_200">
+           long[]
+          </code>
+         </p>
+        </td>
+       </tr>
+       <tr id="lrvjqf_163">
+        <td id="lrvjqf_201">
+         <p>
+          <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-short-array/" id="lrvjqf_203" rel="noopener noreferrer">
+           <code class="code" id="lrvjqf_204">
+            ShortArray
+           </code>
+          </a>
+         </p>
+        </td>
+        <td id="lrvjqf_202">
+         <p>
+          <code class="code" id="lrvjqf_205">
+           short[]
+          </code>
+         </p>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <p id="lrvjqf_150">
+     These classes have no inheritance relation to the
+     <code class="code" id="lrvjqf_206">
+      Array
+     </code>
+     class, but they have the same set of functions and properties.
+    </p>
+    <p id="lrvjqf_151">
+     This example creates an instance of the
+     <code class="code" id="lrvjqf_207">
+      IntArray
+     </code>
+     class:
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="arrays-primitive-type-array-kotlin">
+     fun main() {
+//sampleStart
+    // Creates an array of Int of size 5 with the values initialized to zero
+    val exampleArray = IntArray(5)
+    println(exampleArray.joinToString())
+    // 0, 0, 0, 0, 0
+//sampleEnd
+}
+    </div>
+    <aside class="prompt" data-title="" data-type="note" id="lrvjqf_153">
+     <p id="lrvjqf_208">
+      To convert primitive-type arrays to object-type arrays, use the
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-typed-array.html" id="lrvjqf_210" rel="noopener noreferrer">
+       <code class="code" id="lrvjqf_211">
+        .toTypedArray()
+       </code>
+      </a>
+      function.
+     </p>
+     <p id="lrvjqf_209">
+      To convert object-type arrays to primitive-type arrays, use
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-boolean-array.html" id="lrvjqf_212" rel="noopener noreferrer">
+       <code class="code" id="lrvjqf_215">
+        .toBooleanArray()
+       </code>
+      </a>
+      ,
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-byte-array.html" id="lrvjqf_213" rel="noopener noreferrer">
+       <code class="code" id="lrvjqf_216">
+        .toByteArray()
+       </code>
+      </a>
+      ,
+      <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-char-array.html" id="lrvjqf_214" rel="noopener noreferrer">
+       <code class="code" id="lrvjqf_217">
+        .toCharArray()
+       </code>
+      </a>
+      , and so on.
+     </p>
+    </aside>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next?
+    </h2>
+    <ul class="list _bullet" id="lrvjqf_218">
+     <li class="list__item" id="lrvjqf_219">
+      <p>
+       To learn more about why we recommend using collections for most use cases, read our
+       <a data-tooltip="The Kotlin Standard Library provides a comprehensive set of tools for managing collections – groups of a variable number of items (possibly zero) that are significant to the problem being solved and are commonly operated on." href="collections-overview.html" id="lrvjqf_222">
+        Collections overview
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="lrvjqf_220">
+      <p>
+       Learn about other
+       <a data-tooltip="In Kotlin, everything is an object in the sense that you can call member functions and properties on any variable. While certain types have an optimized internal representation as primitive values at runtime (such as numbers, characters, booleans and others), they appear and behave…" href="basic-types.html" id="lrvjqf_223">
+        basic types
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="lrvjqf_221">
+      <p>
+       If you are a Java developer, read our Java to Kotlin migration guide for
+       <a data-tooltip="Collections are groups of a variable number of items (possibly zero) that are significant to the problem being solved and are commonly operated on. This guide explains and compares collection concepts and operations in Java and Kotlin. It will help you migrate from Java to Kotlin…" href="java-to-kotlin-collections-guide.html" id="lrvjqf_224">
+        Collections
+       </a>
+       .
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

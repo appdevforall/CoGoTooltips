@@ -1,0 +1,2025 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="compatibility-guide-16" id="compatibility-guide-16.md">
+    Compatibility guide for Kotlin 1.6
+   </h1>
+   <p id="yf5ipa_2">
+    <span class="emphasis" id="yf5ipa_8">
+     <a data-tooltip="Language design is cast in stone," href="kotlin-evolution-principles.html" id="yf5ipa_10">
+      Keeping the Language Modern
+     </a>
+    </span>
+    and
+    <span class="emphasis" id="yf5ipa_9">
+     <a data-tooltip="Language design is cast in stone," href="kotlin-evolution-principles.html" id="yf5ipa_11">
+      Comfortable Updates
+     </a>
+    </span>
+    are among the fundamental principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the latter says that this removal should be well-communicated beforehand to make code migration as smooth as possible.
+   </p>
+   <p id="yf5ipa_3">
+    While most of the language changes were already announced through other channels, like update changelogs or compiler warnings, this document summarizes them all, providing a complete reference for migration from Kotlin 1.5 to Kotlin 1.6.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="basic-terms" id="basic-terms">
+     Basic terms
+    </h2>
+    <p id="yf5ipa_12">
+     In this document we introduce several kinds of compatibility:
+    </p>
+    <ul class="list _bullet" id="yf5ipa_13">
+     <li class="list__item" id="yf5ipa_15">
+      <p>
+       <span class="emphasis" id="yf5ipa_18">
+        source
+       </span>
+       : source-incompatible change stops code that used to compile fine (without errors or warnings) from compiling anymore
+      </p>
+     </li>
+     <li class="list__item" id="yf5ipa_16">
+      <p>
+       <span class="emphasis" id="yf5ipa_19">
+        binary
+       </span>
+       : two binary artifacts are said to be binary-compatible if interchanging them doesn't lead to loading or linkage errors
+      </p>
+     </li>
+     <li class="list__item" id="yf5ipa_17">
+      <p>
+       <span class="emphasis" id="yf5ipa_20">
+        behavioral
+       </span>
+       : a change is said to be behavioral-incompatible if the same program demonstrates different behavior before and after applying the change
+      </p>
+     </li>
+    </ul>
+    <p id="yf5ipa_14">
+     Remember that those definitions are given only for pure Kotlin. Compatibility of Kotlin code from the other languages perspective (for example, from Java) is out of the scope of this document.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="language" id="language">
+     Language
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="make-when-statements-with-enum-sealed-and-boolean-subjects-exhaustive-by-default" id="make-when-statements-with-enum-sealed-and-boolean-subjects-exhaustive-by-default">
+      Make when statements with enum, sealed, and Boolean subjects exhaustive by default
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_35">
+      <p id="yf5ipa_36">
+       <span class="control" id="yf5ipa_42">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-47709" id="yf5ipa_43" rel="noopener noreferrer">
+        KT-47709
+       </a>
+      </p>
+      <p id="yf5ipa_37">
+       <span class="control" id="yf5ipa_44">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf5ipa_38">
+       <span class="control" id="yf5ipa_45">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_39">
+       <span class="control" id="yf5ipa_46">
+        Short summary
+       </span>
+       : Kotlin 1.6 will warn about the
+       <code class="code" id="yf5ipa_47">
+        when
+       </code>
+       statement with an enum, sealed, or Boolean subject being non-exhaustive
+      </p>
+      <p id="yf5ipa_40">
+       <span class="control" id="yf5ipa_48">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_41">
+       <li class="list__item" id="yf5ipa_49">
+        <p>
+         1.6.0: introduce a warning when the
+         <code class="code" id="yf5ipa_51">
+          when
+         </code>
+         statement with an enum, sealed, or Boolean subject is non-exhaustive (error in the progressive mode)
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_50">
+        <p>
+         1.7.0: raise this warning to an error
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-confusing-grammar-in-when-with-subject" id="deprecate-confusing-grammar-in-when-with-subject">
+      Deprecate confusing grammar in when-with-subject
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_52">
+      <p id="yf5ipa_53">
+       <span class="control" id="yf5ipa_59">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48385" id="yf5ipa_60" rel="noopener noreferrer">
+        KT-48385
+       </a>
+      </p>
+      <p id="yf5ipa_54">
+       <span class="control" id="yf5ipa_61">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf5ipa_55">
+       <span class="control" id="yf5ipa_62">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_56">
+       <span class="control" id="yf5ipa_63">
+        Short summary
+       </span>
+       : Kotlin 1.6 will deprecate several confusing grammar constructs in
+       <code class="code" id="yf5ipa_64">
+        when
+       </code>
+       condition expressions
+      </p>
+      <p id="yf5ipa_57">
+       <span class="control" id="yf5ipa_65">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_58">
+       <li class="list__item" id="yf5ipa_66">
+        <p>
+         1.6.20: introduce a deprecation warning on the affected expressions
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_67">
+        <p>
+         1.8.0: raise this warning to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_68">
+        <p>
+         &gt;= 1.8: repurpose some deprecated constructs for new language features
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-access-to-class-members-in-the-super-constructor-call-of-its-companion-and-nested-objects" id="prohibit-access-to-class-members-in-the-super-constructor-call-of-its-companion-and-nested-objects">
+      Prohibit access to class members in the super constructor call of its companion and nested objects
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_69">
+      <p id="yf5ipa_70">
+       <span class="control" id="yf5ipa_76">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-25289" id="yf5ipa_77" rel="noopener noreferrer">
+        KT-25289
+       </a>
+      </p>
+      <p id="yf5ipa_71">
+       <span class="control" id="yf5ipa_78">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf5ipa_72">
+       <span class="control" id="yf5ipa_79">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_73">
+       <span class="control" id="yf5ipa_80">
+        Short summary
+       </span>
+       : Kotlin 1.6 will report an error for arguments of super constructor call of companion and regular objects if the receiver of such arguments refers to the containing declaration
+      </p>
+      <p id="yf5ipa_74">
+       <span class="control" id="yf5ipa_81">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_75">
+       <li class="list__item" id="yf5ipa_82">
+        <p>
+         1.5.20: introduce a warning on the problematic arguments
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_83">
+        <p>
+         1.6.0: raise this warning to an error,
+         <code class="code" id="yf5ipa_84">
+          -XXLanguage:-ProhibitSelfCallsInNestedObjects
+         </code>
+         can be used to temporarily revert to the pre-1.6 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="type-nullability-enhancement-improvements" id="type-nullability-enhancement-improvements">
+      Type nullability enhancement improvements
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_85">
+      <p id="yf5ipa_86">
+       <span class="control" id="yf5ipa_92">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48623" id="yf5ipa_93" rel="noopener noreferrer">
+        KT-48623
+       </a>
+      </p>
+      <p id="yf5ipa_87">
+       <span class="control" id="yf5ipa_94">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf5ipa_88">
+       <span class="control" id="yf5ipa_95">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_89">
+       <span class="control" id="yf5ipa_96">
+        Short summary
+       </span>
+       : Kotlin 1.7 will change how it loads and interprets type nullability annotations in Java code
+      </p>
+      <p id="yf5ipa_90">
+       <span class="control" id="yf5ipa_97">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_91">
+       <li class="list__item" id="yf5ipa_98">
+        <p>
+         1.4.30: introduce warnings for cases where more precise type nullability could lead to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_99">
+        <p>
+         1.7.0: infer more precise nullability of Java types,
+         <code class="code" id="yf5ipa_100">
+          -XXLanguage:-TypeEnhancementImprovementsInStrictMode
+         </code>
+         can be used to temporarily revert to the pre-1.7 behavior
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prevent-implicit-coercions-between-different-numeric-types" id="prevent-implicit-coercions-between-different-numeric-types">
+      Prevent implicit coercions between different numeric types
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_101">
+      <p id="yf5ipa_102">
+       <span class="control" id="yf5ipa_108">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48645" id="yf5ipa_109" rel="noopener noreferrer">
+        KT-48645
+       </a>
+      </p>
+      <p id="yf5ipa_103">
+       <span class="control" id="yf5ipa_110">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf5ipa_104">
+       <span class="control" id="yf5ipa_111">
+        Incompatible change type
+       </span>
+       : behavioral
+      </p>
+      <p id="yf5ipa_105">
+       <span class="control" id="yf5ipa_112">
+        Short summary
+       </span>
+       : Kotlin will avoid converting numeric values automatically to a primitive numeric type where only a downcast to that type was needed semantically
+      </p>
+      <p id="yf5ipa_106">
+       <span class="control" id="yf5ipa_113">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_107">
+       <li class="list__item" id="yf5ipa_114">
+        <p>
+         &lt; 1.5.30: the old behavior in all affected cases
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_115">
+        <p>
+         1.5.30: fix the downcast behavior in generated property delegate accessors,
+         <code class="code" id="yf5ipa_117">
+          -Xuse-old-backend
+         </code>
+         can be used to temporarily revert to the pre-1.5.30 fix behavior
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_116">
+        <p>
+         &gt;= 1.6.20: fix the downcast behavior in other affected cases
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-declarations-of-repeatable-annotation-classes-whose-container-annotation-violates-jls" id="prohibit-declarations-of-repeatable-annotation-classes-whose-container-annotation-violates-jls">
+      Prohibit declarations of repeatable annotation classes whose container annotation violates JLS
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_118">
+      <p id="yf5ipa_119">
+       <span class="control" id="yf5ipa_125">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-47928" id="yf5ipa_126" rel="noopener noreferrer">
+        KT-47928
+       </a>
+      </p>
+      <p id="yf5ipa_120">
+       <span class="control" id="yf5ipa_127">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf5ipa_121">
+       <span class="control" id="yf5ipa_128">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_122">
+       <span class="control" id="yf5ipa_129">
+        Short summary
+       </span>
+       : Kotlin 1.6 will check that the container annotation of a repeatable annotation satisfies the same requirements as in
+       <a data-external="true" href="https://docs.oracle.com/javase/specs/jls/se16/html/jls-9.html#jls-9.6.3" id="yf5ipa_130" rel="noopener noreferrer">
+        JLS 9.6.3
+       </a>
+       : array-typed value method, retention, and target
+      </p>
+      <p id="yf5ipa_123">
+       <span class="control" id="yf5ipa_131">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_124">
+       <li class="list__item" id="yf5ipa_132">
+        <p>
+         1.5.30: introduce a warning on repeatable container annotation declarations violating JLS requirements (error in the progressive mode)
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_133">
+        <p>
+         1.6.0: raise this warning to an error,
+         <code class="code" id="yf5ipa_134">
+          -XXLanguage:-RepeatableAnnotationContainerConstraints
+         </code>
+         can be used to temporarily disable the error reporting
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-declaring-a-nested-class-named-container-in-a-repeatable-annotation-class" id="prohibit-declaring-a-nested-class-named-container-in-a-repeatable-annotation-class">
+      Prohibit declaring a nested class named Container in a repeatable annotation class
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_135">
+      <p id="yf5ipa_136">
+       <span class="control" id="yf5ipa_142">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-47971" id="yf5ipa_143" rel="noopener noreferrer">
+        KT-47971
+       </a>
+      </p>
+      <p id="yf5ipa_137">
+       <span class="control" id="yf5ipa_144">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf5ipa_138">
+       <span class="control" id="yf5ipa_145">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_139">
+       <span class="control" id="yf5ipa_146">
+        Short summary
+       </span>
+       : Kotlin 1.6 will check that a repeatable annotation declared in Kotlin doesn't have a nested class with the predefined name
+       <code class="code" id="yf5ipa_147">
+        Container
+       </code>
+      </p>
+      <p id="yf5ipa_140">
+       <span class="control" id="yf5ipa_148">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_141">
+       <li class="list__item" id="yf5ipa_149">
+        <p>
+         1.5.30: introduce a warning on nested classes with the name
+         <code class="code" id="yf5ipa_151">
+          Container
+         </code>
+         in a Kotlin-repeatable annotation class (error in the progressive mode)
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_150">
+        <p>
+         1.6.0: raise this warning to an error,
+         <code class="code" id="yf5ipa_152">
+          -XXLanguage:-RepeatableAnnotationContainerConstraints
+         </code>
+         can be used to temporarily disable the error reporting
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-jvmfield-on-a-property-in-the-primary-constructor-that-overrides-an-interface-property" id="prohibit-jvmfield-on-a-property-in-the-primary-constructor-that-overrides-an-interface-property">
+      Prohibit @JvmField on a property in the primary constructor that overrides an interface property
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_153">
+      <p id="yf5ipa_154">
+       <span class="control" id="yf5ipa_160">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-32753" id="yf5ipa_161" rel="noopener noreferrer">
+        KT-32753
+       </a>
+      </p>
+      <p id="yf5ipa_155">
+       <span class="control" id="yf5ipa_162">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf5ipa_156">
+       <span class="control" id="yf5ipa_163">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_157">
+       <span class="control" id="yf5ipa_164">
+        Short summary
+       </span>
+       : Kotlin 1.6 will outlaw annotating a property declared in the primary constructor that overrides an interface property with the
+       <code class="code" id="yf5ipa_165">
+        @JvmField
+       </code>
+       annotation
+      </p>
+      <p id="yf5ipa_158">
+       <span class="control" id="yf5ipa_166">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_159">
+       <li class="list__item" id="yf5ipa_167">
+        <p>
+         1.5.20: introduce a warning on the
+         <code class="code" id="yf5ipa_169">
+          @JvmField
+         </code>
+         annotation on such properties in the primary constructor
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_168">
+        <p>
+         1.6.0: raise this warning to an error,
+         <code class="code" id="yf5ipa_170">
+          -XXLanguage:-ProhibitJvmFieldOnOverrideFromInterfaceInPrimaryConstructor
+         </code>
+         can be used to temporarily disable the error reporting
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-the-enable-and-the-compatibility-modes-of-the-compiler-option-xjvm-default" id="deprecate-the-enable-and-the-compatibility-modes-of-the-compiler-option-xjvm-default">
+      Deprecate the enable and the compatibility modes of the compiler option -Xjvm-default
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_171">
+      <p id="yf5ipa_172">
+       <span class="control" id="yf5ipa_178">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-46329" id="yf5ipa_179" rel="noopener noreferrer">
+        KT-46329
+       </a>
+      </p>
+      <p id="yf5ipa_173">
+       <span class="control" id="yf5ipa_180">
+        Component
+       </span>
+       : Kotlin/JVM
+      </p>
+      <p id="yf5ipa_174">
+       <span class="control" id="yf5ipa_181">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_175">
+       <span class="control" id="yf5ipa_182">
+        Short summary
+       </span>
+       : Kotlin 1.6.20 will warn about the usage of
+       <code class="code" id="yf5ipa_183">
+        enable
+       </code>
+       and
+       <code class="code" id="yf5ipa_184">
+        compatibility
+       </code>
+       modes of the
+       <code class="code" id="yf5ipa_185">
+        -Xjvm-default
+       </code>
+       compiler option
+      </p>
+      <p id="yf5ipa_176">
+       <span class="control" id="yf5ipa_186">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_177">
+       <li class="list__item" id="yf5ipa_187">
+        <p>
+         1.6.20: introduce a warning on the
+         <code class="code" id="yf5ipa_189">
+          enable
+         </code>
+         and
+         <code class="code" id="yf5ipa_190">
+          compatibility
+         </code>
+         modes of the
+         <code class="code" id="yf5ipa_191">
+          -Xjvm-default
+         </code>
+         compiler option
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_188">
+        <p>
+         &gt;= 1.8.0: raise this warning to an error
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-super-calls-from-public-abi-inline-functions" id="prohibit-super-calls-from-public-abi-inline-functions">
+      Prohibit super calls from public-abi inline functions
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_192">
+      <p id="yf5ipa_193">
+       <span class="control" id="yf5ipa_199">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-45379" id="yf5ipa_200" rel="noopener noreferrer">
+        KT-45379
+       </a>
+      </p>
+      <p id="yf5ipa_194">
+       <span class="control" id="yf5ipa_201">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf5ipa_195">
+       <span class="control" id="yf5ipa_202">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_196">
+       <span class="control" id="yf5ipa_203">
+        Short summary
+       </span>
+       : Kotlin 1.6 will outlaw calling functions with a
+       <code class="code" id="yf5ipa_204">
+        super
+       </code>
+       qualifier from public or protected inline functions and properties
+      </p>
+      <p id="yf5ipa_197">
+       <span class="control" id="yf5ipa_205">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_198">
+       <li class="list__item" id="yf5ipa_206">
+        <p>
+         1.5.0: introduce a warning on super calls from public or protected inline functions or property accessors
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_207">
+        <p>
+         1.6.0: raise this warning to an error,
+         <code class="code" id="yf5ipa_208">
+          -XXLanguage:-ProhibitSuperCallsFromPublicInline
+         </code>
+         can be used to temporarily disable the error reporting
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-protected-constructor-calls-from-public-inline-functions" id="prohibit-protected-constructor-calls-from-public-inline-functions">
+      Prohibit protected constructor calls from public inline functions
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_209">
+      <p id="yf5ipa_210">
+       <span class="control" id="yf5ipa_216">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48860" id="yf5ipa_217" rel="noopener noreferrer">
+        KT-48860
+       </a>
+      </p>
+      <p id="yf5ipa_211">
+       <span class="control" id="yf5ipa_218">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf5ipa_212">
+       <span class="control" id="yf5ipa_219">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_213">
+       <span class="control" id="yf5ipa_220">
+        Short summary
+       </span>
+       : Kotlin 1.6 will outlaw calling protected constructors from public or protected inline functions and properties
+      </p>
+      <p id="yf5ipa_214">
+       <span class="control" id="yf5ipa_221">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_215">
+       <li class="list__item" id="yf5ipa_222">
+        <p>
+         1.4.30: introduce a warning on protected constructor calls from public or protected inline functions or property accessors
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_223">
+        <p>
+         1.6.0: raise this warning to an error,
+         <code class="code" id="yf5ipa_224">
+          -XXLanguage:-ProhibitProtectedConstructorCallFromPublicInline
+         </code>
+         can be used to temporarily disable the error reporting
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-exposing-private-nested-types-from-private-in-file-types" id="prohibit-exposing-private-nested-types-from-private-in-file-types">
+      Prohibit exposing private nested types from private-in-file types
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_225">
+      <p id="yf5ipa_226">
+       <span class="control" id="yf5ipa_232">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-20094" id="yf5ipa_233" rel="noopener noreferrer">
+        KT-20094
+       </a>
+      </p>
+      <p id="yf5ipa_227">
+       <span class="control" id="yf5ipa_234">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf5ipa_228">
+       <span class="control" id="yf5ipa_235">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_229">
+       <span class="control" id="yf5ipa_236">
+        Short summary
+       </span>
+       : Kotlin 1.6 will outlaw exposing private nested types and inner classes from private-in-file types
+      </p>
+      <p id="yf5ipa_230">
+       <span class="control" id="yf5ipa_237">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_231">
+       <li class="list__item" id="yf5ipa_238">
+        <p>
+         1.5.0: introduce a warning on private types exposed from private-in-file types
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_239">
+        <p>
+         1.6.0: raise this warning to an error,
+         <code class="code" id="yf5ipa_240">
+          -XXLanguage:-PrivateInFileEffectiveVisibility
+         </code>
+         can be used to temporarily disable the error reporting
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="annotation-target-is-not-analyzed-in-several-cases-for-annotations-on-a-type" id="annotation-target-is-not-analyzed-in-several-cases-for-annotations-on-a-type">
+      Annotation target is not analyzed in several cases for annotations on a type
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_241">
+      <p id="yf5ipa_242">
+       <span class="control" id="yf5ipa_248">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-28449" id="yf5ipa_249" rel="noopener noreferrer">
+        KT-28449
+       </a>
+      </p>
+      <p id="yf5ipa_243">
+       <span class="control" id="yf5ipa_250">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf5ipa_244">
+       <span class="control" id="yf5ipa_251">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_245">
+       <span class="control" id="yf5ipa_252">
+        Short summary
+       </span>
+       : Kotlin 1.6 will no longer allow annotations on types that should not be applicable to types
+      </p>
+      <p id="yf5ipa_246">
+       <span class="control" id="yf5ipa_253">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_247">
+       <li class="list__item" id="yf5ipa_254">
+        <p>
+         1.5.20: introduce an error in the progressive mode
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_255">
+        <p>
+         1.6.0: introduce an error,
+         <code class="code" id="yf5ipa_256">
+          -XXLanguage:-ProperCheckAnnotationsTargetInTypeUsePositions
+         </code>
+         can be used to temporarily disable the error reporting
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="prohibit-calls-to-functions-named-suspend-with-a-trailing-lambda" id="prohibit-calls-to-functions-named-suspend-with-a-trailing-lambda">
+      Prohibit calls to functions named suspend with a trailing lambda
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_257">
+      <p id="yf5ipa_258">
+       <span class="control" id="yf5ipa_264">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-22562" id="yf5ipa_265" rel="noopener noreferrer">
+        KT-22562
+       </a>
+      </p>
+      <p id="yf5ipa_259">
+       <span class="control" id="yf5ipa_266">
+        Component
+       </span>
+       : Core language
+      </p>
+      <p id="yf5ipa_260">
+       <span class="control" id="yf5ipa_267">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_261">
+       <span class="control" id="yf5ipa_268">
+        Short summary
+       </span>
+       : Kotlin 1.6 will no longer allow calling functions named
+       <code class="code" id="yf5ipa_269">
+        suspend
+       </code>
+       that have the single argument of a functional type passed as a trailing lambda
+      </p>
+      <p id="yf5ipa_262">
+       <span class="control" id="yf5ipa_270">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_263">
+       <li class="list__item" id="yf5ipa_271">
+        <p>
+         1.3.0: introduce a warning on such function calls
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_272">
+        <p>
+         1.6.0: raise this warning to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_273">
+        <p>
+         &gt;= 1.7.0: introduce changes to the language grammar, so that
+         <code class="code" id="yf5ipa_274">
+          suspend
+         </code>
+         before
+         <code class="code" id="yf5ipa_275">
+          {
+         </code>
+         is parsed as a keyword
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="standard-library" id="standard-library">
+     Standard library
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="remove-brittle-contains-optimization-in-minus-removeall-retainall" id="remove-brittle-contains-optimization-in-minus-removeall-retainall">
+      Remove brittle contains optimization in minus/removeAll/retainAll
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_286">
+      <p id="yf5ipa_287">
+       <span class="control" id="yf5ipa_293">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-45438" id="yf5ipa_294" rel="noopener noreferrer">
+        KT-45438
+       </a>
+      </p>
+      <p id="yf5ipa_288">
+       <span class="control" id="yf5ipa_295">
+        Component
+       </span>
+       : kotlin-stdlib
+      </p>
+      <p id="yf5ipa_289">
+       <span class="control" id="yf5ipa_296">
+        Incompatible change type
+       </span>
+       : behavioral
+      </p>
+      <p id="yf5ipa_290">
+       <span class="control" id="yf5ipa_297">
+        Short summary
+       </span>
+       : Kotlin 1.6 will no longer perform conversion to set for the argument of functions and operators that remove several elements from collection/iterable/array/sequence.
+      </p>
+      <p id="yf5ipa_291">
+       <span class="control" id="yf5ipa_298">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_292">
+       <li class="list__item" id="yf5ipa_299">
+        <p>
+         &lt; 1.6: the old behavior: the argument is converted to set in some cases
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_300">
+        <p>
+         1.6.0: if the function argument is a collection, it's no longer converted to
+         <code class="code" id="yf5ipa_302">
+          Set
+         </code>
+         . If it's not a collection, it can be converted to
+         <code class="code" id="yf5ipa_303">
+          List
+         </code>
+         instead.
+        </p>
+        <br/>
+        <p>
+         The old behavior can be temporarily turned back on JVM by setting the system property
+         <code class="code" id="yf5ipa_305">
+          kotlin.collections.convert_arg_to_set_in_removeAll=true
+         </code>
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_301">
+        <p>
+         &gt;= 1.7: the system property above will no longer have an effect
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="change-value-generation-algorithm-in-random-nextlong" id="change-value-generation-algorithm-in-random-nextlong">
+      Change value generation algorithm in Random.nextLong
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_306">
+      <p id="yf5ipa_307">
+       <span class="control" id="yf5ipa_313">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-47304" id="yf5ipa_314" rel="noopener noreferrer">
+        KT-47304
+       </a>
+      </p>
+      <p id="yf5ipa_308">
+       <span class="control" id="yf5ipa_315">
+        Component
+       </span>
+       : kotlin-stdlib
+      </p>
+      <p id="yf5ipa_309">
+       <span class="control" id="yf5ipa_316">
+        Incompatible change type
+       </span>
+       : behavioral
+      </p>
+      <p id="yf5ipa_310">
+       <span class="control" id="yf5ipa_317">
+        Short summary
+       </span>
+       : Kotlin 1.6 changes the value generation algorithm in the
+       <code class="code" id="yf5ipa_318">
+        Random.nextLong
+       </code>
+       function to avoid producing values out of the specified range.
+      </p>
+      <p id="yf5ipa_311">
+       <span class="control" id="yf5ipa_319">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_312">
+       <li class="list__item" id="yf5ipa_320">
+        <p>
+         1.6.0: the behavior is fixed immediately
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="gradually-change-the-return-type-of-collection-min-and-max-functions-to-non-nullable" id="gradually-change-the-return-type-of-collection-min-and-max-functions-to-non-nullable">
+      Gradually change the return type of collection min and max functions to non-nullable
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_321">
+      <p id="yf5ipa_322">
+       <span class="control" id="yf5ipa_328">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-38854" id="yf5ipa_329" rel="noopener noreferrer">
+        KT-38854
+       </a>
+      </p>
+      <p id="yf5ipa_323">
+       <span class="control" id="yf5ipa_330">
+        Component
+       </span>
+       : kotlin-stdlib
+      </p>
+      <p id="yf5ipa_324">
+       <span class="control" id="yf5ipa_331">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_325">
+       <span class="control" id="yf5ipa_332">
+        Short summary
+       </span>
+       : the return type of collection
+       <code class="code" id="yf5ipa_333">
+        min
+       </code>
+       and
+       <code class="code" id="yf5ipa_334">
+        max
+       </code>
+       functions will be changed to non-nullable in Kotlin 1.7
+      </p>
+      <p id="yf5ipa_326">
+       <span class="control" id="yf5ipa_335">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_327">
+       <li class="list__item" id="yf5ipa_336">
+        <p>
+         1.4.0: introduce
+         <code class="code" id="yf5ipa_340">
+          ...OrNull
+         </code>
+         functions as synonyms and deprecate the affected API (see details in the issue)
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_337">
+        <p>
+         1.5.0: raise the deprecation level of the affected API to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_338">
+        <p>
+         1.6.0: hide the deprecated functions from the public API
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_339">
+        <p>
+         &gt;= 1.7: reintroduce the affected API but with non-nullable return type
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-floating-point-array-functions-contains-indexof-lastindexof" id="deprecate-floating-point-array-functions-contains-indexof-lastindexof">
+      Deprecate floating-point array functions: contains, indexOf, lastIndexOf
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_341">
+      <p id="yf5ipa_342">
+       <span class="control" id="yf5ipa_348">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-28753" id="yf5ipa_349" rel="noopener noreferrer">
+        KT-28753
+       </a>
+      </p>
+      <p id="yf5ipa_343">
+       <span class="control" id="yf5ipa_350">
+        Component
+       </span>
+       : kotlin-stdlib
+      </p>
+      <p id="yf5ipa_344">
+       <span class="control" id="yf5ipa_351">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_345">
+       <span class="control" id="yf5ipa_352">
+        Short summary
+       </span>
+       : Kotlin deprecates floating-point array functions
+       <code class="code" id="yf5ipa_353">
+        contains
+       </code>
+       ,
+       <code class="code" id="yf5ipa_354">
+        indexOf
+       </code>
+       ,
+       <code class="code" id="yf5ipa_355">
+        lastIndexOf
+       </code>
+       that compare values using the IEEE-754 order instead of the total order
+      </p>
+      <p id="yf5ipa_346">
+       <span class="control" id="yf5ipa_356">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_347">
+       <li class="list__item" id="yf5ipa_357">
+        <p>
+         1.4.0: deprecate the affected functions with a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_358">
+        <p>
+         1.6.0: raise the deprecation level to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_359">
+        <p>
+         &gt;= 1.7: hide the deprecated functions from the public API
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="migrate-declarations-from-kotlin-dom-and-kotlin-browser-packages-to-kotlinx" id="migrate-declarations-from-kotlin-dom-and-kotlin-browser-packages-to-kotlinx">
+      Migrate declarations from kotlin.dom and kotlin.browser packages to kotlinx.*
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_360">
+      <p id="yf5ipa_361">
+       <span class="control" id="yf5ipa_367">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-39330" id="yf5ipa_368" rel="noopener noreferrer">
+        KT-39330
+       </a>
+      </p>
+      <p id="yf5ipa_362">
+       <span class="control" id="yf5ipa_369">
+        Component
+       </span>
+       : kotlin-stdlib (JS)
+      </p>
+      <p id="yf5ipa_363">
+       <span class="control" id="yf5ipa_370">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_364">
+       <span class="control" id="yf5ipa_371">
+        Short summary
+       </span>
+       : declarations from the
+       <code class="code" id="yf5ipa_372">
+        kotlin.dom
+       </code>
+       and
+       <code class="code" id="yf5ipa_373">
+        kotlin.browser
+       </code>
+       packages are moved to the corresponding
+       <code class="code" id="yf5ipa_374">
+        kotlinx.*
+       </code>
+       packages to prepare for extracting them from stdlib
+      </p>
+      <p id="yf5ipa_365">
+       <span class="control" id="yf5ipa_375">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_366">
+       <li class="list__item" id="yf5ipa_376">
+        <p>
+         1.4.0: introduce the replacement API in
+         <code class="code" id="yf5ipa_381">
+          kotlinx.dom
+         </code>
+         and
+         <code class="code" id="yf5ipa_382">
+          kotlinx.browser
+         </code>
+         packages
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_377">
+        <p>
+         1.4.0: deprecate the API in
+         <code class="code" id="yf5ipa_383">
+          kotlin.dom
+         </code>
+         and
+         <code class="code" id="yf5ipa_384">
+          kotlin.browser
+         </code>
+         packages and propose the new API above as a replacement
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_378">
+        <p>
+         1.6.0: raise the deprecation level to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_379">
+        <p>
+         &gt;= 1.7: remove the deprecated functions from stdlib
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_380">
+        <p>
+         &gt;= 1.7: move the API in kotlinx.* packages to a separate library
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="make-regex-replace-function-not-inline-in-kotlin-js" id="make-regex-replace-function-not-inline-in-kotlin-js">
+      Make Regex.replace function not inline in Kotlin/JS
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_385">
+      <p id="yf5ipa_386">
+       <span class="control" id="yf5ipa_392">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-27738" id="yf5ipa_393" rel="noopener noreferrer">
+        KT-27738
+       </a>
+      </p>
+      <p id="yf5ipa_387">
+       <span class="control" id="yf5ipa_394">
+        Component
+       </span>
+       : kotlin-stdlib (JS)
+      </p>
+      <p id="yf5ipa_388">
+       <span class="control" id="yf5ipa_395">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_389">
+       <span class="control" id="yf5ipa_396">
+        Short summary
+       </span>
+       : the
+       <code class="code" id="yf5ipa_397">
+        Regex.replace
+       </code>
+       function with the functional
+       <code class="code" id="yf5ipa_398">
+        transform
+       </code>
+       parameter will no longer be inline in Kotlin/JS
+      </p>
+      <p id="yf5ipa_390">
+       <span class="control" id="yf5ipa_399">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_391">
+       <li class="list__item" id="yf5ipa_400">
+        <p>
+         1.6.0: remove the
+         <code class="code" id="yf5ipa_401">
+          inline
+         </code>
+         modifier from the affected function
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="different-behavior-of-the-regex-replace-function-in-jvm-and-js-when-replacement-string-contains-group-reference" id="different-behavior-of-the-regex-replace-function-in-jvm-and-js-when-replacement-string-contains-group-reference">
+      Different behavior of the Regex.replace function in JVM and JS when replacement string contains group reference
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_402">
+      <p id="yf5ipa_403">
+       <span class="control" id="yf5ipa_409">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-28378" id="yf5ipa_410" rel="noopener noreferrer">
+        KT-28378
+       </a>
+      </p>
+      <p id="yf5ipa_404">
+       <span class="control" id="yf5ipa_411">
+        Component
+       </span>
+       : kotlin-stdlib (JS)
+      </p>
+      <p id="yf5ipa_405">
+       <span class="control" id="yf5ipa_412">
+        Incompatible change type
+       </span>
+       : behavioral
+      </p>
+      <p id="yf5ipa_406">
+       <span class="control" id="yf5ipa_413">
+        Short summary
+       </span>
+       : the function
+       <code class="code" id="yf5ipa_414">
+        Regex.replace
+       </code>
+       in Kotlin/JS with the replacement pattern string will follow the same syntax of that pattern as in Kotlin/JVM
+      </p>
+      <p id="yf5ipa_407">
+       <span class="control" id="yf5ipa_415">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_408">
+       <li class="list__item" id="yf5ipa_416">
+        <p>
+         1.6.0: change the replacement pattern handling in
+         <code class="code" id="yf5ipa_417">
+          Regex.replace
+         </code>
+         of the Kotlin/JS stdlib
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="use-the-unicode-case-folding-in-js-regex" id="use-the-unicode-case-folding-in-js-regex">
+      Use the Unicode case folding in JS Regex
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_418">
+      <p id="yf5ipa_419">
+       <span class="control" id="yf5ipa_425">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-45928" id="yf5ipa_426" rel="noopener noreferrer">
+        KT-45928
+       </a>
+      </p>
+      <p id="yf5ipa_420">
+       <span class="control" id="yf5ipa_427">
+        Component
+       </span>
+       : kotlin-stdlib (JS)
+      </p>
+      <p id="yf5ipa_421">
+       <span class="control" id="yf5ipa_428">
+        Incompatible change type
+       </span>
+       : behavioral
+      </p>
+      <p id="yf5ipa_422">
+       <span class="control" id="yf5ipa_429">
+        Short summary
+       </span>
+       : the
+       <code class="code" id="yf5ipa_430">
+        Regex
+       </code>
+       class in Kotlin/JS will use
+       <a data-external="true" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode" id="yf5ipa_431" rel="noopener noreferrer">
+        <code class="code" id="yf5ipa_432">
+         unicode
+        </code>
+       </a>
+       flag when calling the underlying JS Regular expressions engine to search and compare characters according to the Unicode rules. This brings certain version requirements of the JS environment and causes more strict validation of unnecessary escaping in the regex pattern string.
+      </p>
+      <p id="yf5ipa_423">
+       <span class="control" id="yf5ipa_433">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_424">
+       <li class="list__item" id="yf5ipa_434">
+        <p>
+         1.5.0: enable the Unicode case folding in most functions of the JS
+         <code class="code" id="yf5ipa_436">
+          Regex
+         </code>
+         class
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_435">
+        <p>
+         1.6.0: enable the Unicode case folding in the
+         <code class="code" id="yf5ipa_437">
+          Regex.replaceFirst
+         </code>
+         function
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-some-js-only-api" id="deprecate-some-js-only-api">
+      Deprecate some JS-only API
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_438">
+      <p id="yf5ipa_439">
+       <span class="control" id="yf5ipa_445">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48587" id="yf5ipa_446" rel="noopener noreferrer">
+        KT-48587
+       </a>
+      </p>
+      <p id="yf5ipa_440">
+       <span class="control" id="yf5ipa_447">
+        Component
+       </span>
+       : kotlin-stdlib (JS)
+      </p>
+      <p id="yf5ipa_441">
+       <span class="control" id="yf5ipa_448">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_442">
+       <span class="control" id="yf5ipa_449">
+        Short summary
+       </span>
+       : a number of JS-only functions in stdlib are deprecated for removal. They include:
+       <code class="code" id="yf5ipa_450">
+        String.concat(String)
+       </code>
+       ,
+       <code class="code" id="yf5ipa_451">
+        String.match(regex: String)
+       </code>
+       ,
+       <code class="code" id="yf5ipa_452">
+        String.matches(regex: String)
+       </code>
+       , and the
+       <code class="code" id="yf5ipa_453">
+        sort
+       </code>
+       functions on arrays taking a comparison function, for example,
+       <code class="code" id="yf5ipa_454">
+        Array&lt;out T&gt;.sort(comparison: (a: T, b: T) -&gt; Int)
+       </code>
+      </p>
+      <p id="yf5ipa_443">
+       <span class="control" id="yf5ipa_455">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_444">
+       <li class="list__item" id="yf5ipa_456">
+        <p>
+         1.6.0: deprecate the affected functions with a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_457">
+        <p>
+         1.7.0: raise the deprecation level to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_458">
+        <p>
+         1.8.0: remove the deprecated functions from the public API
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="hide-implementation-and-interop-specific-functions-from-the-public-api-of-classes-in-kotlin-js" id="hide-implementation-and-interop-specific-functions-from-the-public-api-of-classes-in-kotlin-js">
+      Hide implementation- and interop-specific functions from the public API of classes in Kotlin/JS
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_459">
+      <p id="yf5ipa_460">
+       <span class="control" id="yf5ipa_466">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48587" id="yf5ipa_467" rel="noopener noreferrer">
+        KT-48587
+       </a>
+      </p>
+      <p id="yf5ipa_461">
+       <span class="control" id="yf5ipa_468">
+        Component
+       </span>
+       : kotlin-stdlib (JS)
+      </p>
+      <p id="yf5ipa_462">
+       <span class="control" id="yf5ipa_469">
+        Incompatible change type
+       </span>
+       : source, binary
+      </p>
+      <p id="yf5ipa_463">
+       <span class="control" id="yf5ipa_470">
+        Short summary
+       </span>
+       : the functions
+       <code class="code" id="yf5ipa_471">
+        HashMap.createEntrySet
+       </code>
+       and
+       <code class="code" id="yf5ipa_472">
+        AbstactMutableCollection.toJSON
+       </code>
+       change their visibility to internal
+      </p>
+      <p id="yf5ipa_464">
+       <span class="control" id="yf5ipa_473">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_465">
+       <li class="list__item" id="yf5ipa_474">
+        <p>
+         1.6.0: make the functions internal, thus removing them from the public API
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="tools" id="tools">
+     Tools
+    </h2>
+    <section class="chapter">
+     <h3 data-toc="deprecate-kotlingradlesubplugin-class" id="deprecate-kotlingradlesubplugin-class">
+      Deprecate KotlinGradleSubplugin class
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_482">
+      <p id="yf5ipa_483">
+       <span class="control" id="yf5ipa_489">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48830" id="yf5ipa_490" rel="noopener noreferrer">
+        KT-48830
+       </a>
+      </p>
+      <p id="yf5ipa_484">
+       <span class="control" id="yf5ipa_491">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf5ipa_485">
+       <span class="control" id="yf5ipa_492">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_486">
+       <span class="control" id="yf5ipa_493">
+        Short summary
+       </span>
+       : the class
+       <code class="code" id="yf5ipa_494">
+        KotlinGradleSubplugin
+       </code>
+       will be deprecated in favor of
+       <code class="code" id="yf5ipa_495">
+        KotlinCompilerPluginSupportPlugin
+       </code>
+      </p>
+      <p id="yf5ipa_487">
+       <span class="control" id="yf5ipa_496">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_488">
+       <li class="list__item" id="yf5ipa_497">
+        <p>
+         1.6.0: raise the deprecation level to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_498">
+        <p>
+         &gt;= 1.7.0: remove the deprecated class
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="remove-kotlin-usefallbackcompilersearch-build-option" id="remove-kotlin-usefallbackcompilersearch-build-option">
+      Remove kotlin.useFallbackCompilerSearch build option
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_499">
+      <p id="yf5ipa_500">
+       <span class="control" id="yf5ipa_506">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-46719" id="yf5ipa_507" rel="noopener noreferrer">
+        KT-46719
+       </a>
+      </p>
+      <p id="yf5ipa_501">
+       <span class="control" id="yf5ipa_508">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf5ipa_502">
+       <span class="control" id="yf5ipa_509">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_503">
+       <span class="control" id="yf5ipa_510">
+        Short summary
+       </span>
+       : remove the deprecated 'kotlin.useFallbackCompilerSearch' build option
+      </p>
+      <p id="yf5ipa_504">
+       <span class="control" id="yf5ipa_511">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_505">
+       <li class="list__item" id="yf5ipa_512">
+        <p>
+         1.5.0: raise the deprecation level to a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_513">
+        <p>
+         1.6.0: remove the deprecated option
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="remove-several-compiler-options" id="remove-several-compiler-options">
+      Remove several compiler options
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_514">
+      <p id="yf5ipa_515">
+       <span class="control" id="yf5ipa_521">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48847" id="yf5ipa_522" rel="noopener noreferrer">
+        KT-48847
+       </a>
+      </p>
+      <p id="yf5ipa_516">
+       <span class="control" id="yf5ipa_523">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf5ipa_517">
+       <span class="control" id="yf5ipa_524">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_518">
+       <span class="control" id="yf5ipa_525">
+        Short summary
+       </span>
+       : remove the deprecated
+       <code class="code" id="yf5ipa_526">
+        noReflect
+       </code>
+       and
+       <code class="code" id="yf5ipa_527">
+        includeRuntime
+       </code>
+       compiler options
+      </p>
+      <p id="yf5ipa_519">
+       <span class="control" id="yf5ipa_528">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_520">
+       <li class="list__item" id="yf5ipa_529">
+        <p>
+         1.5.0: raise the deprecation level to an error
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_530">
+        <p>
+         1.6.0: remove the deprecated options
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-useir-compiler-option" id="deprecate-useir-compiler-option">
+      Deprecate useIR compiler option
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_531">
+      <p id="yf5ipa_532">
+       <span class="control" id="yf5ipa_538">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48847" id="yf5ipa_539" rel="noopener noreferrer">
+        KT-48847
+       </a>
+      </p>
+      <p id="yf5ipa_533">
+       <span class="control" id="yf5ipa_540">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf5ipa_534">
+       <span class="control" id="yf5ipa_541">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_535">
+       <span class="control" id="yf5ipa_542">
+        Short summary
+       </span>
+       : hide the deprecated
+       <code class="code" id="yf5ipa_543">
+        useIR
+       </code>
+       compiler option
+      </p>
+      <p id="yf5ipa_536">
+       <span class="control" id="yf5ipa_544">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_537">
+       <li class="list__item" id="yf5ipa_545">
+        <p>
+         1.5.0: raise the deprecation level to a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_546">
+        <p>
+         1.6.0: hide the option
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_547">
+        <p>
+         &gt;= 1.7.0: remove the deprecated option
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-kapt-use-worker-api-gradle-property" id="deprecate-kapt-use-worker-api-gradle-property">
+      Deprecate kapt.use.worker.api Gradle property
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_548">
+      <p id="yf5ipa_549">
+       <span class="control" id="yf5ipa_555">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-48826" id="yf5ipa_556" rel="noopener noreferrer">
+        KT-48826
+       </a>
+      </p>
+      <p id="yf5ipa_550">
+       <span class="control" id="yf5ipa_557">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf5ipa_551">
+       <span class="control" id="yf5ipa_558">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_552">
+       <span class="control" id="yf5ipa_559">
+        Short summary
+       </span>
+       : deprecate the
+       <code class="code" id="yf5ipa_560">
+        kapt.use.worker.api
+       </code>
+       property that allowed to run kapt via Gradle Workers API (default: true)
+      </p>
+      <p id="yf5ipa_553">
+       <span class="control" id="yf5ipa_561">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_554">
+       <li class="list__item" id="yf5ipa_562">
+        <p>
+         1.6.20: raise the deprecation level to a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_563">
+        <p>
+         &gt;= 1.8.0: remove this property
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="remove-kotlin-parallel-tasks-in-project-gradle-property" id="remove-kotlin-parallel-tasks-in-project-gradle-property">
+      Remove kotlin.parallel.tasks.in.project Gradle property
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_564">
+      <p id="yf5ipa_565">
+       <span class="control" id="yf5ipa_571">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-46406" id="yf5ipa_572" rel="noopener noreferrer">
+        KT-46406
+       </a>
+      </p>
+      <p id="yf5ipa_566">
+       <span class="control" id="yf5ipa_573">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf5ipa_567">
+       <span class="control" id="yf5ipa_574">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_568">
+       <span class="control" id="yf5ipa_575">
+        Short summary
+       </span>
+       : remove the
+       <code class="code" id="yf5ipa_576">
+        kotlin.parallel.tasks.in.project
+       </code>
+       property
+      </p>
+      <p id="yf5ipa_569">
+       <span class="control" id="yf5ipa_577">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_570">
+       <li class="list__item" id="yf5ipa_578">
+        <p>
+         1.5.20: raise the deprecation level to a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_579">
+        <p>
+         1.6.20: remove this property
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+    <section class="chapter">
+     <h3 data-toc="deprecate-kotlin-experimental-coroutines-gradle-dsl-option-and-kotlin-coroutines-gradle-property" id="deprecate-kotlin-experimental-coroutines-gradle-dsl-option-and-kotlin-coroutines-gradle-property">
+      Deprecate kotlin.experimental.coroutines Gradle DSL option and kotlin.coroutines Gradle property
+     </h3>
+     <aside class="prompt" data-title="" data-type="tip" id="yf5ipa_580">
+      <p id="yf5ipa_581">
+       <span class="control" id="yf5ipa_587">
+        Issue
+       </span>
+       :
+       <a data-external="true" href="https://youtrack.jetbrains.com/issue/KT-50369" id="yf5ipa_588" rel="noopener noreferrer">
+        KT-50369
+       </a>
+      </p>
+      <p id="yf5ipa_582">
+       <span class="control" id="yf5ipa_589">
+        Component
+       </span>
+       : Gradle
+      </p>
+      <p id="yf5ipa_583">
+       <span class="control" id="yf5ipa_590">
+        Incompatible change type
+       </span>
+       : source
+      </p>
+      <p id="yf5ipa_584">
+       <span class="control" id="yf5ipa_591">
+        Short summary
+       </span>
+       : deprecate the
+       <code class="code" id="yf5ipa_592">
+        kotlin.experimental.coroutines
+       </code>
+       Gradle DSL option and the
+       <code class="code" id="yf5ipa_593">
+        kotlin.coroutines
+       </code>
+       property
+      </p>
+      <p id="yf5ipa_585">
+       <span class="control" id="yf5ipa_594">
+        Deprecation cycle
+       </span>
+       :
+      </p>
+      <ul class="list _bullet" id="yf5ipa_586">
+       <li class="list__item" id="yf5ipa_595">
+        <p>
+         1.6.20: raise the deprecation level to a warning
+        </p>
+       </li>
+       <li class="list__item" id="yf5ipa_596">
+        <p>
+         &gt;= 1.7.0: remove the DSL option and the property
+        </p>
+       </li>
+      </ul>
+     </aside>
+    </section>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

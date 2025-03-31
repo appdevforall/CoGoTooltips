@@ -1,0 +1,344 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="ranges" id="ranges.md">
+    Ranges and progressions
+   </h1>
+   <p id="wwqnij_2">
+    Kotlin lets you easily create ranges of values using the
+    <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/range-to.html" id="wwqnij_14" rel="noopener noreferrer">
+     <code class="code" id="wwqnij_17">
+      .rangeTo()
+     </code>
+    </a>
+    and
+    <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/range-until.html" id="wwqnij_15" rel="noopener noreferrer">
+     <code class="code" id="wwqnij_18">
+      .rangeUntil()
+     </code>
+    </a>
+    functions from the
+    <code class="code" id="wwqnij_16">
+     kotlin.ranges
+    </code>
+    package.
+   </p>
+   <p id="wwqnij_3">
+    To create:
+   </p>
+   <ul class="list _bullet" id="wwqnij_4">
+    <li class="list__item" id="wwqnij_19">
+     <p>
+      a closed-ended range, call the
+      <code class="code" id="wwqnij_21">
+       .rangeTo()
+      </code>
+      function with the
+      <code class="code" id="wwqnij_22">
+       ..
+      </code>
+      operator.
+     </p>
+    </li>
+    <li class="list__item" id="wwqnij_20">
+     <p>
+      an open-ended range, call the
+      <code class="code" id="wwqnij_23">
+       .rangeUntil()
+      </code>
+      function with the
+      <code class="code" id="wwqnij_24">
+       ..&lt;
+      </code>
+      operator.
+     </p>
+    </li>
+   </ul>
+   <p id="wwqnij_5">
+    For example:
+   </p>
+   <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="kotlin-ranges-rangeto-rangeuntil">
+    fun main() {
+//sampleStart
+    // Closed-ended range
+    println(4 in 1..4)
+    // true
+    
+    // Open-ended range
+    println(4 in 1..&lt;4)
+    // false
+//sampleEnd
+}
+   </div>
+   <p id="wwqnij_7">
+    Ranges are particularly useful for iterating over
+    <code class="code" id="wwqnij_25">
+     for
+    </code>
+    loops:
+   </p>
+   <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="kotlin-ranges-for-loop">
+    fun main() {
+//sampleStart
+    for (i in 1..4) print(i)
+    // 1234
+//sampleEnd
+}
+   </div>
+   <p id="wwqnij_9">
+    To iterate numbers in reverse order, use the
+    <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/down-to.html" id="wwqnij_26" rel="noopener noreferrer">
+     <code class="code" id="wwqnij_28">
+      downTo
+     </code>
+    </a>
+    function instead of
+    <code class="code" id="wwqnij_27">
+     ..
+    </code>
+    .
+   </p>
+   <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="kotlin-ranges-downto">
+    fun main() {
+//sampleStart
+    for (i in 4 downTo 1) print(i)
+    // 4321
+//sampleEnd
+}
+   </div>
+   <p id="wwqnij_11">
+    It is also possible to iterate over numbers with an arbitrary step (not necessarily 1). This is done via the
+    <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/step.html" id="wwqnij_29" rel="noopener noreferrer">
+     <code class="code" id="wwqnij_30">
+      step
+     </code>
+    </a>
+    function.
+   </p>
+   <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="kotlin-ranges-step">
+    fun main() {
+//sampleStart
+    for (i in 0..8 step 2) print(i)
+    println()
+    // 02468
+    for (i in 0..&lt;8 step 2) print(i)
+    println()
+    // 0246
+    for (i in 8 downTo 0 step 2) print(i)
+    // 86420
+//sampleEnd
+}
+   </div>
+   <section class="chapter">
+    <h2 data-toc="progression" id="progression">
+     Progression
+    </h2>
+    <p id="wwqnij_31">
+     The ranges of integral types, such as
+     <code class="code" id="wwqnij_44">
+      Int
+     </code>
+     ,
+     <code class="code" id="wwqnij_45">
+      Long
+     </code>
+     , and
+     <code class="code" id="wwqnij_46">
+      Char
+     </code>
+     , can be treated as
+     <a data-external="true" href="https://en.wikipedia.org/wiki/Arithmetic_progression" id="wwqnij_47" rel="noopener noreferrer">
+      arithmetic progressions
+     </a>
+     . In Kotlin, these progressions are defined by special types:
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-progression/index.html" id="wwqnij_48" rel="noopener noreferrer">
+      <code class="code" id="wwqnij_51">
+       IntProgression
+      </code>
+     </a>
+     ,
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-long-progression/index.html" id="wwqnij_49" rel="noopener noreferrer">
+      <code class="code" id="wwqnij_52">
+       LongProgression
+      </code>
+     </a>
+     , and
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-char-progression/index.html" id="wwqnij_50" rel="noopener noreferrer">
+      <code class="code" id="wwqnij_53">
+       CharProgression
+      </code>
+     </a>
+     .
+    </p>
+    <p id="wwqnij_32">
+     Progressions have three essential properties: the
+     <code class="code" id="wwqnij_54">
+      first
+     </code>
+     element, the
+     <code class="code" id="wwqnij_55">
+      last
+     </code>
+     element, and a non-zero
+     <code class="code" id="wwqnij_56">
+      step
+     </code>
+     . The first element is
+     <code class="code" id="wwqnij_57">
+      first
+     </code>
+     , subsequent elements are the previous element plus a
+     <code class="code" id="wwqnij_58">
+      step
+     </code>
+     . Iteration over a progression with a positive step is equivalent to an indexed
+     <code class="code" id="wwqnij_59">
+      for
+     </code>
+     loop in Java/JavaScript.
+    </p>
+    <div class="code-block" data-lang="java">
+     for (int i = first; i &lt;= last; i += step) {
+  // ...
+}
+    </div>
+    <p id="wwqnij_34">
+     When you create a progression implicitly by iterating a range, this progression's
+     <code class="code" id="wwqnij_60">
+      first
+     </code>
+     and
+     <code class="code" id="wwqnij_61">
+      last
+     </code>
+     elements are the range's endpoints, and the
+     <code class="code" id="wwqnij_62">
+      step
+     </code>
+     is 1.
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="kotlin-ranges-progressions">
+     fun main() {
+//sampleStart
+    for (i in 1..10) print(i)
+    // 12345678910
+//sampleEnd
+}
+    </div>
+    <p id="wwqnij_36">
+     To define a custom progression step, use the
+     <code class="code" id="wwqnij_63">
+      step
+     </code>
+     function on a range.
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="kotlin-ranges-progressions-step">
+     fun main() {
+//sampleStart
+    for (i in 1..8 step 2) print(i)
+    // 1357
+//sampleEnd
+}
+    </div>
+    <p id="wwqnij_38">
+     The
+     <code class="code" id="wwqnij_64">
+      last
+     </code>
+     element of the progression is calculated this way:
+    </p>
+    <ul class="list _bullet" id="wwqnij_39">
+     <li class="list__item" id="wwqnij_65">
+      <p>
+       For a positive step: the maximum value not greater than the end value such that
+       <code class="code" id="wwqnij_67">
+        (last - first) % step == 0
+       </code>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="wwqnij_66">
+      <p>
+       For a negative step: the minimum value not less than the end value such that
+       <code class="code" id="wwqnij_68">
+        (last - first) % step == 0
+       </code>
+       .
+      </p>
+     </li>
+    </ul>
+    <p id="wwqnij_40">
+     Thus, the
+     <code class="code" id="wwqnij_69">
+      last
+     </code>
+     element is not always the same as the specified end value.
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="kotlin-ranges-progressions-last">
+     fun main() {
+//sampleStart
+    for (i in 1..9 step 3) print(i) // the last element is 7
+    // 147
+//sampleEnd
+}
+    </div>
+    <p id="wwqnij_42">
+     Progressions implement
+     <code class="code" id="wwqnij_70">
+      Iterable&lt;N&gt;
+     </code>
+     , where
+     <code class="code" id="wwqnij_71">
+      N
+     </code>
+     is
+     <code class="code" id="wwqnij_72">
+      Int
+     </code>
+     ,
+     <code class="code" id="wwqnij_73">
+      Long
+     </code>
+     , or
+     <code class="code" id="wwqnij_74">
+      Char
+     </code>
+     respectively, so you can use them in various
+     <a data-tooltip="The Kotlin standard library offers a broad variety of functions for performing operations on collections. This includes simple operations, such as getting or adding elements, as well as more complex ones including search, sorting, filtering, transformations, and so on." href="collection-operations.html" id="wwqnij_75">
+      collection functions
+     </a>
+     like
+     <code class="code" id="wwqnij_76">
+      map
+     </code>
+     ,
+     <code class="code" id="wwqnij_77">
+      filter
+     </code>
+     , and other.
+    </p>
+    <div class="code-block" data-lang="kotlin" data-min-compiler-version="1.3" data-runnable="true" id="kotlin-ranges-progressions-filter">
+     fun main() {
+//sampleStart
+    println((1..10).filter { it % 2 == 0 })
+    // [2, 4, 6, 8, 10]
+//sampleEnd
+}
+    </div>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

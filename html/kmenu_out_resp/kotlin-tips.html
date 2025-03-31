@@ -1,0 +1,257 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="kotlin-tips" id="kotlin-tips.md">
+    Kotlin tips
+   </h1>
+   <p id="uqnnxh_2">
+    Kotlin Tips is a series of short videos where members of the Kotlin team show how to use Kotlin in a more efficient and idiomatic way to have more fun when writing code.
+   </p>
+   <p id="uqnnxh_3">
+    <a data-external="true" href="https://www.youtube.com/channel/UCP7uiEZIqci43m22KDl0sNw" id="uqnnxh_17" rel="noopener noreferrer">
+     Subscribe to our YouTube channel
+    </a>
+    to not miss new Kotlin Tips videos.
+   </p>
+   <section class="chapter">
+    <h2 data-toc="null-null-in-kotlin" id="null-null-in-kotlin">
+     null + null in Kotlin
+    </h2>
+    <p id="uqnnxh_18">
+     What happens when you add
+     <code class="code" id="uqnnxh_20">
+      null + null
+     </code>
+     in Kotlin, and what does it return? Sebastian Aigner addresses this mystery in our latest quick tip. Along the way, he also shows why there's no reason to be scared of nullables:
+    </p>
+    <div class="video-player" id="uqnnxh_19">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/wwplVknTza4?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="deduplicating-collection-items" id="deduplicating-collection-items">
+     Deduplicating collection items
+    </h2>
+    <p id="uqnnxh_21">
+     Got a Kotlin collection that contains duplicates? Need a collection with only unique items? Let Sebastian Aigner show you how to remove duplicates from your lists, or turn them into sets in this Kotlin tip:
+    </p>
+    <div class="video-player" id="uqnnxh_22">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/ECOf0PeSANw?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="the-suspend-and-inline-mystery" id="the-suspend-and-inline-mystery">
+     The suspend and inline mystery
+    </h2>
+    <p id="uqnnxh_23">
+     How come functions like
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/repeat.html" id="uqnnxh_25" rel="noopener noreferrer">
+      <code class="code" id="uqnnxh_28">
+       repeat()
+      </code>
+     </a>
+     ,
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map.html" id="uqnnxh_26" rel="noopener noreferrer">
+      <code class="code" id="uqnnxh_29">
+       map()
+      </code>
+     </a>
+     and
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html" id="uqnnxh_27" rel="noopener noreferrer">
+      <code class="code" id="uqnnxh_30">
+       filter()
+      </code>
+     </a>
+     accept suspending functions in their lambdas, even though their signatures aren't coroutines-aware? In this episode of Kotlin Tips Sebastian Aigner solves the riddle: it has something to do with the inline modifier:
+    </p>
+    <div class="video-player" id="uqnnxh_24">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/R2395u7SdcI?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="unshadowing-declarations-with-their-fully-qualified-name" id="unshadowing-declarations-with-their-fully-qualified-name">
+     Unshadowing declarations with their fully qualified name
+    </h2>
+    <p id="uqnnxh_31">
+     Shadowing means having two declarations in a scope have the same name. So, how do you pick? In this episode of Kotlin Tips Sebastian Aigner shows you a simple Kotlin trick to call exactly the function that you need, using the power of fully qualified names:
+    </p>
+    <div class="video-player" id="uqnnxh_32">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/mJRzF9WtCpU?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="return-and-throw-with-the-elvis-operator" id="return-and-throw-with-the-elvis-operator">
+     Return and throw with the Elvis operator
+    </h2>
+    <p id="uqnnxh_33">
+     <a data-tooltip="When working with nullable types, you can check for null and provide an alternative value. For example, if b is not null, access b.length. Otherwise, return an alternative value:" href="null-safety.html#elvis-operator" id="uqnnxh_35">
+      Elvis
+     </a>
+     has entered the building once more! Sebastian Aigner explains why the operator is named after the famous singer, and how you can use
+     <code class="code" id="uqnnxh_36">
+      ?:
+     </code>
+     in Kotlin to return or throw. The magic behind the scenes?
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-nothing.html" id="uqnnxh_37" rel="noopener noreferrer">
+      The Nothing type
+     </a>
+     .
+    </p>
+    <div class="video-player" id="uqnnxh_34">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/L8aFK7QrbA8?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="destructuring-declarations" id="destructuring-declarations">
+     Destructuring declarations
+    </h2>
+    <p id="uqnnxh_38">
+     With
+     <a data-tooltip="Sometimes it is convenient to destructure an object into a number of variables, for example:" href="destructuring-declarations.html" id="uqnnxh_40">
+      destructuring declarations
+     </a>
+     in Kotlin, you can create multiple variables from a single object, all at once. In this video Sebastian Aigner shows you a selection of things that can be destructured – pairs, lists, maps, and more. And what about your own objects? Kotlin's component functions provide an answer for those as well:
+    </p>
+    <div class="video-player" id="uqnnxh_39">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/zu1PUAvk_Lw?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="operator-functions-with-nullable-values" id="operator-functions-with-nullable-values">
+     Operator functions with nullable values
+    </h2>
+    <p id="uqnnxh_41">
+     In Kotlin, you can override operators like addition and subtraction for your classes and supply your own logic. But what if you want to allow null values, both on their left and right sides? In this video, Sebastian Aigner answers this question:
+    </p>
+    <div class="video-player" id="uqnnxh_42">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/x2bZJv8i0vw?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="timing-code" id="timing-code">
+     Timing code
+    </h2>
+    <p id="uqnnxh_43">
+     Watch Sebastian Aigner give a quick overview of the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/measure-timed-value.html" id="uqnnxh_45" rel="noopener noreferrer">
+      <code class="code" id="uqnnxh_46">
+       measureTimedValue()
+      </code>
+     </a>
+     function, and learn how you can time your code:
+    </p>
+    <div class="video-player" id="uqnnxh_44">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/j_LEcry7Pms?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="improving-loops" id="improving-loops">
+     Improving loops
+    </h2>
+    <p id="uqnnxh_47">
+     In this video, Sebastian Aigner will demonstrate how to improve
+     <a data-tooltip="The for loop iterates through anything that provides an iterator. This is equivalent to the foreach loop in languages like C#. The syntax of for is the following:" href="control-flow.html#for-loops" id="uqnnxh_49">
+      loops
+     </a>
+     to make your code more readable, understandable, and concise:
+    </p>
+    <div class="video-player" id="uqnnxh_48">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/i-kyPp1qFBA?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="strings" id="strings">
+     Strings
+    </h2>
+    <p id="uqnnxh_50">
+     In this episode, Kate Petrova shows three tips to help you work with
+     <a data-tooltip="Strings in Kotlin are represented by the type String." href="strings.html" id="uqnnxh_52">
+      Strings
+     </a>
+     in Kotlin:
+    </p>
+    <div class="video-player" id="uqnnxh_51">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/IL3RLKvWJF4?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="doing-more-with-the-elvis-operator" id="doing-more-with-the-elvis-operator">
+     Doing more with the Elvis operator
+    </h2>
+    <p id="uqnnxh_53">
+     In this video, Sebastian Aigner will show how to add more logic to the
+     <a data-tooltip="When working with nullable types, you can check for null and provide an alternative value. For example, if b is not null, access b.length. Otherwise, return an alternative value:" href="null-safety.html#elvis-operator" id="uqnnxh_55">
+      Elvis operator
+     </a>
+     , such as logging to the right part of the operator:
+    </p>
+    <div class="video-player" id="uqnnxh_54">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/L9wqYQ-fXaM?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="kotlin-collections" id="kotlin-collections">
+     Kotlin collections
+    </h2>
+    <p id="uqnnxh_56">
+     In this episode, Kate Petrova shows three tips to help you work with
+     <a data-tooltip="The Kotlin Standard Library provides a comprehensive set of tools for managing collections – groups of a variable number of items (possibly zero) that are significant to the problem being solved and are commonly operated on." href="collections-overview.html" id="uqnnxh_58">
+      Kotlin Collections
+     </a>
+     :
+    </p>
+    <div class="video-player" id="uqnnxh_57">
+     <object class="article__bordered-element" data="https://www.youtube.com/v/ApXbm1T_eI4?color2=FBE9EC&amp;rel=0&amp;hd=1&amp;autoplay=0&amp;version=3&amp;modestbranding=1&amp;fs=1" data-theme="light" height="315" type="application/x-shockwave-flash" width="560">
+     </object>
+    </div>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="what-s-next" id="what-s-next">
+     What's next?
+    </h2>
+    <ul class="list _bullet" id="uqnnxh_59">
+     <li class="list__item" id="uqnnxh_60">
+      <p>
+       See the complete list of Kotlin Tips in our
+       <a data-external="true" href="https://youtube.com/playlist?list=PLlFc5cFwUnmyDrc-mwwAL9cYFkSHoHHz7" id="uqnnxh_62" rel="noopener noreferrer">
+        YouTube playlist
+       </a>
+      </p>
+     </li>
+     <li class="list__item" id="uqnnxh_61">
+      <p>
+       Learn how to write
+       <a data-tooltip="A collection of random and frequently used idioms in Kotlin. If you have a favorite idiom, contribute it by sending a pull request." href="idioms.html" id="uqnnxh_63">
+        idiomatic Kotlin code for popular cases
+       </a>
+      </p>
+     </li>
+    </ul>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>

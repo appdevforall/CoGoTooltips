@@ -1,0 +1,577 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <link href="doc_style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="menu-link" href="toc.html">
+   MENU
+  </a>
+  <hr/>
+  <div class="article-content">
+   <h1 data-toc="native-app-with-c-and-libcurl" id="native-app-with-c-and-libcurl.md">
+    Create an app using C Interop and libcurl – tutorial
+   </h1>
+   <p id="z76tp6l_2">
+    This tutorial demonstrates how to use IntelliJ IDEA to create a command-line application. You'll learn how to create a simple HTTP client that can run natively on specified platforms using Kotlin/Native and the
+    <code class="code" id="z76tp6l_10">
+     libcurl
+    </code>
+    library.
+   </p>
+   <p id="z76tp6l_3">
+    The output will be an executable command-line app that you can run on macOS and Linux and make simple HTTP GET requests.
+   </p>
+   <aside class="prompt" data-title="" data-type="tip" id="z76tp6l_4">
+    <p id="z76tp6l_11">
+     While it is possible to use the command line, either directly or by combining it with a script file (such as a
+     <code class="code" id="z76tp6l_12">
+      .sh
+     </code>
+     or a
+     <code class="code" id="z76tp6l_13">
+      .bat
+     </code>
+     file), this approach doesn't scale well for big projects with hundreds of files and libraries. In this case, it is better to use the Kotlin/Native compiler with a build system, as it helps download and cache the Kotlin/Native compiler binaries and libraries with transitive dependencies and run the compiler and tests. Kotlin/Native can use the
+     <a data-tooltip="Gradle is a build system that helps to automate and manage your building process. It downloads required dependencies, packages your code, and prepares it for compilation. Learn about Gradle basics and specifics on the Gradle website." href="gradle.html" id="z76tp6l_14">
+      Gradle
+     </a>
+     build system through the
+     <a data-tooltip="Projects targeting multiple platforms, called multiplatform projects, require the kotlin-multiplatform plugin." href="gradle-configure-project.html#targeting-multiple-platforms" id="z76tp6l_15">
+      <code class="code" id="z76tp6l_16">
+       kotlin-multiplatform
+      </code>
+     </a>
+     plugin.
+    </p>
+   </aside>
+   <section class="chapter">
+    <h2 data-toc="before-you-start" id="before-you-start">
+     Before you start
+    </h2>
+    <ol class="list _decimal" id="z76tp6l_17" type="1">
+     <li class="list__item" id="z76tp6l_18">
+      <p id="z76tp6l_22">
+       Download and install the latest version of
+       <a data-external="true" href="https://www.jetbrains.com/idea/" id="z76tp6l_23" rel="noopener noreferrer">
+        IntelliJ IDEA
+       </a>
+       with the latest
+       <a data-tooltip="Since Kotlin 2.0.0, we ship the following types of releases:" href="releases.html" id="z76tp6l_24">
+        Kotlin plugin
+       </a>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="z76tp6l_19">
+      <p id="z76tp6l_25">
+       Clone the
+       <a data-external="true" href="https://github.com/Kotlin/kmp-native-wizard" id="z76tp6l_26" rel="noopener noreferrer">
+        project template
+       </a>
+       by selecting
+       <span class="control" id="z76tp6l_27">
+        File
+       </span>
+       |
+       <span class="control" id="z76tp6l_28">
+        New
+       </span>
+       |
+       <span class="control" id="z76tp6l_29">
+        Project from Version Control
+       </span>
+       in IntelliJ IDEA.
+      </p>
+     </li>
+     <li class="list__item" id="z76tp6l_20">
+      <p id="z76tp6l_30">
+       Explore the project structure:
+      </p>
+      <figure id="z76tp6l_31">
+       <img alt="Native application project structure" height="394" src="images/native-project-structure.png" title="Native application project structure" width="700"/>
+      </figure>
+      <p id="z76tp6l_32">
+       The template includes a project with the files and folders you need to get you started. It's important to understand that an application written in Kotlin/Native can target different platforms if the code does not have platform-specific requirements. Your code is placed in the
+       <code class="code" id="z76tp6l_33">
+        nativeMain
+       </code>
+       directory with a corresponding
+       <code class="code" id="z76tp6l_34">
+        nativeTest
+       </code>
+       . For this tutorial, keep the folder structure as is.
+      </p>
+     </li>
+     <li class="list__item" id="z76tp6l_21">
+      <p id="z76tp6l_35">
+       Open the
+       <code class="code" id="z76tp6l_38">
+        build.gradle.kts
+       </code>
+       file, the build script that contains the project settings. Pay special attention to the following in the build file:
+      </p>
+      <div class="code-block" data-lang="kotlin">
+       kotlin {
+    val hostOs = System.getProperty("os.name")
+    val isArm64 = System.getProperty("os.arch") == "aarch64"
+    val isMingwX64 = hostOs.startsWith("Windows")
+    val nativeTarget = when {
+        hostOs == "Mac OS X" &amp;&amp; isArm64 -&gt; macosArm64("native")
+        hostOs == "Mac OS X" &amp;&amp; !isArm64 -&gt; macosX64("native")
+        hostOs == "Linux" &amp;&amp; isArm64 -&gt; linuxArm64("native")
+        hostOs == "Linux" &amp;&amp; !isArm64 -&gt; linuxX64("native")
+        isMingwX64 -&gt; mingwX64("native")
+        else -&gt; throw GradleException("Host OS is not supported in Kotlin/Native.")
+    }
+
+    nativeTarget.apply {
+        binaries {
+            executable {
+                entryPoint = "main"
+            }
+        }
+    }
+}
+      </div>
+      <ul class="list _bullet" id="z76tp6l_37">
+       <li class="list__item" id="z76tp6l_39">
+        <p>
+         Targets are defined using
+         <code class="code" id="z76tp6l_42">
+          macosX64
+         </code>
+         ,
+         <code class="code" id="z76tp6l_43">
+          macosArm64
+         </code>
+         ,
+         <code class="code" id="z76tp6l_44">
+          linuxX64
+         </code>
+         ,
+         <code class="code" id="z76tp6l_45">
+          linuxArm64
+         </code>
+         , and
+         <code class="code" id="z76tp6l_46">
+          mingwX64
+         </code>
+         for macOS, Linux, and Windows. See the complete list of
+         <a data-tooltip="The Kotlin/Native compiler supports a great number of different targets, though it is hard to provide the same level of support for all of them. This document describes which targets Kotlin/Native supports and breaks them into several tiers depending on how well the compiler…" href="native-target-support.html" id="z76tp6l_47">
+          supported platforms
+         </a>
+         .
+        </p>
+       </li>
+       <li class="list__item" id="z76tp6l_40">
+        <p>
+         The entry itself defines a series of properties to indicate how the binary is generated and the entry point of the applications. These can be left as default values.
+        </p>
+       </li>
+       <li class="list__item" id="z76tp6l_41">
+        <p>
+         C interoperability is configured as an additional step in the build. By default, all the symbols from C are imported to the
+         <code class="code" id="z76tp6l_48">
+          interop
+         </code>
+         package. You may want to import the whole package in
+         <code class="code" id="z76tp6l_49">
+          .kt
+         </code>
+         files. Learn more about
+         <a data-tooltip="Projects targeting multiple platforms, called multiplatform projects, require the kotlin-multiplatform plugin." href="gradle-configure-project.html#targeting-multiple-platforms" id="z76tp6l_50">
+          how to configure
+         </a>
+         it.
+        </p>
+       </li>
+      </ul>
+     </li>
+    </ol>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="create-a-definition-file" id="create-a-definition-file">
+     Create a definition file
+    </h2>
+    <p id="z76tp6l_51">
+     When writing native applications, you often need access to certain functionalities that are not included in the
+     <a data-external="true" href="https://kotlinlang.org/api/latest/jvm/stdlib/" id="z76tp6l_58" rel="noopener noreferrer">
+      Kotlin standard library
+     </a>
+     , such as making HTTP requests, reading and writing from disk, and so on.
+    </p>
+    <p id="z76tp6l_52">
+     Kotlin/Native helps consume standard C libraries, opening up an entire ecosystem of functionality that exists for pretty much anything you may need. Kotlin/Native is already shipped with a set of prebuilt
+     <a data-tooltip="To provide access to user's native operating system services, Kotlin/Native distribution includes a set of prebuilt libraries specific to each target. We call them Platform Libraries." href="native-platform-libs.html" id="z76tp6l_59">
+      platform libraries
+     </a>
+     , which provide some additional common functionality to the standard library.
+    </p>
+    <p id="z76tp6l_53">
+     An ideal scenario for interop is to call C functions as if you are calling Kotlin functions, following the same signature and conventions. This is when the
+     <code class="code" id="z76tp6l_60">
+      cinterop
+     </code>
+     tool comes in handy. It takes a C library and generates the corresponding Kotlin bindings, so that the library can be used as if it were Kotlin code.
+    </p>
+    <p id="z76tp6l_54">
+     To generate these bindings, create a library definition
+     <code class="code" id="z76tp6l_61">
+      .def
+     </code>
+     file that contains some information about the necessary headers. In this app, you'll need the
+     <code class="code" id="z76tp6l_62">
+      libcurl
+     </code>
+     library to make some HTTP calls. To create a definition file:
+    </p>
+    <ol class="list _decimal" id="z76tp6l_55" type="1">
+     <li class="list__item" id="z76tp6l_63">
+      <p id="z76tp6l_67">
+       Select the
+       <code class="code" id="z76tp6l_68">
+        src
+       </code>
+       folder and create a new directory with
+       <span class="control" id="z76tp6l_69">
+        File | New | Directory
+       </span>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="z76tp6l_64">
+      <p id="z76tp6l_70">
+       Name new directory
+       <span class="control" id="z76tp6l_71">
+        nativeInterop/cinterop
+       </span>
+       . This is the default convention for header file locations, though it can be overridden in the
+       <code class="code" id="z76tp6l_72">
+        build.gradle.kts
+       </code>
+       file if you use a different location.
+      </p>
+     </li>
+     <li class="list__item" id="z76tp6l_65">
+      <p id="z76tp6l_73">
+       Select this new subfolder and create a new
+       <code class="code" id="z76tp6l_74">
+        libcurl.def
+       </code>
+       file with
+       <span class="control" id="z76tp6l_75">
+        File | New | File
+       </span>
+       .
+      </p>
+     </li>
+     <li class="list__item" id="z76tp6l_66">
+      <p id="z76tp6l_76">
+       Update your file with the following code:
+      </p>
+      <div class="code-block" data-lang="c">
+       headers = curl/curl.h
+headerFilter = curl/*
+
+compilerOpts.linux = -I/usr/include -I/usr/include/x86_64-linux-gnu
+linkerOpts.osx = -L/opt/local/lib -L/usr/local/opt/curl/lib -lcurl
+linkerOpts.linux = -L/usr/lib/x86_64-linux-gnu -lcurl
+      </div>
+      <ul class="list _bullet" id="z76tp6l_78">
+       <li class="list__item" id="z76tp6l_79">
+        <p id="z76tp6l_82">
+         <code class="code" id="z76tp6l_83">
+          headers
+         </code>
+         is the list of header files to generate Kotlin stubs. You can add multiple files to this entry, separating each with a
+         <code class="code" id="z76tp6l_84">
+          \
+         </code>
+         on a new line. In this case, it's only
+         <code class="code" id="z76tp6l_85">
+          curl.h
+         </code>
+         . The referenced files need to be available on the system path (in this case, it's
+         <code class="code" id="z76tp6l_86">
+          /usr/include/curl
+         </code>
+         ).
+        </p>
+       </li>
+       <li class="list__item" id="z76tp6l_80">
+        <p id="z76tp6l_87">
+         <code class="code" id="z76tp6l_89">
+          headerFilter
+         </code>
+         shows what exactly is included. In C, all the headers are also included when one file references another one with the
+         <code class="code" id="z76tp6l_90">
+          #include
+         </code>
+         directive. Sometimes it's not necessary, and you can add this parameter
+         <a data-external="true" href="https://en.wikipedia.org/wiki/Glob_(programming)" id="z76tp6l_91" rel="noopener noreferrer">
+          using glob patterns
+         </a>
+         to fine-tune things.
+        </p>
+        <p id="z76tp6l_88">
+         <code class="code" id="z76tp6l_92">
+          headerFilter
+         </code>
+         is an optional argument and is mostly used when the library is installed as a system library. You don't want to fetch external dependencies (such as system
+         <code class="code" id="z76tp6l_93">
+          stdint.h
+         </code>
+         header) into the interop library. It may be important to optimize the library size and fix potential conflicts between the system and the provided Kotlin/Native compilation environment.
+        </p>
+       </li>
+       <li class="list__item" id="z76tp6l_81">
+        <p id="z76tp6l_94">
+         The next lines are about providing linker and compiler options, which can vary depending on different target platforms. In this case, they are macOS (the
+         <code class="code" id="z76tp6l_95">
+          .osx
+         </code>
+         suffix) and Linux (the
+         <code class="code" id="z76tp6l_96">
+          .linux
+         </code>
+         suffix). Parameters without a suffix are also possible (for example,
+         <code class="code" id="z76tp6l_97">
+          linkerOpts=
+         </code>
+         ) and applied to all platforms.
+        </p>
+       </li>
+      </ul>
+     </li>
+    </ol>
+    <p id="z76tp6l_56">
+     The convention is that each library gets its definition file, usually with the same name as the library. For more information on all the options available to
+     <code class="code" id="z76tp6l_98">
+      cinterop
+     </code>
+     , see
+     <a data-tooltip="The C libraries import is Experimental. All Kotlin declarations generated by the cinterop tool from C libraries should have the @ExperimentalForeignApi annotation." href="native-c-interop.html" id="z76tp6l_99">
+      the Interop section
+     </a>
+     .
+    </p>
+    <aside class="prompt" data-title="" data-type="note" id="z76tp6l_57">
+     <p id="z76tp6l_100">
+      You need to have the
+      <code class="code" id="z76tp6l_101">
+       curl
+      </code>
+      library binaries on your system to make the sample work. On macOS and Linux, they are usually included. On Windows, you can build it from
+      <a data-external="true" href="https://curl.haxx.se/download.html" id="z76tp6l_102" rel="noopener noreferrer">
+       sources
+      </a>
+      (you'll need Visual Studio or Windows SDK Commandline tools). For more details, see the
+      <a data-external="true" href="https://jonnyzzz.com/blog/2018/10/29/kn-libcurl-windows/" id="z76tp6l_103" rel="noopener noreferrer">
+       related blog post
+      </a>
+      . Alternatively, you may want to consider a
+      <a data-external="true" href="https://www.msys2.org/" id="z76tp6l_104" rel="noopener noreferrer">
+       MinGW/MSYS2
+      </a>
+      <code class="code" id="z76tp6l_105">
+       curl
+      </code>
+      binary.
+     </p>
+    </aside>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="add-interoperability-to-the-build-process" id="add-interoperability-to-the-build-process">
+     Add interoperability to the build process
+    </h2>
+    <p id="z76tp6l_106">
+     To use header files, make sure they are generated as a part of the build process. For this, add the following entry to the
+     <code class="code" id="z76tp6l_111">
+      build.gradle.kts
+     </code>
+     file:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     nativeTarget.apply {
+    compilations.getByName("main") {    // NL
+        cinterops {                     // NL
+            val libcurl by creating     // NL
+        }                               // NL
+    }                                   // NL
+    binaries {
+        executable {
+            entryPoint = "main"
+        }
+    }
+}
+    </div>
+    <p id="z76tp6l_108">
+     The new lines are marked with
+     <code class="code" id="z76tp6l_112">
+      // NL
+     </code>
+     . First,
+     <code class="code" id="z76tp6l_113">
+      cinterops
+     </code>
+     is added, and then an entry for each
+     <code class="code" id="z76tp6l_114">
+      def
+     </code>
+     file. By default, the name of the file is used. You can override this with additional parameters:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     val libcurl by creating {
+    definitionFile.set(project.file("src/nativeInterop/cinterop/libcurl.def"))
+    packageName("com.jetbrains.handson.http")
+    compilerOpts("-I/path")
+    includeDirs.allHeaders("path")
+}
+    </div>
+    <p id="z76tp6l_110">
+     See the
+     <a data-tooltip="The C libraries import is Experimental. All Kotlin declarations generated by the cinterop tool from C libraries should have the @ExperimentalForeignApi annotation." href="native-c-interop.html" id="z76tp6l_115">
+      Interoperability with C
+     </a>
+     section for more details on the available options.
+    </p>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="write-the-application-code" id="write-the-application-code">
+     Write the application code
+    </h2>
+    <p id="z76tp6l_116">
+     Now you have the library and the corresponding Kotlin stubs and can use them from your application. For this tutorial, convert the
+     <a data-external="true" href="https://curl.haxx.se/libcurl/c/simple.html" id="z76tp6l_121" rel="noopener noreferrer">
+      simple.c
+     </a>
+     example to Kotlin.
+    </p>
+    <p id="z76tp6l_117">
+     In the
+     <code class="code" id="z76tp6l_122">
+      src/nativeMain/kotlin/
+     </code>
+     folder, update your
+     <code class="code" id="z76tp6l_123">
+      Main.kt
+     </code>
+     file with the following code:
+    </p>
+    <div class="code-block" data-lang="kotlin">
+     import kotlinx.cinterop.*
+import libcurl.*
+
+@OptIn(ExperimentalForeignApi::class)
+fun main(args: Array&lt;String&gt;) {
+    val curl = curl_easy_init()
+    if (curl != null) {
+        curl_easy_setopt(curl, CURLOPT_URL, "https://example.com")
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L)
+        val res = curl_easy_perform(curl)
+        if (res != CURLE_OK) {
+            println("curl_easy_perform() failed ${curl_easy_strerror(res)?.toKString()}")
+        }
+        curl_easy_cleanup(curl)
+    }
+}
+    </div>
+    <p id="z76tp6l_119">
+     As you can see, explicit variable declarations are eliminated in the Kotlin version, but everything else is pretty much the same as the C version. All the calls you'd expect in the
+     <code class="code" id="z76tp6l_124">
+      libcurl
+     </code>
+     library are available in the Kotlin equivalent.
+    </p>
+    <aside class="prompt" data-title="" data-type="tip" id="z76tp6l_120">
+     <p id="z76tp6l_125">
+      This is a line-by-line literal translation. You could also write this in a more Kotlin idiomatic way.
+     </p>
+    </aside>
+   </section>
+   <section class="chapter">
+    <h2 data-toc="compile-and-run-the-application" id="compile-and-run-the-application">
+     Compile and run the application
+    </h2>
+    <ol class="list _decimal" id="z76tp6l_126" type="1">
+     <li class="list__item" id="z76tp6l_129">
+      <p id="z76tp6l_131">
+       Compile the application. To do that, call
+       <code class="code" id="z76tp6l_134">
+        runDebugExecutableNative
+       </code>
+       in the list of run Gradle tasks or use the following command in the terminal:
+      </p>
+      <div class="code-block" data-lang="bash">
+       ./gradlew runDebugExecutableNative
+      </div>
+      <p id="z76tp6l_133">
+       In this case, the
+       <code class="code" id="z76tp6l_135">
+        cinterop
+       </code>
+       generated part is implicitly included in the build.
+      </p>
+     </li>
+     <li class="list__item" id="z76tp6l_130">
+      <p id="z76tp6l_136">
+       If there are no errors during compilation, click the green
+       <span class="control" id="z76tp6l_139">
+        Run
+       </span>
+       icon in the gutter beside the
+       <code class="code" id="z76tp6l_140">
+        main()
+       </code>
+       method or use the
+       <span class="control" id="z76tp6l_141">
+        Alt+Enter
+       </span>
+       shortcut to invoke the launch menu in IntelliJ IDEA.
+      </p>
+      <p id="z76tp6l_137">
+       IntelliJ IDEA opens the
+       <span class="control" id="z76tp6l_142">
+        Run
+       </span>
+       tab and shows the output — the contents of
+       <code class="code" id="z76tp6l_143">
+        https://example.com
+       </code>
+       :
+      </p>
+      <figure id="z76tp6l_138">
+       <img alt="Application output with HTML-code" height="513" src="images/native-output.png" title="Application output with HTML-code" width="700"/>
+      </figure>
+     </li>
+    </ol>
+    <p id="z76tp6l_127">
+     You can see the actual output because the call
+     <code class="code" id="z76tp6l_144">
+      curl_easy_perform
+     </code>
+     prints the result to the standard output. You could hide this using
+     <code class="code" id="z76tp6l_145">
+      curl_easy_setopt
+     </code>
+     .
+    </p>
+    <aside class="prompt" data-title="" data-type="note" id="z76tp6l_128">
+     <p id="z76tp6l_146">
+      You can get the full code
+      <a data-external="true" href="https://github.com/Kotlin/kotlin-hands-on-intro-kotlin-native" id="z76tp6l_147" rel="noopener noreferrer">
+       here
+      </a>
+      .
+     </p>
+    </aside>
+   </section>
+   <div class="last-modified">
+    Last modified: 16 December 2024
+   </div>
+   <div data-feedback-placeholder="true">
+   </div>
+  </div>
+ </body>
+</html>
