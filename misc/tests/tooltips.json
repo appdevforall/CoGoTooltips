@@ -1,0 +1,50 @@
+[
+    {
+        "tag": "java.base",
+        "summary": "Defines the foundational APIs of the Java SE Platform.",
+        "detail": "Defines the foundational APIs of the Java SE Platform.\n\n<dl class=\"notes\"><dt>Providers:</dt><dd> The JDK implementation of this module provides an implementation of the <span class=\"search-tag-result\" id=\"jrt\">jrt</span> <a href=\"java/nio/file/spi/FileSystemProvider.html\" title=\"class in java.nio.file.spi\">file system provider</a> to enumerate and read the class and resource files. See <a href=\"java/nio/file/FileSystems.html#newFileSystem(java.net.URI,java.util.Map)?lang=en\">FileSystems.newFileSystem</a>.</dd></dl>",
+        "buttons": [
+            [
+                "Learn more about module java.base",
+                "file:///android_asset/CoGoTooltips/external/javadocs/api/java.base/module-summary.html"
+            ]
+        ],
+        "category": "java"
+    },
+    {
+        "tag": "java.compiler",
+        "summary": "Defines the Language Model, Annotation Processing, and Java Compiler APIs.",
+        "detail": "Defines the Language Model, Annotation Processing, and Java Compiler APIs. <p> These APIs model declarations and types of the Java programming language, and define interfaces for tools such as compilers which can be invoked from a program. </p>",
+        "buttons": [
+            [
+                "Learn more about module java.compiler",
+                "file:///android_asset/CoGoTooltips/external/javadocs/api/java.compiler/module-summary.html"
+            ]
+        ],
+        "category": "java"
+    },
+    {
+    "tag": "java.compiler.BROKEN",
+    "summary": "Defines the Language Model, Annotation Processing, and Java Compiler APIs.",
+    "detail": "Defines the Language Model, Annotation Processing, and Java Compiler APIs. <p> These APIs model declarations and types of the Java programming language, and define interfaces for tools such as compilers which can be invoked from a program. </p>",
+    "buttons": [
+        [
+            "Learn more about module java.compiler",
+            "file:///android_asset/CoGoTooltips/external/javadocs/api/java.compiler/module-summary.hhhh"
+        ]
+    ],
+    "category": "java"
+    },
+    {
+    "tag": "java.compiler.FRAGMENT",
+    "summary": "Defines the Language Model, Annotation Processing, and Java Compiler APIs.",
+    "detail": "Defines the Language Model, Annotation Processing, and Java Compiler APIs. <p> These APIs model declarations and types of the Java programming language, and define interfaces for tools such as compilers which can be invoked from a program. </p>",
+    "buttons": [
+        [
+            "Learn more about module java.compiler",
+            "file:///android_asset/CoGoTooltips/external/javadocs/api/java.compiler/module-summary.html#frag"
+        ]
+    ],
+    "category": "java"
+    }
+]

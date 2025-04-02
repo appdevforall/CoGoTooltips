@@ -1,0 +1,4 @@
+page1.html	exists	index.html
+subdir/page2.html	missing	index.html
+extra.html	exists	page1.html
+nonexistent.html	missing	subdir/page3.html

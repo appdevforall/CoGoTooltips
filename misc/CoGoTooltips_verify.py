@@ -10,7 +10,7 @@ ASSET_PREFIX = "file:///android_asset/CoGoTooltips/"
 # Generate HTML files and
 # - verify that broken and valid internal URLs are all detected
 #   - fragments are handled
-# - verify that the detected broken/valid links are tiued to the correct files that contain them
+# - verify that the detected broken/valid links are tied to the correct files that contain them
 def generate_html_test():
     return None
 
@@ -19,7 +19,7 @@ def generate_html_test():
 def json_test():
     return None
 
-def verify_json_file(json_path):
+def verify_json_file(json_path, out_dir):
     """Process one JSON file, outputting a report file for each tool tip link."""
     try:
         with open(json_path, 'r', encoding='utf-8') as f:
@@ -30,7 +30,7 @@ def verify_json_file(json_path):
 
     # Create separate output file for this JSON file.
     base_name = os.path.splitext(os.path.basename(json_path))[0]
-    out_filename = base_name + "_verified_links.txt"
+    out_filename = os.path.join(out_dir, base_name + "_verified_links.txt")
 
     # Open output file for writing.
     with open(out_filename, 'w', encoding='utf-8') as outf:
@@ -64,7 +64,7 @@ def verify_json_file(json_path):
     print(f"Processed JSON file '{json_path}'; results written to '{out_filename}'.")
 
 
-def verify_doc_dir(doc_dir):
+def verify_doc_dir(doc_dir, out_dir):
     """Process one documentation directory:
        scan all HTML files for relative links; verify that each file exists.
        Writes a report file with one entry per link.
@@ -75,7 +75,7 @@ def verify_doc_dir(doc_dir):
 
     # Determine an output file name based on the directory name.
     dir_name = os.path.basename(os.path.normpath(doc_dir))
-    out_filename = dir_name + "_internal_links.txt"
+    out_filename = os.path.join(out_dir, dir_name + "_internal_links.txt")
 
     # Regex for finding href="...". (This is basic and may be adjusted for your HTML.)
     href_re = re.compile(r'href="([^"]+)"')
@@ -141,19 +141,32 @@ def main():
         default=""
     )
 
+    parser.add_argument(
+        "--out-dir",
+        type=str,
+        help="Output directory for link verification test results.",
+        required=False,
+        default="link_check"
+    )
+
     args = parser.parse_args()
+
+    out_dir = args.out_dir
+
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
 
     # Process JSON files if provided.
     if args.json_files:
         json_files = [x.strip() for x in args.json_files.split(",") if x.strip()]
         for jf in json_files:
-            verify_json_file(jf)
+            verify_json_file(jf, out_dir)
 
     # Process documentation directories if provided.
     if args.doc_dirs:
         doc_dirs = [x.strip() for x in args.doc_dirs.split(",") if x.strip()]
         for dd in doc_dirs:
-            verify_doc_dir(dd)
+            verify_doc_dir(dd, out_dir)
 
 
 if __name__ == "__main__":

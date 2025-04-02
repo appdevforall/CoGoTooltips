@@ -1,0 +1,4 @@
+file:///android_asset/CoGoTooltips/external/javadocs/api/java.base/module-summary.html	exists	java.base / java
+file:///android_asset/CoGoTooltips/external/javadocs/api/java.compiler/module-summary.html	exists	java.compiler / java
+file:///android_asset/CoGoTooltips/external/javadocs/api/java.compiler/module-summary.hhhh	missing	java.compiler.BROKEN / java
+file:///android_asset/CoGoTooltips/external/javadocs/api/java.compiler/module-summary.html#frag	exists	java.compiler.FRAGMENT / java
