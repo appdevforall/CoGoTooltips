@@ -7,6 +7,17 @@ import re
 # constant for converting json URLs to local files.
 ASSET_PREFIX = "file:///android_asset/CoGoTooltips/"
 
+# Generate HTML files and
+# - verify that broken and valid internal URLs are all detected
+#   - fragments are handled
+# - verify that the detected broken/valid links are tiued to the correct files that contain them
+def generate_html_test():
+    return None
+
+# Create a test json file that points to some files and verify that it detects
+# valid/broken links, regardless of fragments and unicode special chars
+def json_test():
+    return None
 
 def verify_json_file(json_path):
     """Process one JSON file, outputting a report file for each tool tip link."""
