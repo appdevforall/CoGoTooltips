@@ -4,43 +4,6 @@ import json
 import os
 import sys
 
-def csv_to_json(csv_file_path, json_file_path):
-    # Read the CSV file with '^' as the delimiter
-    with open(csv_file_path, mode='r', newline='', encoding='cp1252') as csv_file:
-        csv_reader = csv.DictReader(csv_file, delimiter='^')
-
-        # Convert CSV data to a list of dictionaries
-        data = [row for row in csv_reader]
-
-        for item in data:
-            button = []
-            buttons = []
-
-            for num in {"1", "2", "3"}:
-                descr = 'buttonDescr' + num
-                uri = 'buttonURI' + num
-
-                if item[uri] is not None and not item[uri] == "":
-                    if "https://kotlinlang.org/" in item[uri]:
-                        item[uri] = item[uri].replace("https://kotlinlang.org/docs/",
-                                                      "file:///android_asset/CoGoTooltips/html/kmenu_out_resp/")
-                    else:
-                        item[uri] = "file:///android_asset/CoGoTooltips/html/" + item[uri]
-                    button.append(item[descr])
-                    button.append(item[uri])
-                    buttons.append(button)
-                    ## print(item["tag"], num, buttons)
-                    button = []
-                item.pop(descr)
-                item.pop(uri)
-
-            item['buttons'] = buttons
-
-    # Write the JSON file
-    with open(json_file_path, mode='w', encoding='utf-8') as json_file:
-        json.dump(data, json_file, indent=4)
-
-
 def main():
     parser = argparse.ArgumentParser(
         prog='generate_manual_tooltips.py',
